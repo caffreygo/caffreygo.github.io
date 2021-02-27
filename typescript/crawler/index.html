@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>TypeScript 编写爬虫工具 | Jerry Chen</title>
+    <meta name="generator" content="VuePress 1.6.0">
+    <link rel="icon" href="/gift.png">
+    <meta name="description" content="Jerry Chen的博客">
+    <link rel="preload" href="/assets/css/0.styles.fbb143cd.css" as="style"><link rel="preload" href="/assets/js/app.960fd35c.js" as="script"><link rel="preload" href="/assets/js/2.139feb89.js" as="script"><link rel="preload" href="/assets/js/29.4038a8a5.js" as="script"><link rel="prefetch" href="/assets/js/10.ed6bc1f1.js"><link rel="prefetch" href="/assets/js/11.e0439ae6.js"><link rel="prefetch" href="/assets/js/12.bc5b7bbd.js"><link rel="prefetch" href="/assets/js/13.78d2d594.js"><link rel="prefetch" href="/assets/js/14.b5ee8f65.js"><link rel="prefetch" href="/assets/js/15.8c15b593.js"><link rel="prefetch" href="/assets/js/16.e25d7895.js"><link rel="prefetch" href="/assets/js/17.6187b058.js"><link rel="prefetch" href="/assets/js/18.5835c7d6.js"><link rel="prefetch" href="/assets/js/19.4b8f4c91.js"><link rel="prefetch" href="/assets/js/20.9ac41d57.js"><link rel="prefetch" href="/assets/js/21.c98ce529.js"><link rel="prefetch" href="/assets/js/22.63c6b517.js"><link rel="prefetch" href="/assets/js/23.ebcce9e2.js"><link rel="prefetch" href="/assets/js/24.7105ecd2.js"><link rel="prefetch" href="/assets/js/25.132461ad.js"><link rel="prefetch" href="/assets/js/26.90ac473f.js"><link rel="prefetch" href="/assets/js/27.0b6b3fa1.js"><link rel="prefetch" href="/assets/js/28.ef46e614.js"><link rel="prefetch" href="/assets/js/3.e9d7f49e.js"><link rel="prefetch" href="/assets/js/30.e20e10a7.js"><link rel="prefetch" href="/assets/js/31.77f78ff7.js"><link rel="prefetch" href="/assets/js/32.65c7d753.js"><link rel="prefetch" href="/assets/js/33.cca20237.js"><link rel="prefetch" href="/assets/js/34.40a953cd.js"><link rel="prefetch" href="/assets/js/35.e843bb17.js"><link rel="prefetch" href="/assets/js/4.f6e1c0b5.js"><link rel="prefetch" href="/assets/js/5.f1bb2135.js"><link rel="prefetch" href="/assets/js/6.f57b040d.js"><link rel="prefetch" href="/assets/js/7.bd1ec311.js"><link rel="prefetch" href="/assets/js/8.9b71705c.js"><link rel="prefetch" href="/assets/js/9.7aab03a6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.fbb143cd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Jerry Chen</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="TypeScript" class="dropdown-title"><span class="title">TypeScript</span> <span class="arrow down"></span></button> <button type="button" aria-label="TypeScript" class="mobile-dropdown-title"><span class="title">TypeScript</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/typescript/grammar/" class="nav-link">
+  语法学习
+</a></li><li class="dropdown-item"><!----> <a href="/typescript/crawler/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  爬虫实现
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="JavaScript书籍" class="dropdown-title"><span class="title">书籍相关</span> <span class="arrow down"></span></button> <button type="button" aria-label="JavaScript书籍" class="mobile-dropdown-title"><span class="title">书籍相关</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/book/designPattern.html" class="nav-link">
+  JavaScript设计模式与开发实践
+</a></li><li class="dropdown-item"><!----> <a href="/book/dataStructures.html" class="nav-link">
+  学习JavaScript数据结构与算法
+</a></li></ul></div></div><div class="nav-item"><a href="/http/" class="nav-link">
+  HTTP
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Vue.js" class="dropdown-title"><span class="title">Vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="Vue.js" class="mobile-dropdown-title"><span class="title">Vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue/basic.html" class="nav-link">
+  Vue.js基础
+</a></li><li class="dropdown-item"><!----> <a href="/vue/animation.html" class="nav-link">
+  Vue.js动画
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript/" class="nav-link">
+  JavaScript
+</a></div><div class="nav-item"><a href="/git/" class="nav-link">
+  Git
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="note" class="dropdown-title"><span class="title">笔记相关</span> <span class="arrow down"></span></button> <button type="button" aria-label="note" class="mobile-dropdown-title"><span class="title">笔记相关</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/basic/" class="nav-link">
+  日常笔记
+</a></li><li class="dropdown-item"><!----> <a href="/algorithm/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/caffreygo" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="outbound-link-title" role="img" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><title id="outbound-link-title">(opens new window)</title> <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://ustbhuangyi.github.io/vue-analysis/v2/prepare/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Vue源码课程
+  <svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="outbound-link-title" role="img" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><title id="outbound-link-title">(opens new window)</title> <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="TypeScript" class="dropdown-title"><span class="title">TypeScript</span> <span class="arrow down"></span></button> <button type="button" aria-label="TypeScript" class="mobile-dropdown-title"><span class="title">TypeScript</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/typescript/grammar/" class="nav-link">
+  语法学习
+</a></li><li class="dropdown-item"><!----> <a href="/typescript/crawler/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  爬虫实现
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="JavaScript书籍" class="dropdown-title"><span class="title">书籍相关</span> <span class="arrow down"></span></button> <button type="button" aria-label="JavaScript书籍" class="mobile-dropdown-title"><span class="title">书籍相关</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/book/designPattern.html" class="nav-link">
+  JavaScript设计模式与开发实践
+</a></li><li class="dropdown-item"><!----> <a href="/book/dataStructures.html" class="nav-link">
+  学习JavaScript数据结构与算法
+</a></li></ul></div></div><div class="nav-item"><a href="/http/" class="nav-link">
+  HTTP
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Vue.js" class="dropdown-title"><span class="title">Vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="Vue.js" class="mobile-dropdown-title"><span class="title">Vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue/basic.html" class="nav-link">
+  Vue.js基础
+</a></li><li class="dropdown-item"><!----> <a href="/vue/animation.html" class="nav-link">
+  Vue.js动画
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript/" class="nav-link">
+  JavaScript
+</a></div><div class="nav-item"><a href="/git/" class="nav-link">
+  Git
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="note" class="dropdown-title"><span class="title">笔记相关</span> <span class="arrow down"></span></button> <button type="button" aria-label="note" class="mobile-dropdown-title"><span class="title">笔记相关</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/basic/" class="nav-link">
+  日常笔记
+</a></li><li class="dropdown-item"><!----> <a href="/algorithm/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/caffreygo" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="outbound-link-title" role="img" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><title id="outbound-link-title">(opens new window)</title> <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://ustbhuangyi.github.io/vue-analysis/v2/prepare/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Vue源码课程
+  <svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="outbound-link-title" role="img" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><title id="outbound-link-title">(opens new window)</title> <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/typescript/crawler/" aria-current="page" class="active sidebar-link">TypeScript 编写爬虫工具</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#初始化" class="sidebar-link">初始化</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#superagent" class="sidebar-link">SuperAgent</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#类型定义文件-types" class="sidebar-link">类型定义文件@types</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#htmt-获取的实现" class="sidebar-link">Htmt 获取的实现</a></li></ul></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#cheerio-数据获取" class="sidebar-link">cheerio 数据获取</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#cheerio-库引入" class="sidebar-link">cheerio 库引入</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#代码实现" class="sidebar-link">代码实现</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#结果" class="sidebar-link">结果</a></li></ul></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#组合设计模式优化" class="sidebar-link">组合设计模式优化</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#crawler" class="sidebar-link">crawler</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#analyzer-js" class="sidebar-link">analyzer.js</a></li></ul></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#单例模式实战" class="sidebar-link">单例模式实战</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#specialanalyzer-ts" class="sidebar-link">specialAnalyzer.ts</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#引用" class="sidebar-link">引用</a></li></ul></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#编译过程" class="sidebar-link">编译过程</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/typescript/crawler/#初始配置" class="sidebar-link">初始配置</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#自动编译-ts-文件" class="sidebar-link">自动编译 ts 文件</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#自动执行-js-文件" class="sidebar-link">自动执行 js 文件</a></li><li class="sidebar-sub-header"><a href="/typescript/crawler/#合并命令" class="sidebar-link">合并命令</a></li></ul></li></ul></li><li><a href="/typescript/crawler/express.html" class="sidebar-link">Express &amp;&amp; 爬虫</a></li><li><a href="/typescript/crawler/final.html" class="sidebar-link">Express项目改良</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="typescript-编写爬虫工具"><a href="#typescript-编写爬虫工具" class="header-anchor">#</a> TypeScript 编写爬虫工具</h1> <h2 id="初始化"><a href="#初始化" class="header-anchor">#</a> 初始化</h2> <div class="language-sh extra-class"><pre class="language-sh"><code>// 生成package.json
+<span class="token function">npm</span> init -y
+// tsconfig.json
+tsc --init
+// 卸载全局ts-node
+<span class="token function">npm</span> uninstall ts-node -g
+// 安装ts-node typescript在dev环境
+<span class="token function">npm</span> <span class="token function">install</span> -D ts-node
+<span class="token function">npm</span> <span class="token function">install</span> typescript -D
+</code></pre></div><ul><li>新建 src 下的 crawler.ts</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><ul><li>更改 package.json 中的执行语句</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token string">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ts-node ./src/crawler.ts&quot;</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><ul><li>测试</li></ul> <div class="language-powershell extra-class"><pre class="language-powershell"><code><span class="token function">PS</span> E:\typescript\crawler&gt; npm run dev
+
+&gt; crawler@1<span class="token punctuation">.</span>0<span class="token punctuation">.</span>0 dev E:\typescript\crawler
+&gt; ts<span class="token operator">-</span>node <span class="token punctuation">.</span><span class="token operator">/</span>src<span class="token operator">/</span>crawler<span class="token punctuation">.</span>ts
+
+hello world
+</code></pre></div><div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">class</span> <span class="token class-name">Crawler</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> secret <span class="token operator">=</span> <span class="token string">'secretKey'</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> url <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+    http://www.dell-lee.com/typescript/demo.html?secret?=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>secret<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'constructor'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// secret是类里面的一个属性，需要通过this获取</span>
+<span class="token keyword">const</span> crawler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Crawler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="superagent"><a href="#superagent" class="header-anchor">#</a> SuperAgent</h2> <p>superagent 可以获取到远程网址上的 html</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> superagent --save
+</code></pre></div><ul><li>--save：dependencies 生产环境用到的模块</li> <li>--–save-dev： devDependencies 开发环境模块（-D）</li></ul> <h3 id="类型定义文件-types"><a href="#类型定义文件-types" class="header-anchor">#</a> 类型定义文件@types</h3> <p>TypeScript 引用 JavaScript 会报错，且无法提供只能提醒</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> Superagent <span class="token keyword">from</span> <span class="token string">'superagent'</span><span class="token punctuation">;</span>
+</code></pre></div><p>需要提供 <strong>.d.ts</strong> 的翻译文件,将 <strong>js</strong> 文件里面的类型文件进行补全</p> <p><strong>ts =&gt; .d.ts 翻译文件 @types/ =&gt; js</strong></p> <div class="language-powershell extra-class"><pre class="language-powershell"><code>无法找到模块“superagent”的声明文件。“e:<span class="token operator">/</span>typescript<span class="token operator">/</span>crawler<span class="token operator">/</span>node_modules<span class="token operator">/</span>superagent<span class="token operator">/</span>lib<span class="token operator">/</span>node<span class="token operator">/</span>index<span class="token punctuation">.</span>js”隐式拥有 <span class="token string">&quot;any&quot;</span> 类型。
+  <span class="token keyword">Try</span> `npm install @types<span class="token operator">/</span>superagent` <span class="token keyword">if</span> it exists or add a new declaration <span class="token punctuation">(</span><span class="token punctuation">.</span>d<span class="token punctuation">.</span>ts<span class="token punctuation">)</span> file containing `declare module <span class="token string">'superagent'</span><span class="token punctuation">;</span>`ts<span class="token punctuation">(</span>7016<span class="token punctuation">)</span>
+</code></pre></div><p>解决：在开发环境下引入翻译文件</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> @types/superagent -D
+</code></pre></div><h3 id="htmt-获取的实现"><a href="#htmt-获取的实现" class="header-anchor">#</a> Htmt 获取的实现</h3> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> Superagent <span class="token keyword">from</span> <span class="token string">'superagent'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Crawler</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> secret <span class="token operator">=</span> <span class="token string">'secretKey'</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> url <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://www.dell-lee.com/typescript/demo.html?secret?=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>secret<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> rawHtml <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">async</span> <span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> Superagent<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>rawHtml <span class="token operator">=</span> result<span class="token punctuation">.</span>text<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> crawler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Crawler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="cheerio-数据获取"><a href="#cheerio-数据获取" class="header-anchor">#</a> cheerio 数据获取</h2> <h3 id="cheerio-库引入"><a href="#cheerio-库引入" class="header-anchor">#</a> cheerio 库引入</h3> <p>cheerio 可以读取 html 字符串，让我们能够以 jQuery 的方式操作获取数据</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> cheerio --save
+<span class="token function">npm</span> <span class="token function">install</span> @types/cheerio -D
+</code></pre></div><h3 id="代码实现"><a href="#代码实现" class="header-anchor">#</a> 代码实现</h3> <p>cheerio 中的 map((index,element)=&gt;{})方法的参数和 JS 的 map((element,index)=&gt;{})方法参数相反</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// https://cheerio.js.org/ 文档实例</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">i<span class="token punctuation">,</span> el</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// this === el</span>
+    <span class="token keyword">return</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//=&gt; &quot;apple orange pear&quot;</span>
+</code></pre></div><div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> superagent <span class="token keyword">from</span> <span class="token string">'superagent'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> cheerio <span class="token keyword">from</span> <span class="token string">'cheerio'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Course</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  count<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Crowller</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> secret <span class="token operator">=</span> <span class="token string">'secretKey'</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> url <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://www.dell-lee.com/typescript/demo.html?secret=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>secret<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+
+  <span class="token function">getCourseInfo</span><span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseItems <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.course-item'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseInfo<span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    courseItems<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> ele<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> descs <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'.course-desc'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> title <span class="token operator">=</span> descs<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>
+        descs
+          <span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'：'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token number">10</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      courseInfo<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        title<span class="token operator">:</span> title<span class="token punctuation">,</span>
+        count<span class="token operator">:</span> count<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token punctuation">{</span>
+      time<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span> courseInfo<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">async</span> <span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> superagent<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getCourseInfo</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> crowller <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Crowller</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="结果"><a href="#结果" class="header-anchor">#</a> 结果</h3> <div class="language-powershell extra-class"><pre class="language-powershell"><code>&gt; ts<span class="token operator">-</span>node <span class="token punctuation">.</span><span class="token operator">/</span>src<span class="token operator">/</span>crawler<span class="token punctuation">.</span>ts
+
+<span class="token punctuation">{</span>
+  time: 1582818112855<span class="token punctuation">,</span>
+  <span class="token keyword">data</span>: <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> title: <span class="token string">'Vue2.5开发去哪儿网App'</span><span class="token punctuation">,</span> count: 18 <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> title: <span class="token string">'React 16.4 开发简书项目'</span><span class="token punctuation">,</span> count: 74 <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> title: <span class="token string">'React服务器渲染原理解析与实践'</span><span class="token punctuation">,</span> count: 10 <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> title: <span class="token string">'手把手带你掌握新版Webpack4.0'</span><span class="token punctuation">,</span> count: 41 <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="组合设计模式优化"><a href="#组合设计模式优化" class="header-anchor">#</a> 组合设计模式优化</h2> <h3 id="crawler"><a href="#crawler" class="header-anchor">#</a> crawler</h3> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> fs <span class="token keyword">from</span> <span class="token string">'fs'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> path <span class="token keyword">from</span> <span class="token string">'path'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> superagent <span class="token keyword">from</span> <span class="token string">'superagent'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> CaffreyAnalyzer <span class="token keyword">from</span> <span class="token string">'./specialAnalyzer'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Analyzer</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">analyze</span><span class="token operator">:</span> <span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Crowller</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> filePath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../data/course.json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">async</span> <span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> superagent<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">.</span>text<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token function">writeFile</span><span class="token punctuation">(</span>content<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fs<span class="token punctuation">.</span><span class="token function">writeFileSync</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>filePath<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">async</span> <span class="token function">initSpiderProcess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> html <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getRawHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> fileContent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>analyzer<span class="token punctuation">.</span><span class="token function">analyze</span><span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span>fileContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> url<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token keyword">private</span> analyzer<span class="token operator">:</span> Analyzer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">initSpiderProcess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> secret <span class="token operator">=</span> <span class="token string">'secretKey'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://www.dell-lee.com/typescript/demo.html?secret=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>secret<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> analyzer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CaffreyAnalyzer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">new</span> <span class="token class-name">Crowller</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> analyzer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="analyzer-js"><a href="#analyzer-js" class="header-anchor">#</a> analyzer.js</h3> <ul><li>class implements interface</li></ul> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> fs <span class="token keyword">from</span> <span class="token string">'fs'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> cheerio <span class="token keyword">from</span> <span class="token string">'cheerio'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Analyzer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./crowller'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Course</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  count<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">CourseResult</span> <span class="token punctuation">{</span>
+  time<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  data<span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Content</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">[</span>propName<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">]</span><span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">CaffreyAnalyzer</span> <span class="token keyword">implements</span> <span class="token class-name">Analyzer</span> <span class="token punctuation">{</span>
+  <span class="token function">getCourseInfo</span><span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseItems <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.course-item'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseInfos<span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    courseItems<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> element<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> descs <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'.course-desc'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> title <span class="token operator">=</span> descs<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>
+        descs
+          <span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'：'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token number">10</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      courseInfos<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span> title<span class="token punctuation">,</span> count <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      time<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span> courseInfos<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">generateJsonContent</span><span class="token punctuation">(</span>courseInfo<span class="token operator">:</span> CourseResult<span class="token punctuation">,</span> filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> fileContent<span class="token operator">:</span> Content <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">existsSync</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      fileContent <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>filePath<span class="token punctuation">,</span> <span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    fileContent<span class="token punctuation">[</span>courseInfo<span class="token punctuation">.</span>time<span class="token punctuation">]</span> <span class="token operator">=</span> courseInfo<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> fileContent<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">analyze</span><span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> courseInfo <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getCourseInfo</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> fileContent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">generateJsonContent</span><span class="token punctuation">(</span>courseInfo<span class="token punctuation">,</span> filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>fileContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="单例模式实战"><a href="#单例模式实战" class="header-anchor">#</a> 单例模式实战</h2> <h3 id="specialanalyzer-ts"><a href="#specialanalyzer-ts" class="header-anchor">#</a> specialAnalyzer.ts</h3> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> fs <span class="token keyword">from</span> <span class="token string">'fs'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> cheerio <span class="token keyword">from</span> <span class="token string">'cheerio'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Analyzer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./crowller'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Course</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  count<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">CourseResult</span> <span class="token punctuation">{</span>
+  time<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  data<span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Content</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">[</span>propName<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">]</span><span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">CaffreyAnalyzer</span> <span class="token keyword">implements</span> <span class="token class-name">Analyzer</span> <span class="token punctuation">{</span>
+  <span class="token comment">// static静态属性，将方法直接挂载在类上面，而不是类的实例上面</span>
+  <span class="token keyword">private</span> <span class="token keyword">static</span> instance<span class="token operator">:</span> CaffreyAnalyzer<span class="token punctuation">;</span>
+
+  <span class="token keyword">static</span> <span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 只生成一次</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>CaffreyAnalyzer<span class="token punctuation">.</span>instance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      CaffreyAnalyzer<span class="token punctuation">.</span>instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CaffreyAnalyzer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> CaffreyAnalyzer<span class="token punctuation">.</span>instance<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">private</span> <span class="token function">getCourseInfo</span><span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseItems <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.course-item'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> courseInfos<span class="token operator">:</span> Course<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    courseItems<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> element<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> descs <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'.course-desc'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> title <span class="token operator">=</span> descs<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>
+        descs
+          <span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'：'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token number">10</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      courseInfos<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span> title<span class="token punctuation">,</span> count <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      time<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span> courseInfos<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token function">generateJsonContent</span><span class="token punctuation">(</span>courseInfo<span class="token operator">:</span> CourseResult<span class="token punctuation">,</span> filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> fileContent<span class="token operator">:</span> Content <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">existsSync</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      fileContent <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>filePath<span class="token punctuation">,</span> <span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    fileContent<span class="token punctuation">[</span>courseInfo<span class="token punctuation">.</span>time<span class="token punctuation">]</span> <span class="token operator">=</span> courseInfo<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> fileContent<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token function">analyze</span><span class="token punctuation">(</span>html<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> courseInfo <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getCourseInfo</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> fileContent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">generateJsonContent</span><span class="token punctuation">(</span>courseInfo<span class="token punctuation">,</span> filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>fileContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// private私有限制符,只允许内部调用  禁止new 实例</span>
+  <span class="token keyword">private</span> <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="引用"><a href="#引用" class="header-anchor">#</a> 引用</h3> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">const</span> analyzer <span class="token operator">=</span> CaffreyAnalyzer<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">new</span> <span class="token class-name">Crowller</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> analyzer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="编译过程"><a href="#编译过程" class="header-anchor">#</a> 编译过程</h2> <h3 id="初始配置"><a href="#初始配置" class="header-anchor">#</a> 初始配置</h3> <p>将 ts 文件编译为 js 文件，然后运行该文件</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ts-node ./src/crawler.ts&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>打开 <strong>tsconfig.json</strong> 修改编译路径</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;outDir&quot;</span><span class="token operator">:</span> <span class="token string">&quot;./build&quot;</span>
+</code></pre></div><p>typescript 文件是不能直接运行的</p> <div class="language-powershell extra-class"><pre class="language-powershell"><code>node <span class="token punctuation">.</span><span class="token operator">/</span>build<span class="token operator">/</span>crawler<span class="token punctuation">.</span>js
+<span class="token operator">/</span><span class="token operator">/</span>报错
+node src<span class="token operator">/</span>crawler<span class="token punctuation">.</span>ts
+</code></pre></div><h3 id="自动编译-ts-文件"><a href="#自动编译-ts-文件" class="header-anchor">#</a> 自动编译 ts 文件</h3> <p>通过 npm run build 后，如果后续 ts 文件有修改，会自动编译更新 js 文件</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;tsc -w&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="自动执行-js-文件"><a href="#自动执行-js-文件" class="header-anchor">#</a> 自动执行 js 文件</h3> <p>监控整个项目文件变化后执行动作，安装 nodemon(npm install nodemon -D)</p> <ul><li>nodemon 默认不会监测 TypeScript 的文件变化（可配置修改）</li></ul> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;tsc -w&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;nodemon node ./build/crawler.js&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>tips: 第一次运行的 npm run start 的时候会先执行一次，导致生成了 data 文件夹下面的 course.json; 而当前的文件变化又导致了 nodemon 的监测重新执行，如此反复循环运行 craw.js，需要在 package.json 增加 json 配置</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;nodemonConfig&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;ignore&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;data/*&quot;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="合并命令"><a href="#合并命令" class="header-anchor">#</a> 合并命令</h3> <p><strong>concurrently</strong>并行执行命令(npm install concurrently -D)</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;dev:build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;tsc -w&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;dev:start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;nodemon node ./build/crawler.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;concurrently npm run dev:build &amp; npm run dev:start&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>npm:dev:*相当于 npm run dev: 下的所有命令</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;dev:build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;tsc -w&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;dev: start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;nodemon node ./build/crawler.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;concurrently npm:dev:*&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">7/15/2020, 10:49:27 PM</span></div></footer> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/typescript/crawler/express.html">
+        Express &amp;&amp; 爬虫
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.960fd35c.js" defer></script><script src="/assets/js/2.139feb89.js" defer></script><script src="/assets/js/29.4038a8a5.js" defer></script>
+  </body>
+</html>

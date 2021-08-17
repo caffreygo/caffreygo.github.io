@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /logo.jpg
+heroImage: /main.png
 heroText: Jerry Chen
 tagline: 在线文档
 actions:

@@ -3,17 +3,33 @@ module.exports = {
   title: 'Jerry Chen',
   description: '在线文档',
   base: '/',
-  head: [
-    ['link', { rel: 'icon', href: '/icon.png' }]
-  ],
+  head: [['link', { rel: 'icon', href: '/icon.png' }]],
   port: 3000,
   markdown: {
     lineNumbers: false
   },
   themeConfig: {
     sidebar: 'auto',
-    lastUpdated: '最后更新时间',
+    lastUpdatedText: '上次更新',
+    contributorsText: '贡献者',
+    tip: '提示',
+    warning: '注意',
+    danger: '警告',
+    backToHome: '返回首页',
+    openInNewWindow: '在新窗口打开',
+    toggleDarkMode: '切换夜间模式',
+    toggleSidebar: '切换侧边栏',
+    notFound: [
+      '这里什么都没有',
+      '我们怎么到这来了？',
+      '这是一个 404 页面',
+      '看起来我们进入了错误的链接',
+    ],
     navbar: [
+      {
+        text: 'JavaScript',
+        link: '/javascript/symbol'
+      },
       {
         text: 'TypeScript',
         children: [
@@ -31,7 +47,7 @@ module.exports = {
               {
                 text: '高级语法',
                 link: '/typescript/grammar/final'
-              },
+              }
             ]
           },
           {
@@ -48,18 +64,9 @@ module.exports = {
               {
                 text: '项目改良',
                 link: '/typescript/crawler/final'
-              },
+              }
             ]
-          },
-        ]
-      },
-      {
-        text: '工具软件',
-        children: [
-          {
-            text: 'Git',
-            link: '/tools/git'
-          },
+          }
         ]
       },
       {
@@ -69,9 +76,29 @@ module.exports = {
             text: 'Vue Js',
             children: [
               {
-                text: 'React基础',
-                link: '/framework/react/basic'
+                text: 'Composition API',
+                link: '/framework/vue/compositionApi'
               },
+              {
+                text: '基础语法',
+                link: '/framework/vue/basic'
+              },
+              {
+                text: '动画',
+                link: '/framework/vue/animation'
+              },
+              {
+                text: '高级语法',
+                link: '/framework/vue/advanced'
+              },
+              {
+                text: '日常笔记',
+                link: '/framework/vue/vue'
+              },
+              {
+                text: 'VueJs深入浅出',
+                link: '/framework/vue/book'
+              }
             ]
           },
           {
@@ -88,12 +115,66 @@ module.exports = {
               {
                 text: '笔记',
                 link: '/framework/react/note'
-              },
+              }
             ]
-          },
+          }
         ]
       },
+      {
+        text: '工具 | 协议',
+        children: [
+          {
+            text: 'HTTP',
+            link: '/tools/http'
+          },
+          {
+            text: 'Git',
+            link: '/tools/git'
+          },
+          {
+            text: 'Webpack4.0',
+            children: [
+              {
+                text: '基本概念',
+                link: '/tools/webpack/basic'
+              },
+              {
+                text: '起步介绍',
+                link: '/tools/webpack/step-2'
+              },
+              {
+                text: '打包配置',
+                link: '/tools/webpack/step-3'
+              },
+              {
+                text: '进阶',
+                link: '/tools/webpack/step-4'
+              },
+              {
+                text: '配置案例',
+                link: '/tools/webpack/step-5'
+              }
+            ]
+          }
+        ]
+      },
+      { text: "Github", link: "https://github.com/caffreygo" },
+      {
+        text: "Vue源码课程",
+        link: "https://ustbhuangyi.github.io/vue-analysis/v2/prepare/",
+      },
     ],
-  },
-  
+    sidebar: {
+      '/javascript/': [
+        {
+          text: "基础知识",
+          children: [
+            '/javascript/symbol.md',
+            '/javascript/prototype.md',
+            '/javascript/storage.md',
+          ]
+        }
+      ]
+    }
+  }
 }

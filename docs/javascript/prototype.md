@@ -266,5 +266,3 @@ Tab.prototype.reset = function () {
     });
 };
 ```
-
-## 

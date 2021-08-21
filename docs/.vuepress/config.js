@@ -171,6 +171,7 @@ module.exports = {
           children: [
             '/javascript/symbol.md',
             '/javascript/prototype.md',
+            '/javascript/class.md',
             '/javascript/storage.md',
           ]
         }

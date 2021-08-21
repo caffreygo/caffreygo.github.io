@@ -55,10 +55,10 @@ console.log(u);
   console.log(User == User.prototype.constructor); //true
   
   //下面是对比的普通函数
-  function Hd(name) {
+  function Person(name) {
     this.name = name;
   }
-  console.log(Hd == Hd.prototype.constructor); //true
+  console.log(Person == Person.prototype.constructor); //true
   ```
 
 - 在类中定义的方法也保存在函数原型
@@ -541,5 +541,610 @@ class Admin extends controller() {
     this.show();
   }
 }
+```
+
+### super
+
+📌`this`指向当前对象，结果并不是 `admin`的`name`值
+
+```js
+let user = {
+  name: "user",
+  show() {
+    return this.name;
+  }
+};
+let admin = {
+  __proto__: user,
+  name: "admin",
+  show() {
+    return this.__proto__.show();   // this谁调用指向谁，这边指向user
+  }
+};
+console.log(admin.show());   // user
+```
+
+为了解决以上问题，需要调用父类方法时传递`this`
+
+```js
+let user = {
+  name: "user",
+  show() {
+    return this.name;
+  }
+};
+let admin = {
+  __proto__: user,
+  name: "admin",
+  show() {
+    return this.__proto__.show.call(this);  // 通过call绑定this
+  }
+};
+console.log(admin.show());  // admin
+```
+
+上面看似结果正常，但如果是多层继承时，会出现新的问题
+
+📌 因为始终传递的是当前对象`this` ，造成从 `this` 原型循环调用
+
+```js
+let common = {
+  show() {
+    console.log("common.init");
+  }
+};
+let user = {
+  __proto__: common,
+  name: "user",
+  show() {
+    return this.__proto__.show.call(this);  // 这边this通过admin传入绑定为admin, 陷入死循环
+  }
+};
+let admin = {
+  __proto__: user,
+  name: "admin",
+  get() {
+    return this.__proto__.show.call(this);
+  }
+};
+console.log(admin.get());  // Maximum call stack size exceeded
+```
+
+::: tip super关键字
+
+- 使用 `super` 调用时，在所有继承中 `this` 始终为调用对象
+- `super` 是用来查找当前对象的原型，而不像上面使用 `this` 查找原型造成死循环
+- 也就是说把查询原型方法的事情交给了 `super`，`this` 只是单纯的调用对象在各个继承中使用
+
+::: 
+
+```js
+let common = {
+  show() {
+    return this.name;
+  }
+};
+let user = {
+  __proto__: common,
+  name: "user",
+  show() {
+    return super.show(this);    // super
+  }
+};
+let admin = {
+  __proto__: user,
+  name: "admin",
+  get() {
+    return super.show();   // super
+  }
+};
+console.log(admin.get());
+```
+
+📌 `super` 只能在**类**或**对象的方法**中使用，而不能在函数中使用，下面将产生错误
+
+```js
+let user = {
+  name: "user",
+  show() {
+    return this.name;
+  }
+};
+let admin = {
+  __proto__: user,
+  name: "admin",
+  get: function() {
+    return super.show();
+  }
+};
+console.log(admin.get()); //Uncaught SyntaxError: 'super' keyword unexpected here
+```
+
+### constructor
+
+🔰 `super` 指调父类引用，在构造函数`constructor` 中必须先调用`super()`
+
+- `super()` 指调用父类的构造函数
+- 必须在 `constructor` 函数里的`this` 调用前执行 `super()`
+
+```js
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+  show() {
+    console.log(this.name);
+  }
+}
+class Admin extends User {
+  constructor(name) {
+    super(name);    // 子类构造函数当中必须先调用super(...args)
+    // .... 
+  }
+}
+```
+
+ 📗 `constructor` 中先调用 `super` 方法的原理如下
+
+```js
+function Parent(name) {
+  this.name = name;
+}
+function User(...args) {
+  Parent.apply(this, args); // Parent.call(this, ...args)  将Parent需要初始化的属性添加到实例当中
+  // user...
+}
+User.prototype = Object.create(User.prototype)  // 通过原型继承共享Parent prototype上的方法
+User.prototype.constructor = User;  // User prototype指定constructor属性，同时可以添加User的原型方法等
+```
+
+### 父类方法
+
+使用`super` 可以执行父类方法
+
+- 不添加方法名是只调用父类构造函数
+
+```js
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+  getName() {
+    return this.name;
+  }
+}
+class Admin extends User {
+  constructor(name) {
+    super(name); // super()调用父类构造函数， super.method()调用父类方法
+  }
+}
+```
+
+下面是通过父类方法获取课程总价
+
+```js
+class Controller {
+  sum() {
+    return this.data.reduce((t, c) => t + c.price, 0);
+  }
+} 
+class Lesson extends Controller {
+  constructor(lessons) {
+    super();
+    this.data = lessons;
+  }
+  info() {
+    return {
+      totalPrice: super.sum(),  // 在子类方法中调用父类方法
+      data: this.data
+    };
+  }
+}
+let data = [
+  { name: "js", price: 100 },
+  { name: "mysql", price: 212 },
+  { name: "vue.js", price: 98 }
+];
+const l = new Lesson(data);
+console.log(l.info());  // { totalPrice:431, data: Array(3) }
+```
+
+### 方法覆盖
+
+子类存在父类同名方法时使用子类方法
+
+```js
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+  say() {
+    return this.name;
+  }
+}
+class Admin extends User {
+  constructor(name) {
+    super(name);
+  }
+  say() {
+    return "Hello：" + super.say();  // 重写父类的方法
+  }
+}
+```
+
+下面是覆盖父类方法，只获取课程名称
+
+```js
+class Controller {
+  say() {
+    return this.name;
+  }
+  total() {
+    return this.data.reduce((t, c) => t + c.price, 0);
+  }
+  getByKey(key) {
+    return this.data.filter(item => item.name.includes(key));  // 返回对象数组
+  }
+}
+class Lesson extends Controller {
+  constructor(lessons) {
+    super();
+    this.data = lessons;
+  }
+  getByKey(key) {
+    return super.getByKey(key).map(item => item.name);  // 转成string数组
+  }
+}
+let data = [
+  { name: "js", price: 100 },
+  { name: "mysql", price: 212 },
+  { name: "vue.js", price: 98 }
+];
+const l = new Lesson(data);
+console.log(l.getByKey("js"));  ["js", "vue.js"]
+```
+
+### 静态继承
+
+ 📗 静态的属性和方法也是可以被继承使用的，下面是原理分析
+
+```js
+function User() {}
+User.site = "Caffreygo";
+User.url = function() {
+    return "baidu.com";
+};
+function Admin() {}
+Admin.__proto__ = User;   // 静态属性和方法是将构造函数当作对象，直接添加属性；继承只要通过对象的__proto__属性指定原型即可实现
+console.dir(Admin);
+console.log(Admin.url());
+```
+
+✔️ 下面使用 `class` 来演示静态继承
+
+```js
+class User {
+  static site = "Jerry Chen";
+  static host() {
+    return "blog.caffreygo.com";
+  }
+}
+class Admin extends User {}
+
+console.log(Admin.__proto__ == User)   // true
+```
+
+![](./img/class/7.png)
+
+## 对象检测
+
+### instanceof
+
+ 📗 使用 `instanceof` 用于检测，下面是在原型中的分析
+
+```js
+function User() {}
+function Admin() {}
+Admin.prototype = Object.create(User.prototype);
+let u = new Admin();
+console.log(u instanceof Admin); //true
+console.log(u instanceof User);  //true
+
+console.log(u.__proto__ == Admin.prototype);  // true
+console.log(u.__proto__.__proto__ == User.prototype);  // true
+```
+
+ 🔍 下面是递归检测原型的代码，帮助你分析 `instanceof` 的原理
+
+```js
+function checkPrototype(obj, constructor) {
+  if (!obj.__proto__) return false;
+  if (obj.__proto__ == constructor.prototype) return true;
+  return checkPrototype(obj.__proto__, constructor);
+}
+```
+
+ 📌 `class` 内部实现就是基于原型，所以使用`instanceof` 判断和上面原型是一样的
+
+```js
+class User {}
+class Admin extends User {}
+let u = new Admin();
+console.log(u instanceof Admin);  // true
+console.log(u instanceof User);   // true
+```
+
+### isPrototypeOf
+
+ 📗 使用 `isPrototypeOf` 判断一个对象是否在另一个对象的原型链中，下面是原理分析
+
+```js
+const a = {};
+const b = {
+  __proto__: a
+};
+const c = {
+  __proto__: b
+};
+console.log(a.isPrototypeOf(b)); //true
+console.log(a.isPrototypeOf(c)); //true
+```
+
+ 📌 下面在使用 `class` 语法中使用
+
+```js
+class User {}
+class Admin extends User {}
+let a = new Admin();
+console.log(Admin.prototype.isPrototypeOf(a));
+console.log(User.prototype.isPrototypeOf(a));
+```
+
+### 继承内置类
+
+⚙️ 使用原型扩展内置类 Array
+
+```js
+function Arr(...args) {
+  args.forEach(item => this.push(item));   // this已经是一个[]空数组
+  this.first = function() {
+    return this[0];
+  };
+  this.max = function() {
+    return this.data.sort((a, b) => b - a)[0];
+  };
+}
+let a = [1, 23];
+Arr.prototype = Object.create(Array.prototype);  // Arr继承了Array的原型
+let arr = new Arr("Jerry", 2, 3);
+console.log(arr.first());  // "Jerry"
+```
+
+使用 `class`扩展内置类
+
+```js
+class NewArr extends Array {
+  constructor(...args) {
+    super(...args);   // new Array(...args) 初始化一个新数组
+  }
+  first() {
+    return this[0];
+  }
+  add(value) {
+    this.push(value);
+  }
+  remove(value) {
+    let pos = this.findIndex(curValue => {
+      return curValue == value;
+    });
+    this.splice(pos, 1);
+  }
+}
+let u = new NewArr(5, 3, 2, 1); 
+console.log(u.length); //4
+console.log(u.first()); //5
+
+u.add("Jerry");
+console.log(u.join(",")); //5,3,2,1,Jerry
+
+u.remove("3");
+console.log(u.join(",")); //5,2,1,Jerry
+```
+
+### mixin
+
+::: tip mixin
+
+关于`mixin` 的使用在原型章节已经讨论过，在`class` 使用也是相同的原理
+
+`JS`不能实现多继承，如果要使用多个类的方法时可以使用`mixin`混合模式来完成。
+
+- `mixin` 类是一个包含许多供其它类使用的方法的类
+- `mixin` 类不用来继承做为其它类的父类
+
+:::
+
+```js
+const Tool = {
+  max(key) {
+    return this.data.sort((a, b) => b[key] - a[key])[0];
+  }
+};
+
+class Lesson {
+  constructor(lessons) {
+    this.lessons = lessons;
+  }
+  get data() {
+    return this.lessons;
+  }
+}
+
+Object.assign(Lesson.prototype, Tool);  // 通过Object.assign为原型扩展方法
+const data = [
+  { name: "js", price: 100 },
+  { name: "mysql", price: 212 },
+  { name: "vue.js", price: 98 }
+];
+let u = new Lesson(data);
+console.log(u.max("price"));
+```
+
+### 实例操作
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: content-box;
+    }
+
+    body {
+      padding: 30px;
+    }
+
+    .slide {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); */
+    }
+
+    .slide dt {
+      height: 30px;
+      background: #34495e;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      cursor: pointer;
+    }
+
+    .slide dt:first-of-type {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .slide dd {
+      height: 100px;
+      background: #f1c40f;
+      overflow: hidden;
+    }
+
+    .slide dd div {
+      padding: 10px;
+    }
+
+    .slide dd:last-of-type {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide s1">
+    <dt>Jerry Chen</dt>
+    <dd>
+      <div>blog.caffreygo.com</div>
+    </dd>
+    <dt>Google</dt>
+    <dd>
+      <div>google.com</div>
+    </dd>
+    <dt>Media</dt>
+    <dd>
+      <div>youtube.com</div>
+    </dd>
+  </div>
+</body>
+<script>
+  class Animation {
+    constructor(el) {
+      this.el = el;
+      this.timeout = 5;
+      this.isShow = true;
+      this.defaultHeight = this.height;
+    }
+    hide(callback) {
+      this.isShow = false;
+      let id = setInterval(() => {
+        if (this.height <= 0) {
+          clearInterval(id);
+          callback && callback();
+          return;
+        }
+        this.height = this.height - 1;
+      }, this.timeout);
+    }
+    show(callback) {
+      this.isShow = false;
+      let id = setInterval(() => {
+        if (this.height >= this.defaultHeight) {
+          clearInterval(id);
+          callback && callback();
+          return;
+        }
+        this.height = this.height + 1;
+      }, this.timeout);
+    }
+    get height() {
+      return window.getComputedStyle(this.el).height.slice(0, -2) * 1;
+    }
+    set height(height) {
+      this.el.style.height = height + "px";
+    }
+  }
+  class Slide {
+    constructor(el) {
+      this.el = document.querySelector(el);
+      this.links = this.el.querySelectorAll("dt");
+      this.panels = [...this.el.querySelectorAll("dd")].map(
+        item => new Panel(item)
+      );
+      this.bind();
+    }
+    bind() {
+      this.links.forEach((item, i) => {
+        item.addEventListener("click", () => {
+          this.action(i);
+        });
+      });
+    }
+    action(i) {
+      Panel.hideAll(Panel.filter(this.panels, i), () => {
+        this.panels[i].show();
+      });
+    }
+  }
+  class Panel extends Animation {
+    static num = 0;
+    static hideAll(items, callback) {
+      if (Panel.num > 0) return;
+      items.forEach(item => {
+        Panel.num++;
+        item.hide(() => {
+          Panel.num--;
+        });
+      });
+      callback && callback();
+    }
+    static filter(items, i) {
+      return items.filter((item, index) => index != i);
+    }
+  }
+  let u = new Slide(".s1");
+</script>
+
+</html>
 ```
 

@@ -23,12 +23,34 @@ module.exports = {
       '这里什么都没有',
       '我们怎么到这来了？',
       '这是一个 404 页面',
-      '看起来我们进入了错误的链接',
+      '看起来我们进入了错误的链接'
     ],
     navbar: [
       {
         text: 'JavaScript',
-        link: '/javascript/array'
+        children: [
+          {
+            text: '语法基础',
+            children: [
+              {
+                text: '数组类型',
+                link: '/javascript/array'
+              },
+              {
+                text: 'Symbol类型',
+                link: '/javascript/symbol'
+              },
+              {
+                text: '原型和原型链',
+                link: '/javascript/prototype'
+              },
+              {
+                text: 'class',
+                link: '/javascript/class'
+              }
+            ]
+          }
+        ]
       },
       {
         text: 'TypeScript',
@@ -158,24 +180,82 @@ module.exports = {
           }
         ]
       },
-      { text: "Github", link: "https://github.com/caffreygo" },
+      { text: 'Github', link: 'https://github.com/caffreygo' },
       {
-        text: "Vue源码课程",
-        link: "https://ustbhuangyi.github.io/vue-analysis/v2/prepare/",
-      },
+        text: 'Vue源码课程',
+        link: 'https://ustbhuangyi.github.io/vue-analysis/v2/prepare/'
+      }
     ],
     sidebar: {
       '/javascript/': [
         {
-          text: "基础知识",
+          text: '基础知识',
           children: [
             '/javascript/array.md',
             '/javascript/symbol.md',
             '/javascript/prototype.md',
-            '/javascript/class.md',
-            
+            '/javascript/class.md'
           ]
         }
+      ],
+      '/typescript/': [
+        {
+          text: '语法基础',
+          children: [
+            '/typescript/grammar/basic',
+            '/typescript/grammar/advanced',
+            '/typescript/grammar/final'
+          ]
+        },
+        {
+          text: '爬虫实现',
+          children: [
+            '/typescript/crawler/basic',
+            '/typescript/crawler/express',
+            '/typescript/crawler/final'
+          ]
+        }
+      ],
+      '/framework/vue/': [
+        {
+          text: 'Vue.js',
+          children: [
+            '/framework/vue/compositionApi',
+            '/framework/vue/basic',
+            '/framework/vue/animation',
+            '/framework/vue/advanced',
+            '/framework/vue/vue',
+            '/framework/vue/book'
+          ]
+        }
+      ],
+      '/framework/react/': [
+        {
+          text: 'React.js',
+          children: [
+            '/framework/react/basic',
+            '/framework/react/redux',
+            '/framework/react/note'
+          ]
+        }
+      ],
+      '/tools/webpack/': [
+        {
+          text: 'Webpack',
+          children: [
+            '/tools/webpack/basic',
+            '/tools/webpack/step-2',
+            '/tools/webpack/step-3',
+            '/tools/webpack/step-4',
+            '/tools/webpack/step-5'
+          ]
+        }
+      ],
+      '/tools/': [
+        {
+          text: 'HTTP协议',
+          children: ['/tools/http','/tools/git']
+        },
       ]
     }
   }

@@ -28,7 +28,7 @@ module.exports = {
     navbar: [
       {
         text: 'JavaScript',
-        link: '/javascript/symbol'
+        link: '/javascript/array'
       },
       {
         text: 'TypeScript',
@@ -169,10 +169,11 @@ module.exports = {
         {
           text: "基础知识",
           children: [
+            '/javascript/array.md',
             '/javascript/symbol.md',
             '/javascript/prototype.md',
             '/javascript/class.md',
-            '/javascript/storage.md',
+            
           ]
         }
       ]

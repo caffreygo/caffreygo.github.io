@@ -210,59 +210,155 @@ for(const key in a) {
 
 ## Tab构造函数
 
-```js
-//继承工厂
-function extend(sub, sup) {
+![](./img/prototype/tab.gif)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 50vh;
+    }
+
+    main {
+      width: 400px;
+      flex-direction: column;
+      position: relative;
+      margin-right: 20px;
+    }
+
+    main nav {
+      display: flex;
+      height: 50px;
+      align-items: center;
+    }
+
+    main nav a {
+      background: #95a5a6;
+      margin-right: px;
+      padding: 10px 20px;
+      border: solid 1px #333;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    main nav a:first-of-type {
+      background: #e67e22;
+    }
+
+    section {
+      height: 200px;
+      width: 100%;
+      background: #f1c40f;
+      position: absolute;
+      font-size: 5em;
+      display: none;
+    }
+
+    .hd-tab section:first-of-type {
+      display: block;
+    }
+
+    section:nth-child(even) {
+      background: #27ae60;
+    }
+  </style>
+</head>
+
+
+<body>
+  <main class="tab1">
+    <nav>
+      <a href="javascript:;">Tab 1</a>
+      <a href="javascript:;">Tab 2</a>
+    </nav>
+    <section>1</section>
+    <section>2</section>
+  </main>
+  <main class="tab2">
+    <nav>
+      <a href="javascript:;">TAB ONE</a>
+      <a href="javascript:;">TAB TWO</a>
+    </nav>
+    <section>1</section>
+    <section>2</section>
+  </main>
+</body>
+
+<script>
+  //继承工厂
+  function extend(sub, sup) {
     sub.prototype = Object.create(sup.prototype);
     sub.prototype.constructor = sub;
-}
+  }
 
-//动作类
-function Animation() { }
-Animation.prototype.show = function () {
+  //动作类
+  function Animation() { }
+  Animation.prototype.show = function () {
     this.style.display = "block";
-};
-//隐藏所有元素
-Animation.prototype.hide = function () {
+  };
+  //隐藏所有元素
+  Animation.prototype.hide = function () {
     this.style.display = "none";
-};
-//必变元素集合背景
-Animation.prototype.background = function (color) {
+  };
+  //必变元素集合背景
+  Animation.prototype.background = function (color) {
     this.style.background = color;
-};
+  };
 
-//选项卡类
-function Tab(tab) {
+  //选项卡类
+  function Tab(tab) {
     this.tab = tab;
     this.links = null;
     this.sections = null;
-}
-extend(Tab, Animation);
-Tab.prototype.run = function () {
+  }
+  extend(Tab, Animation);
+  Tab.prototype.run = function () {
     this.links = this.tab.querySelectorAll("a");
     this.sections = this.tab.querySelectorAll("section");
     this.bindEvent();
     this.action(0);
-};
-//绑定事件
-Tab.prototype.bindEvent = function () {
+  };
+  //绑定事件
+  Tab.prototype.bindEvent = function () {
     this.links.forEach((el, i) => {
-        el.addEventListener("click", () => {
-            this.reset();
-            this.action(i);
-        });
+      el.addEventListener("click", () => {
+        this.reset();
+        this.action(i);
+      });
     });
-};
-//点击后触发动作
-Tab.prototype.action = function (i) {
+  };
+  //点击后触发动作
+  Tab.prototype.action = function (i) {
     this.background.call(this.links[i], "#e67e22");
     this.show.call(this.sections[i]);
-};
-//重置link与section
-Tab.prototype.reset = function () {
+  };
+  //重置link与section
+  Tab.prototype.reset = function () {
     this.links.forEach((el, i) => {
-        this.background.call(el, "#95a5a6");
-        this.hide.call(this.sections[i]);
+      this.background.call(el, "#95a5a6");
+      this.hide.call(this.sections[i]);
     });
-};
+  };
+
+  new Tab(document.querySelector(".tab1")).run();
+  new Tab(document.querySelector(".tab2")).run();
+</script>
+
+</html>
 ```

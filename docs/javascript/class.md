@@ -992,6 +992,8 @@ console.log(u.max("price"));
 
 ### 实例操作
 
+![](./img/class/slider.gif)
+
 ```html
 <!DOCTYPE html>
 <html lang="en">

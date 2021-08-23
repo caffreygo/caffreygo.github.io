@@ -41,7 +41,7 @@ module.exports = {
                 link: '/javascript/symbol'
               },
               {
-                text: '原型和原型链',
+                text: '原型与继承',
                 link: '/javascript/prototype'
               },
               {

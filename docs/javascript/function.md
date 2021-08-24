@@ -741,6 +741,7 @@ console.log(new Abc("Jerry").show())  // Jerry
 
 ```js
 function User(name) {
+  // this => {}
   this.name = name;
 }
 let abc = new User("Jerry");
@@ -760,7 +761,7 @@ console.log(hello.name); //HDCMS
 
 ### apply/call
 
-call与apply 用于显示的设置函数的上下文，两个方法作用一样都是将对象绑定到this，只是在传递参数上有所不同。
+📗 call与apply 用于显示的设置函数的上下文，两个方法作用一样都是将对象绑定到this，只是在传递参数上有所不同。
 
 - apply 用数组传参
 - call 需要分别传参
@@ -784,7 +785,7 @@ show.apply(wangwu, ['HDCMS']);
 
 使用 `call` 设置函数上下文
 
-```js
+```html
 <body>
     <button message="Jerry">button</button>
     <button message="hello">button</button>
@@ -805,8 +806,8 @@ show.apply(wangwu, ['HDCMS']);
 ```js
 let arr = [1, 3, 2, 8];
 console.log(Math.max(arr)); //NaN
-console.log(Math.max.apply(Math, arr)); //8
- console.log(Math.max(...arr)); //8
+console.log(Math.max.apply(Math, arr)); //8     Math.max.apply(null, arr) max方法不需要指定上下文
+console.log(Math.max(...arr)); //8
 ```
 
 实现构造函数属性继承
@@ -826,6 +827,7 @@ function Request() {
 //文章控制器
 function Article() {
   this.url = "article/index";
+  // 在Article实例上添加get方法
   Request.apply(this, []);
 }
 let abc = new Article();
@@ -838,6 +840,7 @@ console.log(
 //课程控制器
 function Lesson() {
   this.url = "lesson/index";
+   // 在Lesson实例上添加get方法
   Request.call(this);
 }
 let js = new Lesson();
@@ -850,55 +853,59 @@ console.log(
 
 制作显示隐藏面板
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-0706853.88fcc321.gif)
+![](./img/function/call.gif)
 
-```js
-<style>
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
     * {
-        padding: 0;
-        margin: 0;
+      padding: 0;
+      margin: 0;
     }
-
     body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
     }
-
     dl {
-        width: 400px;
-        display: flex;
-        flex-direction: column;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
     }
-
     dt {
-        background: #e67e22;
-        border-bottom: solid 2px #333;
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
+      background: #e67e22;
+      border-bottom: solid 2px #333;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
-
     dd {
-        height: 200px;
-        background: #bdc3c7;
-        font-size: 5em;
-        text-align: center;
-        line-height: 200px;
+      height: 200px;
+      background: #bdc3c7;
+      font-size: 5em;
+      text-align: center;
+      line-height: 200px;
     }
-</style>
-
+  </style>
+</head>
 <body>
-    <dl>
-        <dt>Jerry</dt>
-        <dd>1</dd>
-        <dt>hello</dt>
-        <dd hidden="hidden">2</dd>
-    </dl>
+  <dl>
+    <dt>Jerry</dt>
+    <dd>1</dd>
+    <dt>hello</dt>
+    <dd hidden="hidden">2</dd>
+  </dl>
 </body>
 <script>
   function panel(i) {
@@ -910,14 +917,16 @@ console.log(
     dt.addEventListener("click", () => panel.call(null, i));
   });
 </script>
+
+</html>
 ```
 
 ### bind
 
-bind()是将函数绑定到某个对象，比如 a.bind(abc) 可以理解为将a函数绑定到abc对象上即 abc.a()。
+📗  `bind()`是将函数绑定到某个对象，比如` a.bind(abc) `可以理解为将a函数绑定到abc对象上即 abc.a()。
 
 - 与 call/apply 不同bind不会立即执行
-- bind 是复制函数形为会返回新函数
+- bind 是复制函数形为会返回**新函数**
 
 bind是复制函数行为
 
@@ -955,45 +964,55 @@ console.log(newFunc(2));
     "click",
     function(event) {
       console.log(event.target.innerHTML + this.url);
-    }.bind({ url: "houdunren.com" })
+    }.bind({ url: "blog.caffreygo.com" })
   );
 </script>
 ```
 
 动态改变元素背景颜色，当然下面的例子也可以使用箭头函数处理
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-0718146.b9a6849c.gif)
+![](./img/function/bind.gif)
 
-```js
-<style>
-  * {
-    padding: 0;
-    margin: 0;
-  }
+```html
+<!DOCTYPE html>
+<html lang="en">
 
-  body {
-    width: 100vw;
-    height: 100vh;
-    font-size: 3em;
-    padding: 30px;
-    transition: 2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #34495e;
-    color: #34495e;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      font-size: 3em;
+      padding: 30px;
+      transition: 2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #34495e;
+      color: #34495e;
+    }
+  </style>
+</head>
+
 <body>
-  houdunren.com
+  blog.caffreygo.com
 </body>
 <script>
   function Color(elem) {
     this.elem = elem;
     this.colors = ["#74b9ff", "#ffeaa7", "#fab1a0", "#fd79a8"];
-    this.run = function() {
+    this.run = function () {
       setInterval(
-        function() {
+        function () {
           let pos = Math.floor(Math.random() * this.colors.length);
           this.elem.style.background = this.colors[pos];
         }.bind(this),
@@ -1004,4 +1023,6 @@ console.log(newFunc(2));
   let obj = new Color(document.body);
   obj.run();
 </script>
+
+</html>
 ```

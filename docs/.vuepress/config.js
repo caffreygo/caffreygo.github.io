@@ -41,6 +41,10 @@ module.exports = {
                 link: '/javascript/symbol'
               },
               {
+                text: '函数进阶',
+                link: '/javascript/function'
+              },
+              {
                 text: '原型与继承',
                 link: '/javascript/prototype'
               },
@@ -193,6 +197,7 @@ module.exports = {
           children: [
             '/javascript/array.md',
             '/javascript/symbol.md',
+            '/javascript/function.md',
             '/javascript/prototype.md',
             '/javascript/class.md'
           ]

@@ -474,6 +474,8 @@ abc("Hello", "world", "Js");
 
 📌 调用函数时 `this` 会隐式传递给函数，指函数调用时的关联对象，也称之为函数的上下文。
 
+<img src="./img/function/this.png" style="zoom:60%;" />
+
 ### 函数调用
 
 全局环境下`this`就是window对象的引用
@@ -704,7 +706,47 @@ console.log(obj.getName()()); // Jerry
 
 ---
 
-  💡 对象属性为箭头函数中的this指向Window
+### 回顾
+
+对象方法，this就是这个对象
+
+```js
+var name = "Window name"
+var obj = {
+	name: "Object name",
+    showName: function() {
+        console.log(this.name)  // Object name
+    }
+}
+obj.showName()
+
+// ======================================== 
+
+let user = {
+  firstName: "Ilya",
+  sayHi() {
+    let arrow = () => alert(this.firstName);
+    arrow();
+  }
+};
+
+user.sayHi(); // Ilya
+
+// ======================================== 箭头函数的this由声明位置的外层决定
+
+let a =  () => alert(this.firstName)
+let user = {
+  firstName: "Ilya",
+  sayHi() {
+    let arrow = a;
+    arrow();
+  }
+};
+
+user.sayHi(); // undefined
+```
+
+方法为箭头函数， window
 
 ```js
 var name = "Window name"
@@ -717,21 +759,25 @@ var obj = {
 obj.showName()
 ```
 
-
+构造函数的this始终指向当前实例对象
 
 ```js
+var name = "global name"
 function Abc(name) {
     this.name = name,
     this.show = ()=> {
         console.log(this.name)
     }
 }
+function Bcd(name) {
+    this.name = name,
+    this.show = function() {
+        console.log(this.name)
+    }
+}
 console.log(new Abc("Jerry").show())  // Jerry
+console.log(new Bcd("Jerry").show())  // Jerry
 ```
-
-
-
----
 
 ## apply/call/bind
 

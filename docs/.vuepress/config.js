@@ -45,6 +45,10 @@ module.exports = {
                 link: '/javascript/function'
               },
               {
+                text: "作用域与闭包",
+                link: '/javascript/closure.md',
+              },
+              {
                 text: '原型与继承',
                 link: '/javascript/prototype'
               },
@@ -198,6 +202,7 @@ module.exports = {
             '/javascript/array.md',
             '/javascript/symbol.md',
             '/javascript/function.md',
+            '/javascript/closure.md',
             '/javascript/prototype.md',
             '/javascript/class.md'
           ]

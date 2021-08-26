@@ -306,6 +306,8 @@ setTimeout(() => {
 
 ### 案例操作
 
+![](./img/set/set.gif)
+
 ```html
 <!DOCTYPE html>
 <html lang="en">

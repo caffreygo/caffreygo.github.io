@@ -50,7 +50,7 @@ module.exports = {
               },
               {
                 text: "作用域与闭包",
-                link: '/javascript/closure.md',
+                link: '/javascript/closure',
               },
               {
                 text: '原型与继承',

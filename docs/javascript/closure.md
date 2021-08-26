@@ -314,7 +314,7 @@ function order(field) {
 console.table(lessons.sort(order("price")));
 ```
 
-### 闭包问题 💡
+## 闭包问题 💡
 
 #### **内存泄漏**
 

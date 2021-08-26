@@ -37,8 +37,12 @@ module.exports = {
                 link: '/javascript/array'
               },
               {
-                text: 'Symbol类型',
+                text: 'Symbol',
                 link: '/javascript/symbol'
+              },
+              {
+                text: 'Set',
+                link: '/javascript/set'
               },
               {
                 text: '函数进阶',
@@ -55,6 +59,10 @@ module.exports = {
               {
                 text: 'class',
                 link: '/javascript/class'
+              },
+              {
+                text: '模块设计',
+                link: '/javascript/module'
               }
             ]
           }
@@ -201,10 +209,12 @@ module.exports = {
           children: [
             '/javascript/array.md',
             '/javascript/symbol.md',
+            '/javascript/set.md',
             '/javascript/function.md',
             '/javascript/closure.md',
             '/javascript/prototype.md',
-            '/javascript/class.md'
+            '/javascript/class.md',
+            '/javascript/module.md'
           ]
         }
       ],

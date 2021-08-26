@@ -34,7 +34,7 @@ console.log(u);
 
 :::
 
-### 原理分析
+## 原理分析
 
 - 类其实是函数
 
@@ -106,8 +106,6 @@ console.log(u);
 
 ## 属性与方法
 
-### 实例属性
-
 属性可以在constructor内部添加，也可以在constructor外声明
 
 ```js
@@ -126,9 +124,9 @@ let u = new User("Jerry Chen")
 
   ![](./img/class/2.png)
 
-### 原型方法
 
-于ES5构造函数不同，class的方法不可枚举
+
+与ES5构造函数不同，class的方法不可枚举
 
 ```js
 class User {
@@ -192,9 +190,7 @@ let obj = new Person("caffreygo");
 obj.show();  // window
 ```
 
-## 静态访问
-
-### 静态属性
+## 静态属性
 
 静态属性就是把class看作对象，直接在class对象上添加对象的属性，也通过class直接访问
 
@@ -227,7 +223,7 @@ console.dir(Request)
 
 ![](./img/class/4.png)
 
-### 静态方法
+## 静态方法
 
  📌 一般来讲方法**不需要对象属性参与计算**就可以定义为静态方法
 

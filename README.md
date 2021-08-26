@@ -1,9 +1,3 @@
-<p align="center">
-  <a href="https://vuepress.vuejs.org/" target="_blank">
-    <img width="180" src="https://raw.githubusercontent.com/vuejs/vuepress/master/packages/docs/docs/.vuepress/public/hero.png" alt="logo">
-  </a>
-</p>
-
 Check out our docs at https://blog.caffreygo.com/.
 
 ## Owner

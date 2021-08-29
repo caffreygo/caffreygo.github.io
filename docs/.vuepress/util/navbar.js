@@ -39,6 +39,10 @@ module.exports = [{
           link: "/javascript/module",
         },
         {
+          text: "吃通正则",
+          link: "/javascript/regexp",
+        },
+        {
           text: "Promise",
           link: "/javascript/promise",
         },

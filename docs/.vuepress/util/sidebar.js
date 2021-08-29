@@ -11,6 +11,7 @@ module.exports = {
       "/javascript/prototype.md",
       "/javascript/class.md",
       "/javascript/module.md",
+      "/javascript/regexp.md",
       "/javascript/promise.md",
     ],
   }, ],

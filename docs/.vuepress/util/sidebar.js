@@ -1,22 +1,20 @@
 module.exports = {
-  "/javascript/": [
-    {
-      text: "基础知识",
-      children: [
-        "/javascript/array.md",
-        "/javascript/symbol.md",
-        "/javascript/set.md",
-        "/javascript/map.md",
-        "/javascript/function.md",
-        "/javascript/closure.md",
-        "/javascript/prototype.md",
-        "/javascript/class.md",
-        "/javascript/module.md",
-      ],
-    },
-  ],
-  "/typescript/": [
-    {
+  "/javascript/": [{
+    text: "基础知识",
+    children: [
+      "/javascript/array.md",
+      "/javascript/symbol.md",
+      "/javascript/set.md",
+      "/javascript/map.md",
+      "/javascript/function.md",
+      "/javascript/closure.md",
+      "/javascript/prototype.md",
+      "/javascript/class.md",
+      "/javascript/module.md",
+      "/javascript/promise.md",
+    ],
+  }, ],
+  "/typescript/": [{
       text: "语法基础",
       children: [
         "/typescript/grammar/basic",
@@ -33,45 +31,37 @@ module.exports = {
       ],
     },
   ],
-  "/framework/vue/": [
-    {
-      text: "Vue.js",
-      children: [
-        "/framework/vue/compositionApi",
-        "/framework/vue/basic",
-        "/framework/vue/animation",
-        "/framework/vue/advanced",
-        "/framework/vue/vue",
-        "/framework/vue/book",
-      ],
-    },
-  ],
-  "/framework/react/": [
-    {
-      text: "React.js",
-      children: [
-        "/framework/react/basic",
-        "/framework/react/redux",
-        "/framework/react/note",
-      ],
-    },
-  ],
-  "/tools/webpack/": [
-    {
-      text: "Webpack",
-      children: [
-        "/tools/webpack/basic",
-        "/tools/webpack/step-2",
-        "/tools/webpack/step-3",
-        "/tools/webpack/step-4",
-        "/tools/webpack/step-5",
-      ],
-    },
-  ],
-  "/tools/": [
-    {
-      text: "HTTP协议",
-      children: ["/tools/http", "/tools/git"],
-    },
-  ],
+  "/framework/vue/": [{
+    text: "Vue.js",
+    children: [
+      "/framework/vue/compositionApi",
+      "/framework/vue/basic",
+      "/framework/vue/animation",
+      "/framework/vue/advanced",
+      "/framework/vue/vue",
+      "/framework/vue/book",
+    ],
+  }, ],
+  "/framework/react/": [{
+    text: "React.js",
+    children: [
+      "/framework/react/basic",
+      "/framework/react/redux",
+      "/framework/react/note",
+    ],
+  }, ],
+  "/tools/webpack/": [{
+    text: "Webpack",
+    children: [
+      "/tools/webpack/basic",
+      "/tools/webpack/step-2",
+      "/tools/webpack/step-3",
+      "/tools/webpack/step-4",
+      "/tools/webpack/step-5",
+    ],
+  }, ],
+  "/tools/": [{
+    text: "HTTP协议",
+    children: ["/tools/http", "/tools/git"],
+  }, ],
 };

@@ -1,57 +1,55 @@
-module.exports = [
-  {
+module.exports = [{
     text: "JavaScript",
-    children: [
-      {
-        text: "语法基础",
-        children: [
-          {
-            text: "数组类型",
-            link: "/javascript/array",
-          },
-          {
-            text: "Symbol",
-            link: "/javascript/symbol",
-          },
-          {
-            text: "Set",
-            link: "/javascript/set",
-          },
-          {
-            text: "Map",
-            link: "/javascript/map",
-          },
-          {
-            text: "函数进阶",
-            link: "/javascript/function",
-          },
-          {
-            text: "作用域与闭包",
-            link: "/javascript/closure",
-          },
-          {
-            text: "原型与继承",
-            link: "/javascript/prototype",
-          },
-          {
-            text: "class",
-            link: "/javascript/class",
-          },
-          {
-            text: "模块设计",
-            link: "/javascript/module",
-          },
-        ],
-      },
-    ],
+    children: [{
+      text: "语法基础",
+      children: [{
+          text: "数组类型",
+          link: "/javascript/array",
+        },
+        {
+          text: "Symbol",
+          link: "/javascript/symbol",
+        },
+        {
+          text: "Set",
+          link: "/javascript/set",
+        },
+        {
+          text: "Map",
+          link: "/javascript/map",
+        },
+        {
+          text: "函数进阶",
+          link: "/javascript/function",
+        },
+        {
+          text: "作用域与闭包",
+          link: "/javascript/closure",
+        },
+        {
+          text: "原型与继承",
+          link: "/javascript/prototype",
+        },
+        {
+          text: "class",
+          link: "/javascript/class",
+        },
+        {
+          text: "模块设计",
+          link: "/javascript/module",
+        },
+        {
+          text: "Promise",
+          link: "/javascript/promise",
+        },
+      ],
+    }, ],
   },
   {
     text: "TypeScript",
-    children: [
-      {
+    children: [{
         text: "语法基础",
-        children: [
-          {
+        children: [{
             text: "基础语法",
             link: "/typescript/grammar/basic",
           },
@@ -67,8 +65,7 @@ module.exports = [
       },
       {
         text: "爬虫实现",
-        children: [
-          {
+        children: [{
             text: "爬虫工具",
             link: "/typescript/crawler/basic",
           },
@@ -86,11 +83,9 @@ module.exports = [
   },
   {
     text: "前端框架",
-    children: [
-      {
+    children: [{
         text: "Vue Js",
-        children: [
-          {
+        children: [{
             text: "Composition API",
             link: "/framework/vue/compositionApi",
           },
@@ -118,8 +113,7 @@ module.exports = [
       },
       {
         text: "React Js",
-        children: [
-          {
+        children: [{
             text: "React基础",
             link: "/framework/react/basic",
           },
@@ -137,8 +131,7 @@ module.exports = [
   },
   {
     text: "工具 | 协议",
-    children: [
-      {
+    children: [{
         text: "HTTP",
         link: "/tools/http",
       },
@@ -148,8 +141,7 @@ module.exports = [
       },
       {
         text: "Webpack4.0",
-        children: [
-          {
+        children: [{
             text: "基本概念",
             link: "/tools/webpack/basic",
           },
@@ -173,7 +165,10 @@ module.exports = [
       },
     ],
   },
-  { text: "Github", link: "https://github.com/caffreygo" },
+  {
+    text: "Github",
+    link: "https://github.com/caffreygo"
+  },
   {
     text: "Vue源码课程",
     link: "https://ustbhuangyi.github.io/vue-analysis/v2/prepare/",

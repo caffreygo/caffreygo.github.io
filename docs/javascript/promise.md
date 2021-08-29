@@ -2001,7 +2001,7 @@ run();
 
 和 promise 一样，await 也可以操作`thenables` 对象
 
-```text
+```js
 class User {
   constructor(name) {
     this.name = name;

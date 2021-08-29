@@ -1,6 +1,6 @@
 module.exports = {
   "/javascript/": [{
-    text: "基础知识",
+    text: "JavaScript",
     children: [
       "/javascript/array.md",
       "/javascript/symbol.md",

@@ -46,6 +46,10 @@ module.exports = [{
           text: "Promise",
           link: "/javascript/promise",
         },
+        {
+          text: "任务管理",
+          link: "/javascript/task",
+        },
       ],
     }, ],
   },

@@ -13,6 +13,7 @@ module.exports = {
       "/javascript/module.md",
       "/javascript/regexp.md",
       "/javascript/promise.md",
+      "/javascript/task.md",
     ],
   }, ],
   "/typescript/": [{

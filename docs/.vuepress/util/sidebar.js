@@ -14,6 +14,7 @@ module.exports = {
       "/javascript/regexp.md",
       "/javascript/promise.md",
       "/javascript/task.md",
+      "/javascript/JPromise.md",
     ],
   }, ],
   "/typescript/": [{

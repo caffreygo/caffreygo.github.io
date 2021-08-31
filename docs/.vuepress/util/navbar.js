@@ -39,7 +39,7 @@ module.exports = [{
           link: "/javascript/module",
         },
         {
-          text: "吃通正则",
+          text: "正则表达式",
           link: "/javascript/regexp",
         },
         {
@@ -49,6 +49,10 @@ module.exports = [{
         {
           text: "任务管理",
           link: "/javascript/task",
+        },
+        {
+          text: "Promise核心",
+          link: "/javascript/JPromise",
         },
       ],
     }, ],

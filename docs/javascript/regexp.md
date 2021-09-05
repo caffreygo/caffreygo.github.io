@@ -406,7 +406,7 @@ let lessons = abc.match(/^\s*#\d+\s+.+\s+#$/gm).map(v => {
 console.log(JSON.stringify(lessons, null, 2));
 ```
 
-### u
+### u ❓
 
 📗 每个字符都有属性，如`L`属性表示是字母，`P` 表示标点符号，需要结合 `u` 模式才有效。
 
@@ -423,85 +423,87 @@ console.log(abc.match(/\p{P}+/gu));  // ['！', '。']
 
 字符也有unicode文字系统属性 `Script=文字系统`，下面是使用 `\p{sc=Han}` 获取中文字符 `han`为中文系统，其他语言请查看 [文字语言表(opens new window)](http://www.unicode.org/standard/supported.html)
 
-```text
+```js
 let abc = `
 张三:010-99999999,李四:020-88888888`;
 let res = abc.match(/\p{sc=Han}+/gu);
-console.log(res);
+console.log(res);  // ['张三', '李四']
 ```
 
 使用 `u` 模式可以正确处理四个字符的 UTF-16 字节编码
 
-```text
+```js
 let str = "𝒳𝒴";
 console.table(str.match(/[𝒳𝒴]/)); //结果为乱字符"�"
 
 console.table(str.match(/[𝒳𝒴]/u)); //结果正确 "𝒳"
 ```
 
-### [#](https://doc.houdunren.com/js/14 正则表达式.html#lastindex)lastIndex
+### lastIndex
 
-RegExp对象`lastIndex` 属性可以返回或者设置正则表达式开始匹配的位置
+::: tip RegExp对象`lastIndex` 属性可以返回或者设置正则表达式开始匹配的位置
 
 - 必须结合 `g` 修饰符使用
 - 对 `exec` 方法有效
 - 匹配完成时，`lastIndex` 会被重置为0
 
-```text
-let abc = `后盾人不断分享视频教程，后盾人网址是 houdunren.com`;
-let reg = /后盾人(.{2})/g;
-reg.lastIndex = 10; //从索引10开始搜索
-console.log(reg.exec(abc));
-console.log(reg.lastIndex);
+::: 
 
-reg = /\p{sc=Han}/gu;
+```js
+let abc = `测试器不断分享视频教程，测试器网址是 google.com`;
+let reg = /测试器(.{2})/g;
+reg.lastIndex = 10; //从索引10开始搜索
+console.log(reg.exec(abc));  // ['后盾人网址', '网址', index: 12...]
+console.log(reg.lastIndex);  // 17
+
+reg = /\p{sc=Han}/gu;   // 打印出所有汉字 g
 while ((res = reg.exec(abc))) {
   console.log(res[0]);
 }
 ```
 
-### [#](https://doc.houdunren.com/js/14 正则表达式.html#y)y
+### y
 
 我们来对比使用 `y` 与`g` 模式，使用 `g` 模式会一直匹配字符串
 
-```text
+```js
 let abc = "udunren";
 let reg = /u/g;
-console.log(reg.exec(abc));
-console.log(reg.lastIndex); //3
-console.log(reg.exec(abc));
-console.log(reg.lastIndex); //3
-console.log(reg.exec(abc)); //null
-console.log(reg.lastIndex); //0
+console.log(reg.exec(abc)); // ['u', index: 0, input: 'udunren', groups: undefined]
+console.log(reg.lastIndex); // 1
+console.log(reg.exec(abc)); // ['u', index: 2, input: 'udunren', groups: undefined]
+console.log(reg.lastIndex); // 3
+console.log(reg.exec(abc)); // null
+console.log(reg.lastIndex); // 0
 ```
 
-但使用`y` 模式后如果从 `lastIndex` 开始匹配不成功就不继续匹配了
+📌 使用`y` 模式后如果从 `lastIndex` 开始匹配不成功就**不继续匹配**了
 
-```text
+```js
 let abc = "udunren";
 let reg = /u/y;
-console.log(reg.exec(abc));
-console.log(reg.lastIndex); //1
-console.log(reg.exec(abc)); //null
-console.log(reg.lastIndex); //0
+console.log(reg.exec(abc)); // ['u', index: 0, input: 'udunren', groups: undefined]
+console.log(reg.lastIndex); // 1
+console.log(reg.exec(abc)); // null
+console.log(reg.lastIndex); // 0
 ```
 
 因为使用 `y` 模式可以在匹配不到时停止匹配，在匹配下面字符中的qq时可以提高匹配效率
 
-```text
-let abc = `后盾人QQ群:11111111,999999999,88888888
-后盾人不断分享视频教程，后盾人网址是 houdunren.com`;
+```js
+let abc = `我们的QQ群:11111111,999999999,88888888
+我们的网址是 google.com 123`;
 
 let reg = /(\d+),?/y;
 reg.lastIndex = 7;
-while ((res = reg.exec(abc))) console.log(res[1]);
+while ((res = reg.exec(abc))) console.log(res[1]);  // 11111111 999999999 88888888
 ```
 
-## [#](https://doc.houdunren.com/js/14 正则表达式.html#原子表)原子表
+## 原子表
 
-在一组字符中匹配某个元字符，在正则表达式中通过元字符表来完成，就是放到`[]` (方括号)中。
+📗 在一组字符中匹配某个元字符，在正则表达式中通过元字符表来完成，就是放到`[]` (方括号)中。(单个字符)
 
-### [#](https://doc.houdunren.com/js/14 正则表达式.html#使用语法)使用语法
+### 使用语法
 
 | 原子表 | 说明                               |
 | ------ | ---------------------------------- |
@@ -511,40 +513,41 @@ while ((res = reg.exec(abc))) console.log(res[1]);
 | [a-z]  | 匹配小写a-z任何一个字母            |
 | [A-Z]  | 匹配大写A-Z任何一个字母            |
 
-### [#](https://doc.houdunren.com/js/14 正则表达式.html#实例操作)实例操作
+### 实例操作
 
 使用`[]`匹配其中任意字符即成功，下例中匹配`ue`任何一个字符，而不会当成一个整体来对待
 
-```text
-const url = "houdunren.com";
-console.log(/ue/.test(url)); //false
-console.log(/[ue]/.test(url)); //true
+```js
+const url = "uande";
+console.log(/ue/.test(url)); // false  匹配ue全部
+console.log(/[ue]/.test(url)); // true  匹配字母u或者字母e
 ```
 
 日期的匹配
 
-```text
+```js
 let tel = "2022-02-23";
+// 四位数字 分隔符-或者/ 两位数组  与原子表1相同 两位数字
 console.log(tel.match(/\d{4}([-\/])\d{2}\1\d{2}/));
 ```
 
 获取`0~3`间的任意数字
 
-```text
+```js
 const num = "2";
-console.log(/[0-3]/.test(num)); //true
+console.log(/[0-3]/.test(num)); // true
 ```
 
 匹配`a~f`间的任意字符
 
-```text
+```js
 const abc = "e";
 console.log(/[a-f]/.test(abc)); //true
 ```
 
-顺序为升序否则将报错
+📌 顺序为**升序**否则将报错
 
-```text
+```js
 const num = "2";
 console.log(/[3-0]/.test(num)); //SyntaxError
 ```

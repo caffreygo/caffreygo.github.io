@@ -268,7 +268,7 @@ upload({ size: 999 });
 
 ### 基础知识
 
-对象直接参与计算时，系统会根据计算的场景在 `string/number/default` 间转换。
+📗 对象直接参与计算时，系统会根据计算的场景在 `string/number/default` 间转换。
 
 - 如果声明需要字符串类型，调用顺序为 `toString > valueOf`
 - 如果场景需要数值类型，调用顺序为 `valueOf > toString`
@@ -277,8 +277,8 @@ upload({ size: 999 });
 下面的数值对象会在数学运算时转换为 `number`
 
 ```js
-let ace = new Number(1);
-console.log(ace + 3); //4
+let ace = new Number(1); 
+console.log(ace + 3); // 4
 ```
 
 如果参数字符串运长时会转换为 `string`
@@ -295,7 +295,7 @@ let ace = new Number(1);
 console.log(ace == "1"); //true
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#symbol-toprimitive)Symbol.toPrimitive
+### Symbol.toPrimitive 💡
 
 内部自定义`Symbol.toPrimitive`方法用来处理所有的转换场景
 
@@ -309,7 +309,7 @@ let obj = {
 console.log(obj + 3); //4
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#valueof-tostring)valueOf/toString
+### valueOf/toString
 
 可以自定义`valueOf` 与 `toString` 方法用来转换，转换并不限制返回类型。
 
@@ -326,24 +326,24 @@ let obj = {
     return this.name;
   }
 };
-console.log(obj + 3); //valueOf 4
-console.log(`${obj}Michael`); //toString JerryMichael
+console.log(obj + 3); // valueOf 4
+console.log(`${obj} Michael`); // toString Jerry Michael
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#解构赋值)解构赋值
+## 解构赋值
 
 解构是一种更简洁的赋值特性，可以理解为分解一个数据的结构，在数组章节已经介绍过。
 
-- 建设使用 `var/let/const` 声明
+>  建议使用 `var/let/const` 声明，否则严格模式下会报错
 
-### [#](https://doc.ace.com/js/10 对象.html#基本使用)基本使用
+### 基本使用
 
 下面是基本使用语法
 
 ```js
 //对象使用
-let info = {name:'Jerry',url:'ace.com'};
-let {name:n,url:u} = info
+let info = {name:'Jerry', url:'ace.com'};
+let {name: n, url: u} = info
 console.log(n); // Jerry
 
 //如果属性名与变量相同可以省略属性定义
@@ -361,7 +361,7 @@ function obj() {
   };
 }
 let {name: n,url: u} = obj();
-console.log(n);
+console.log(n);  // Jerry
 ```
 
 函数传参
@@ -381,14 +381,14 @@ const {random} =Math;
 console.log(random());
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#严格模式)严格模式
+### 严格模式
 
-非严格模式可以不使用声明指令，严格模式下必须使用声明。所以建议使用 let 等声明。
+📗 非严格模式可以不使用声明指令，严格模式下必须使用声明。所以建议使用 let 等声明。
 
 ```js
 // "use strict";
 ({name,url} = {name:'Jerry',url:'ace.com'});
-console.log(name, url);
+console.log(name, url); // Error
 ```
 
 还是建议使用`let`等赋值声明
@@ -396,15 +396,15 @@ console.log(name, url);
 ```js
 "use strict";
 let { name, url } = { name: "Jerry", url: "ace.com" };
-console.log(name, url);
+console.log(name, url);  // Jerry ace.com
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#简洁定义)简洁定义
+### 简洁定义
 
 如果属性名与赋值的变量名相同可以更简洁
 
 ```js
-let web = { name: "Jerry",url: "ace.com" };
+let web = { name: "Jerry", url: "ace.com" };
 let { name, url } = web;
 console.log(name); //Jerry
 ```
@@ -413,10 +413,10 @@ console.log(name); //Jerry
 
 ```js
 let [,url]=['Jerry','ace.com'];
-console.log(url);//ace.com
+console.log(url);  // ace.com
 
 let {name}= {name:'Jerry',url:'ace.com'};
-console.log(name); //Jerry
+console.log(name);  // Jerry
 ```
 
 可以直接使用变量赋值对象属性
@@ -432,7 +432,7 @@ let opt = { name, url };
 console.log(opt); //{name: "Jerry", url: "ace.com"}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#嵌套解构)嵌套解构
+### 嵌套解构
 
 可以操作多层复杂数据结构
 
@@ -447,7 +447,7 @@ const {name,lessons:{title}}  = obj;
 console.log(name,title); //Jerry JS
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#默认值)默认值
+### 默认值 💡
 
 为变量设置默认值
 
@@ -455,38 +455,38 @@ console.log(name,title); //Jerry JS
 let [name, site = 'objcms'] = ['Jerry'];
 console.log(site); //objcms
 
-let {name,url,user='Michael大叔'}= {name:'Jerry',url:'ace.com'};
-console.log(name,user);//Michael大叔
+let {name, url, user = 'Michael大叔'}= {name:'Jerry', url:'ace.com'};
+console.log(name,user);  // Michael大叔
 ```
 
 使用默认值特性可以方便的对参数预设
 
 ```js
 function createElement(options) {
-  let {
-    width = '200px',
-    height = '100px',
-    backgroundColor = 'red'
-  } = options;
-  
-  const h2 = document.createElement('h2');
-  h2.style.width = width;
-  h2.style.height = height;
-  h2.style.backgroundColor = backgroundColor;
-  document.body.appendChild(h2);
+    let {
+        width = '200px',
+        height = '100px',
+        backgroundColor = 'red'
+    } = options;
+
+    const h2 = document.createElement('h2');
+    h2.style.width = width;
+    h2.style.height = height;
+    h2.style.backgroundColor = backgroundColor;
+    document.body.appendChild(h2);
 }
 createElement({
-	backgroundColor: 'green'
+    backgroundColor: 'green'
 });
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#函数参数)函数参数
+### 函数参数
 
 数组参数的使用
 
 ```js
 function obj([a, b]) {
-	console.log(a, b);
+    console.log(a, b);
 }
 obj(['Jerry', 'objcms']);
 ```
@@ -495,7 +495,7 @@ obj(['Jerry', 'objcms']);
 
 ```js
 function obj({name,url,user='Michael大叔'}) {
-	console.log(name,url,user);
+    console.log(name,url,user);
 }
 obj({name:'Jerry','url':'ace.com'}); //Jerry ace.com Michael大叔
 ```
@@ -504,14 +504,14 @@ obj({name:'Jerry','url':'ace.com'}); //Jerry ace.com Michael大叔
 
 ```js
 function user(name, { sex, age } = {}) {
-  console.log(name, sex, age); //Michael大叔 男 18
+    console.log(name, sex, age); //Michael大叔 男 18
 }
 user("Michael大叔", { sex: "男", age: 18 });
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#属性管理)属性管理
+## 属性管理
 
-### [#](https://doc.ace.com/js/10 对象.html#添加属性)添加属性
+### 添加属性
 
 可以为对象添加属性
 
@@ -521,9 +521,9 @@ obj.site = "ace.com";
 console.log(obj);
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#删除属性)删除属性
+### 删除属性
 
-使用`delete` 可以删除属性（后面介绍的属性特性章节可以保护属性不被删除）
+使用`delete` 可以删除属性
 
 ```js
 let obj = { name: "Jerry" };
@@ -531,13 +531,13 @@ delete obj.name;
 console.log(obj.name); //undefined
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#检测属性)检测属性
+### 检测属性
 
-`hasOwnProperty`检测对象自身是否包含指定的属性，不检测原型链上继承的属性。
+📗  `hasOwnProperty`检测对象自身是否包含指定的属性，不检测原型链上继承的属性。
 
 ```js
 let obj = { name: 'Jerry'};
-console.log(obj.hasOwnProperty('name')); //true
+console.log(obj.hasOwnProperty('name')); // true
 ```
 
 下面通过数组查看
@@ -545,39 +545,37 @@ console.log(obj.hasOwnProperty('name')); //true
 ```js
 let arr = ["Jerry"];
 console.log(arr);
-console.log(arr.hasOwnProperty("length")); //true
-console.log(arr.hasOwnProperty("concat")); //false
-console.log("concat" in arr); //true
+console.log(arr.hasOwnProperty("length")); // true
+console.log(arr.hasOwnProperty("concat")); // false
 ```
 
-使用 `in` 可以在原型对象上检测
+📌 使用 `in` 可以在原型对象上检测
 
 ```js
-let obj = {name: "Jerry"};
-let obj = {
-  web: "ace.com"
+let a = {name: "Jerry"};
+let b = {
+    web: "ace.com"
 };
 
 //设置obj为obj的新原型
-Object.setPrototypeOf(obj, obj);
-console.log(obj);
+Object.setPrototypeOf(a, b);
+console.log(a);  // { name: "Jerry" }
 
-console.log("web" in obj); //true
-console.log(obj.hasOwnProperty("web")); //false
+console.log("web" in a); // true 原型属性检测
+console.log(a.hasOwnProperty("web")); // false 
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#获取属性名)获取属性名
+### 获取属性名
 
 使用 `Object.getOwnPropertyNames` 可以获取对象的属性名集合
 
 ```js
 let obj = { name: 'Jerry', year: 2010 }
 const names = Object.getOwnPropertyNames(obj)
-console.log(names)
-// ["name", "year"]
+console.log(names) // ["name", "year"]
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#assign)assign
+### assign
 
 以往我们使用类似`jQuery.extend` 等方法设置属性，现在可以使用 `Object.assign` 静态方法
 
@@ -590,7 +588,7 @@ obj = Object.assign(obj, { f: 1 }, { m: 9 });
 console.log(obj); //{a: 1, b: 2, f: 1, m: 9}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#计算属性)计算属性
+### 计算属性
 
 对象属性可以通过表达式计算定义，这在动态设置属性或执行属性方法时很好用。
 
@@ -601,7 +599,6 @@ const user = {
   [`id-${id++}`]: id,
   [`id-${id++}`]: id
 };
-console.log(user);
 ```
 
 使用计算属性为文章定义键名
@@ -629,9 +626,9 @@ console.log(lessonObj); //{css-0: {…}, css-1: {…}, mysql-2: {…}}
 console.log(lessonObj["css-0"]); //{title: "媒体查询响应式布局", category: "css"}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#传值操作)传值操作
+### 传值操作
 
-对象是引用类型赋值是传址操作，后面会介绍对象的深、浅拷贝操作
+对象是引用类型赋值是**传址**操作
 
 ```js
 let user = {
@@ -644,9 +641,9 @@ obj.stu.name = 'objcms';
 console.log(user.name);//objcms
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#遍历对象)遍历对象
+## 遍历对象
 
-### [#](https://doc.ace.com/js/10 对象.html#获取内容)获取内容
+### 获取内容
 
 使用系统提供的API可以方便获取对象属性与值
 
@@ -660,31 +657,31 @@ console.log(Object.values(obj)); //["Jerry", 10]
 console.table(Object.entries(obj)); //[["name","Jerry"],["age",10]]
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#for-in)for/in
+### for/in
 
 使用`for/in`遍历对象属性
 
 ```js
 const obj = {
-  name: "Jerry",
-  age: 10
+    name: "Jerry",
+    age: 10
 };
 for (let key in obj) {
-  console.log(key, obj[key]);
+    console.log(key, obj[key]);
 }
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#for-of)for/of
+### for/of 💡
 
-`for/of`用于遍历迭代对象，不能直接操作对象。但`Object`对象的`keys/`方法返回的是迭代对象。
+📗 `for/of`用于遍历**迭代对象**，不能直接操作对象。但`Object`对象的`keys/`方法返回的是迭代对象。
 
 ```js
 const obj = {
-  name: "Jerry",
-  age: 10
+    name: "Jerry",
+    age: 10
 };
 for (const key of Object.keys(obj)) {
-  console.log(key);
+    console.log(key);  // name age
 }
 ```
 
@@ -692,11 +689,11 @@ for (const key of Object.keys(obj)) {
 
 ```js
 const obj = {
-  name: "Jerry",
-  age: 10
+    name: "Jerry",
+    age: 10
 };
 for (const key of Object.values(obj)) {
-  console.log(key);
+    console.log(key); // Jerry 10
 }
 ```
 
@@ -704,7 +701,7 @@ for (const key of Object.values(obj)) {
 
 ```js
 for (const array of Object.entries(obj)) {
-  console.log(array);
+    console.log(array);
 }
 ```
 
@@ -712,7 +709,7 @@ for (const array of Object.entries(obj)) {
 
 ```js
 for (const [key, value] of Object.entries(obj)) {
-  console.log(key, value);
+    console.log(key, value);
 }
 ```
 
@@ -720,80 +717,80 @@ for (const [key, value] of Object.entries(obj)) {
 
 ```js
 let lessons = [
-  { name: "js", click: 23 },
-  { name: "node", click: 192 }
+    { name: "js", click: 23 },
+    { name: "node", click: 192 }
 ];
 let ul = document.createElement("ul");
-for (const val of lessons) {
-  let li = document.createElement("li");
-  li.innerHTML = `课程:${val.name},点击数:${val.click}`;
-  ul.appendChild(li);
+for (const val of lessons) {   // for/of 遍历Object.values(obj)迭代对象
+    let li = document.createElement("li");
+    li.innerHTML = `课程:${val.name},点击数:${val.click}`;
+    ul.appendChild(li);
 }
 document.body.appendChild(ul);
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#对象拷贝)对象拷贝
+## 对象拷贝
 
-对象赋值时复制的内存地址，所以一个对象的改变直接影响另一个
+📗 对象赋值时复制的**内存地址**，所以一个对象的改变直接影响另一个
 
 ```js
 let obj = {
-  name: 'Jerry',
-  user: {
-  	name: 'objcms'
-  }
+    name: 'Jerry',
+    user: {
+        name: 'objcms'
+    }
 }
 let a = obj;
 let b = obj;
 a.name = 'lisi';
-console.log(b.name); //lisi
+console.log(b.name); // lisi
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#浅拷贝)浅拷贝
+### 浅拷贝
 
 使用`for/in`执行对象拷贝
 
 ```js
-let obj = {name: "Jerry"};
+let a = {name: "Jerry"};
 
-let obj = {};
-for (const key in obj) {
-  obj[key] = obj[key];
+let b = {};
+for (const key in a) {
+    b[key] = a[key];
 }
 
-obj.name = "objcms";
-console.log(obj);
-console.log(obj);
+b.name = "Michael";
+console.log(a);  // {name: 'Jerry'}
+console.log(b);  // {name: 'Michael'}
 ```
 
-`Object.assign` 函数可简单的实现浅拷贝，它是将两个对象的属性叠加后面对象属性会覆盖前面对象同名属性。
+📗 `Object.assign` 函数可简单的实现浅拷贝，它是将两个对象的属性叠加后面对象属性会覆盖前面对象同名属性。
 
 ```js
 let user = {
-	name: 'Jerry'
+    name: 'Jerry'
 };
 let obj = {
-	stu: Object.assign({}, user)
+    stu: Object.assign({}, user)
 };
-obj.stu.name = 'objcms';
-console.log(user.name);//Jerry
+obj.stu.name = 'new';
+console.log(user.name);  // Jerry
 ```
 
-使用展示语法也可以实现浅拷贝
+📌 使用展示语法也可以实现浅拷贝
 
 ```js
-let obj = {
-  name: "Jerry"
+let b = {
+    name: "Jerry"
 };
-let obj = { ...obj };
-obj.name = "objcms";
-console.log(obj);
-console.log(obj);
+let a = { ...b };
+a.name = "new";
+console.log(a);  // {name: 'new'}
+console.log(b);  // {name: 'Jerry'}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#深拷贝)深拷贝
+### 深拷贝 💡
 
-浅拷贝不会将深层的数据复制
+📌 浅拷贝不会将深层的数据复制
 
 ```js
 let obj = {
@@ -812,14 +809,9 @@ function copy(object) {
     }
     return obj;
 }
-let newObj = copy(obj);
-newObj.name = 'objcms';
-newObj.user.name = 'ace.com';
-console.log(newObj);
-console.log(obj);
 ```
 
-是完全的复制一个对象，两个对象是完全独立的对象
+💡💡是完全的复制一个对象，两个对象是完全独立的对象💡💡
 
 ```js
 let obj = {
@@ -844,31 +836,33 @@ console.log(JSON.stringify(obj, null, 2));
 console.log(JSON.stringify(obj, null, 2));
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#构建函数)构建函数
+## 构建函数
 
 对象可以通过内置或自定义的构造函数创建。
 
-### [#](https://doc.ace.com/js/10 对象.html#工厂函数)工厂函数
+### 工厂函数
 
-在函数中返回对象的函数称为工厂函数，工厂函数有以下优点
+::: tip 在函数中返回对象的函数称为工厂函数，工厂函数有以下优点
 
 - 减少重复创建相同类型对象的代码
 - 修改工厂函数的方法影响所有同类对象
+
+::: 
 
 使用字面量创建对象需要复制属性与方法结构
 
 ```js
 const model = {
-  name: "Michael",
-  show() {
-    console.log(this.name);
-  }
+    name: "Michael",
+    show() {
+        console.log(this.name);
+    }
 };
 const obj = {
-  name: "Jerry",
-  show() {
-    console.log(this.name);
-  }
+    name: "Jerry",
+    show() {
+        console.log(this.name);
+    }
 };
 ```
 
@@ -876,12 +870,12 @@ const obj = {
 
 ```js
 function stu(name) {
-  return {
-    name,
-    show() {
-      console.log(this.name);
-    }
-  };
+    return {
+        name,
+        show() {
+            console.log(this.name);
+        }
+    };
 }
 const lisi = stu("李四");
 lisi.show();
@@ -889,23 +883,25 @@ const model = stu("Michael");
 model.show();
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#构造函数)构造函数
+### 构造函数
 
-和工厂函数相似构造函数也用于创建对象，它的上下文为新的对象实例。
+::: tip 和工厂函数相似构造函数也用于创建对象，它的上下文为新的对象实例。
 
 - 构造函数名每个单词首字母大写即`Pascal` 命名规范
 - `this`指当前创建的对象
 - 不需要返回`this`系统会自动完成
 - 需要使用`new`关键词生成对象
 
+::: 
+
 ```js
 function Student(name) {
-  this.name = name;
-  this.show = function() {
-    console.log(this.name);
-  };
-  //不需要返回，系统会自动返回
-  // return this;
+    this.name = name;
+    this.show = function() {
+        console.log(this.name);
+    };
+    //不需要返回，系统会自动返回
+    // return this;
 }
 const lisi = new Student("李四");
 lisi.show();
@@ -913,47 +909,47 @@ const model = new Student("Michael");
 model.show();
 ```
 
-如果构造函数返回对象，实例化后的对象将是此对象
+📌 如果构造函数返回对象，实例化后的对象将是此对象
 
 ```js
 function ArrayObject(...values) {
-  const arr = new Array();
-  arr.push.apply(arr, values);
-  arr.string = function(sym = "|") {
-    return this.join(sym);
-  };
-  return arr;
+    const arr = new Array();
+    arr.push.apply(arr, values);
+    arr.string = function(sym = "|") {
+        return this.join(sym);
+    };
+    return arr;
 }
 const array = new ArrayObject(1, 2, 3);
 console.log(array);
 console.log(array.string("-"));
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#严格模式-2)严格模式
+### 严格模式
 
 在严格模式下方法中的`this`值为undefined，这是为了防止无意的修改window对象
 
 ```js
 "use strict";
 function User() {
-  this.show = function() {
-    console.log(this);
-  };
+    this.show = function() {
+        console.log(this);
+    };
 }
 let obj = new User();
-obj.show(); //User
+obj.show(); // User 对象方法调用
 
 let model = obj.show;
-model(); //undefined
+model(); // undefined
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#内置构造)内置构造
+### 内置构造
 
 JS中大部分数据类型都是通过构造函数创建的。
 
 ```js
 const num = new Number(99);
-console.log(num.valueOf());
+console.log(num.valueOf());  // valueOf()获取值
 
 const string = new String("Jerry");
 console.log(string.valueOf());
@@ -969,40 +965,38 @@ console.log(regexp.test(99));
 
 let obj = new Object();
 obj.name = "Jerry";
-console.log(obj);
+console.log(obj); // { name: "Jerry" }
 ```
 
 字面量创建的对象，内部也是调用了`Object`构造函数
 
 ```js
 const obj = {
-  name: "Jerry"
+    name: "Jerry"
 };
 console.log(obj.constructor); //ƒ Object() { [native code] }
 
 //下面是使用构造函数创建对象
-const objcms = new Object();
-objcms.title = "开源内容管理系统";
-console.log(objcms);
+const sys = new Object();
+sys.title = "系统"; 
+console.log(sys);  // { title: "系统" } 
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#对象函数)对象函数
+### 对象函数
 
 在`JS`中函数也是一个对象
 
 ```js
 function obj(name) {}
 
-console.log(obj.toString());
-console.log(obj.length);
+console.log(obj.toString());  // function obj(name) {}
+console.log(obj.length);  // 1
 ```
 
 函数是由系统内置的 `Function` 构造函数创建的
 
 ```js
-function obj(name) {}
-
-console.log(obj.constructor);
+function obj(name) {}   // obj.constructor == Function
 ```
 
 下面是使用内置构造函数创建的函数
@@ -1016,19 +1010,15 @@ const User = new Function(`name`,`
 `
 );
 
-const lisi = new User("李四");
+const lisi = new User("李四");  // Uncaught EvalError
 console.log(lisi.show());
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#抽象特性)抽象特性
+## 抽象特性
 
-将复杂功能隐藏在内部，只开放给外部少量方法，更改对象内部的复杂逻辑不会对外部调用造成影响即抽象。
+📗  将复杂功能隐藏在内部，只开放给外部少量方法，更改对象内部的复杂逻辑不会对外部调用造成影响即抽象。
 
-下面的手机就是抽象的好例子，只开放几个按钮给用户，复杂的工作封装在手机内部，程序也应该如此。
-
-![img](https://doc.ace.com/assets/img/iphone.911b431b.jpg)
-
-### [#](https://doc.ace.com/js/10 对象.html#问题分析)问题分析
+### 问题分析
 
 下例将对象属性封装到构造函数内部
 
@@ -1044,36 +1034,36 @@ function User(name, age) {
   };
 }
 let lisi = new User("李四", 22);
-console.log(lisi.about());
+console.log(lisi.about());  // 李四是年轻人
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#抽象封装)抽象封装
+### 抽象封装
 
-上例中的方法和属性仍然可以在外部访问到，比如 `info`方法只是在内部使用，不需要被外部访问到这会破坏程序的内部逻辑。
+上例中的方法和属性**仍然可以在外部访问**到，比如 `info`方法只是在内部使用，不需要被外部访问到这会破坏程序的内部逻辑。
 
-下面使用闭包特性将对象进行抽象处理
+💡 下面使用**闭包特性**将对象进行抽象处理 (函数内返回了方法函数，data所处的上下文依然保存)
 
 ```js
 function User(name, age) {
-  let data = { name, age };
-  let info = function() {
-    return data.age > 50 ? "中年人" : "年轻人";
-  };
-  this.message = function() {
-    return `${data.name}是${info()}`;
-  };
+    let data = { name, age };
+    let info = function() {
+        return data.age > 50 ? "中年人" : "年轻人";
+    };
+    this.message = function() {
+        return `${data.name}是${info()}`;
+    };
 }
 let lisi = new User("Jerry", 22);
-console.log(lisi.message());
+console.log(lisi.message()); // Jerry是年轻人
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#属性特征)属性特征
+## 属性特征
 
 JS中可以对属性的访问特性进行控制。
 
-### [#](https://doc.ace.com/js/10 对象.html#查看特征)查看特征
+### 查看特征
 
-使用 `Object.getOwnPropertyDescriptor`查看对象属性的描述。
+📗 使用 `Object.getOwnPropertyDescriptor`查看对象属性的描述。
 
 ```js
 "use strict";
@@ -1081,11 +1071,20 @@ const user = {
   name: "Michael",
   age: 18
 };
-let desc = Object.getOwnPropertyDescriptor(user, "name"`);
+let desc = Object.getOwnPropertyDescriptor(user, "name");
 console.log(JSON.stringify(desc, null, 2));
 ```
 
-使用 `Object.getOwnPropertyDescriptors`查看对象所有属性的描述
+```tex
+{
+    "value": "Michael",
+    "writable": true,
+    "enumerable": true,
+    "configurable": true
+}
+```
+
+📗 使用 `Object.getOwnPropertyDescriptors`查看对象所有属性的描述
 
 ```js
 "use strict";
@@ -1097,29 +1096,46 @@ let desc = Object.getOwnPropertyDescriptors(user);
 console.log(JSON.stringify(desc, null, 2));
 ```
 
-属性包括以下四种特性
+```tex
+{
+  "name": {
+    "value": "Michael",
+    "writable": true,
+    "enumerable": true,
+    "configurable": true
+  },
+  "age": {
+    "value": 18,
+    "writable": true,
+    "enumerable": true,
+    "configurable": true
+  }
+}
+```
+
+💡💡属性包括以下四种特性💡💡
 
 | 特性         | 说明                                                   | 默认值    |
 | ------------ | ------------------------------------------------------ | --------- |
-| configurable | 能否使用delete、能否需改属性特性、或能否修改访问器属性 | true      |
+| configurable | 能否使用delete、能否修改属性特性、或能否修改访问器属性 | true      |
 | enumerable   | 对象属性是否可通过for-in循环，或Object.keys() 读取     | true      |
 | writable     | 对象属性是否可修改                                     | true      |
 | value        | 对象属性的默认值                                       | undefined |
 
-### [#](https://doc.ace.com/js/10 对象.html#设置特征)设置特征
+### 设置特征 💡
 
-使用`Object.defineProperty` 方法修改属性特性，通过下面的设置属性name将不能被遍历、删除、修改。
+📗 使用`Object.defineProperty` 方法修改属性特性，通过下面的设置属性name将不能被遍历、删除、修改。（非严格模式下不会报错，但是更改不会生效）
 
 ```js
 "use strict";
 const user = {
-  name: "Michael"
+    name: "Michael"
 };
 Object.defineProperty(user, "name", {
-  value: "Jerry",
-  writable: false,
-  enumerable: false,
-  configurable: false
+    value: "Jerry",
+    writable: false,
+    enumerable: false,
+    configurable: false
 });
 ```
 
@@ -1127,16 +1143,16 @@ Object.defineProperty(user, "name", {
 
 ```js
 // 不允许修改
-// user.name = "Michael"; //Error
+// user.name = "Michael"; // Error
 
 // 不能遍历
 // console.log(Object.keys(user));
 
-//不允许删除
+// 不允许删除
 // delete user.name;
 // console.log(user);
 
-//不允许配置
+// 不允许再配置
 // Object.defineProperty(user, "name", {
 //   value: "Jerry",
 //   writable: true,
@@ -1145,7 +1161,7 @@ Object.defineProperty(user, "name", {
 // });
 ```
 
-使用 `Object.defineProperties` 可以一次设置多个属性，具体参数和上面介绍的一样。
+📗 使用 `Object.defineProperties` 可以一次设置多个属性，具体参数和上面介绍的一样。
 
 ```js
 "use strict";
@@ -1154,13 +1170,13 @@ Object.defineProperties(user, {
   name: { value: "Michael", writable: false },
   age: { value: 18 }
 });
-console.log(user);
-user.name = "Jerry"; //TypeError
+console.log(user);  // {name: 'Michael', age: 18}
+user.name = "Jerry"; // TypeError
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#禁止添加)禁止添加
+### 禁止添加
 
-`Object.preventExtensions` 禁止向对象添加属性
+`Object.preventExtensions` 禁止向对象添加属性 （禁止拓展）
 
 ```js
 "use strict";
@@ -1168,7 +1184,7 @@ const user = {
   name: "Michael"
 };
 Object.preventExtensions(user);
-user.age = 18; //Error
+user.age = 18; // Error
 ```
 
 `Object.isExtensible` 判断是否能向对象中添加属性
@@ -1179,13 +1195,14 @@ const user = {
   name: "Michael"
 };
 Object.preventExtensions(user);
-console.log(Object.isExtensible(user)); //false
+console.log(Object.isExtensible(user)); // false
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#封闭对象)封闭对象
+### 封闭对象
 
-```
-Object.seal()`方法封闭一个对象，阻止添加新属性并将所有现有属性标记为 `configurable: false
+📗 `Object.seal()`方法封闭一个对象，阻止添加新属性并将**所有现有属性**标记为 `configurable: false`
+
+```js
 "use strict";
 const user = {
   name: "Jerry",
@@ -1199,10 +1216,27 @@ console.log(
 
 Object.seal(user);
 console.log(Object.isSealed(user));
-delete user.name; //Error
+delete user.name;  // Error
 ```
 
-`Object.isSealed` 如果对象是密封的则返回 `true`，属性都具有 `configurable: false`。
+```tex
+{
+  "name": {
+    "value": "Jerry",
+    "writable": true,
+    "enumerable": true,
+    "configurable": false 💡
+  },
+  "age": {
+    "value": 18,
+    "writable": true,
+    "enumerable": true,
+    "configurable": false 💡
+  }
+}
+```
+
+`Object.isSealed` 如果对象是密封的则返回 `true`，属性**都具有** `configurable: false`。
 
 ```js
 "use strict";
@@ -1210,19 +1244,20 @@ const user = {
   name: "Michael"
 };
 Object.seal(user);
-console.log(Object.isSealed(user)); //true
+console.log(Object.isSealed(user)); // true
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#冻结对象)冻结对象
+### 冻结对象
 
-```
-Object.freeze` 冻结对象后不允许添加、删除、修改属性，writable、configurable都标记为`false
+📗 `Object.freeze` 冻结对象后不允许添加、删除、修改属性，writable、configurable都标记为`false`
+
+```js
 "use strict";
 const user = {
   name: "Michael"
 };
 Object.freeze(user);
-user.name = "Jerry"; //Error
+user.name = "Jerry"; // Error
 ```
 
 `Object.isFrozen()`方法判断一个对象是否被冻结
@@ -1233,54 +1268,56 @@ const user = {
   name: "Michael"
 };
 Object.freeze(user);
-console.log(Object.isFrozen(user));
+console.log(Object.isFrozen(user));  // true
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#属性访问器)属性访问器
+## 属性访问器 💡
 
-getter方法用于获得属性值，setter方法用于设置属性，这是JS提供的存取器特性即使用函数来管理属性。
+::: tip setter方法用于设置属性，这是JS提供的存取器特性即使用函数来管理属性。
 
 - 用于避免错误的赋值
 - 需要动态监测值的改变
 - 属性只能在访问器和普通属性任选其一，不能共同存在
 
-### [#](https://doc.ace.com/js/10 对象.html#getter-setter)getter/setter
+::: 
 
-向对是地用户的年龄数据使用访问器监控控制
+### getter/setter
+
+对用户的年龄数据使用访问器监控控制
 
 ```js
 "use strict";
 const user = {
-  data: { name: 'Jerry', age: null },
-  set age(value) {
-    if (typeof value != "number" || value > 100 || value < 10) {
-      throw new Error("年龄格式错误");
+    data: { name: 'Jerry', age: null },
+    set age(value) {
+        if (typeof value != "number" || value > 100 || value < 10) {
+            throw new Error("年龄格式错误");
+        }
+        this.data.age = value;
+    },
+    get age() {
+        return `年龄是: ${this.data.age}`;
     }
-    this.data.age = value;
-  },
-  get age() {
-    return `年龄是: ${this.data.age}`;
-  }
 };
 user.age = 99;
-console.log(user.age);
+user.age = 123; // Uncaught Error: 年龄格式错误
 ```
 
 下面使用getter设置只读的课程总价
 
 ```js
 let Lesson = {
-  lists: [
-    { name: "js", price: 100 },
-    { name: "mysql", price: 212 },
-    { name: "vue.js", price: 98 }
-  ],
-  get total() {
-    return this.lists.reduce((t, b) => t + b.price, 0);
-  }
+    lists: [
+        { name: "js", price: 100 },
+        { name: "mysql", price: 212 },
+        { name: "vue.js", price: 98 }
+    ],
+    get total() {
+        return this.lists.reduce((t, b) => t + b.price, 0);
+    }
 };
 console.log(Lesson.total); //410
-Lesson.total = 30; //无效
+Lesson.total = 30; //无效 因为没有对应的setter
 console.log(Lesson.total); //410
 ```
 
@@ -1288,34 +1325,35 @@ console.log(Lesson.total); //410
 
 ```js
 const web = {
-  name: "Jerry",
-  url: "ace.com",
-  get site() {
-    return `${this.name} ${this.url}`;
-  },
-  set site(value) {
-    [this.name, this.url] = value.split(",");
-  }
+    name: "Jerry",
+    url: "google.com",
+    get site() {
+        return `${this.name} ${this.url}`;
+    },
+    set site(value) {
+        [this.name, this.url] = value.split(",");
+    }
 };
-web.site = "Jerry,objcms.com";
-console.log(web.site);
+console.log(web.site);  // Jerry google.com
+web.site = "Jerry,baidu.com";
+console.log(web.site);  // Jerry baidu.com
 ```
 
 下面是设置token储取的示例，将业务逻辑使用`getter/setter`处理更方便，也方便其他业务的复用。
 
 ```js
 let Request = {
-  get token() {
-    let con = localStorage.getItem('token');
-    if (!con) {
-    	alert('请登录后获取token')
-    } else {
-    	return con;
+    get token() {
+        let con = localStorage.getItem('token');
+        if (!con) {
+            alert('请登录后获取token')
+        } else {
+            return con;
+        }
+    },
+    set token(con) {
+        localStorage.setItem('token', con);
     }
-  },
-  set token(con) {
-  	localStorage.setItem('token', con);
-  }
 };
 // Request.token = 'ace'
 console.log(Request.token);
@@ -1326,52 +1364,53 @@ console.log(Request.token);
 ```js
 "use strict";
 const user = {
-  get name() {
-    return this._name;
-  },
-  set name(value) {
-    if (value.length <= 3) {
-      throw new Error("用户名不能小于三位");
+    get name() {
+        return this._name;
+    },
+    set name(value) {
+        if (value.length <= 3) {
+            throw new Error("用户名不能小于三位");
+        }
+        this._name = value;
     }
-    this._name = value;
-  }
 };
-user.name = "Jerry教程";
-console.log(user.name);
+user.name = "Jerry";
+console.log(user.name);  // Jerry
+user.name = "H";  // 用户名不能小于三位
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#访问器描述符)访问器描述符
+### 访问器描述符 💡
 
 使用 `defineProperty` 可以模拟定义私有属性，从而使用面向对象的抽象特性。
 
 ```js
 function User(name, age) {
-  let data = { name, age };
-  Object.defineProperties(this, {
-    name: {
-      get() {
-        return data.name;
-      },
-      set(value) {
-        if (value.trim() == "") throw new Error("无效的用户名");
-        data.name = value;
-      }
-    },
-    age: {
-      get() {
-        return data.name;
-      },
-      set(value) {
-        if (value.trim() == "") throw new Error("无效的用户名");
-        data.name = value;
-      }
-    }
-  });
+    let data = { name, age };
+    Object.defineProperties(this, {
+        name: {
+            get() {
+                return data.name;
+            },
+            set(value) {
+                if (value.trim() == "") throw new Error("无效的用户名");
+                data.name = value;
+            }
+        },
+        age: {
+            get() {
+                return data.name;
+            },
+            set(value) {
+                if (value.trim() == "") throw new Error("无效的用户名");
+                data.name = value;
+            }
+        }
+    });
 }
 let obj = new User("Jerry", 33);
-console.log(obj.name);
-obj.name = "Michael1";
-console.log(obj.name);
+console.log(obj.name);  // Jerry
+obj.name = "Michael";
+console.log(obj.name);  // Michael
 ```
 
 上面的代码也可以使用语法糖 `class`定义
@@ -1380,74 +1419,79 @@ console.log(obj.name);
 "use strict";
 const DATA = Symbol();
 class User {
-  constructor(name, age) {
-    this[DATA] = { name, age };
-  }
-  get name() {
-    return this[DATA].name;
-  }
-  set name(value) {
-    if (value.trim() == "") throw new Error("无效的用户名");
-    this[DATA].name = value;
-  }
-  get age() {
-    return this[DATA].name;
-  }
-  set age(value) {
-    if (value.trim() == "") throw new Error("无效的用户名");
-    this[DATA].name = value;
-  }
+    constructor(name, age) {
+        this[DATA] = { name, age };
+    }
+    get name() {
+        return this[DATA].name;
+    }
+    set name(value) {
+        if (value.trim() == "") throw new Error("无效的用户名");
+        this[DATA].name = value;
+    }
+    get age() {
+        return this[DATA].name;
+    }
+    set age(value) {
+        if (value.trim() == "") throw new Error("无效的用户名");
+        this[DATA].name = value;
+    }
 }
 let obj = new User("Jerry", 33);
-console.log(obj.name);
-obj.name = "Michael1";
-console.log(obj.name);
-console.log(obj);
+console.log(obj.name);  // Jerry
+obj.name = "Michael";
+console.log(obj.name);  // Michael
+console.log(obj);  // User {Symbol(): {…}}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#闭包访问器)闭包访问器
+### 闭包访问器
 
 下面结合闭包特性对属性进行访问控制
 
 - 下例中访问器定义在函数中，并接收参数v
-- 在get() 中通过闭包返回 v
-- 在set() 中修改了v，这会影响get()访问的闭包数据v
+- 在`get()` 中通过闭包返回 v
+- 在`set() `中修改了v，这会影响`get()`访问的闭包数据v
 
 ```js
 let data = {
-  name: 'ace.com',
+    name: 'ace.com',
 }
 for (const [key, value] of Object.entries(data)) {
-  observer(data, key, value)
+    observer(data, key, value)
 }
 
 function observer(data, key, v) {
-  Object.defineProperty(data, key, {
-    get() {
-      return v
-    },
-    set(newValue) {
-      v = newValue
-    },
-  })
+    Object.defineProperty(data, key, {
+        get() {
+            return v
+        },
+        set(newValue) {
+            v = newValue
+        },
+    })
 }
 data.name = 'Jerry'
-console.dir(data.name) //Jerry
+console.dir(data.name) // Jerry
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#代理拦截)代理拦截
+## Proxy 💡 
 
-代理（拦截器）是对象的访问控制，`setter/getter` 是对单个对象属性的控制，而代理是对整个对象的控制。
+::: tip 代理（拦截器）是对象的访问控制，`setter/getter` 是对单个对象属性的控制，而代理是对整个对象的控制。
 
 - 读写属性时代码更简洁
 - 对象的多个属性控制统一交给代理完成
 - 严格模式下 `set` 必须返回布尔值
 
-### [#](https://doc.ace.com/js/10 对象.html#使用方法)使用方法
+::: 
+
+### 使用方法
+
+代理普通**对象**
 
 ```js
 "use strict";
 const obj = { name: "Jerry" };
+// Proxy返回一个新对象，通过新对象操作代理的原始数据
 const proxy = new Proxy(obj, {
   get(obj, property) {
     return obj[property];
@@ -1458,75 +1502,75 @@ const proxy = new Proxy(obj, {
   }
 });
 proxy.age = 10;
-console.log(obj);
+console.log(obj);  // {name: 'Jerry', age: 10}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#代理函数)代理函数
+### 代理函数
 
-如果代理以函数方式执行时，会执行代理中定义 `apply` 方法。
+如果代理以**函数**方式执行时，会执行代理中定义 `apply` 方法。
 
-- 参数说明：函数，上下文对象，参数
+> 参数说明：函数，上下文对象，参数
 
 下面使用 `apply` 计算函数执行时间
 
 ```js
 function factorial(num) {
-  return num == 1 ? 1 : num * factorial(num - 1);
+    return num == 1 ? 1 : num * factorial(num - 1);
 }
 let proxy = new Proxy(factorial, {
-  apply(func, obj, args) {
-    console.time("run");
-    func.apply(obj, args);
-    console.timeEnd("run");
-  }
+    apply(func, obj, args) {
+        console.time("run");
+        func.apply(obj, args);  // 通过apply绑定上下文
+        console.timeEnd("run");
+    }
 });
-proxy.apply(this, [1, 2, 3]);
+// 这里是正常通过apply传递上下文
+proxy.apply(this, [1, 2, 3]);  
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#截取字符)截取字符
+### 截取字符
 
-下例中对数组进行代理，用于截取标题操作
+下例中对**数组**进行代理，用于截取标题操作
 
 ```js
 const stringDot = {
-  get(target, key) {
-    const title = target[key].title;
-    const len = 5;
-    return title.length > len
-      ? title.substr(0, len) + ".".repeat(3)
-      : title;
-  }
+    get(target, key) {
+        const title = target[key].title;
+        const len = 5;
+        return title.length > len
+            ? title.substr(0, len) + ".".repeat(3)
+        : title;
+    }
 };
 const lessons = [
-  {
-    title: "媒体查询响应式布局",
-    category: "css"
-  },
-  {
-    title: "FLEX 弹性盒模型",
-    category: "css"
-  },
-  {
-    title: "MYSQL多表查询随意操作",
-    category: "mysql"
-  }
+    {
+        title: "媒体查询响应式布局",
+        category: "css"
+    },
+    {
+        title: "FLEX 弹性盒模型",
+        category: "css"
+    },
+    {
+        title: "MYSQL多表查询随意操作",
+        category: "mysql"
+    }
 ];
 const stringDotProxy = new Proxy(lessons, stringDot);
-console.log(stringDotProxy[0]);
+console.log(stringDotProxy[0]);  // 媒体查询响...
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#双向绑定)双向绑定
+### 双向绑定
 
 下面通过代理实现`vue` 等前端框架的数据绑定特性特性。
 
-![Untitled](https://doc.ace.com/assets/img/Untitled-5190245.5087f5bc.gif)
-
-```js
+```html
 <body>
-<input type="text" v-model="title" />
-<input type="text" v-model="title" />
-<div v-bind="title"></div>
+    <input type="text" v-model="title" />
+    <input type="text" v-model="title" />
+    <div v-bind="title"></div>
 </body>
+
 <script>
 function View() {
 	//设置代理拦截
@@ -1560,28 +1604,39 @@ function View() {
 let view = new View().run();
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#表单验证)表单验证
+### 表单验证
 
-![Untitled](https://doc.ace.com/assets/img/Untitled-1059910.07b17933.gif)
+```html
+<!DOCTYPE html>
+<html lang="en">
 
-```js
-<style>
-  body {
-    padding: 50px;
-    background: #34495e;
-  }
-  input {
-    border: solid 10px #ddd;
-    height: 30px;
-  }
-  .error {
-    border: solid 10px red;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 50px;
+      background: #34495e;
+    }
+
+    input {
+      border: solid 10px #ddd;
+      height: 30px;
+    }
+
+    .error {
+      border: solid 10px red;
+    }
+  </style>
+</head>
+
 <body>
   <input type="text" validate rule="max:12,min:3" />
   <input type="text" validate rule="max:3,isNumber" />
 </body>
+
 <script>
   "use strict";
   //验证处理类
@@ -1604,109 +1659,119 @@ let view = new View().run();
         return target[key];
       },
       set(target, key, el) {
+        // 获取检验项 every所有检验
         const rule = el.getAttribute("rule");
         const validate = new Validate();
         let state = rule.split(",").every(rule => {
           const info = rule.split(":");
           return validate[info[0]](el.value, info[1]);
         });
-        el.classList[state ? "remove":"add"]("error");
+        // 根据state状态调用remove或者add方法 
+        el.classList[state ? "remove" : "add"]("error");
         return true;
       }
     });
   }
 
+  // 只获取有validate属性的表单
   const nodes = makeProxy(document.querySelectorAll("[validate]"));
   nodes.forEach((item, i) => {
-    item.addEventListener("keyup", function() {
+    item.addEventListener("keyup", function () {
       nodes[i] = this;
     });
   });
 </script>
+</html>
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#json)JSON
+![](./img/object/proxy.gif)
+
+## JSON
+
+::: tip JSON
 
 - json 是一种轻量级的数据交换格式，易于人阅读和编写。
 - 使用`json` 数据格式是替换 `xml` 的最佳方式，主流语言都很好的支持`json` 格式。所以 `json` 也是前后台传输数据的主要格式。
-- json 标准中要求使用双引号包裹属性，虽然有些语言不强制，但使用双引号可避免多程序间传输发生错误语言错误的发生。
+- `json` 标准中要求使用双引号包裹属性，虽然有些语言不强制，但使用双引号可避免多程序间传输发生错误语言错误的发生。
 
-### [#](https://doc.ace.com/js/10 对象.html#声明定义)声明定义
+::: 
+
+### 声明定义
 
 **基本结构**
 
 ```js
 let obj = {
-  "title": "Jerry",
-  "url": "ace.com",
-  "teacher": {
-  	"name": "Michael大叔",
-  }
+    "title": "Jerry",
+    "url": "google.com",
+    "teacher": {
+        "name": "Michael",
+    }
 }
-console.log(obj.teacher.name);
+console.log(obj.teacher.name);  // Michael
 ```
 
 **数组结构**
 
 ```js
 let lessons = [
-  {
-    "title": '媒体查询响应式布局',
-    "category": 'css',
-    "click": 199
-  },
-  {
-    "title": 'FLEX 弹性盒模型',
-    "category": 'css',
-    "click": 12
-  },
-  {
-    "title": 'MYSQL多表查询随意操作',
-    "category": 'mysql',
-    "click": 89
-  }
+    {
+        "title": '媒体查询响应式布局',
+        "category": 'css',
+        "click": 199
+    },
+    {
+        "title": 'FLEX 弹性盒模型',
+        "category": 'css',
+        "click": 12
+    },
+    {
+        "title": 'MYSQL多表查询随意操作',
+        "category": 'mysql',
+        "click": 89
+    }
 ];
 
-console.log(lessons[0].title);
+console.log(lessons[0].title);  // 媒体查询响应式布局
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#序列化)序列化
+### 序列化 💡
 
 序列化是将 `json` 转换为字符串，一般用来向其他语言传输使用。
 
 ```js
 let obj = {
-  "title": "Jerry",
-  "url": "ace.com",
-  "teacher": {
-  	"name": "Michael大叔",
-  }
+    "title": "Jerry",
+    "url": "ace.com",
+    "teacher": {
+        "name": "Michael",
+    }
 }
 console.log(JSON.stringify(obj)); 
-//{"title":"Jerry","url":"ace.com","teacher":{"name":"Michael大叔"}}
+// {"title":"Jerry","url":"ace.com","teacher":{"name":"Michael"}}
 ```
 
-根据第二个参数指定保存的属性
+💡 根据第二个参数指定保存的属性
 
 ```js
 console.log(JSON.stringify(obj, ['title', 'url']));
-//{"title":"Jerry","url":"ace.com"}
+// {"title":"Jerry","url":"ace.com"}
 ```
 
-第三个是参数用来控制TAB数量，如果字符串则为前导字符。
+💡 第三个是参数用来控制TAB数量，如果字符串则为前导字符。
 
 ```js
 let obj = {
-  "title": "Jerry",
-  "url": "ace.com",
-  "teacher": {
-  	"name": "Michael大叔",
-  }
+    "title": "Jerry",
+    "url": "ace.com",
+    "teacher": {
+        "name": "Michael",
+    }
 }
 console.log(JSON.stringify(obj, null, 4));
 ```
 
-为数据添加 `toJSON` 方法来自定义返回格式
+📌 为数据添加 `toJSON` 方法来自定义返回格式
 
 ```js
 let obj = {
@@ -1722,10 +1787,11 @@ let obj = {
         };
     }
 }
-console.log(JSON.stringify(obj)); //{"title":"ace.com","name":"Michael大叔"}
+console.log(JSON.stringify(obj));
+//{"title":"ace.com","name":"Michael"}
 ```
 
-### [#](https://doc.ace.com/js/10 对象.html#反序列化)反序列化
+### 反序列化
 
 使用 `JSON.parse` 将字符串 `json` 解析成对象
 
@@ -1734,36 +1800,33 @@ let obj = {
   "title": "Jerry",
   "url": "ace.com",
   "teacher": {
-  	"name": "Michael大叔",
+  	"name": "Michael",
   }
 }
 let jsonStr = JSON.stringify(obj);
-console.log(JSON.parse(jsonStr));
+console.log(JSON.parse(jsonStr)); 
+// {title: 'Jerry', url: 'ace.com', teacher: {…}}
 ```
 
 使用第二个参数函数来对返回的数据二次处理
 
 ```js
 let obj = {
-  title: "Jerry",
-  url: "ace.com",
-  teacher: {
-    name: "Michael大叔"
-  }
+    title: "Jerry",
+    url: "ace.com",
+    teacher: {
+        name: "Michael"
+    }
 };
 let jsonStr = JSON.stringify(obj);
 console.log(
-  JSON.parse(jsonStr, (key, value) => {
-    if (key == "title") {
-      return `[推荐] ${value}`;
-    }
-    return value;
-  })
+    JSON.parse(jsonStr, (key, value) => {
+        if (key == "title") {
+            return `[推荐] ${value}`;
+        }
+        return value;
+    })
 );
+// {title: '[推荐] Jerry', url: 'ace.com', teacher: {…}}
 ```
 
-## [#](https://doc.ace.com/js/10 对象.html#reflect)Reflect
-
-**Reflect** 是一个内置的对象，它提供拦截 JavaScript 操作的方法
-
-- `Reflect`并非一个构造函数，所以不能通过new运算符对其进行调用

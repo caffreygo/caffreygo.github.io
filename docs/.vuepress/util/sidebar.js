@@ -8,6 +8,7 @@ module.exports = {
       "/javascript/map.md",
       "/javascript/function.md",
       "/javascript/closure.md",
+      "/javascript/object.md",
       "/javascript/prototype.md",
       "/javascript/class.md",
       "/javascript/module.md",

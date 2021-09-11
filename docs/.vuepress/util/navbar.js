@@ -27,6 +27,10 @@ module.exports = [{
           link: "/javascript/closure",
         },
         {
+          text: "对象",
+          link: "/javascript/object",
+        },
+        {
           text: "原型与继承",
           link: "/javascript/prototype",
         },

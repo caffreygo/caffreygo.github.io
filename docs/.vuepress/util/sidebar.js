@@ -3,7 +3,7 @@ module.exports = {
     text: "JavaScript",
     children: [
       "/javascript/basic.md",
-      "/javascript/basicType.md",
+      "/javascript/valueType.md",
       "/javascript/array.md",
       "/javascript/symbol.md",
       "/javascript/set.md",

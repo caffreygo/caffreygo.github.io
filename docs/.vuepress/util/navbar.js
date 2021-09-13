@@ -3,12 +3,12 @@ module.exports = [{
     children: [{
       text: "语法基础",
       children: [{
-          text: "基本概述",
+          text: "概述",
           link: "/javascript/basic",
         },
         {
           text: "基本类型",
-          link: "/javascript/basicType",
+          link: "/javascript/valueType",
         },
         {
           text: "数组类型",

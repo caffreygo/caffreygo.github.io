@@ -267,92 +267,94 @@ console.log('google.com'.toLowerCase()); //google.com
 
 ```js
 let str = '   google.com  ';
-console.log(str.length);
-console.log(str.trim().length);
+console.log(str.length);  // 15
+console.log(str.trim().length);  // 10
 ```
 
 使用`trimLeft`删除左边空白，使用`trimRight`删除右边空白
 
 ```js
 let name = " google ";
-console.log(name);
-console.log(name.trimLeft());
-console.log(name.trimRight()); 
+console.log(name);  // " google "
+console.log(name.trimLeft());  // "google "
+console.log(name.trimRight());  // " google"
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#获取单字符)获取单字符
+### 获取单字符
 
 根据从0开始的位置获取字符
 
 ```js
-console.log('google'.charAt(3))
+console.log('google'.charAt(3))  // g
 ```
 
-使用数字索引获取字符串
+💡 使用数字索引获取字符串
 
 ```js
-console.log('google'[3])
+console.log('google'[3])  // g
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#截取字符串)截取字符串
+### 截取字符串
 
-使用 `slice、substr、substring` 函数都可以截取字符串。
+::: tip 使用 `slice、substr、substring` 函数都可以截取字符串。
 
 - slice、substring 第二个参数为截取的结束位置
 - substr 第二个参数指定获取字符数量
 
+::: 
+
 ```js
 let abc = 'google.com';
-console.log(abc.slice(3)); //dunren.com
-console.log(abc.substr(3)); //dunren.com
-console.log(abc.substring(3)); //dunren.com
+console.log(abc.slice(3)); // gle.com
+console.log(abc.substr(3)); // gle.com
+console.log(abc.substring(3)); // gle.com
 
-console.log(abc.slice(3, 6)); //dun
-console.log(abc.substring(3, 6)); //dun
-console.log(abc.substring(3, 0)); //hou 较小的做为起始位置
-console.log(abc.substr(3, 6)); //dunren
+console.log(abc.slice(3, 6)); // gle
+console.log(abc.substring(3, 6)); // gle
+console.log(abc.substring(3, 0)); // goo
+console.log(abc.substr(3, 6)); // gle.co
 
-console.log(abc.slice(3, -1)); //dunren.co 第二个为负数表示从后面算的字符
-console.log(abc.slice(-2));//om 从末尾取
-console.log(abc.substring(3, -9)); //hou 负数转为0
-console.log(abc.substr(-3, 2)); //co 从后面第三个开始取两个
+console.log(abc.slice(3, -1)); // gle.co
+console.log(abc.slice(-2));// om
+console.log(abc.substring(3, -9)); // goo  substring没意义负数会变成0
+console.log(abc.substr(-3, 2)); // co
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#查找字符串)查找字符串
+### 查找字符串
 
 从开始获取字符串位置，检测不到时返回 `-1`
 
 ```js
-console.log('google.com'.indexOf('o')); //1
-console.log('google.com'.indexOf('o', 3)); //11 从第3个字符向后搜索
+console.log('google.com'.indexOf('o')); // 1
+console.log('google.com'.indexOf('o', 3)); // 8 从第3个字符向后搜索
 ```
 
 从结尾来搜索字符串位置
 
 ```js
-console.log('google.com'.lastIndexOf('o')); //11
-console.log('google.com'.lastIndexOf('o', 7)); //1 从第7个字符向前搜索
+console.log('google.com'.lastIndexOf('o')); // 8
+console.log('google.com'.lastIndexOf('o', 7)); // 2 从第7个字符向前搜索
 ```
 
 search() 方法用于检索字符串中指定的子字符串，也可以使用正则表达式搜索
 
 ```js
 let str = "google.com";
-console.log(str.search("com"));
-console.log(str.search(/\.com/i));
+console.log(str.search("com"));  // 7
+console.log(str.search(/\.com/i));  // 6
 ```
 
 `includes` 字符串中是否包含指定的值，第二个参数指查找开始位置
 
 ```js
 console.log('google.com'.includes('o')); //true
-console.log('google.com'.includes('h', 11)); //true
+console.log('google.com'.includes('l', 6)); //false
 ```
 
 `startsWith` 是否是指定位置开始，第二个参数为查找的开始位置。
 
 ```js
-console.log('google.com'.startsWith('h')); //true
+console.log('google.com'.startsWith('g')); //true
 console.log('google.com'.startsWith('o', 1)); //true
 ```
 
@@ -360,58 +362,59 @@ console.log('google.com'.startsWith('o', 1)); //true
 
 ```js
 console.log('google.com'.endsWith('com')); //true
-console.log('google.com'.endsWith('o', 2)); //true
+console.log('google.com'.endsWith('g', 4)); //true
 ```
 
 下面是查找关键词的示例
 
 ```js
-const words = ["php", "css"];
-const title = "我爱在MDN学习php与css知识";
+const words = ["js", "css"];
+const title = "我爱在MDN学习js与css知识";
 const status = words.some(word => {
   return title.includes(word);
 });
-console.log(status);
+console.log(status);  // true
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#替换字符串)替换字符串
+### 替换字符串
 
 `replace` 方法用于字符串的替换操作
 
 ```js
 let name = "google.com";
-web = name.replace("google", "abcprop");
-console.log(web);
+web = name.replace("google", "baidu");
+console.log(web);  // baidu.com
 ```
 
-默认只替换一次，如果全局替换需要使用正则（更强大的使用会在正则表达式章节介绍）
+默认只替换一次，如果全局替换需要使用正则
 
 ```js
 let str = "2023/02/12";
-console.log(str.replace(/\//g, "-"));
+console.log(str.replace(/\//g, "-"));  // 2023-02-12
 ```
 
 使用字符串替换来生成关键词链接
 
 ```js
-const word = ["php", "css"];
-const string = "我喜欢在MDN学习php与css知识";
+const word = ["js", "css"];
+const string = "我喜欢在MDN学习js与css知识";
 const title = word.reduce((pre, word) => {
   return pre.replace(word, `<a href="?w=${word}">${word}</a>`);
 }, string);
-document.body.innerHTML += title;
+console.log(title);
+// 我喜欢在MDN学习<a href="?w=js">js</a>与<a href="?w=css">css</a>知识
 ```
 
 使用正则表达式完成替换
 
 ```js
-let res = "google.com".replace(/u/g, str => {
+let res = "google.com".replace(/g/g, str => {
   return "@";
 });
-console.log(res);
+console.log(res);  // @oo@le.com
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#重复生成)重复生成
+### 重复生成
 
 下例是根据参数重复生成星号
 
@@ -419,32 +422,32 @@ console.log(res);
 function star(num = 3) {
 	return '*'.repeat(num);
 }
-console.log(star());
+console.log(star());  // ***
 ```
 
 下面是模糊后三位电话号码
 
 ```js
 let phone = "98765432101";
-console.log(phone.slice(0, -3) + "*".repeat(3));
+console.log(phone.slice(0, -3) + "*".repeat(3));  // 98765432***
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#类型转换)类型转换
+### 类型转换
 
 分隔字母
 
 ```js
-let name = "abcprop";
-console.log(name.split(""));
+let name = "abc";
+console.log(name.split(""));  // ['a', 'b', 'c']
 ```
 
 将字符串转换为数组
 
 ```js
-console.log("1,2,3".split(",")); //[1,2,3]
+console.log("1,2,3".split(",")); // ['1', '2', '3']
 ```
 
-隐式类型转换会根据类型自动转换类型
+**隐式类型转换**会根据类型自动转换类型
 
 ```js
 let abc = 99 + '';
@@ -455,10 +458,10 @@ console.log(typeof abc); //string
 
 ```js
 let abc = 99;
-console.log(typeof String(abc));
+console.log(typeof String(abc));  // string
 ```
 
-js中大部分类型都是对象，可以使用类方法 `toString`转化为字符串
+js中大部分类型都是对象，可以使用**类方法** `toString`转化为字符串
 
 ```js
 let abc = 99;
@@ -468,28 +471,28 @@ let arr = ['abcprop', 'MDN'];
 console.log(typeof arr.toString()); //string
 ```
 
-## [#](https://doc.google.com/js/3 基本类型.html#boolean)Boolean
+## Boolean
 
-布尔类型包括 `true` 与 `false` 两个值，开发中使用较多的数据类型。
+布尔类型包括 `true` 与 `false` 两个值
 
-### [#](https://doc.google.com/js/3 基本类型.html#声明定义-2)声明定义
+### 声明定义
 
 使用对象形式创建布尔类型
 
 ```js
-console.log(new Boolean(true)); //true
-console.log(new Boolean(false)); //false
+console.log(new Boolean(true)); // Boolean {true}
+console.log(new Boolean(false)); // Boolean {false}
 ```
 
 但建议使用字面量创建布尔类型
 
 ```js
-let abc =true;
+let bool =true;
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#隐式转换)隐式转换
+### 隐式转换 💡
 
-基本上所有类型都可以隐式转换为 Boolean类型。
+**基本上所有类型都可以隐式转换为Boolean类型**（先转化为数值后进行比较）
 
 | 数据类型  | true             | false            |
 | --------- | ---------------- | ---------------- |
@@ -501,43 +504,43 @@ let abc =true;
 | null      | 无               | null             |
 | NaN       | 无               | NaN              |
 
-当与boolean类型比较时，会将两边类型统一为数字1或0。
+📌 当与boolean类型比较时，会将两边类型统一为数字1或0。
 
 如果使用Boolean与数值比较时，会进行隐式类型转换 true转为1，false 转为0。
 
 ```js
-console.log(3 == true); //false
-console.log(0 == false); //true
+console.log(3 == true); // false
+console.log(0 == false); // true
 ```
 
-下面是一个典型的例子，字符串在与Boolean比较时，两边都为转换为数值类型后再进行比较。
+📌 下面是一个典型的例子，字符串在与Boolean比较时，两边都为转换为数值类型后再进行比较。
 
 ```js
 console.log(Number("google")); //NaN
 console.log(Boolean("google")); //true
-console.log("google" == true); //false
-console.log("1" == true); //true
+console.log("google" == true); //false   (NaN == 1)
+console.log("1" == true); //true  (1 == 1)
 ```
 
 数组的表现与字符串原理一样，会先转换为数值
 
 ```js
-console.log(Number([])); //0
-console.log(Number([3])); //3
-console.log(Number([1, 2, 3])); //NaN
-console.log([] == false); //true
-console.log([1] == true); //true
-console.log([1, 2, 3] == true); //false
+console.log(Number([])); // 0
+console.log(Number([3])); // 3
+console.log(Number([1, 2, 3])); // NaN
+console.log([] == false); // true  (0 == 0)
+console.log([1] == true); // true  (1 == 1)
+console.log([1, 2, 3] == true); // false  (NaN == 0)
 ```
 
 引用类型的Boolean值为真，如对象和数组
 
 ```js
-if ([]) console.log("true");
-if ({}) console.log("true");
+if ([]) console.log("true");  // true
+if ({}) console.log("true");  // true
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#显式转换)显式转换
+### 显式转换
 
 使用 `!!` 转换布尔类型
 
@@ -565,22 +568,22 @@ abc = new Date("2020-2-22 10:33");
 console.log(Boolean(abc)); //true
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#实例操作)实例操作
+### 实例操作
 
 下面使用Boolean类型判断用户的输入，并给出不同的反馈。
 
 ```js
 while (true) {
-  let n = prompt("请输入MDN成立年份").trim();
-  if (!n) continue;
-  alert(n == 2010 ? "回答正确" : "答案错误！看看官网了解下");
-  break;
+    let n = prompt("请输入MDN成立年份").trim();
+    if (!n) continue;  // 进入下一次while
+    alert(n == 2010 ? "回答正确" : "答案错误！看看官网了解下");
+    break;  // 跳出循环
 }
 ```
 
-## [#](https://doc.google.com/js/3 基本类型.html#number)Number
+## Number
 
-### [#](https://doc.google.com/js/3 基本类型.html#声明定义-3)声明定义
+### 声明定义
 
 使用对象方式声明
 
@@ -593,10 +596,10 @@ Number用于表示整数和浮点数，数字是 `Number`实例化的对象，�
 
 ```js
 let num = 99;
-console.log(typeof num);
+console.log(typeof num);  // number
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#基本函数)基本函数
+### 基本函数
 
 判断是否为整数
 
@@ -610,13 +613,12 @@ console.log(Number.isInteger(1.2));
 console.log((16.556).toFixed(2)); // 16.56
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#nan)NaN
+### NaN
 
 表示无效的数值，下例计算将产生NaN结果。
 
 ```js
 console.log(Number("google")); //NaN
-
 console.log(2 / 'google'); //NaN
 ```
 
@@ -625,7 +627,7 @@ NaN不能使用 `==` 比较，使用以下代码来判断结果是否正确
 ```js
 var res = 2 / 'google';
 if (Number.isNaN(res)) {
-	console.log('Error');
+	console.log('Error');  // Error
 }
 ```
 
@@ -636,7 +638,7 @@ var res = 2 / 'google';
 console.log(Object.is(res, NaN));
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#类型转换-2)类型转换
+### 类型转换
 
 **Number**
 
@@ -649,17 +651,17 @@ console.log(Number(false));	//0
 console.log(Number('9'));	//9
 console.log(Number([]));	//0
 console.log(Number([5]));	//5
-console.log(Number([5, 2]));	//NaN
+console.log(Number([5, 2])); //NaN
 console.log(Number({}));	//NaN
 ```
 
-**parseInt**
+**parseInt** 💡
 
-提取字符串开始去除空白后的数字转为整数。
+提取字符串开始**去除空白后**的数字转为整数。
 
 ```js
 console.log(parseInt('  99google'));	//99
-console.log(parseInt('18.55'));	//18
+console.log(parseInt('18.55'));	 // 18
 ```
 
 **parseFloat**
@@ -671,9 +673,9 @@ console.log(parseFloat('  99google'));	//99
 console.log(parseFloat('18.55'));	//18.55
 ```
 
-比如从表单获取的数字是字符串类型需要类型转换才可以计算，下面使用乘法进行隐式类型转换。
+比如从表单获取的数字是字符串类型需要类型转换才可以计算，下面**使用乘法进行隐式类型转换**。
 
-```js
+```html
 <input type="text" name="num" value="66">
 <script>
   let num = document.querySelector("[name='num']").value;
@@ -683,7 +685,7 @@ console.log(parseFloat('18.55'));	//18.55
 </script>
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#舍入操作)舍入操作
+### 舍入操作
 
 使用 `toFixed` 可对数值舍入操作，参数指定保存的小数位
 
@@ -691,16 +693,16 @@ console.log(parseFloat('18.55'));	//18.55
 console.log(1.556.toFixed(2)); //1.56
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#浮点精度)浮点精度
+### 浮点精度
 
-大部分编程语言在浮点数计算时都会有精度误差问题，下面来看JS中的表现形式
+📗 大部分编程语言在浮点数计算时都会有精度误差问题，下面来看JS中的表现形式
 
 ```js
 let abc = 0.1 + 0.2
 console.log(abc)// 结果：0.30000000000000004
 ```
 
-这是因为计算机以二进制处理数值类型，上面的0.1与0.2转为二进制后是无穷的
+📌 这是因为计算机以二进制处理数值类型，上面的0.1与0.2转为二进制后是**无穷**的
 
 ```js
 console.log((0.1).toString(2)) //0.0001100110011001100110011001100110011001100110011001101
@@ -722,23 +724,22 @@ console.log((1.0 - 0.9).toFixed(2)) //0.10
 
 ```js
 Number.prototype.add = function (num) {
-	//取两个数值中小数位最大的
-  let n1 = this.toString().split('.')[1].length
-  let n2 = num.toString().split('.')[1].length
-  
-  //得到10的N次幂
-  let m = Math.pow(10, Math.max(n1, n2))
+    //取两个数值中小数位最大的
+    let n1 = this.toString().split('.')[1].length
+    let n2 = num.toString().split('.')[1].length
 
-  return (this * m + num * m) / m
+    //得到10的N次幂
+    let m = Math.pow(10, Math.max(n1, n2))
+    return (this * m + num * m) / m
 }
-console.log((0.1).add(0.2))
+console.log((0.1).add(0.2))  // 0.3
 ```
 
 **推荐做法**
 
 市面上已经存在很多针对数学计算的库 [mathjs (opens new window)](https://mathjs.org/examples/browser/basic_usage.html.html)、[decimal.js (opens new window)](http://mikemcl.github.io/decimal.js)等，我们就不需要自己构建了。下面来演示使用 [decimal.js (opens new window)](http://mikemcl.github.io/decimal.js)进行浮点计算。
 
-```js
+```html
 <script src="https://cdn.bootcss.com/decimal.js/10.2.0/decimal.min.js"></script>
 
 <script>
@@ -746,27 +747,29 @@ console.log((0.1).add(0.2))
 </script>
 ```
 
-## [#](https://doc.google.com/js/3 基本类型.html#math)Math
+## Math
 
 `Math` 对象提供了众多方法用来进行数学计算，下面我们介绍常用的方法，更多方法使用请查看 [MDN官网 (opens new window)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)了解。
 
-### [#](https://doc.google.com/js/3 基本类型.html#取极限值)取极限值
+### 取极限值
 
 使用 `min` 与 `max` 可以取得最小与最大值。
 
 ```js
-console.log(Math.min(1, 2, 3));
+console.log(Math.min(1, 2, 3));  // 1
 
-console.log(Math.max(1, 2, 3));
+console.log(Math.max(1, 2, 3));  // 3
 ```
 
 使用`apply` 来从数组中取值
 
 ```js
-console.log(Math.max.apply(Math, [1, 2, 3]));
+console.log(Math.max.apply(Math, [1, 2, 3]));  // 3
+console.log(Math.max.apply(null, [1, 2, 3]));  // 3
+console.log(Math.max.call(null, ...[1, 2, 3]));  // 3
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#舍入处理)舍入处理
+### 舍入处理
 
 取最接近的向上整数
 
@@ -786,7 +789,7 @@ console.log(Math.floor(1.555)); //1
 console.log(Math.round(1.5)); //2
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#random)random
+### random
 
 `random` 方法用于返回 >=0 且 <1 的随机数（包括0但不包括1）。
 
@@ -821,7 +824,7 @@ console.log(number);
 下面是随机点名的示例
 
 ```js
-let stus = ['小明', '张三', '王五', '爱情'];
+let stus = ['小明', '张三', '王五', '爱情'];  // 0-3 包括3
 let pos = Math.floor(Math.random() * stus.length);
 console.log(stus[pos]);
 ```
@@ -834,35 +837,35 @@ let pos = Math.floor(Math.random() * (3-1)) + 1;
 console.log(stus[pos]);
 ```
 
-## [#](https://doc.google.com/js/3 基本类型.html#date)Date
+## Date
 
 网站中处理日期时间是很常用的功能，通过 `Date` 类型提供的丰富功能可以非常方便的操作。
 
-### [#](https://doc.google.com/js/3 基本类型.html#声明日期)声明日期
+### 声明日期
 
 获取当前日期时间
 
 ```js
 let now = new Date();
-console.log(now);
-console.log(typeof date); //object
-console.log(now * 1); //获取时间戳
+console.log(now);  // Mon Sep 13 2021 21:09:20 GMT+0800 (中国标准时间)
+console.log(typeof new Date()); //object
+console.log(now * 1); //获取时间戳 1631538560135
 
 //直接使用函数获取当前时间
-console.log(Date());
-console.log(typeof Date()); //string
+console.log(Date());  // Mon Sep 13 2021 21:10:59 GMT+0800 (中国标准时间)
+console.log(typeof Date()); // string 作为函数的返回值是一个string
 
 //获取当前时间戳单位毫秒
-console.log(Date.now());
+console.log(Date.now());  // 1631538700238
 ```
 
 计算脚本执行时间
 
 ```js
 const start = Date.now();
-for (let i = 0; i < 2000000; i++) {}
+for (let i = 0; i < 20000000; i++) {}
 const end = Date.now();
-console.log(end - start);
+console.log(end - start);  // 12
 ```
 
 当然也可以使用控制台测试
@@ -870,7 +873,7 @@ console.log(end - start);
 ```js
 console.time("testFor");
 for (let i = 0; i < 20000000; i++) {}
-console.timeEnd("testFor");
+console.timeEnd("testFor");  // testFor: 11.673095703125 ms
 ```
 
 根据指定的日期与时间定义日期对象
@@ -878,9 +881,11 @@ console.timeEnd("testFor");
 ```js
 let now = new Date('2028-02-22 03:25:02');
 console.log(now);
+// Tue Feb 22 2028 03:25:02 GMT+0800 (中国标准时间)
 
 now = new Date(2028, 4, 5, 1, 22, 16);
 console.log(now);
+// Fri May 05 2028 01:22:16 GMT+0800 (中国标准时间)
 ```
 
 使用展示运算符处理更方便
@@ -888,22 +893,25 @@ console.log(now);
 ```js
 let info = [2020, 2, 20, 10, 15, 32];
 let date = new Date(...info);
-console.dir(date);
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#类型转换-3)类型转换
+### 类型转换 💡
 
-将日期转为数值类型就是转为时间戳单位是毫秒
+📌 将日期转为数值类型就是转为时间戳单位是毫秒
+
+📌 `Date`类型提供的静态方法`now()`和实例方法`getTime()`都能获取到时间戳。
 
 ```js
 let abc = new Date("2020-2-22 10:33:12");
-console.log(abc * 1);
+console.log(abc * 1);  // 1582338792000
 
-console.log(Number(abc));
+console.log(Number(abc));  // 1582338792000
 
-console.log(abc.valueOf())
+console.log(abc.valueOf())  // 1582338792000
 
-console.log(date.getTime());
+console.log(date.getTime());  // 1582338792000
+
+console.log(Date.now());  // 1582338792000
 ```
 
 有时后台提供的日期为时间戳格式，下面是将时间戳转换为标准日期的方法
@@ -912,11 +920,12 @@ console.log(date.getTime());
 const param = [1990, 2, 22, 13, 22, 19];
 const date = new Date(...param);
 const timestamp = date.getTime();
-console.log(timestamp);
+console.log(timestamp);  // 638083339000
 console.log(new Date(timestamp));
+// Thu Mar 22 1990 13:22:19 GMT+0800 (中国标准时间)
 ```
 
-### [#](https://doc.google.com/js/3 基本类型.html#对象方法)对象方法
+### 对象方法 💡
 
 格式化输出日期
 
@@ -924,7 +933,7 @@ console.log(new Date(timestamp));
 let time = new Date();
 console.log(
   `${time.getFullYear()}-${time.getMonth()}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-);
+);  // 2021-8-13 21:22:31
 ```
 
 封装函数用于复用
@@ -944,7 +953,7 @@ function dateFormat(date, format = "YYYY-MM-DD HH:mm:ss") {
   }
   return format;
 }
-console.log(dateFormat(new Date(), "YYYY年MM月DD日"));
+console.log(dateFormat(new Date(), "YYYY年MM月DD日"));  // 2021年9月13日
 ```
 
 下面是系统提供的日期时间方法，更多方法请查看 [MDN官网(opens new window)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date)
@@ -1000,7 +1009,7 @@ console.log(dateFormat(new Date(), "YYYY年MM月DD日"));
 | UTC()                | 根据世界时返回 1970 年 1 月 1 日 到指定日期的毫秒数。  |
 | valueOf()            | 返回 Date 对象的原始值。                               |
 
-### [#](https://doc.google.com/js/3 基本类型.html#moment-js)moment.js
+### moment.js
 
 Moment.js是一个轻量级的JavaScript时间库，它方便了日常开发中对时间的操作，提高了开发效率。
 
@@ -1027,3 +1036,4 @@ console.log(moment("2020-02-18 09:22:15").format("YYYY-MM-DD HH:mm:ss"));
 ```js
 console.log(moment().add(10, "days").format("YYYY-MM-DD hh:mm:ss"));
 ```
+

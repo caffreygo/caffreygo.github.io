@@ -7,6 +7,10 @@ module.exports = [{
           link: "/javascript/basic",
         },
         {
+          text: "基本类型",
+          link: "/javascript/basicType",
+        },
+        {
           text: "数组类型",
           link: "/javascript/array",
         },

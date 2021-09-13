@@ -1,4 +1,4 @@
-## JavaScript数据结构和算法
+# JavaScript数据结构和算法
 
 ## 排序和搜索算法
 
@@ -18,6 +18,7 @@ function toggleItem(array, index1, index2) {
 function bubbleSort(arr) {
     const { length } = arr
     for (let i = 0; i < length; i++) {
+        // 每一次外循环之后，都能确定一个最大值
         for (let j = 0; j < length - 1 - i; j++) {
             // 每次内循环，间隔对比找到最大的值，放到后面
             // 如果前者比后者大，调换位置达到从小到大的效果
@@ -43,7 +44,7 @@ function selectSort(arr) {
     let minIndex;
     for (let i = 0; i < length; i++) {
         minIndex = i;
-        // 每次内循环，遍历对比找到最小值的索引
+        // 每次内循环，遍历对比找到最小值的索引，所以每次都能确定一个最小值
         for (let j = i + 1; j < length; j++) {
             if (arr[j] < arr[minIndex]) {
                 minIndex = j
@@ -57,4 +58,46 @@ function selectSort(arr) {
     return arr
 }
 ```
+
+### 插入排序
+
+如果要将`[1,2,3,0]`数组当中的0移动到第一个位置，我们需要设置一个变量`temp`保存`arr[3]`；
+
+然后从右向左遍历将所有数组项的索引右移一位，最后把`0temp赋值给`arr[0]`即可。
+
+```js
+const arr = [1,2,3,0];
+let i = arr.length - 1;
+let temp = arr[i];  // 0
+while(i>0) {
+    arr[i] = arr[i-1];
+    i--;
+}
+arr[0] = temp;
+console.log(arr);  // [0, 1, 2, 3]
+```
+
+插入排序每次排一个数组项，以此方式构建最后的排序数组。
+
+```js
+function insertSort(array) {
+    const {
+        length
+    } = array
+    let temp;
+
+    for (let i = 1; i < length; i++) {
+        let j = i;
+        temp = array[j];
+        while (j > 0 && array[j - 1] > temp) {
+            array[j] = array[j - 1]
+            j--;
+        }
+        array[j] = temp;
+    }
+    return array;
+}
+```
+
+**注意**：在排序小型数组时，此算法比选择排序和冒泡排序性能要好
 

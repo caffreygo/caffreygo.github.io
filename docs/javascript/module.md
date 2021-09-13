@@ -167,7 +167,7 @@ console.log(abc)
 - 可以在首次导入时完成一些初始化工作
 - 如果模块内有后台请求，也只执行一次即可
 
-引入多入`abc.js` 脚本时只执行一次
+引入多个`abc.js` 脚本时只执行一次
 
 ```html
 <script type="module" src="abc.js"></script>

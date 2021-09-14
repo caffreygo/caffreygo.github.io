@@ -101,3 +101,57 @@ function insertSort(array) {
 
 **注意**：在排序小型数组时，此算法比选择排序和冒泡排序性能要好
 
+### 归并排序
+
+📗 归并排序是第一个可以实际使用的排序算法，我们之前的三种算法性能不是特别的好，但归并排序性能不错，在`JavaScript`中，`Array.prototype.sort()`方法，`ECMAScript`并没有定义使用哪种排序算法，而是交给浏览器厂商自己去实现，而对于谷歌`V8引擎`，其使用了快速排序的变体；在`Firefox`浏览器中，则是使用了归并排序。
+
+#### 实现
+
+![](./img/mergeSort.png)
+
+首先，假设我们有两个已经是排序过的数组，实现一个将这两个数组合并成一个的`merge`方法:
+
+```js
+function merge(left, right) {
+    let i = 0;
+    let j = 0;
+    // 需要一个额外的数组空间保存结果
+    const result = [];
+    // 当left和right都还有未遍历项时
+    while (i < left.length && j < right.length) {
+        // 找到left和right当中的最小一项push到result,然后索引自增1
+        result.push(left[i] > right[j] ? right[j++] : left[i++]);
+    }
+    // left如果已经遍历完, 将right连接到result,反之将left的剩余项连接到result
+    // result.concat(i < left.length ? left.slice(i) : right.slice(j))
+    return result.concat(i == left.length ? right.slice(j) : left.slice(i))
+    
+}
+
+console.log(merge([1, 2], [0, 4]));  // [0, 1, 2, 4]
+console.log(merge([2, 3, 5], [0, 4]));  // [0, 2, 3, 4, 5]
+console.log(merge([1], [0]));  // [0, 1]
+```
+
+归并排序是一种分而治之的算法，其思想是将原始数组切分为较小的数组，直到每个小数组只有一个位置，接着将小数组归并成较大的数组，直到最后只有一个排序完毕的大数组。
+
+```js
+function mergeSort(array) {
+    if (array.length > 1) {
+        const { length } = array
+        const middle = Math.floor(length / 2)
+        const left = mergeSort(array.slice(0, middle))
+        const right = mergeSort(array.slice(middle, length))
+        array = merge(left, right)
+    }
+    return array
+}
+
+const result = mergeSort([8, 7, 6, 5, 4, 3, 2, 1])
+console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+#### 总结
+
+- 归并排序是**稳定**排序，它也是一种十分高效的排序，能利用完全二叉树特性的排序一般性能都不会太差。从上文的图中可看出，每次合并操作的平均时间复杂度为O(n)，而完全二叉树的深度为|log2n|。总的平均时间复杂度为O(nlogn)。而且，归并排序的最好，最坏，平均时间复杂度均为O(nlogn)。
+-  归并的空间复杂度就是那个临时的数组和递归时压入栈的数据占用的空间：n + logn；所以空间复杂度为: O(n)

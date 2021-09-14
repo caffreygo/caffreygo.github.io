@@ -19,7 +19,13 @@ module.exports = {
       "/javascript/task.md",
       "/javascript/JPromise.md",
     ],
-  }, ],
+  }],
+  "/book/": [{
+    text: "语法基础",
+    children: [
+      "/book/algorithm.md",
+    ],
+  }],
   "/typescript/": [{
       text: "语法基础",
       children: [
@@ -47,7 +53,7 @@ module.exports = {
       "/framework/vue/vue",
       "/framework/vue/book",
     ],
-  }, ],
+  }],
   "/framework/react/": [{
     text: "React.js",
     children: [
@@ -55,7 +61,7 @@ module.exports = {
       "/framework/react/redux",
       "/framework/react/note",
     ],
-  }, ],
+  }],
   "/tools/webpack/": [{
     text: "Webpack",
     children: [
@@ -65,9 +71,9 @@ module.exports = {
       "/tools/webpack/step-4",
       "/tools/webpack/step-5",
     ],
-  }, ],
+  }],
   "/tools/": [{
-    text: "HTTP协议",
+    text: "工具协议",
     children: ["/tools/http", "/tools/git"],
-  }, ],
+  }],
 };

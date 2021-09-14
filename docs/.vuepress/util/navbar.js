@@ -70,6 +70,17 @@ module.exports = [{
     }, ],
   },
   {
+    text: "前端书籍",
+    children: [{
+      text: "JavaScript书籍",
+      children: [{
+          text: "JavaScript数据结构与算法",
+          link: "/book/algorithm",
+        }
+      ]
+    }]
+  },
+  {
     text: "TypeScript",
     children: [{
         text: "语法基础",

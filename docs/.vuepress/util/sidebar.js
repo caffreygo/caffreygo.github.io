@@ -20,6 +20,13 @@ module.exports = {
       "/javascript/JPromise.md",
     ],
   }],
+  "/html/": [{
+    text: "HTML",
+    children: [
+      "/html/structure.md",
+      "/html/text.md",
+    ],
+  }],
   "/book/": [{
     text: "语法基础",
     children: [

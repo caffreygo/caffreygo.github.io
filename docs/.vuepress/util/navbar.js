@@ -67,7 +67,17 @@ module.exports = [{
           link: "/javascript/JPromise",
         },
       ],
-    }, ],
+    }],
+  },
+  {
+    text: "HTML",
+    children: [{
+      text: "页面结构",
+      link: "/html/structure",
+    },{
+      text: "文本相关",
+      link: "/html/text",
+    }],
   },
   {
     text: "前端书籍",

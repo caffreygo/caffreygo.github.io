@@ -155,3 +155,78 @@ console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 - 归并排序是**稳定**排序，它也是一种十分高效的排序，能利用完全二叉树特性的排序一般性能都不会太差。从上文的图中可看出，每次合并操作的平均时间复杂度为O(n)，而完全二叉树的深度为|log2n|。总的平均时间复杂度为O(nlogn)。而且，归并排序的最好，最坏，平均时间复杂度均为O(nlogn)。
 -  归并的空间复杂度就是那个临时的数组和递归时压入栈的数据占用的空间：n + logn；所以空间复杂度为: O(n)
+
+### 快速排序
+
+📗  快速排序也许是最常用的排序算法了。它的复杂度为O(nlog(n))，且性能通常比其他复杂度为O(nlog(n))的排序算法要好。和归并排序一样，快速排序也使用**分而治之**的方法，将原始数组分为较小的数组（但它没有像归并排序那样将它们分割开）。
+
+::: tip 快速排序的思想很简单，整个排序过程只需要三步：
+
+- 在数据集之中，选择一个元素作为"基准"（pivot）。
+- 所有小于"基准"的元素，都移到"基准"的左边；所有大于"基准"的元素，都移到"基准"的右边。
+- 对"基准"左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。
+
+::: 
+
+#### 基本实现
+
+```js
+function quickSort(arr) {
+    if (arr.length <= 1) { return arr; }
+    var pivotIndex = Math.floor(arr.length / 2);
+    var pivot = arr.splice(pivotIndex, 1)[0];
+    var left = [];
+    var right = [];
+    for (var i = 0; i < arr.length; i++){
+        if (arr[i] < pivot) {
+            left.push(arr[i]);
+        } else {
+            right.push(arr[i]);
+        }
+    }
+    return quickSort(left).concat([pivot], quickSort(right));
+};
+```
+
+#### 双指针
+
+```js
+function quickSort(array, left, right) {
+    let index;
+    if (array.length > 1) {
+        index = partition(array, left, right);
+        if (left < index - 1) {
+            quickSort(array, left, index - 1);
+        }
+        if (index < right) {
+            quickSort(array, index, right);
+        }
+    }
+    return array;
+};
+
+function partition(array, left, right) {
+    const pivot = array[Math.floor((right + left) / 2)];
+    let i = left;
+    let j = right;
+
+    while (i <= j) {
+        while (array[i] < pivot) {
+            i++;
+        }
+        while (array[j] > pivot) {
+            j--;
+        }
+        if (i <= j) {
+            toggleItem(array, i, j)
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+const array = [9, 6, 7, 8, 2, 3, 5, 1]
+console.table(quickSort(array, 0, array.length - 1))
+```
+

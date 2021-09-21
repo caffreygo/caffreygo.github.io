@@ -25,6 +25,8 @@ module.exports = {
     children: [
       "/html/structure.md",
       "/html/text.md",
+      "/html/link-img.md",
+      "/html/form-list.md",
     ],
   }],
   "/book/": [{

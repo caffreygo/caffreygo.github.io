@@ -77,6 +77,12 @@ module.exports = [{
     },{
       text: "文本相关",
       link: "/html/text",
+    },{
+      text: "链接与图像",
+      link: "/html/link-img",
+    },{
+      text: "表单与列表",
+      link: "/html/form-list",
     }],
   },
   {

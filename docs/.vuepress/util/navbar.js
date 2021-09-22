@@ -89,6 +89,12 @@ module.exports = [{
         text: "表格与媒体",
         link: "/html/table-media",
       }],
+    }, {
+      text: "CSS",
+      children: [{
+        text: "基本知识",
+        link: "/css/basic"
+      }]
     }]
   },
   {

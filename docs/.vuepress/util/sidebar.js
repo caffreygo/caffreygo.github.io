@@ -30,6 +30,12 @@ module.exports = {
       "/html/table-media.md",
     ],
   }],
+  "/css/": [{
+    text: "CSS",
+    children: [
+      "/css/basic.md",
+    ],
+  }],
   "/book/": [{
     text: "语法基础",
     children: [

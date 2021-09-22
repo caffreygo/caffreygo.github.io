@@ -27,6 +27,7 @@ module.exports = {
       "/html/text.md",
       "/html/link-img.md",
       "/html/form-list.md",
+      "/html/table-media.md",
     ],
   }],
   "/book/": [{

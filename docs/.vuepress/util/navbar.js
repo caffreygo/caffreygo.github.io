@@ -70,30 +70,35 @@ module.exports = [{
     }],
   },
   {
-    text: "HTML",
+    text: "HTML与CSS",
     children: [{
-      text: "页面结构",
-      link: "/html/structure",
-    },{
-      text: "文本相关",
-      link: "/html/text",
-    },{
-      text: "链接与图像",
-      link: "/html/link-img",
-    },{
-      text: "表单与列表",
-      link: "/html/form-list",
-    }],
+      text: "HTML",
+      children: [{
+        text: "页面结构",
+        link: "/html/structure",
+      }, {
+        text: "文本相关",
+        link: "/html/text",
+      }, {
+        text: "链接与图像",
+        link: "/html/link-img",
+      }, {
+        text: "表单与列表",
+        link: "/html/form-list",
+      }, {
+        text: "表格与媒体",
+        link: "/html/table-media",
+      }],
+    }]
   },
   {
     text: "前端书籍",
     children: [{
       text: "JavaScript书籍",
       children: [{
-          text: "JavaScript数据结构与算法",
-          link: "/book/algorithm",
-        }
-      ]
+        text: "JavaScript数据结构与算法",
+        link: "/book/algorithm",
+      }]
     }]
   },
   {

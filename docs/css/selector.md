@@ -51,15 +51,15 @@ h1,h3{
 }
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#类选择器)类选择器
+### 类选择器
 
 类选择器是为一类状态声明样式规则，下面是把文本居中定义为类样式。
 
-```css
+```html
 <style>
-.text-center {
-    text-align: center;
-}
+    .text-center {
+        text-align: center;
+    }
 </style>
 
 <h1 class="text-center">google.com</h1>
@@ -80,14 +80,14 @@ span.help-block {
 }
 ...
 
-<span class="help-block">感谢访问后盾人</span>
+<span class="help-block">content</span>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#id选择器)ID选择器
+### ID选择器
 
 为有 id 属性的元素设置样式
 
-```css
+```html
 #container {
     background: red;
 }
@@ -96,154 +96,183 @@ span.help-block {
 <h1 id="container">google.com</h1>
 ```
 
-> 文档中ID应该是唯一的，虽然为多个元素设置同一个ID也可以产生样式效果，但这是不符合规范的。
+> 👾 文档中ID应该是唯一的，虽然为多个元素设置同一个ID也可以产生样式效果，但这是不符合规范的。
 >
-> 建议优先使用类选择器
+> 🧐 建议优先使用类选择器
 
-## [#](https://doc.google.com/css/2 选择器.html#结构选择器)结构选择器
+## 结构选择器
 
-| 选择器           | 示例  | 描述                               |
-| :--------------- | ----- | :--------------------------------- |
-| element element  | div p | 选择元素内部的所有元素             |
-| element>element  | div>p | 选择父元素为元素的所有元素         |
-| element+element  | div+p | 选择紧接在元素之后的元素           |
-| element~element2 | p~ul  | 选择元素同级并在元素后面的所有元素 |
+| 选择器           | 示例  | 描述                                   |
+| :--------------- | ----- | :------------------------------------- |
+| element element  | div p | 选择元素内部的所有元素                 |
+| element>element  | div>p | 选择父元素为元素的所有元素             |
+| element+element  | div+p | 选择**紧接**在元素之后的元素(单个)     |
+| element~element2 | p~ul  | 选择元素同级并在元素后面的**所有元素** |
 
-### [#](https://doc.google.com/css/2 选择器.html#后代选择器)后代选择器
+### 后代选择器
 
-HTML中元素是以父子级、兄弟关系存在的。后代选择器指元素后的元素（不只是子元素，是后代元素）。
+📗 HTML中元素是以父子级、兄弟关系存在的。后代选择器指元素后的元素（不只是子元素，是后代元素）。
 
-```css
-main article h2,main h1 {
-    color: green;
-}
+```html
+<style>
+    main article h2,
+    main h1 {
+        color: green;
+    }
+</style>
+...
+<main>
+    <article>
+        <h2 name="google">google.com</h2>
+        <aside>
+            <h2>baidu.com</h2>
+        </aside>
+    </article>
+    <h2 name="mdn.com">mdn.com</h2>
+    <h1>hello</h1>
+</main>
+```
+
+![](./img/selector/1.png)
+
+### 子元素选择
+
+📗 子元素选择器中选择子元素，不包括孙级及以下元素。
+
+```html
+<style>
+    main article>h2 {
+        color: green;
+    }
+</style>
 ...
 
 <main>
 	<article>
 		<h2 name="google">google.com</h2>
 		<aside>
-			<h2>houdunwang.com</h2>
+			<h2>baidu.com</h2>
 		</aside>
 	</article>
 	<h2 name="mdn.com">mdn.com</h2>
-	<h1>后盾人</h1>
+	<h1>Hello</h1>
 </main>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#子元素选择)子元素选择
+![](./img/selector/2.png)
 
-子元素选择器中选择子元素，不包括孙级及以下元素。
-
-```css
-main article>h2 {
-    color: green;
-}
-...
-
-<main>
-	<article>
-		<h2 name="google">google.com</h2>
-		<aside>
-			<h2>houdunwang.com</h2>
-		</aside>
-	</article>
-	<h2 name="mdn.com">mdn.com</h2>
-	<h1>后盾人</h1>
-</main>
-```
-
-### [#](https://doc.google.com/css/2 选择器.html#紧邻兄弟元素)紧邻兄弟元素
+### 紧邻兄弟元素
 
 用于选择紧挨着的同级兄弟元素。
 
-```css
-main article+h2 {
-    color: green;
-}
+```html
+<style>
+    main article+h2 {
+        color: green;
+    }
+</style>
 ...
 
 <main>
 	<article>
 		<h2 name="google">google.com</h2>
 		<aside>
-			<h2>houdunwang.com</h2>
+			<h2>baidu.com</h2>
 		</aside>
 	</article>
 	<h2 name="mdn.com">mdn.com</h2>
-	<h1>后盾人</h1>
+	<h1>Hello</h1>
 </main>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#后面兄弟元素)后面兄弟元素
+![](./img/selector/3.png)
+
+### 后面兄弟元素
 
 用于选择后面的所有兄弟元素。
 
-```css
-main article~* {
-    color: green;
-}
+```html
+<style>
+    main article~* {
+        color: green;
+    }
+</style>
 ...
 
 <main>
 	<article>
 		<h2 name="google">google.com</h2>
 		<aside>
-			<h2>houdunwang.com</h2>
+			<h2>baidu.com</h2>
 		</aside>
 	</article>
 	<h2 name="mdn.com">mdn.com</h2>
-	<h1>后盾人</h1>
+	<h1>Hello</h1>
 </main>
 ```
 
-## [#](https://doc.google.com/css/2 选择器.html#属性选择器)属性选择器
+![](./img/selector/4.png)
+
+## 属性选择器
 
 根据属性来为元素设置样式也是常用的场景。
 
 | 选择器              | 示例               | 描述                                                        |
 | :------------------ | ------------------ | :---------------------------------------------------------- |
 | [attribute]         | [target]           | 带有 target 属性所有元素                                    |
-| [attribute=value]   | [target=_blank]    | targe 属性 等于"_blank" 的所有元素                          |
-| [attribute~=value]  | [title~=google] | title 属性包含单词 "google" 的所有元素                   |
-| [attribute\|=value] | [title\|=hd]       | `title 属性值为 "hd"的单词，或hd-cms` 以`-`连接的的独立单词 |
-| [attribute*=value]  | a[src*="mdn"]    | src 属性中包含 "mdn" 字符的每个 元素                      |
-| [attribute^=value]  | a[src^="https"]    | src 属性值以 "https" 开头的每个 元素                        |
-| [attribute$=value]  | a[src$=".jpeg"]    | src 属性以 ".jpeg" 结尾的所有 元素                          |
+| [attribute=value]   | [target=_blank]    | targe 属性 **等于**"_blank" 的所有元素                      |
+| [attribute~=value]  | [title~=google] | title 属性**包含**单词 "google" 的所有元素               |
+| [attribute\|=value] | [title\|=prop]   | title 属性值为 "prop"的单词，或"hh-prop"以`-`**连接**的的独立单词 |
+| [attribute*=value]  | a[src*="mdn"]    | src 属性中**包含** "mdn" 字符的每个 `a`元素               |
+| [attribute^=value]  | a[src^="https"]    | src 属性值以 "https" **开头**的每个 `a`元素                 |
+| [attribute$=value]  | a[src$=".jpeg"]    | src 属性以 ".jpeg" **结尾**的所有 `a`元素                   |
 
 为具有 `class` 属性的h1标签设置样式
 
-```css
-h1[class] {
-    color: red;
-}
-...
+```html
+<style>
+    h1[class] {
+        color: red;
+    }
+</style>
 
 <h1 class="container">google.com</h1>
 ```
 
+![](./img/selector/5.png)
+
 约束多个属性
 
-```css
-h1[class][id] {
-    color: red;
-}
-...
+```html
+<style>
+    h1[class][id] {
+        color: red;
+    }
+</style>
 
-<h1 class="container" id >google.com</h1>
+<h1 class="container" id>google.com</h1>
 ```
 
-具体属性值设置样式
+---
 
-```css
-a[href="https://www.google.com"] {
-    color: green;
-}
-...
+### = 相等
 
-<a href="https://www.google.com">后盾人</a>
-<a href="">HDCMS</a>
+**具体**属性值设置样式
+
+```html
+<style>
+    a[href="https://www.google.com"] {
+        color: green;
+    }
+</style>
+
+<a href="https://www.google.com">Google</a>
+<a href="">Baidu</a>
 ```
+
+![](./img/selector/6.png)
+
+### ^= 开始匹配
 
 `^` 以指定值开头的元素
 
@@ -257,55 +286,76 @@ h2[name^="mdn"] {
 <h2 name="mdn.com">mdn.com</h2>
 ```
 
+![](./img/selector/7.png)
+
+### $= 结束匹配
+
 `$` 以指定值结尾的元素
 
-```css
+```html
+<style>
+    h2[name$="gle"] {
+        color: red;
+    }
+</style>
+
 <h2 name="google">google.com</h2>
 <h2 name="mdn.com">mdn.com</h2>
-...
-
-h2[name$="com"] {
-    color: red;
-}
 ```
+
+![](./img/selector/8.png)
+
+### *= 任意匹配
 
 `*` 属性内部任何位置出现值的元素
 
-```css
-h2[name*="google"] {
-    color: red;
-}
-...
-
+```html
+<style>
+    h2[name*="google"] {
+        color: red;
+    }
+</style>
 <h2 name="google">google.com</h2>
 <h2 name="google.com">mdn.com</h2>
 ```
 
+![](./img/selector/9.png)
+
+### ~= 包含匹配 💡
+
 `~` 属性值中包含指定词汇的元素
 
-```css
-h2[name~="google"] {
-    color: red;
-}
-...
+注意 📌 ：这边的`<h2 name="google.com">mdn.com</h2>`不符合包含google这个词汇的要求，如果是`<h2 name="google web">mdn.com</h2>`这种情况才会被这个选择器匹配到。
 
+```html
+<style>
+    h2[name~="google"] {
+        color: red;
+    }
+</style>
 <h2 name="google">google.com</h2>
-<h2 name="google web">mdn.com</h2>
+<h2 name="google.com">mdn.com</h2>
 ```
 
-`|` 以指定值开头或以属性连接破折号的元素
+![](./img/selector/8.png)
 
-```css
-h2[name|="google"] {
-    color: red;
-}
-...
+### |= -连接匹配 💡
 
+`|` 以指定值**开头**或以属性连接破折号`-`的元素 
+
+```html
+<style>
+    h2[name|="google"] {
+        color: red;
+    }
+</style>
 <h2 name="google">google.com</h2>
 <h2 name="google-web">mdn.com</h2>
 ```
 
-## [#](https://doc.google.com/css/2 选择器.html#伪类选择器)伪类选择器
+![](./img/selector/9.png)
+
+## 伪类选择器 👾
 
 为元素的不同状态或不确定存在的元素设置样式规则。
 
@@ -315,7 +365,7 @@ h2[name|="google"] {
 | :visited             | a:visited             | 选择所有已被访问的链接                     |
 | :hover               | a:hover               | 鼠标移动到元素上时                         |
 | :active              | a:active              | 点击正在发生时                             |
-| :focus               | input::focus          | 选择获得焦点的 input 元素                  |
+| :focus               | input:focus           | 选择获得焦点的 input 元素                  |
 | :root                | :root                 | 选择文档的根元素即html。                   |
 | :empty               | p:empty               | 选择没有子元素的每个元素（包括文本节点）。 |
 | :first-child         | p:first-child         | 选择属于父元素的第一个子元素的每个元素     |
@@ -332,72 +382,82 @@ h2[name|="google"] {
 | :nth-last-of-type(n) | p:nth-last-of-type(2) | 同上，但是从最后一个子元素开始计数。       |
 | :not(selector)       | :not(p)               | 选择非元素的每个元素                       |
 
-### [#](https://doc.google.com/css/2 选择器.html#超链接伪类):超链接伪类
+### :超链接伪类
 
 定义链接的不同状态
 
-```css
-a:link {
-    color: red
-}
+```html
+<style>
+    a:link {
+        color: red
+    }
 
-a:visited {
-    color: green
-}
+    a:visited {
+        color: green
+    }
 
-a:hover {
-    color: blue
-}
+    a:hover {
+        color: blue
+    }
 
-a:active {
-    color: yellow
-}
-...
-
-<a href="https://www.google.com">后盾人</a>
+    a:active {
+        color: yellow
+    }
+</style>
+<a href="javascript:;">链接</a>
 ```
+
+![](./img/selector/a.gif)
 
 不只是链接可以使用伪类，其他元素也可以使用。下面是对表单的点击与获取焦点状态的样式设置。
 
-```css
-input:focus {
-    background: green;
-}
+```html
+<style>
+    input:focus {
+        background: green;
+    }
 
-input:hover {
-    background: blue;
-}
+    input:hover {
+        background: blue;
+    }
 
-input:active {
-    background: yellow;
-}
-...
-
+    input:active {
+        background: yellow;
+    }
+</style>
 <input type="text">
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#target):target
+![](./img/selector/input.gif)
+
+### :target
 
 用于控制具有锚点目标元素的样式
 
 ```css
-div {
-	height: 900px;
+:target {
+    border: 2px solid #D4D4D4;
+    background-color: #e5eecc;
 }
-
-div:target {
-	color: red;
-}
-...
-
-<a href="#mdn">mdn</a>
-<div></div>
-<div id="mdn">
-	mdn内容管理系统
-</div>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#root):root
+```html
+<h1>这是标题</h1>
+
+<p><a href="#news1">跳转至内容 1</a></p>
+<p><a href="#news2">跳转至内容 2</a></p>
+
+<p>请点击上面的链接，:target 选择器会突出显示当前活动的 HTML 锚。</p>
+
+<p id="news1"><b>内容 1...</b></p>
+<p id="news2"><b>内容 2...</b></p>
+
+<p><b>注释：</b> Internet Explorer 8 以及更早的版本不支持 :target 选择器。</p>
+```
+
+![](./img/selector/target.gif)
+
+### :root
 
 根元素选择伪类即选择html
 
@@ -407,200 +467,248 @@ div:target {
 }
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#empty):empty
+### :empty
 
 没有内容和空白的元素。下面第一个p标签会产生样式，第二个不会因为有空白内容
 
-```css
-:empty {
-    border: solid 2px red;
-}
-...
+```html
+<style>
+    p {
+        height: 20px;
+        border: 1px solid;
+    }
+    :empty {
+        border: solid 2px red;
+    }
+</style>
 
 <p></p>
 <p> </p>
 ```
 
-## [#](https://doc.google.com/css/2 选择器.html#结构伪类)结构伪类
+![](./img/selector/10.png)
+
+## 结构伪类
 
 下面来通过结构伪类选择器选择树状结构中的标签元素。
 
-### [#](https://doc.google.com/css/2 选择器.html#first-child):first-child
+::: tip 区别
+
+- :last-child表示其父元素的最后一个子元素，且这个元素是css指定的元素，才可以生效
+- :last-of-type代表在一群兄弟元素中的最后一个指定类型的元素
+
+::: 
+
+### :first-child
 
 选择元素中`span` 标签并且是第一个。
 
-```css
-article span:first-child {
-    color: red;
-}
-...
+```html
+<style>
+    article span:first-child {
+        color: red;
+    }
+</style>
 
 <article>
-	<span>google.com</span>
-	<aside>
-		<span>houdunwang.com</span>
-		<span>mdn.com</span>
-	</aside>
+    <!-- span必须是当前article的第一个子元素 -->
+    <span>1</span>
+    <span>2</span>
+    <aside>
+        <span>3</span>
+        <span>4</span>
+    </aside>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#first-of-type):first-of-type
+![](./img/selector/11.png)
+
+### :first-of-type
 
 选择类型是`span` 的第一个元素
 
-```css
-article span:first-of-type {
-    color: red;
-}
-...
+```html
+<style>
+    article span:first-of-type {
+        color: red;
+    }
+</style>
 
 <article>
-	<span>google.com</span>
-	<aside>
-		<strong>mdn.com</strong>
-		<span>houdunwang.com</span>
-	</aside>
+    <!-- div元素不影响 会找第一个span标签 -->
+    <div></div>
+    <span>1</span>
+    <span>2</span>
+    <aside>
+        <span>3</span>
+        <span>4</span>
+    </aside>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#last-child):last-child
+![](./img/selector/11.png)
+
+### :last-child
 
 选择元素中`span` 标签并且是最后一个。
 
-```css
-article span:last-child {
-    color: red;
-}
-...
+```html
+<style>
+    article span:last-child {
+        color: red;
+    }
+</style>
 
 <article>
-  <span>google.com</span>
-  <aside>
-    <strong>mdn.com</strong>
-    <span>houdunwang.com</span>
-  </aside>
-  <span>hdphp.com</span>
+    <span>1</span>
+    <span>2</span>
+    <aside>
+        <span>3</span>
+        <span>4</span>
+    </aside>
+    <span>5</span>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#last-of-type):last-of-type
+![](./img/selector/12.png)
+
+### :last-of-type
 
 选择类型为`span` 的最后一个元素
 
-```css
-article span:last-of-type {
-    color: red;
-}
-...
+```html
+<style>
+    article span:last-of-type {
+        color: red;
+    }
+</style>
 
 <article>
-  <span>google.com</span>
-  <aside>
-  	<span>houdunwang.com</span>
-  	<strong>mdn.com</strong>
-  </aside>
-  <span>hdphp.com</span>
+    <span>1</span>
+    <span>2</span>
+    <aside>
+        <span>3</span>
+        <span>4</span>
+    </aside>
+    <span>5</span>
+    <!-- div元素不影响 会找最后一个span标签 -->
+    <div></div>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#only-child):only-child
+![](./img/selector/12.png)
 
-选择是唯一子元素的`span` 标签
+### :only-child
 
-```css
-article span:only-child {
-    color: red;
-}
-...
+选择是唯一子元素的`span` 标签（👾 第一个span标签当前层级还有aside，该选择器不会作用到）
+
+```html
+<style>
+    article span:only-child {
+        color: red;
+    }
+</style>
 
 <article>
-	<span>google.com</span>
-	<aside>
-		<span>houdunwang.com</span>
-	</aside>
+    <span>google.com</span>
+    <aside>
+        <span>baidu.com</span>
+    </aside>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#only-of-type):only-of-type
+![](./img/selector/13.png)
 
-选择同级中类型是`span` 的唯一子元素
+### :only-of-type
 
-```css
-article span:only-of-type {
-    color: red;
-}
-...
+选择同级中类型是`span` 的唯一子元素（👾 都满足是当前层级的唯一span类型标签）
+
+```html
+<style>
+    article span:only-of-type {
+        color: red;
+    }
+</style>
 
 <article>
-	<span>google.com</span>
-	<aside>
-		<span>houdunwang.com</span>
-		<span>mdn.com</span>
-	</aside>
+    <span>google.com</span>
+    <aside>
+        <span>baidu.com</span>
+    </aside>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#nth-child-n):nth-child(n)
+![](./img/selector/14.png)
+
+### :nth-child(n)
 
 选择第二个元素并且是span标签的
 
-```css
-article span:nth-child(2) {
-    color: red;
-}
-...
+```html
+<style>
+    article span:nth-child(2) {
+        color: red;
+    }
+</style>
 
 <article>
-  <span>google.com</span>
-  <aside>
-    <span>houdunwang.com</span>
-    <span>mdn.com</span>
-  </aside>
-  <span>hdphp.com</span>
+    <span>google.com</span>
+    <aside>
+        <span>baidu.com</span>
+        <span>wiki.com</span>
+    </aside>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#nth-of-type-n):nth-of-type(n)
+![](./img/selector/15.png)
+
+### :nth-of-type(n)
 
 选择第二个`span` 元素，不管中间的其他元素
 
-```css
-article span:nth-of-child(2) {
-    color: red;
-}
-...
+```html
+<style>
+    article span:nth-of-type(2) {
+        color: red;
+    }
+</style>
 
 <article>
-  <span>google.com</span>
-  <aside>
-    <span>houdunwang.com</span>
-    <span>mdn.com</span>
-  </aside>
-  <span>hdphp.com</span>
+    <span>google.com</span>
+    <aside>
+        <span>baidu.com</span>
+        <span>wiki.com</span>
+    </aside>
+    <span>MDN.com</span>
 </article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#计算数量)计算数量
+![](./img/selector/16.png)
 
-n为0/1/2/3... ，下面是隔列变色
+### 计算数量
 
-```css
-table tr>td:nth-child(2n+1) {
-    background: green;
-    color: white;
-}
-...
+📗 n为0/1/2/3... ，下面是隔列变色
+
+```html
+<style>
+    table tr>td:nth-child(2n+1) {
+        background: green;
+        color: white;
+    }
+</style>
 
 <table border="1">
-  <tr>
-    <td>google.com</td>
-    <td>mdn.com</td>
-    <td>后盾人</td>
-    <td>houdunwang.com</td>
-    <td>mdn</td>
-  </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+    </tr>
 </table>
 ```
+
+![](./img/selector/17.png)
 
 从第三个开始设置样式
 
@@ -611,6 +719,8 @@ table tr>td:nth-child(n+3) {
 }
 ```
 
+![](./img/selector/18.png)
+
 设置前三个元素
 
 ```css
@@ -620,7 +730,9 @@ table tr>td:nth-child(-n+3) {
 }
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#奇数元素)奇数元素
+![](./img/selector/19.png)
+
+### 奇数元素 odd
 
 选择奇数单元格
 
@@ -629,20 +741,11 @@ table tr>td:nth-child(odd) {
     background: green;
     color: white;
 }
-...
-
-<table border="1">
-  <tr>
-    <td>google.com</td>
-    <td>mdn.com</td>
-    <td>后盾人</td>
-    <td>houdunwang.com</td>
-    <td>mdn</td>
-  </tr>
-</table>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#偶数元素)偶数元素
+![](./img/selector/17.png)
+
+### 偶数元素 even
 
 选择偶数单元格
 
@@ -651,20 +754,9 @@ table tr>td:nth-child(even) {
     background: green;
     color: white;
 }
-...
-
-<table border="1">
-  <tr>
-    <td>google.com</td>
-    <td>mdn.com</td>
-    <td>后盾人</td>
-    <td>houdunwang.com</td>
-    <td>mdn</td>
-  </tr>
-</table>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#nth-last-child-n):nth-last-child(n)
+### :nth-last-child(n)
 
 从最后一个元素开始获取
 
@@ -673,18 +765,9 @@ table tr>td:nth-last-child(2n+1){
     background: green;
     color: white;
 }
-...
-
-<table border="1">
-  <tr>
-    <td>google.com</td>
-    <td>mdn.com</td>
-    <td>后盾人</td>
-    <td>houdunwang.com</td>
-    <td>mdn</td>
-  </tr>
-</table>
 ```
+
+![](./img/selector/17.png)
 
 取最后两个元素
 
@@ -694,7 +777,9 @@ main>ul li:nth-last-child(-n+2) {
 }
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#nth-last-of-type-n):nth-last-of-type(n)
+![](./img/selector/20.png)
+
+### :nth-last-of-type(n)
 
 从最后一个元素开始选择`span` 标签 。
 
@@ -703,36 +788,29 @@ article span:nth-last-of-type(1) {
     background: red;
     color: white;
 }
-...
-
-<article>
-  <aside>
-  	<span>google.com</span>
-  	<span>houdunwang.com</span>
-  	<strong>mdn.com</strong>
-  </aside>
-	<span>hdphp.com</span>
-</article>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#not-selector):not(selector)
+### :not(selector)
 
 排除第一个li元素
 
-```css
-ul li:not(:nth-child(1)) {
-    background: red;
-}
-...
+```html
+<style>
+    ul li:not(:nth-child(1)) {
+        background: red;
+    }
+</style>
 
 <ul>
-  <li>google.com</li>
-  <li>mdn.com</li>
-  <li>后盾人</li>
+    <li>google.com</li>
+    <li>mdn.com</li>
+    <li>baidu.com</li>
 </ul>
 ```
 
-## [#](https://doc.google.com/css/2 选择器.html#表单伪类)表单伪类
+![](./img/selector/21.png)
+
+## 表单伪类
 
 | 选择器    | 示例           | 说明                        |
 | --------- | -------------- | --------------------------- |
@@ -744,22 +822,22 @@ ul li:not(:nth-child(1)) {
 | :valid    | input:valid    | 验证通过的表单元素          |
 | :invalid  | input:invalid  | 验证不通过的表单            |
 
-### [#](https://doc.google.com/css/2 选择器.html#表单属性样式)表单属性样式
+### 表单属性样式
 
-```css
-input:enabled {
-    background: red;
-}
+```html
+<style>
+    input:enabled {
+        background: red;
+    }
 
-input:disabled {
-    background: #dddddd;
-}
+    input:disabled {
+        background: #dddddd;
+    }
 
-input:checked+label {
-    color: green;
-}
-...
-
+    input:checked+label {
+        color: green;
+    }
+</style>
 <input type="text" disabled>
 <input type="text" name="info">
 
@@ -769,42 +847,49 @@ input:checked+label {
 <label for="girl">女</label>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#表单必选样式)表单必选样式
+![](./img/selector/22.png)
 
-```css
-input:required {
-    border: solid 2px blue;
-}
+### 表单必选样式
 
-input:optional {
-	background: #dcdcdc; 
-	border: none;
-}
-...
+```html
+<style>
+    input:required {
+        border: solid 2px blue;
+    }
 
+    input:optional {
+        background: #dcdcdc;
+        border: none;
+    }
+</style>
 <input type="text" name="title" required>
 <input type="text" name="name">
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#表单验证样式)表单验证样式
+![](./img/selector/23.png)
 
-```css
-input:valid {
-    border: solid 1px green;
-}
+### 表单验证样式
 
-input:invalid {
-    border: solid 1px red;
-}
-...
+```html
+<style>
+    input:valid {
+        border: solid 1px blue;
+    }
+
+    input:invalid {
+        border: solid 1px red;
+    }
+</style>
 
 <form>
-<input type="email">
-<button>保存</button>
+    <input type="email">
+    <button>保存</button>
 </form>
 ```
 
-## [#](https://doc.google.com/css/2 选择器.html#字符伪类)字符伪类
+![](./img/selector/valid.gif)
+
+## 字符伪类
 
 | 状态           | 示例           | 说明                         |
 | -------------- | -------------- | ---------------------------- |
@@ -813,51 +898,45 @@ input:invalid {
 | ::before       | p:before       | 在每个元素的内容之前插入内容 |
 | ::after        | p:after        | 在每个元素的内容之后插入内容 |
 
-### [#](https://doc.google.com/css/2 选择器.html#首字母大写)首字母大写
+### 段落首行处理
 
 ```css
 p::first-line {
  font-size: 20px;
 }
-...
-
-<p>
- 后盾人不断更新视频教程
-</p>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#段落首行处理)段落首行处理
+### 首字母大写
 
 ```css
 p::first-letter {
     font-size: 30px;
 }
-...
-
-<p>
-	后盾人不断更新视频教程
-</p>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#在元素前添加)在元素前添加
+![](./img/selector/24.png)
 
-```css
-span::before {
-    content: '⇰';
-    color: red;
-}
-span::after {
-    content: '⟲';
-    color: green;
-}
-...
+### 在元素前添加
 
-<span>后盾人</span>
+```html
+<style>
+    span::before {
+        content: '⇰';
+        color: red;
+    }
+
+    span::after {
+        content: '⟲';
+        color: green;
+    }
+</style>
+
+<span>Hello world</span>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#搜索框示例)搜索框示例
+![](./img/selector/25.png)
 
-![image-20190813223919156](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAAAhCAYAAABN9OCkAAABRmlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8zAwcDLIMpgwCCemFxc4BgQ4ANUwgCjUcG3awyMIPqyLsgsOZfwzRZF+Qzt3+54WAqkncZUjwK4UlKLk4H0HyBOSy4oKmFgYEwBspXLSwpA7A4gW6QI6Cggew6InQ5hbwCxkyDsI2A1IUHOQPYNIFsgOSMRaAbjCyBbJwlJPB2JDbUXBHhcXH18FEKNTAzNPQg4l3RQklpRAqKd8wsqizLTM0oUHIGhlKrgmZesp6NgZGBoycAACnOI6s83wGHJKMaBECsQY2CwdGFgYF6MEEuSYmDYDnS/JCdCTGU5AwN/BAPDtoaCxKJEuAMYv7EUpxkbQdjc2xkYWKf9//85nIGBXZOB4e/1//9/b////+8yoPm3GBgOfAMAkoFdEFXeaFAAAAIdSURBVHgB7Zs7roJAFIaP5FZGrIxbsLCyobUnsdQ94Ba0cQ+6BXdhQ2JiQk3UwthYmthgYeV1uOFGg0SYwMB4/kkICDPn8Z0/w9Pa/dEIDQQqSsCoaFwICwRCAhAohFBpAhBopcuD4H6eEez3++ef2AaBXAl0Op3M9l4EKkbLGMnsFQPYEZCd/HCKZycVvRKGQPWqF7toIVB2JdcrYQhUr3qxixYCZVfydAmfz2eazWbkOE66AQX1it3FF+QHZjUiEAQB9Xo9qtfrNJlMSo0cAi0VfzWdL5dLOp1OdL1eQ5GWGSVO8WXSr6jv7XZLo9EoUZzH45Eul4uS6CFQJZj1cmKaJgkRJrXD4UCDwSCcYZP65LUfAs2L5BfZsW2bPM+j+XxO4nr0XVuv1zQcDul2u707nN8+8T1o1Ha7XbSJNXMCi8VCfCccLu12+/68NBqN/2Pj8TgVKVlt1YT1SO7ifSnexUc0sBaPmnzfj82SYnadTqf0ECptNhvqdrsfYclqC3fxH9Hy7dBqtajf78cAGIYRitN13VTijBnIsAPXoBlgoesfgWazSavVKnxWWjQTzKBFE/5C+5ZlKcsKM6gy1HAkQwAClaGGMcoIQKDKUMORDAEIVIYaxigjAIEqQw1HMgQgUBlqGKOMQOwxk+y/75RFDEesCLy86mSVOZLVggBO8VqUiW+QECjf2muROQSqRZn4BgmB8q29Fpn/Ai4t44Qm/srhAAAAAElFTkSuQmCC)
+### 搜索框示例
 
 ```css
 div {
@@ -875,20 +954,30 @@ div>input[type="text"]+span:after {
     font-size: 14px;
     cursor: pointer;
 }
-...
-
-<div>
-	<input type="text"><span></span>
-</div>
 ```
 
-### [#](https://doc.google.com/css/2 选择器.html#添加属性内容)添加属性内容
+### 添加属性内容 💡
 
-```css
-h2::before {
-	content: attr(title);
-}
-...
+```html
+<style>
+    p:before {
+        content: attr(data-foo) " ";
+    }
+</style>
 
-<h2 title="后盾人">google.com</h2>
+<p data-foo="hello">world</p>
 ```
+
+![](./img/selector/26.png)
+
+```html
+<style>
+    h2::before {
+        content: attr(title);
+    }
+</style>
+
+<h2 title="this is h2 title ">hello world</h2>
+```
+
+![](./img/selector/27.png)

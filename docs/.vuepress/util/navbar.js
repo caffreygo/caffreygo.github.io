@@ -94,6 +94,10 @@ module.exports = [{
       children: [{
         text: "基本知识",
         link: "/css/basic"
+      },
+      {
+        text: "css选择器",
+        link: "/css/selector"
       }]
     }]
   },

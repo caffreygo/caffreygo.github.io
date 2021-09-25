@@ -230,3 +230,4 @@ const array = [9, 6, 7, 8, 2, 3, 5, 1]
 console.table(quickSort(array, 0, array.length - 1))
 ```
 
+### 计数排序

@@ -158,7 +158,7 @@ console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 ### 快速排序
 
-📗  快速排序也许是最常用的排序算法了。它的复杂度为O(nlog(n))，且性能通常比其他复杂度为O(nlog(n))的排序算法要好。和归并排序一样，快速排序也使用**分而治之**的方法，将原始数组分为较小的数组（但它没有像归并排序那样将它们分割开）。
+📗 快速排序也许是最常用的排序算法了。它的复杂度为O(nlog(n))，且性能通常比其他复杂度为O(nlog(n))的排序算法要好。和归并排序一样，快速排序也使用**分而治之**的方法，将原始数组分为较小的数组（但它没有像归并排序那样将它们分割开）。
 
 ::: tip 快速排序的思想很简单，整个排序过程只需要三步：
 
@@ -231,3 +231,108 @@ console.table(quickSort(array, 0, array.length - 1))
 ```
 
 ### 计数排序
+
+📗 计数排序是我们学到的第一个**分布式**排序，分布式排序使用已组织好的辅助数据结构，然后进行合并，得到排好序的数组。计数排序使用一个用来存储每个元素在原始数组中出现次数的临时数组，在所有元素都计数完完成后，临时数组已排好序并可迭代已构建排序后的结果数组。
+
+计数排序是一种用来**排序整数**优秀的算法，它的时间复杂度非常简单，但其额外引入了辅助数据结构从而需要**更多的内存空间**。
+
+```js
+function countingSort(array) {
+    if (array.length < 2) {
+        return array
+    }
+    const maxValue = findMaxValue(array)
+    const counts = new Array(maxValue + 1)
+    array.forEach(item => {
+        if (!counts[item]) {
+            counts[item] = 0
+        }
+        counts[item]++
+    })
+    let sortIndex = 0
+    counts.forEach((item, index) => {
+        while (item > 0) {
+            array[sortIndex++] = index
+            item--
+        }
+    })
+    return array
+}
+function findMaxValue(array) {
+    let max = array[0]
+    for (let index = 1; index < array.length; index++) {
+        if (array[index] > max) {
+            max = array[index]
+        }
+    }
+    return max
+}
+
+const result = countingSort([5, 4, 3, 2, 1])
+console.log(result) // [1, 2, 3, 4, 5]
+```
+
+### 顺序搜索
+
+📗 顺序搜索(线性搜索)是最基本的搜索算法，它的机制是，将每一个数据结构中的元素和我们要找的元素做比较，一直到找到位置。顺序搜索是最低效的一种搜索算法。
+
+```js
+function sequentSearch (array, value) {
+    let result = -1
+    for(let index = 0; index < array.length; index++) {
+        if (array[index] === value) {
+            result = index
+            return
+        }
+    }
+}
+```
+
+![](./img/sequentSearch.png)
+
+### 二分搜索
+
+📗 二分搜索算法的原理和猜数字游戏类似，假设有1-100的数，一个人猜，另一个人只需要回答高了还是低了，一直到找到这个数位置。
+
+二分搜索算法对数据结构有一定的要求，它首先要求数据结构已经是**排好序**的，其次它还要遵守如下的规则：
+
+::: 二分搜索
+
+1. 首先选择数组的中间值。
+
+2. 如果选中的值是待搜索的值，那么停止搜索。
+
+3. 如果待搜索的值比选中的值要小，则返回步骤1并在选中值左边的子数组中查找。
+
+4. 如果待搜索的值比选中的值要大，则返回步骤1并在选中值的右边的子数组中查找。
+
+
+::: 
+
+```js
+function binarySearch (array, value) {
+    array.sort()
+    let low = 0
+    let high = array.length - 1
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2)
+        const element = array[mid]
+        if (value === element) {
+            return true
+        } else if (value < element) {
+            high = mid - 1
+        } else {
+            low = mid + 1
+        }
+    }
+    return false
+}
+console.log(binarySearch([8, 7, 6, 5, 4, 3, 2, 1], 2))  // true
+```
+
+代码分析：为了进一步简单化，我们使用了内置的`Array.prototype.sort()`方法来进行排序，也可以使用我们之前学到的任何排序算法来替换。
+
+以下是二分搜索算法的搜索示意图：
+
+![](./img/binarySearch.png)
+

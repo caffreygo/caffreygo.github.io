@@ -35,6 +35,7 @@ module.exports = {
     children: [
       "/css/basic.md",
       "/css/selector.md",
+      "/css/priority.md",
     ],
   }],
   "/book/": [{

@@ -81,8 +81,6 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
-
-
 ### 类型保护
 
 - 类型断言
@@ -95,6 +93,13 @@ function trainAnimal(animal: Bird | Dog) {
     (animal as Dog).bark();
   }
 }
+```
+
+类型断言有两种形式，两种形式是等价的。 至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许的。
+
+```js
+let strLength: number = (<string>someValue).length;
+let strLength: number = (someValue as string).length;
 ```
 
 - in 语法来做类型保护
@@ -209,6 +214,8 @@ enum Status {
 // 0 4 5
 // Status[0]    undefined
 ```
+
+
 
 ## 函数泛型
 

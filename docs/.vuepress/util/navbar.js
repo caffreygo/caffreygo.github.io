@@ -98,6 +98,9 @@ module.exports = [{
       {
         text: "css选择器",
         link: "/css/selector"
+      }, {
+        text: "元素权重",
+        link: "/css/priority",
       }]
     }]
   },

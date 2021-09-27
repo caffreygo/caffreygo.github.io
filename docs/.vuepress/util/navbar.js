@@ -92,16 +92,20 @@ module.exports = [{
     }, {
       text: "CSS",
       children: [{
-        text: "基本知识",
-        link: "/css/basic"
-      },
-      {
-        text: "css选择器",
-        link: "/css/selector"
-      }, {
-        text: "元素权重",
-        link: "/css/priority",
-      }]
+          text: "基本知识",
+          link: "/css/basic"
+        },
+        {
+          text: "css选择器",
+          link: "/css/selector"
+        }, {
+          text: "元素权重",
+          link: "/css/priority",
+        }, {
+          text: "文本控制",
+          link: "/css/text",
+        }
+      ]
     }]
   },
   {

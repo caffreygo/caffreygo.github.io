@@ -36,6 +36,7 @@ module.exports = {
       "/css/basic.md",
       "/css/selector.md",
       "/css/priority.md",
+      "/css/text.md",
     ],
   }],
   "/book/": [{

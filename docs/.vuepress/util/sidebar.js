@@ -37,6 +37,7 @@ module.exports = {
       "/css/selector.md",
       "/css/priority.md",
       "/css/text.md",
+      "/css/box-model.md",
     ],
   }],
   "/book/": [{

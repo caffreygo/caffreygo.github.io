@@ -104,6 +104,9 @@ module.exports = [{
         }, {
           text: "文本控制",
           link: "/css/text",
+        }, {
+          text: "盒子模型",
+          link: "/css/box-model",
         }
       ]
     }]

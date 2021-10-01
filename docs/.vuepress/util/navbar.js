@@ -107,6 +107,9 @@ module.exports = [{
         }, {
           text: "盒子模型",
           link: "/css/box-model",
+        }, {
+          text: "背景处理",
+          link: "/css/background",
         }
       ]
     }]

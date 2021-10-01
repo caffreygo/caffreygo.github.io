@@ -110,6 +110,9 @@ module.exports = [{
         }, {
           text: "背景处理",
           link: "/css/background",
+        }, {
+          text: "数据样式",
+          link: "/css/data",
         }
       ]
     }]

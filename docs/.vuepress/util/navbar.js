@@ -113,6 +113,9 @@ module.exports = [{
         }, {
           text: "数据样式",
           link: "/css/data",
+        }, {
+          text: "浮动布局",
+          link: "/css/float",
         }
       ]
     }]

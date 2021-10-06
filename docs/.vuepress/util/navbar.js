@@ -88,6 +88,9 @@ module.exports = [{
       }, {
         text: "表格与媒体",
         link: "/html/table-media",
+      }, {
+        text: "定位布局",
+        link: "/html/position"
       }],
     }, {
       text: "CSS",

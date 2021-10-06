@@ -88,39 +88,37 @@ module.exports = [{
       }, {
         text: "表格与媒体",
         link: "/html/table-media",
-      }, {
-        text: "定位布局",
-        link: "/html/position"
       }],
     }, {
       text: "CSS",
       children: [{
-          text: "基本知识",
-          link: "/css/basic"
-        },
-        {
-          text: "css选择器",
-          link: "/css/selector"
-        }, {
-          text: "元素权重",
-          link: "/css/priority",
-        }, {
-          text: "文本控制",
-          link: "/css/text",
-        }, {
-          text: "盒子模型",
-          link: "/css/box-model",
-        }, {
-          text: "背景处理",
-          link: "/css/background",
-        }, {
-          text: "数据样式",
-          link: "/css/data",
-        }, {
-          text: "浮动布局",
-          link: "/css/float",
-        }
-      ]
+        text: "基本知识",
+        link: "/css/basic"
+      }, {
+        text: "css选择器",
+        link: "/css/selector"
+      }, {
+        text: "元素权重",
+        link: "/css/priority",
+      }, {
+        text: "文本控制",
+        link: "/css/text",
+      }, {
+        text: "盒子模型",
+        link: "/css/box-model",
+      }, {
+        text: "背景处理",
+        link: "/css/background",
+      }, {
+        text: "数据样式",
+        link: "/css/data",
+      }, {
+        text: "浮动布局",
+        link: "/css/float",
+      }, {
+        text: "定位布局",
+        link: "/css/position"
+      }]
     }]
   },
   {

@@ -118,6 +118,9 @@ module.exports = [{
       }, {
         text: "定位布局",
         link: "/css/position"
+      }, {
+        text: "弹性布局",
+        link: "/css/flex"
       }]
     }]
   },

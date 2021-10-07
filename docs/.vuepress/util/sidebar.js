@@ -42,6 +42,7 @@ module.exports = {
       "/css/data.md",
       "/css/float.md",
       "/css/position.md",
+      "/css/flex.md",
     ],
   }],
   "/book/": [{

@@ -121,6 +121,9 @@ module.exports = [{
       }, {
         text: "弹性布局",
         link: "/css/flex"
+      }, {
+        text: "栅格布局",
+        link: "/css/grid"
       }]
     }]
   },

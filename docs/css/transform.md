@@ -1509,7 +1509,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </main>
 ```
 
-### 立体按钮👾
+### 立体按钮 👾
 
 ![](.\img\transform\37.png)
 
@@ -1576,15 +1576,19 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 使用 `transform-origin` 设置元素的X/YZ操作的基点，用于控制旋转、倾斜等操作。
 
-- 旋转默认以元素中心进行旋转，改变基点后可控制旋转点位置
+::: tip transfrom-origin
+
+- 旋转默认以**元素中心**进行旋转，改变基点后可控制旋转点位置
 - 元素移动不受变形基点所影响
 - 基点是元素原始空间位，而不是translate移动后的空间位
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#平面旋转)平面旋转
+::: 
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7932268.f587aaa0.gif)
+### 平面旋转
 
-```text
+![Untitled](.\img\transform\38.gif)
+
+```html
 <style>
     * {
         padding: 0;
@@ -1611,6 +1615,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
         margin-top: -100px;
         width: 200px;
         height: 200px;
+        /* 默认是 center center 元素绕中心旋转 */
         transform-origin: right bottom;
     }
 
@@ -1634,13 +1639,13 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#倾斜控制)倾斜控制
+### 倾斜控制
 
 参考右上角控制倾斜。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7932114.ce3ee8cd.gif)
+![](.\img\transform\39.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1690,11 +1695,11 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#三维旋转)三维旋转
+### 三维旋转
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7932004.12f1c62a.gif)
+![](.\img\transform\41.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1746,15 +1751,13 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#变形顺序的影响)变形顺序的影响
+### 变形顺序的影响
 
 设置transform变形的前后顺序对变形结果是有影响
 
-我们通过下面的示例来说明这个问题
+下面先写rotate 后写translate，即先按原位置的 `transform-origin: top left` 进行旋转，再按原位置的`transform-origin: top left`进行移动
 
-- 下面先写rotate 后写translate，即先按原位置的 `transform-origin: top left` 进行旋转，再按原位置的`transform-origin: top left`进行移动
-
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-3985940.def7cee2.gif)
+![](.\img\transform\40.gif)
 
 ```text
 <style>
@@ -1783,7 +1786,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     background-color: #f1c40f;
   }
   article::after {
-    content: 'houdunren.com@向军大叔';
+    content: 'hello world';
     width: 100%;
     color: #f3f3f3;
     font-size: 12px;
@@ -1803,9 +1806,9 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 现在交换 `rotate` 与 `translate`的顺序后，表示先移动元素，这时候旋转就是参考移动后的位置的 `transform-origin: top left;`结果如下
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-3986067.a78821d6.gif)
+![](.\img\transform\42.gif)
 
-```text
+```html
 <style>
   body {
     width: 100vw;
@@ -1832,7 +1835,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     background-color: #f1c40f;
   }
   article::after {
-    content: 'houdunren.com@向军大叔';
+    content: 'hello world';
     width: 100%;
     color: #f3f3f3;
     font-size: 12px;
@@ -1850,13 +1853,13 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </article>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#新年贺卡)新年贺卡
+### 新年贺卡 💡
 
 下面是通过设置基点来制作贺卡的效果。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7939019.ed7152ba.gif)
+![](.\img\transform\43.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1876,8 +1879,6 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     main {
         width: 300px;
         height: 200px;
-        transform-style: preserve-3d;
-        transform: perspective(600px) rotateX(35deg) rotateY(15deg);
     }
 
     .card {
@@ -1890,7 +1891,8 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
         font-size: 3em;
         color: whitesmoke;
         position: relative;
-
+        transform-style: preserve-3d;
+        transform: perspective(900px) rotateX(35deg) rotateY(15deg);
     }
 
     .card::before,
@@ -1908,7 +1910,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
         top: 0;
         text-align: right;
         position: absolute;
-        transform-origin: left bottom;
+        transform-origin: left;
     }
 
     .card::after {
@@ -1918,38 +1920,39 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
         left: 150px;
         top: 0;
         position: absolute;
-        transform-origin: right bottom;
+        transform-origin: right;
     }
 
     .card:hover::before {
-        transform: rotateY(-179deg);
+        transform: rotateY(-120deg);
     }
 
     .card:hover::after {
-        transform: rotateY(179deg);
+        transform: rotateY(120deg);
     }
 </style>
 
+
 <main>
-    <div class="card">houdunren</div>
+    <div class="card">恭喜发财</div>
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#动感菜单)动感菜单
+### 动感菜单 👾
 
 为了让大家清楚理解，下面把思路给大家解析一下。
 
-![image-20190905200803607](https://doc.houdunren.com/assets/img/image-20190905200803607.95e393c8.png)
+![](.\img\transform\44.png)
 
-![image-20190909154507295](https://doc.houdunren.com/assets/img/image-20190909154507295.cfc5d8b8.png)
+![](.\img\transform\45.png)
 
-#### [#](https://doc.houdunren.com/css/12 变形动画.html#父级有宽度)父级有宽度
+#### 父级有宽度
 
 设置父级ul有宽度，每层都是居中对齐。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8015150.745be0aa.gif)
+![](.\img\transform\46.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1978,7 +1981,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav::after {
-        content: '向军老师';
+        content: 'Menu';
         color: #ecf0f1;
         position: absolute;
         display: flex;
@@ -2039,7 +2042,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(1)>span {
-        transform: rotate(1040deg);
+        transform: rotate(-40deg);
     }
 
     nav:hover li:nth-child(2) {
@@ -2047,7 +2050,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(2)>span {
-        transform: rotate(1000deg);
+        transform: rotate(-80deg);
     }
 
     nav:hover li:nth-child(3) {
@@ -2055,7 +2058,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(3)>span {
-        transform: rotate(960deg);
+        transform: rotate(-120deg);
     }
 
     nav:hover li:nth-child(4) {
@@ -2063,7 +2066,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(4)>span {
-        transform: rotate(720deg);
+        transform: rotate(-160deg);
     }
 
     nav:hover li:nth-child(5) {
@@ -2071,7 +2074,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(5)>span {
-        transform: rotate(880deg);
+        transform: rotate(-200deg);
     }
 
     nav:hover li:nth-child(6) {
@@ -2079,7 +2082,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(6)>span {
-        transform: rotate(1680deg);
+        transform: rotate(-240deg);
     }
 
     nav:hover li:nth-child(7) {
@@ -2087,7 +2090,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(7)>span {
-        transform: rotate(1920deg);
+        transform: rotate(-280deg);
     }
 
     nav:hover li:nth-child(8) {
@@ -2095,7 +2098,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(8)>span {
-        transform: rotate(2200deg);
+        transform: rotate(-320deg);
     }
 
     nav:hover li:nth-child(9) {
@@ -2103,32 +2106,32 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 
     nav:hover li:nth-child(9)>span {
-        transform: rotate(2520deg);
+        transform: rotate(-360deg);
     }
 </style>
 
 <nav>
     <ul>
-        <li><span><i class="fa fa-address-book" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-adjust" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bars" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-book" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bug" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-compress" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-ban" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-beer" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bus" aria-hidden="true"></i></span></li>
+        <li><span>1</span></li>
+        <li><span>2</span></li>
+        <li><span>3</span></li>
+        <li><span>4</span></li>
+        <li><span>5</span></li>
+        <li><span>6</span></li>
+        <li><span>7</span></li>
+        <li><span>8</span></li>
+        <li><span>9</span></li>
     </ul>
 </nav>
 ```
 
-#### [#](https://doc.houdunren.com/css/12 变形动画.html#父级无宽度)父级无宽度
+#### 父级无宽度
 
 下面代码父级 UL 没有设置宽度，而是使用边框撑开了空间的效果，基本原理和上面一样。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7667552.863eb27b.gif)
+![](.\img\transform\47.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -2273,37 +2276,35 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
     }
 </style>
 
-
 <nav>
-    向军大叔
     <ul>
-        <li><span><i class="fa fa-address-book" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-adjust" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bars" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-book" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bug" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-compress" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-ban" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-beer" aria-hidden="true"></i></span></li>
-        <li><span><i class="fa fa-bus" aria-hidden="true"></i></span></li>
+        <li><span>1</span></li>
+        <li><span>2</span></li>
+        <li><span>3</span></li>
+        <li><span>4</span></li>
+        <li><span>5</span></li>
+        <li><span>6</span></li>
+        <li><span>7</span></li>
+        <li><span>8</span></li>
+        <li><span>9</span></li>
     </ul>
 </nav>
 ```
 
-## [#](https://doc.houdunren.com/css/12 变形动画.html#透视景深)透视景深
+## 透视景深
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#perspective)perspective
+### perspective
 
 - 使用 `perspective` 来控制元素的透视景深
 - `perspective` 规则为舞台元素控制景深， `perspective` 属性为控制单个元素
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#舞台透视)舞台透视
+### 舞台透视
 
 `perspective` 规则用于将父级整个做为透视元素，会造成里面的每个子元素的透视是不一样的。就像现实中摆一排杯子，是使用统一透视的，每个杯子的透视不一样，造成有大有小。
 
-![image-20190902164314985](data:image/png;base64,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)
+![image-20190902164314985](.\img\transform\48.png)
 
-```text
+```html
 <style>
     article {
         margin: 0 auto;
@@ -2327,18 +2328,18 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 </style>
 
 <article>
-	<div></div>
-	<div></div>
+    <div></div>
+    <div></div>
 </article>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#单独透视)单独透视
+### 单独透视
 
 `perspective` 函数用于为元素设置单独透视，下面是为元素单独设置透视参数，每个元素的透视效果是一样的。
 
-![image-20190902164423476](data:image/png;base64,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)
+![](.\img\transform\49.png)
 
-```text
+```css
 article div {
     width: 100px;
     height: 100px;
@@ -2350,9 +2351,9 @@ article div {
 }
 ```
 
-## [#](https://doc.houdunren.com/css/12 变形动画.html#_3d透视)3D透视
+## 3D透视
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#transform-style)transform-style
+### transform-style
 
 使用 `transform-style` 用于控制3d透视。
 
@@ -2364,13 +2365,13 @@ article div {
 | flat        | 2D平面舞台 |
 | preserve-3d | 3D透视舞台 |
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#效果体验)效果体验
+### 效果体验
 
 下面是设置`3D`舞台后看到的效果。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7770216.9f7c32fd.gif)
+![](.\img\transform\50.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -2398,7 +2399,6 @@ article div {
         transition: 1s;
         background: #e67e22;
         transform-style: preserve-3d;
-
     }
 
     div img {
@@ -2413,16 +2413,16 @@ article div {
 
 <main>
     <div>
-        <img src="5.jpg" alt="">
+        <img src="1.png" alt="">
     </div>
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#三维图集)三维图集
+### 三维图集
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7838254.e56c8d56.gif)
+![](.\img\transform\51.gif)
 
-```text
+```html
 <style>
     body {
         background: #34495e;
@@ -2441,7 +2441,7 @@ article div {
     }
 
     body:hover main {
-        transform: translate(-50%, -50%) rotateX(-45deg) rotateY(900deg);
+        transform: translate(-50%, -50%) rotateX(-45deg) rotateY(180deg);
     }
 
     div {
@@ -2483,29 +2483,29 @@ article div {
 
 <main>
     <div>
-        <img src="5.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
     <div>
-        <img src="1.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
     <div>
-        <img src="3.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
     <div>
-        <img src="5.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
     <div>
-        <img src="1.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
     <div>
-        <img src="3.jpg" alt="">
+        <img src="../1.png" alt="">
     </div>
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/12 变形动画.html#观看视角)观看视角
+## 观看视角
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#perspective-origin)perspective-origin
+### perspective-origin
 
 `perspective-origin`用于控制视线的落点，就像我们眼睛看物体时的聚焦点。可以理解眼镜看物体的位置，比如看一台汽车，是在看车头左边看还是车头右边看。
 

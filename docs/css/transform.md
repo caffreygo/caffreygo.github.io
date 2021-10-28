@@ -1,4 +1,4 @@
-变形动画
+# 变形动画
 
 ## 基础知识
 
@@ -254,7 +254,7 @@ article div:nth-child(2):hover {
 
 正值向下移动、负值向上移动。
 
-![image-20190901223350501](.\img\transform\8.png)
+![image-20190901223350501](./img/transform/8.png)
 
 ```css
 article div:nth-child(2) {
@@ -266,7 +266,7 @@ article div:nth-child(2) {
 
 📗 使用 `translate` 可以控制按X、Y同时移动操作，第一个值控制X移动，第二个值控制Y移动。
 
-![image-20190901223632200](.\img\transform\9.png)
+![image-20190901223632200](./img/transform/9.png)
 
 ```css
 article div:nth-child(2) {
@@ -278,7 +278,7 @@ article div:nth-child(2) {
 
 📗 元素宽度为100px设置50%时将移动50px，即百分比是指**元素的尺寸**的百分比。
 
-![image-20190902145927971](.\img\transform\10.png)
+![image-20190902145927971](./img/transform/10.png)
 
 ```css
 article div:nth-child(2) {
@@ -290,7 +290,7 @@ article div:nth-child(2) {
 
 📗 居中可以使用多种方式，如弹性布局、定位操作，下面是使用移动操作居中。
 
-![image-20190904112916419](.\img\transform\11.png)
+![image-20190904112916419](./img/transform/11.png)
 
 ```html
 <style>
@@ -325,7 +325,7 @@ article div:nth-child(2) {
 
 📗 控制Z轴移动，正数向外、负数向里移动。因为Z轴是透视轴没有像X/Y一样的固定尺寸，所以**不能使用百分数**。
 
-![Untitled](.\img\transform\12.gif)
+![Untitled](./img/transform/12.gif)
 
 ```html
 <style>
@@ -382,7 +382,7 @@ article div:nth-child(2) {
 
 📗 用于同时控制X/Y/Z轴的移动，三个值必须输入如果某个轴不需要移动时设置为零。
 
-![Untitled](.\img\transform\13.gif)
+![Untitled](./img/transform/13.gif)
 
 ```html
 <style>
@@ -423,7 +423,7 @@ article div:nth-child(2) {
 
 ### 渐变表单
 
-![Untitled](.\img\transform\14.gif)
+![Untitled](./img/transform/14.gif)
 
 ```html
 <style>
@@ -611,7 +611,7 @@ article div:nth-child(2) {
 
 下面是沿X轴缩放一半。（缩放指的是轴的缩放，不是元素的缩放📌）
 
-![image-20190902151123183](.\img\transform\16.png)
+![image-20190902151123183](./img/transform/16.png)
 
 ```css
 article div:nth-child(2) {
@@ -623,7 +623,7 @@ article div:nth-child(2) {
 
 下面是沿Y轴缩放一半。
 
-![image-20190902151103536](.\img\transform\17.png)
+![image-20190902151103536](./img/transform/17.png)
 
 ```css
 article div:nth-child(2) {
@@ -637,7 +637,7 @@ article div:nth-child(2) {
 
 使用数值定义缩放，如 .5 表示缩小一半，2 表示放大两倍。
 
-![image-20190902151035273](.\img\transform\18.png)
+![image-20190902151035273](./img/transform/18.png)
 
 ```css
 article div:nth-child(2) {
@@ -649,7 +649,7 @@ article div:nth-child(2) {
 
 沿Z轴缩放元素，需要有3D透视才可以查看到效果。
 
-![Untitled](.\img\transform\19.gif)
+![Untitled](./img/transform/19.gif)
 
 ```html
 <style>
@@ -713,7 +713,7 @@ article div:nth-child(2) {
 
 沿X/Y/Z三个轴绽放元素。
 
-![Untitled](.\img\transform\20.gif)
+![Untitled](./img/transform/20.gif)
 
 ```html
 <style>
@@ -952,13 +952,13 @@ article div:nth-child(2) {
 
 下面是旋转89deg后，只会看到一条线。
 
-![image-20190902130411118](.\img\transform\23.png)
+![image-20190902130411118](./img/transform/23.png)
 
 #### 父级透视
 
 当X旋转90度后无法看到元素，这时可以控制父级旋转从上看子元素。
 
-![Untitled](.\img\transform\24.gif)
+![Untitled](./img/transform/24.gif)
 
 ```html
 <style>
@@ -1020,7 +1020,7 @@ article div:nth-child(2) {
 
 没Z轴旋转元素，效果就是沿X/Y轴的平面旋转。
 
-![Untitled](.\img\transform\25.gif)
+![Untitled](./img/transform/25.gif)
 
 ```html
 <style>
@@ -1081,7 +1081,7 @@ rotate3d(tx,ty,tz,angle)
 
 #### 只转X轴
 
-![Untitled](.\img\transform\26.gif)
+![Untitled](./img/transform/26.gif)
 
 ```html
 <style>
@@ -1122,7 +1122,7 @@ rotate3d(tx,ty,tz,angle)
 
 #### 只转Y轴
 
-![Untitled](.\img\transform\27.gif)
+![Untitled](./img/transform/27.gif)
 
 ```css
 body:hover main {
@@ -1132,11 +1132,11 @@ body:hover main {
 
 #### 只转Z轴
 
-![Untitled](.\img\transform\28.gif)
+![Untitled](./img/transform/28.gif)
 
 #### XY旋转
 
-![Untitled](.\img\transform\29.gif)
+![Untitled](./img/transform/29.gif)
 
 ```css
 body:hover main {
@@ -1148,7 +1148,7 @@ body:hover main {
 
 加入适当的Z向量值，可增加元素沿Z轴旋转的力度。
 
-![Untitled](.\img\transform\30.gif)
+![Untitled](./img/transform/30.gif)
 
 ```css
 body:hover main {
@@ -1160,7 +1160,7 @@ body:hover main {
 
 可以同时设置多个旋转规则，顺序不同结果也会不同。(参考**矩阵的乘法**，顺序不同结果也不同)
 
-![image-20190902130625513](.\img\transform\31.png)
+![image-20190902130625513](./img/transform/31.png)
 
 ```css
 article div:nth-child(2) {
@@ -1411,7 +1411,7 @@ article div:nth-child(2) {
 
 没X轴倾斜元素
 
-![image-20190902151842782](.\img\transform\34.png)
+![image-20190902151842782](./img/transform/34.png)
 
 ```css
 article div:nth-child(2) {
@@ -1423,7 +1423,7 @@ article div:nth-child(2) {
 
 沿Y轴倾斜元素
 
-![image-20190902151909797](.\img\transform\35.png)
+![image-20190902151909797](./img/transform/35.png)
 
 ```css
 article div:nth-child(2) {
@@ -1435,7 +1435,7 @@ article div:nth-child(2) {
 
 同时设置X/Y轴倾斜操作，不指定第二个参数时Y轴倾斜为零。
 
-![](.\img\transform\36.png)
+![](./img/transform/36.png)
 
 ```css
 article div:nth-child(2) {
@@ -1447,7 +1447,7 @@ article div:nth-child(2) {
 
 Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
-![](.\img\transform\34.gif)
+![](./img/transform/34.gif)
 
 ```html
 <style>
@@ -1511,7 +1511,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 立体按钮 👾
 
-![](.\img\transform\37.png)
+![](./img/transform/37.png)
 
 ```html
 <style>
@@ -1586,7 +1586,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 平面旋转
 
-![Untitled](.\img\transform\38.gif)
+![Untitled](./img/transform/38.gif)
 
 ```html
 <style>
@@ -1643,7 +1643,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 参考右上角控制倾斜。
 
-![](.\img\transform\39.gif)
+![](./img/transform/39.gif)
 
 ```html
 <style>
@@ -1697,7 +1697,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 三维旋转
 
-![](.\img\transform\41.gif)
+![](./img/transform/41.gif)
 
 ```html
 <style>
@@ -1757,56 +1757,56 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面先写rotate 后写translate，即先按原位置的 `transform-origin: top left` 进行旋转，再按原位置的`transform-origin: top left`进行移动
 
-![](.\img\transform\40.gif)
+![](./img/transform/40.gif)
 
-```text
+```html
 <style>
-  body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  article {
-    width: 200px;
-    height: 200px;
-    border: solid 2px #ddd;
-    position: relative;
-    background: #34495e;
-  }
-  article div {
-    width: 5px;
-    height: 100px;
-    background: #000;
-    transition: 2s;
-    position: absolute;
-    transform-origin: top left;
-    transform: rotate(0deg) translate(-50%, -50%);
-    background-color: #f1c40f;
-  }
-  article::after {
-    content: 'hello world';
-    width: 100%;
-    color: #f3f3f3;
-    font-size: 12px;
-    position: absolute;
-    bottom: 5px;
-    text-align: center;
-  }
-  article:hover div {
-    transform: rotate(360deg) translate(-50%, -50%);
-  }
+    body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    article {
+        width: 200px;
+        height: 200px;
+        border: solid 2px #ddd;
+        position: relative;
+        background: #34495e;
+    }
+    article div {
+        width: 5px;
+        height: 100px;
+        background: #000;
+        transition: 2s;
+        position: absolute;
+        transform-origin: top left;
+        transform: rotate(0deg) translate(-50%, -50%);
+        background-color: #f1c40f;
+    }
+    article::after {
+        content: 'hello world';
+        width: 100%;
+        color: #f3f3f3;
+        font-size: 12px;
+        position: absolute;
+        bottom: 5px;
+        text-align: center;
+    }
+    article:hover div {
+        transform: rotate(360deg) translate(-50%, -50%);
+    }
 </style>
 
 <article>
-  <div></div>
+    <div></div>
 </article>
 ```
 
 现在交换 `rotate` 与 `translate`的顺序后，表示先移动元素，这时候旋转就是参考移动后的位置的 `transform-origin: top left;`结果如下
 
-![](.\img\transform\42.gif)
+![](./img/transform/42.gif)
 
 ```html
 <style>
@@ -1857,7 +1857,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面是通过设置基点来制作贺卡的效果。
 
-![](.\img\transform\43.gif)
+![](./img/transform/43.gif)
 
 ```html
 <style>
@@ -1942,15 +1942,15 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 为了让大家清楚理解，下面把思路给大家解析一下。
 
-![](.\img\transform\44.png)
+![](./img/transform/44.png)
 
-![](.\img\transform\45.png)
+![](./img/transform/45.png)
 
 #### 父级有宽度
 
 设置父级ul有宽度，每层都是居中对齐。
 
-![](.\img\transform\46.gif)
+![](./img/transform/46.gif)
 
 ```html
 <style>
@@ -2129,7 +2129,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面代码父级 UL 没有设置宽度，而是使用边框撑开了空间的效果，基本原理和上面一样。
 
-![](.\img\transform\47.gif)
+![](./img/transform/47.gif)
 
 ```html
 <style>
@@ -2302,7 +2302,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 `perspective` 规则用于将父级整个做为透视元素，会造成里面的每个子元素的透视是不一样的。就像现实中摆一排杯子，是使用统一透视的，每个杯子的透视不一样，造成有大有小。
 
-![image-20190902164314985](.\img\transform\48.png)
+![image-20190902164314985](./img/transform/48.png)
 
 ```html
 <style>
@@ -2337,7 +2337,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 `perspective` 函数用于为元素设置单独透视，下面是为元素单独设置透视参数，每个元素的透视效果是一样的。
 
-![](.\img\transform\49.png)
+![](./img/transform/49.png)
 
 ```css
 article div {
@@ -2369,7 +2369,7 @@ article div {
 
 下面是设置`3D`舞台后看到的效果。
 
-![](.\img\transform\50.gif)
+![](./img/transform/50.gif)
 
 ```html
 <style>
@@ -2418,9 +2418,11 @@ article div {
 </main>
 ```
 
-### 三维图集
+### 三维图集 👾
 
-![](.\img\transform\51.gif)
+整体图形的角度变形基点和图像旋转的中心应该保持一致，才能看起来是绕着中心旋转 📌
+
+<img src="./img/transform/51.gif" style="zoom:67%;" />
 
 ```html
 <style>
@@ -2507,24 +2509,22 @@ article div {
 
 ### perspective-origin
 
-`perspective-origin`用于控制视线的落点，就像我们眼睛看物体时的聚焦点。可以理解眼镜看物体的位置，比如看一台汽车，是在看车头左边看还是车头右边看。
+📗 `perspective-origin`用于控制视线的落点，就像我们眼睛看物体时的聚焦点。可以理解眼镜看物体的位置，如看一台汽车，是在看车头左边看还是车头右边看。
 
-需要设置 `perspective` 透视后才可以看到效果。
+需要设置 `perspective` 透视后才可以看到效果。（一般设置在舞台元素上来控制子元素）
 
-- 一般设置在舞台元素上来控制子元素
-
-### [#](https://doc.houdunren.com/css/12 变形动画.html#位置参数)位置参数
+### 位置参数
 
 | 取值     | 说明                                                         |
 | :------- | :----------------------------------------------------------- |
 | *x-axis* | 定义该视图在 x 轴上的位置。默认值：50%。可能的值：left、center、right、length、% |
 | *y-axis* | 定义该视图在 y 轴上的位置。默认值：50%。可能的值：top、center、bottom、length、% |
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#效果体验-2)效果体验
+### 效果体验
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8191457.7ad994e0.gif)
+![](./img/transform/52.gif)
 
-```text
+```html
 <style>
     body {
         background: #2c3e50;
@@ -2578,15 +2578,15 @@ article div {
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#立方体)立方体
+### 立方体 👾
 
-![image-20190906230252608](https://doc.houdunren.com/assets/img/image-20190906230252608.e4e08e3d.png)
+![](./img/transform/53.png)
 
 效果如下
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-7784965.483715b7.gif)
+![](./img/transform/53.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -2678,13 +2678,13 @@ article div {
     <div>3</div>
     <div>4</div>
     <div>5</div>
-    <div>后盾人</div>
+    <div>6</div>
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/12 变形动画.html#隐藏背面)隐藏背面
+## 隐藏背面
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#backface-visibility)backface-visibility
+### backface-visibility
 
 使用 `backface-visibility` 用于控制是否可以看到元素的背面。
 
@@ -2696,13 +2696,13 @@ article div {
 | visible | 背面可见 |
 | hidden  | 背面隐藏 |
 
-### [#](https://doc.houdunren.com/css/12 变形动画.html#翻转卡片)翻转卡片
+### 翻转卡片
 
 下面使用隐藏背面与透视技术制作的翻转卡片效果。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8212174.f8db6c8c.gif)
+![](./img/transform/54.gif)
 
-```text
+```html
 <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -2789,12 +2789,12 @@ article div {
     <div>
         <i class="fa fa-home" aria-hidden="true"></i>
         login
-        <span>houdunren.com</span>
+        <span>blog.caffreygo.com</span>
     </div>
     <div>
         <i class="fa fa-user" aria-hidden="true"></i>
         register
-        <span>houdunren.com</span>
+        <span>blog.caffreygo.com</span>
     </div>
 </main>
 <nav>
@@ -2815,7 +2815,7 @@ article div {
 </script>
 ```
 
-## [#](https://doc.houdunren.com/css/12 变形动画.html#常见问题)常见问题
+## 常见问题
 
 如果发现元素不能点击，可能是父级设置了 `transform-style: preserve-3d` 属性，且同级元素设置了3D变化特性，造成对点击元素有遮挡。有以下两种方式解决
 

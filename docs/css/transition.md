@@ -62,7 +62,9 @@
 
 ### 初始形态
 
-指当页面加载后的样式状态，下面是表单设置的初始样式。
+📗 指当页面加载后的样式状态，下面是表单设置的初始样式。
+
+*元素的过渡效果采用的是过渡终点的定义，如果为hover状态下的元素设置了过渡效果，则初始状态到hover状态采用的将会是hover下声明的过渡效果*
 
 ![](.\img\transition\2.png)
 
@@ -122,7 +124,7 @@
 
 ### 变化形态
 
-指元素由初始状态变化后的状态，比如鼠标放上、表单获得焦点后的形态。
+📗 指元素由初始状态变化后的状态，比如鼠标放上、表单获得焦点后的形态。
 
 ![](.\img\transition\3.gif)
 
@@ -199,9 +201,7 @@
 ::: 
 
 ### 属性设置
-
 ![](.\img\transition\4.gif)
-
 ```html
 <style>
     * {
@@ -250,7 +250,6 @@
 ### 禁用属性
 
 `transition-property: none;`将第二个div的适配过渡属性清空了。
-
 ![](.\img\transition\5.gif)
 
 ```html
@@ -304,7 +303,7 @@
 
 ## transitionend
 
-用于控制过渡结束后执行的JS事件，简写属性会触发多次如 `border-radius` 会触发四次事件，不难理解因为可以为`border-bottom-left-radius` 等四个属性独立设置过渡，所以就会有四次事件。
+📗 用于控制过渡结束后执行的JS事件，简写属性会触发多次如 `border-radius` 会触发四次事件，不难理解因为可以为`border-bottom-left-radius` 等四个属性独立设置过渡，所以就会有四次事件。
 
 | 属性          | 说明                          |
 | ------------- | ----------------------------- |
@@ -313,9 +312,9 @@
 | pseudoElement | 过渡的伪元素                  |
 | isTrusted     | true:用户触发，false:脚本触发 |
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8785908.6fb16183.gif)
+![](./img/transition/6.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -348,7 +347,7 @@
     }
 
     div::before {
-        content: '后盾人';
+        content: 'GOOGLE';
         font-size: 3em;
         color: #2c3e50;
         background: #95a5a6;
@@ -363,14 +362,14 @@
     }
 
     div:hover::before {
-         transition-duration: 1.5s;
-				 border-radius: 50%;
-				 background: #f1c40f;
-         transform: rotate(360deg);
+        transition-duration: 1.5s;
+        border-radius: 50%;
+        background: #f1c40f;
+        transform: rotate(360deg);
     }
 
     div::after {
-        content: 'houdunren.com';
+        content: 'helloworld.com';
         text-transform: uppercase;
         position: absolute;
         bottom: -60px;
@@ -388,9 +387,9 @@
 
 <main>
     <div>
-
     </div>
 </main>
+
 <script>
     document.querySelector('div').addEventListener('transitionend', function (e) {
         console.log(e);
@@ -399,7 +398,7 @@
 </script>
 ```
 
-## [#](https://doc.houdunren.com/css/13 过渡延迟.html#transition-duration)transition-duration
+## transition-duration
 
 用于设置过渡时间，需要注意以下几点
 
@@ -409,11 +408,11 @@
 - 二个值时，奇数属性使用第一个，偶数属性使用第二个
 - 变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#统一时间)统一时间
+### 统一时间
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8698225.d8694625.gif)
+![](.\img\transition\7.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -456,55 +455,51 @@
 </style>
 
 <main>
-	<div></div>
+    <div></div>
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#两个时间)两个时间
+### 两个时间
 
 下面共有四个属性并设置了两个时间值，1,3属性使用第一个值，2,4属性使用第二个值。
 
-```text
-...
+```css
 div {
-  width: 150px;
-  height: 150px;
-  background-color: #34495e;
-  border-radius: 50%;
-  opacity: 0.2;
-  transition-property: background-color, transform, opacity, border-radius;
-  transition-duration: 200ms, 5s;
+    width: 150px;
+    height: 150px;
+    background-color: #34495e;
+    border-radius: 50%;
+    opacity: 0.2;
+    transition-property: background-color, transform, opacity, border-radius;
+    transition-duration: 200ms, 5s;
 }
-...
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#多个时间)多个时间
+### 多个时间
 
 下面共有四个属性并设置了三个时间值，1,2,3属性使用1,2,3时间值，第四个属性再从新使用第一个时间值。
 
-```text
-...
+```css
 div {
-  width: 150px;
-  height: 150px;
-  background-color: #34495e;
-  border-radius: 50%;
-  opacity: 0.2;
-  transition-property: background-color, transform, opacity, border-radius;
-  transition-duration: 200ms, 5s, 2s;
+    width: 150px;
+    height: 150px;
+    background-color: #34495e;
+    border-radius: 50%;
+    opacity: 0.2;
+    transition-property: background-color, transform, opacity, border-radius;
+    transition-duration: 200ms, 5s, 2s;
 }
-...
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#不同时间)不同时间
+### 不同时间
 
 可以为初始与变化状态设置不同的时间。
 
 下面是将`hover` 设置为3s，当鼠标放上时变化时间为3s。为初始设置为1s即表示变化到初始状态需要1s。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8712618.11e93849.gif)
+![](.\img\transition\8.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;

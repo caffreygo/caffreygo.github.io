@@ -12,7 +12,7 @@
 
 下面例子中边框的变化是没有中间值的，所以没有过渡效果。但线宽度是数值类型有中间值所以会有过渡效果。
 
-![](.\img\transition\1.gif)
+![](./img/transition/1.gif)
 
 ```html
 <style>
@@ -66,7 +66,7 @@
 
 *元素的过渡效果采用的是过渡终点的定义，如果为hover状态下的元素设置了过渡效果，则初始状态到hover状态采用的将会是hover下声明的过渡效果*
 
-![](.\img\transition\2.png)
+![](./img/transition/2.png)
 
 ```html
 <style>
@@ -126,7 +126,7 @@
 
 📗 指元素由初始状态变化后的状态，比如鼠标放上、表单获得焦点后的形态。
 
-![](.\img\transition\3.gif)
+![](./img/transition/3.gif)
 
 ```html
 <style>
@@ -201,7 +201,7 @@
 ::: 
 
 ### 属性设置
-![](.\img\transition\4.gif)
+![](./img/transition/4.gif)
 ```html
 <style>
     * {
@@ -250,7 +250,7 @@
 ### 禁用属性
 
 `transition-property: none;`将第二个div的适配过渡属性清空了。
-![](.\img\transition\5.gif)
+![](./img/transition/5.gif)
 
 ```html
 <style>
@@ -400,7 +400,7 @@
 
 ## transition-duration
 
-用于设置过渡时间，需要注意以下几点
+📗  用于设置**过渡时间**，需要注意以下几点
 
 - 可使用单位为 ms毫秒、s秒
 - 默认值为0s不产生过渡效果
@@ -410,7 +410,7 @@
 
 ### 统一时间
 
-![](.\img\transition\7.gif)
+![](./img/transition/7.gif)
 
 ```html
 <style>
@@ -493,11 +493,11 @@ div {
 
 ### 不同时间
 
-可以为初始与变化状态设置不同的时间。
+📗  可以为初始与变化状态设置不同的时间。
 
 下面是将`hover` 设置为3s，当鼠标放上时变化时间为3s。为初始设置为1s即表示变化到初始状态需要1s。
 
-![](.\img\transition\8.gif)
+![](./img/transition/8.gif)
 
 ```html
 <style>
@@ -545,11 +545,11 @@ div {
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/13 过渡延迟.html#transition-timing-function)transition-timing-function
+## transition-timing-function
 
-用于设置过渡效果的速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果差异。
+📗 用于设置过渡**效果**的速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果差异。
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#默认参数)默认参数
+### 默认参数
 
 | 值                            | 描述                                                         |
 | :---------------------------- | :----------------------------------------------------------- |
@@ -560,7 +560,7 @@ div {
 | ease-in-out                   | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）           |
 | cubic-bezier(*n*,*n*,*n*,*n*) | 在 cubic-bezier 函数中定义自己的值                           |
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -591,6 +591,7 @@ div {
         border-radius: 50%;
         transition-property: background-color, transform, opacity, border-radius;
         transition-duration: 3s;
+        /* transition速度效果曲线 */
         transition-timing-function: ease;
     }
 
@@ -602,33 +603,33 @@ div {
 </style>
 
 <main>
-	<div></div>
+    <div></div>
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#贝塞尔曲线)贝塞尔曲线
+### 贝塞尔曲线 💡
 
-需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
+📗 需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
 
-![image-20190917143208598](https://doc.houdunren.com/assets/img/image-20190917143208598.d3bc3aad.png)
+![](./img/transition/9.png)
 
-```text
+```css
 ...
 div {
-  width: 150px;
-  height: 150px;
-  background-color: #e67e22;
-  border-radius: 50%;
-  transition-property: background-color, transform, opacity, border-radius;
-  transition-duration: 3s;
-  transition-timing-function: cubic-bezier(.17, .67, .86, .49);
+    width: 150px;
+    height: 150px;
+    background-color: #e67e22;
+    border-radius: 50%;
+    transition-property: background-color, transform, opacity, border-radius;
+    transition-duration: 3s;
+    transition-timing-function: cubic-bezier(.17, .67, .86, .49);
 }
 ...
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#步进速度)步进速度
+### 步进速度
 
-过渡使用阶梯化呈现，有点像现实生活中的机械舞，下面是把过渡分五步完成。
+过渡使用**阶梯化**呈现，有点像现实生活中的机械舞，下面是把过渡分五步完成。
 
 | 选项           | 说明                                       |
 | -------------- | ------------------------------------------ |
@@ -637,11 +638,11 @@ div {
 | step-start     | 等于steps(1,start)，可以理解为从下一步开始 |
 | step-end       | 等于steps(1,end)，可以理解为从当前步开始   |
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#steps)steps
+### steps
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8995229.a0f2ad3f.gif)
+![](./img/transition/9.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -670,7 +671,7 @@ div {
         }
 
         li::before {
-            content: 'houdunren.com';
+            content: 'HHH';
             font-size: 1.2em;
             text-align: center;
             color: white;
@@ -731,11 +732,11 @@ div {
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#时钟效果)时钟效果
+### 时钟效果
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8996478.cd55d120.gif)
+![](./img/transition/10.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -791,15 +792,15 @@ div {
 <body>
     <main>
     </main>
-    <h3>houdunren.com</h3>
+    <h3>clock</h3>
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#step-start-end)step-start/end
+### step-start/end
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8995438.befa69b1.gif)
+![](./img/transition/11.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -828,7 +829,7 @@ div {
         }
 
         li::before {
-            content: 'houdunren.com';
+            content: 'hello';
             font-size: 1.2em;
             text-align: center;
             color: white;
@@ -887,11 +888,11 @@ div {
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#步进形态)步进形态
+### 步进形态
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8707495.8794c9d9.gif)
+![](./img/transition/12.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -933,15 +934,15 @@ div {
 </style>
 
 <main>
-	<div></div>
+    <div></div>
 </main
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#变化广告)变化广告
+### 变化广告
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9032246.afdff4ca.gif)
+![](./img/transition/13.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -991,7 +992,7 @@ div {
 </body>
 ```
 
-## [#](https://doc.houdunren.com/css/13 过渡延迟.html#transition-delay)transition-delay
+## transition-delay
 
 用于设置延迟过渡的时间。
 
@@ -999,13 +1000,13 @@ div {
 - 值可以为负数
 - 变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#基本使用)基本使用
+### 基本使用
 
 下面设置了延迟时间为1s，当鼠标放上
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8713179.daeedc2e.gif)
+![](./img/transition/14.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1047,17 +1048,17 @@ div {
 </style>
 
 <main>
-	<div></div>
+    <div></div>
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#多值延迟)多值延迟
+### 多值延迟
 
 可以设置不同属性的延迟时间。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8722061.8b59c6a7.gif)
+![](./img/transition/15.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1103,13 +1104,13 @@ div {
 </main>
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#使用负值)使用负值
+### 使用负值
 
 下例圆角属性的过渡时间为4s，设置延迟为 -4s，表示鼠标放上时直接显示在4s上的效果。如果设置为-2s显示圆角变形一半的效果。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8722600.360959b2.gif)
+![](./img/transition/16.gif)
 
-```text
+```html
 <style>
     * {
         padding: 0;
@@ -1155,26 +1156,26 @@ div {
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/13 过渡延迟.html#transition)transition
+## transition
 
 可以使用`transition` 指令将过渡规则统一设置，需要注意以下几点。
 
 - 必须设置过渡时间
 - 延迟时间放在逗号或结束前
 
-```text
+```css
  transition: border-radius linear 2s 0s,
                 background 2s 2s,
                 width linear 2s 4s,
                 height linear 2s 4s;
 ```
 
-### [#](https://doc.houdunren.com/css/13 过渡延迟.html#点赞案例)点赞案例
+### 点赞案例
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8985345.ca1008c8.gif)
+![](./img/transition/17.gif)
 
-```text
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+```html
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
 <style>
     body {

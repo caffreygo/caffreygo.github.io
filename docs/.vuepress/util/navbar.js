@@ -127,6 +127,9 @@ module.exports = [{
       }, {
         text: "变形动画",
         link: "/css/transform"
+      }, {
+        text: "过渡延迟",
+        link: "/css/transition"
       }]
     }]
   },

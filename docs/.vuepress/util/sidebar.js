@@ -45,6 +45,7 @@ module.exports = {
       "/css/flex.md",
       "/css/grid.md",
       "/css/transform.md",
+      "/css/transition.md",
     ],
   }],
   "/book/": [{

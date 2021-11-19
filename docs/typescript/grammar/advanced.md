@@ -81,6 +81,16 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
+### unknow
+
+unknow与any类型是有区别的，any是没有类型，unknown是有类型，但是不知道
+
+```typescript
+let abc: unknown = "hello"；
+// Type 'unknown' is not assignable to type 'string'
+let b: string = abc；
+```
+
 ### 类型保护
 
 - 类型断言
@@ -93,6 +103,14 @@ function trainAnimal(animal: Bird | Dog) {
     (animal as Dog).bark();
   }
 }
+
+let abc: unknown = "hello";
+let b: string = abc as string;
+
+let str = "string";
+//  类型 "string" 到类型 "number" 的转换可能是错误的，因为两种类型不能充分重叠。如果这是有意的，请先将表达式转换为 "unknown"
+//  let a: number = str as number;
+let a: number = str as unknown as number;
 ```
 
 类型断言有两种形式，两种形式是等价的。 至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许的。

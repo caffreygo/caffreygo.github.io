@@ -4,7 +4,7 @@
 
 ### 编译文件指定
 
-```powershell
+```shell
 tsc --init
 ```
 
@@ -12,13 +12,13 @@ tsc --init
 
 直接 tsc指定编译文件 **不会应用**tsconfig.json的配置的
 
-```powershell
+```shell
 tsc demo.ts
 ```
 
 **直接运行tsc**则会读取配置文件（ts-node demo.ts 也会使用tsconfig.json）
 
-```powershell
+```shell
 tsc
 ```
 
@@ -81,19 +81,25 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
-### unknow
+### unknow any never
 
-unknow与any类型是有区别的，any是没有类型，unknown是有类型，但是不知道
+unknow与any类型是有区别的，any是没有类型，unknown是有类型，但是不知道；
+
+never是永远没有返回类型，比如执行一半报错的函数；
 
 ```typescript
 let abc: unknown = "hello"；
 // Type 'unknown' is not assignable to type 'string'
-let b: string = abc；
+// let b: string = abc；
+let b: string = abc as string;
+
+let str = "string";
+let a: number = str as unknown as number;
 ```
 
-### 类型保护
+## 类型保护
 
-- 类型断言
+### 类型断言
 
 ```typescript
 function trainAnimal(animal: Bird | Dog) {
@@ -120,7 +126,92 @@ let strLength: number = (<string>someValue).length;
 let strLength: number = (someValue as string).length;
 ```
 
-- in 语法来做类型保护
+#### as const
+
+断言为const数据，把数据的基本类型转化为了值类型
+
+```typescript
+// let a: number
+let a = 99;
+// const b: 99
+const b = 99;
+// let c: 99   
+let c = 99 as const;
+c = 99;
+
+// let arr: number[] 对于数组对象这种引用类型，let和const不影响类型推断
+let arr = [a];
+
+// const arr1: (string | number | boolean)[]
+const arr1 = [a, 'string', 123, false];
+// const arr2: readonly [number, "string", 123, false] 转化成了元组
+// <const>[a, 'string', 123, false] 也可以达到和as断言一样的效果
+const arr2 = [a, 'string', 123, false] as const;
+
+// let obj: { age: number; }
+let obj = { age: 11 };
+// let obj1: { readonly age: 11; }
+let obj1 = { age: 11 } as const;
+```
+
+#### 实例
+
+- 断言
+
+```typescript
+// function func(): (string | ((x: number, y: number) => number))[]
+function func() {
+  let a = "Jerry";
+  let b = (x: number, y: number): number => x + y;
+  return [a, b];
+}
+const [m, n] = func();
+// m可能是string或者Function
+console.log((n as Function)(1, 2));   // 3
+console.log((n as (x: number, y: number) => number)(1, 2));   //3
+
+// as [string, (x: number, y: number) => number]
+const [a, b] = func() as [string, Function];
+console.log(b(4, 5));   // 9
+```
+
+- typeof
+
+```typescript
+function func() {
+  let a = "Jerry";
+  let b = (x: number, y: number): number => x + y;
+  return [a, b] as [typeof a, typeof b];
+}
+
+const [m, n] = func();
+console.log(n(4, 5));   // 9
+```
+
+- as const
+
+```typescript
+function func() {
+  let a = "Jerry";
+  let b = (x: number, y: number): number => x + y;
+  // return [a, b] as [typeof a, typeof b];
+  return [a, b] as const;
+}
+
+const [m, n] = func();
+console.log(n(4, 5));   // 9
+```
+
+#### 非空断言
+
+```typescript
+// const el: HTMLDivElement = document.querySelector(".container") as HTMLDivElement;
+// !是非空断言，而as能具体断言为某个类型
+const el: HTMLDivElement = document.querySelector(".container")!;
+console.log(el.innerHTML);
+```
+
+### in 语法
 
 ```typescript
 function trainAnimal(animal: Bird | Dog) {
@@ -132,7 +223,7 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
-- typeof 语法来做类型保护
+### typeof 语法
 
 ```typescript
 function add(first: string | number, second: string | number) {
@@ -146,7 +237,9 @@ function add(first: string | number, second: string | number) {
 }
 ```
 
-- 使用instanceof 语法来做类型保护（class才可以使用instanceof ， interface不可以）
+### instanceof 语法
+
+Intanceof做类型保护（class才可以使用instanceof ， interface不可以）
 
 ```typescript
 class NumberObj {
@@ -163,7 +256,7 @@ function addSecond (first : object | NumberObj, second : object | NumberObj) {
 
 ## Enum 枚举类型
 
-```powershell
+```shell
 npm init -y
 npm install ts-node -D
 npm install typescript -D
@@ -232,8 +325,6 @@ enum Status {
 // 0 4 5
 // Status[0]    undefined
 ```
-
-
 
 ## 函数泛型
 

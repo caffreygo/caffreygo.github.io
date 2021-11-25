@@ -4,7 +4,7 @@
 
 环境搭建
 
-```sh
+```shell
 npm init -y
 tsc --init
 npm install ts-node -D
@@ -609,7 +609,7 @@ class User {
 
 执行结果
 
-```sh
+```shell
 name
 age
 ```

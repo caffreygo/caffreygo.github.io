@@ -65,7 +65,7 @@ node demo.js
 
 - 安装ts-node (npm install -g ts-node  // npm install -g ts-node@8.4.1)
 
-```js
+```shell
 ts-node demo.ts
 ```
 
@@ -161,17 +161,19 @@ const total = add({ first: 1, second: 2 });
 const count = getNumber({ first: 1 });
 ```
 
-## 基础语法复习
+## 回顾
 
-- 声明函数的两种方式(：类型     = 实现)
+- 声明函数的两种方式(:类型 = 实现)
 
 ```js
+// 定义函数结构体，可以把 (str: string) => number 提取出来声明为type（类型别名）
 const func1: (str: string) => number = str => {
   return parseInt(str, 10);
 };
 ```
 
 ```js
+// 直接定义函数参数和返回值的类型
 const func = (str: string)：number => {
   return parseInt(str, 10);
 };
@@ -188,7 +190,7 @@ const rawData = '{"name": "dell"}';
 const newData: Person = JSON.parse(rawData);
 ```
 
-- 多种类型声明 ( | )
+- 联合类型：多种类型声明 ( | )
 
 ```js
 let temp: number | string = 123;
@@ -210,6 +212,12 @@ const undefinedArr: undefined[] = [undefined];
 
 ```js
 const arr: (number | string)[] = [1, '2', 3];
+```
+
+- 通过**范型**定义包含多种类型值的数组
+
+```typescript
+const arr: Array<number | string | object> = ["jkl", {}, 123];
 ```
 
 - 对象数组
@@ -300,7 +308,7 @@ type Person1 = string;
 
 ### 可选择属性（?）
 
-```js
+```typescript
 interface Person {
   name: string;
   age?: number;
@@ -353,7 +361,7 @@ getPersonName({
 
 ###   [propName: string]: any
 
-```js
+```typescript
 interface Person {
   name: string;
   age?: number;

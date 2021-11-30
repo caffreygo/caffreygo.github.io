@@ -578,29 +578,6 @@ console.log(teacher.age);   // 28
 console.log(teacher.name);  // caffrey
 ```
 
-### 单例模式
-
-```typescript
-class Axios {
-  private static instance: Axios | null = null
-  private constructor() {
-    // private构造函数，禁止外部调用创建新对象
-  }
-  static init() {
-    if (Axios.instance == null) {
-      console.log('创建Axios实例')
-      Axios.instance = new Axios()
-    }
-    return Axios.instance
-  }
-}
-
-const axios = Axios.init()  // 创建Axios实例
-const axios1 = Axios.init()
-
-console.log(axios === axios1)  // true
-```
-
 ## 静态属性，getter和setter
 
 ### 类里面的getter和setter
@@ -669,6 +646,29 @@ class Demo {
 const demo1 = Demo.getInstance();
 const demo2 = Demo.getInstance();
 // demo1.name === demo2.name === 'caffrey go'
+```
+
+---
+
+```typescript
+class Axios {
+  private static instance: Axios | null = null
+  private constructor() {
+    // private构造函数，禁止外部调用创建新对象
+  }
+  static init() {
+    if (Axios.instance == null) {
+      console.log('创建Axios实例')
+      Axios.instance = new Axios()
+    }
+    return Axios.instance
+  }
+}
+
+const axios = Axios.init()  // 创建Axios实例
+const axios1 = Axios.init()
+
+console.log(axios === axios1)  // true
 ```
 
 ## readonly只读

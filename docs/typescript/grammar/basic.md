@@ -516,9 +516,10 @@ teacher.getName() === 'caffrey go'
 ### 访问类型
 
 - public 允许在类的内外被调用（默认）
-
-- private 允许在类内被使用
 - protected 允许在类内及继承的子类中使用
+- private 允许在类内被使用
+
+*重写的方法的访问等级不能变严格，例如父类是protected，子类不能是private*
 
 ```js
 class Person {
@@ -547,7 +548,7 @@ class Person {
   // constructor(name: string) {
   //   this.name = name;
   // }
-  // 简化写法
+  // 带访问类型的简化写法
   constructor(public name: string) {}
 }
 const person = new Person('dell');
@@ -575,6 +576,29 @@ class Teacher extends Person {
 const teacher = new Teacher(28);
 console.log(teacher.age);   // 28
 console.log(teacher.name);  // caffrey
+```
+
+### 单例模式
+
+```typescript
+class Axios {
+  private static instance: Axios | null = null
+  private constructor() {
+    // private构造函数，禁止外部调用创建新对象
+  }
+  static init() {
+    if (Axios.instance == null) {
+      console.log('创建Axios实例')
+      Axios.instance = new Axios()
+    }
+    return Axios.instance
+  }
+}
+
+const axios = Axios.init()  // 创建Axios实例
+const axios1 = Axios.init()
+
+console.log(axios === axios1)  // true
 ```
 
 ## 静态属性，getter和setter

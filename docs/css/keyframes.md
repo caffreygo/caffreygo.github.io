@@ -578,17 +578,13 @@ div {
 
 ::: 
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#心动感觉)心动感觉
-
-下面是画心的步骤
-
-![image-20190919170506721](https://doc.houdunren.com/assets/img/image-20190919170506721.7bd12d30.png)
+### 心动感觉
 
 使用循环动画绘制心动效果
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8894047.f0ee8861.gif)
+![](./img/keyframes/11.gif)
 
-```text
+```html
 <style>
     .heart {
         width: 200px;
@@ -637,7 +633,7 @@ div {
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#动画方向)动画方向
+## 动画方向 💡
 
 使用 `animation-direction` 控制动画运行的方向。
 
@@ -648,11 +644,11 @@ div {
 | alternate         | 先从0%到100%，然后从100%到0% |
 | alternate-reverse | 先从100%到0%，然后从0%到100% |
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#效果比较)效果比较
+### 效果比较
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9072635.d0d86895.gif)
+![](./img/keyframes/12.gif)
 
-```text
+```html
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -753,32 +749,33 @@ div {
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#reverse)reverse
+### reverse
 
 根据上面的心动例子改变方向为100%~0%
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8894427.a32e9b0f.gif)
+![Untitled](.\img\keyframes\13.gif)
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#alternate)alternate
+### alternate
 
 根据上面的心动例子改变方向为0%~100%然后100%~0%
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8894391.a4228c9e.gif)
+![Untitled](.\img\keyframes\14.gif)
 
-```text
+```css
 animation-direction: alternate-reverse;
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#alternate-reverse)alternate-reverse
+### alternate-reverse
 
 通过使用合适的运动方向 `alternate-reverse` 制作跳动的小球
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8895617.c0966e33.gif)
+![Untitled](.\img\keyframes\15.gif)
 
-```text
+```html
 <style>
     main {
         display: flex;
+        margin-top: 400px;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -790,7 +787,7 @@ animation-direction: alternate-reverse;
         border-radius: 50%;
         background: #e67e22;
         animation-name: ball;
-        animation-duration: 2s;
+        animation-duration: 1s;
         animation-iteration-count: infinite;
         animation-direction: alternate-reverse;
     }
@@ -799,7 +796,7 @@ animation-direction: alternate-reverse;
         0% {}
 
         100% {
-            transform: translateY(-600px);
+            transform: translateY(-300px);
         }
     }
 
@@ -808,7 +805,7 @@ animation-direction: alternate-reverse;
         height: 10px;
         border-radius: 50%;
         animation-name: shadow;
-        animation-duration: 2s;
+        animation-duration: 1s;
         animation-iteration-count: infinite;
         animation-direction: alternate;
     }
@@ -828,21 +825,26 @@ animation-direction: alternate-reverse;
 </style>
 
 <main>
-	<div></div>
-	<section></section>
+    <div></div>
+    <section></section>
 </main>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#延迟动画)延迟动画
+## 延迟动画
 
 使用 `animation-delay` 规则定义动画等待多长时间后执行。
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#微场景)微场景
+### 微场景
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8899531.e8d14a71.gif)
+![](./img/keyframes/16.gif)
 
-```text
+```html
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         width: 100vw;
         height: 100vh;
@@ -859,7 +861,7 @@ animation-direction: alternate-reverse;
         background: #e74c3c;
         text-align: center;
         line-height: 10vh;
-        animation-name: hd-translate;
+        animation-name: jr-translate;
         animation-duration: 500ms;
     }
 
@@ -876,7 +878,7 @@ animation-direction: alternate-reverse;
         justify-content: center;
         align-items: center;
         transform: translateX(-100vw);
-        animation-name: hd-rotate;
+        animation-name: jr-rotate;
         animation-duration: 1s;
         animation-fill-mode: forwards;
     }
@@ -896,7 +898,7 @@ animation-direction: alternate-reverse;
         height: 40vw;
         background: #8e44ad;
         transform: translate(-100vw, -100vh);
-        animation-name: hd-rotate;
+        animation-name: jr-rotate;
         animation-duration: 1s;
         animation-delay: 1s;
         animation-fill-mode: forwards;
@@ -907,7 +909,7 @@ animation-direction: alternate-reverse;
         width: 60vw;
         height: 40vw;
         background: #2980b9;
-        animation-name: hd-translate;
+        animation-name: jr-translate;
         animation-duration: 1s;
         animation-delay: 2s;
         transform: translate(-100vw, -100vh);
@@ -922,14 +924,14 @@ animation-direction: alternate-reverse;
         background: #27ae60;
         text-align: center;
         line-height: 10vh;
-        animation-name: hd-skew;
+        animation-name: jr-skew;
         animation-duration: 500ms;
         animation-delay: 3s;
         transform: translateX(-100vw);
         animation-fill-mode: forwards;
     }
 
-    @keyframes hd-translate {
+    @keyframes jr-translate {
         from {
             transform: translate(-100vw, -100vh);
         }
@@ -939,7 +941,7 @@ animation-direction: alternate-reverse;
         }
     }
 
-    @keyframes hd-rotate {
+    @keyframes jr-rotate {
         from {
             transform: translate(-100%, -100%);
         }
@@ -949,7 +951,7 @@ animation-direction: alternate-reverse;
         }
     }
 
-    @keyframes hd-skew {
+    @keyframes jr-skew {
         from {
             transform: translateX(-100%) skew(-45deg);
         }
@@ -959,23 +961,20 @@ animation-direction: alternate-reverse;
         }
     }
 </style>
-
-<body>
-    <header>
-        后盾人
-    </header>
-    <main>
-        <div class="lesson">
-            系统课程是多个实战课程的组合，用来全面掌握一门语言或软件的使用，尤其适合刚入门的新手系统牢固的掌握知识。
-        </div>
-        <div class="video hd-translate">
-            系统课程是多个实战课程的组合，用来全面掌握一门语言或软件的使用，尤其适合刚入门的新手系统牢固的掌握知识。
-        </div>
-    </main>
-    <footer>
-        houdunren.com
-    </footer>
-</body>
+<header>
+    Hello world
+</header>
+<main>
+    <div class="lesson">
+        1
+    </div>
+    <div class="video jr-translate">
+        2
+    </div>
+</main>
+<footer>
+    caffreygo.com
+</footer>
 ```
 
 ## [#](https://doc.houdunren.com/css/14 帧动画.html#动画速率)动画速率

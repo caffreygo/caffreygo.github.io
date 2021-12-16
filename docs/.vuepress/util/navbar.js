@@ -130,6 +130,9 @@ module.exports = [{
       }, {
         text: "过渡延迟",
         link: "/css/transition"
+      }, {
+        text: "帧动画",
+        link: "/css/keyframes"
       }]
     }]
   },

@@ -753,13 +753,13 @@ div {
 
 根据上面的心动例子改变方向为100%~0%
 
-![Untitled](.\img\keyframes\13.gif)
+![Untitled](./img/keyframes/13.gif)
 
 ### alternate
 
 根据上面的心动例子改变方向为0%~100%然后100%~0%
 
-![Untitled](.\img\keyframes\14.gif)
+![Untitled](./img/keyframes/14.gif)
 
 ```css
 animation-direction: alternate-reverse;
@@ -769,7 +769,7 @@ animation-direction: alternate-reverse;
 
 通过使用合适的运动方向 `alternate-reverse` 制作跳动的小球
 
-![Untitled](.\img\keyframes\15.gif)
+![Untitled](./img/keyframes/15.gif)
 
 ```html
 <style>
@@ -977,9 +977,13 @@ animation-direction: alternate-reverse;
 </footer>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#动画速率)动画速率
+## 动画速率
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#系统属性)系统属性
+### 系统属性
+
+```css
+animation-timing-function
+```
 
 | 值                            | 描述                                                         |
 | :---------------------------- | :----------------------------------------------------------- |
@@ -990,23 +994,22 @@ animation-direction: alternate-reverse;
 | ease-in-out                   | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）           |
 | cubic-bezier(*n*,*n*,*n*,*n*) | 在 cubic-bezier 函数中定义自己的值                           |
 
-- 可以在帧中单独定义，将影响当前帧的速率
+> 可以在帧中单独定义，将影响当前帧的速率
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#贝塞尔曲线)贝塞尔曲线
+### 贝塞尔曲线
 
-需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
+📗  需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
 
-![image-20190917143208598](https://doc.houdunren.com/assets/img/image-20190917143208598.d3bc3aad.png)
+![](./img/keyframes/17.jpg)
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#体验效果)体验效果
+### 体验效果
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9379048.a9342460.gif)
+![](./img/keyframes/17.gif)
 
-```text
+```html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>后盾人</title>
     <style>
         * {
             padding: 0;
@@ -1019,16 +1022,6 @@ animation-direction: alternate-reverse;
             background: #2c3e50;
             display: grid;
             grid-template-columns: 1fr;
-        }
-
-        body::before {
-            content: 'houdunren.com';
-            color: white;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translateX(-50%);
-            opacity: .5;
         }
 
         ul {
@@ -1087,11 +1080,11 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#弹跳小球)弹跳小球
+### 弹跳小球 💡
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9139804.a095202a.gif)
+![Untitled](./img/keyframes/18.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -1168,11 +1161,11 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#魔术小球)魔术小球
+### 魔术小球
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-8904065.907dbaa9.gif)
+![Untitled](./img/keyframes/19.gif)
 
-```text
+```html
 <style>
     body {
         width: 100vw;
@@ -1273,11 +1266,11 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#按钮提交)按钮提交
+### 按钮提交
 
-![Untitled](data:image/gif;base64,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l8/85jv/+dCPvvSnT/3qW//62M++9rfP/e57//vgD7/4x0/+8pv//OhPv/rXz/72u//98I8/TIIAACH5BAAGAAAALDACcwAEAAQAge6qeO+wgfvs4QAAAAIGVAKGmgcFACH5BAAGAAAALDACcwAJAAQAguZ+IvPDovjgz/vo3P///wAAAAAAAAAAAAMNKLBDHoo5AhdoL94ZEgAh+QQABQAAACw0AnMACwAEAILmfiLojkTtoGb44M/659n89e////8AAAADEDi2AlQwKOZgkcu0F6euUQIAIfkEAAYAAAAsOgJzAAYABACB5n4i7aBm+ODP////AghEhmI4erlSAQAh+QQABgAAACwtAnMAEwAEAIDmfiIAAAACB4SPqcvt7woAIfkEAAYAAAAsLQJzAAEABACA5oEpAAAAAgKEUQAh+QQABQAAACwtAnMAAQAEAIDrmFkAAAACAoRRACH5BAAGAAAALC0CcwACAAQAgO2ncfG6kQIDDIxQACH5BAAGAAAALC0CcwADAAQAgPK9mPfbyAIETGB4WQAh+QQAEgAAACwtAnMABAAEAID44M////8CBYxhgZdQACH5BAAFAAAALDACcwACAAQAgPG6kfzv5QIDDIxQACH5BAAGAAAALDACcwAFAAQAgffbx/fbyPjgzwAAAAIHFIKGoXlYAAAh+QQADAAAACwxAnMACAAEAIHmfiLtoGb44M////8CCoQ1GQao7MY6SRYAIfkEAAYAAAAsMAJzAAIABACA54c2+ufaAgMMjFAAIfkEAAUAAAAsMAJzAAUABACB7aVu8bqR+ODP/O/lAgcUEmOol5sKACH5BAAGAAAALDECcwAKAAQAguZ+IuyfZPfbyPjgz/nk1v///wAAAAAAAAMOCDrVJEEB5qCk5cXVMkwAIfkEAAwAAAAsOAJzAAgABACB5n4i7aBm+ODP////AgsMEKNiqMNOWm3CAgAh+QQABgAAACwtAnMAEwAEAIDmfiIAAAACB4SPqcvt7woAIfkEAAYAAAAsLQJzAAEABACA5oUyAAAAAgKEUQAh+QQABQAAACwtAnMAAgAEAIDmgi3tpnACAwyMUAAh+QQABgAAACwtAnMAAgAEAIDzw6IAAAACA4RvBQAh+QQABgAAACwtAnMABAAEAIDmgiz659oCBYxhgZdQACH5BAAMAAAALC0CcwAEAAQAgPjgz////wIFjGGBl1AAIfkEAAUAAAAsMAJzAAEABACA+ePUAAAAAgKEUQAh+QQABgAAACwwAnMABAAEAIH1zbD20Lb89O0AAAACBlQChpoHBQAh+QQABgAAACwwAnMABwAEAILmfiLoij743cr44M/659oAAAAAAAAAAAADCzgg1KHMwUbeoiEBACH5BAALAAAALDICcwAHAAQAgeZ+Iu2gZvjgz////wIKBDQZhso51oGhAAAh+QQABgAAACwwAnMAAwAEAIHqk0/tpnD76d4AAAACBFRgeFkAIfkEAAYAAAAsMAJzAAUABACC5n4i5oMv88Sj+ODP/PHpAAAAAAAAAAAAAwg4EELKbrXXEgAh+QQABgAAACwyAnMACwAEAILmfiLpkk3538744M/659r///8AAAAAAAADEAgw1UIwKOYgkauVF6fmVwIAIfkEAAwAAAAsOAJzAAgABACB5n4i7aBm+ODP////AgsMEKNiqMNOWm3CAgAh+QQABQAAACwtAnMAEwAEAIDmfiIAAAACB4SPqcvt7woAIfkEAAYAAAAsLQJzAAEABACA6I1CAAAAAgKEUQAh+QQABgAAACwtAnMAAgAEAIDpkUrvsIECAwyMUAAh+QQABgAAACwtAnMAAwAEAIDrmFn20LYCBExgeFkAIfkEAAYAAAAsLQJzAAQABACA8LKF/PXvAgWMYYGXUAAh+QQACwAAACwtAnMABAAEAID44M////8CBYxhgZdQACH5BAAGAAAALDACcwACAAQAgOaFMvvs4QIDDIxQACH5BAAFAAAALDACcwAEAAQAgfXNsPbQtvz07QAAAAIGVAKGmgcFACH5BAAGAAAALDACcwAIAAQAguZ+Iu2gZvfWvvjgz/z17wAAAAAAAAAAAAMMOABCHoo5Ald78dIEACH5BAAFAAAALDMCcwAGAAQAgeZ+Iu2gZvjgz////wIIhIZhOHq5UgEAIfkEAAYAAAAsMAJzAAEABACA+eHQAAAAAgKEUQAh+QQABgAAACwwAnMABAAEAIHuqnjvsIH77OEAAAACBlQChpoHBQAh+QQABgAAACwwAnMACQAEAILmfiLzw6L44M/76Nz///8AAAAAAAAAAAADDSiwQx6KOQIXaC/eGRIAIfkEAAYAAAAsNAJzAAsABACC5n4i6I5E7aBm+ODP+ufZ/PXv////AAAAAxA4tgJUMCjmYJHLtBenrlECACH5BAAFAAAALDoCcwAGAAQAgeZ+Iu2gZvjgz////wIIRIZiOHq5UgEAIfkEAAYAAAAsLQJzABMABACA5n4iAAAAAgeEj6nL7e8KACH5BAAGAAAALC0CcwABAAQAgOaBKQAAAAIChFEAIfkEAAgAAAAsLQJzAAEABACA65hZAAAAAgKEUQAh+QQABAAAACwtAnMAAgAEAIDzw6IAAAACA4RvBQAh+QQABQAAACwtAnMAAwAEAIDyvZj328gCBExgeFkAIfkEABIAAAAsLQJzAAQABACA+ODP////AgWMYYGXUAAh+QQAAQAAACwwAnMAAwAEAIHtpW7ywJv87+cAAAACBFRgeFkAOw==)
+![Untitled](./img/keyframes/20.gif)
 
-```text
+```html
 <head>
     <style>
         body {
@@ -1339,7 +1332,7 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#步进速度)步进速度
+## 步进速度
 
 过渡使用阶梯化呈现，有点像现实生活中的机械舞，下面是把过渡分五步完成。
 
@@ -1350,17 +1343,16 @@ animation-direction: alternate-reverse;
 | step-start     | 等于steps(1,start)，可以理解为从下一步开始 |
 | step-end       | 等于steps(1,end)，可以理解为从当前步开始   |
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#steps)steps
+### steps
 
-`steps(n,start)` 可以简单理解为从第二个开始，`steps(n,end)` 从第一个开始。
+📗  `steps(n,start)` 可以简单理解为从第二个开始，`steps(n,end)` 从第一个开始。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9469170.45d93747.gif)
+![](./img/keyframes/21.gif)
 
-```text
+```html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>后盾人</title>
     <style>
         * {
             padding: 0;
@@ -1433,7 +1425,7 @@ animation-direction: alternate-reverse;
 
 <body>
     <main>
-        <div>1 <small>houdunren.com</small></div>
+        <div>1</div>
         <div>2</div>
         <div>3</div>
         <div>4</div>
@@ -1445,17 +1437,16 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#step-start)step-start
+### step-start
 
-`step-start` 效果等于 `steps(1,start)` ,`step-end` 效果等同于 `steps(1,end)`。
+📗  `step-start` 效果等于 `steps(1,start)` ,`step-end` 效果等同于 `steps(1,end)`。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9484950.4ca2375f.gif)
+![](./img/keyframes/22.gif)
 
-```text
+```html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>后盾人</title>
     <style>
         * {
             padding: 0;
@@ -1542,22 +1533,22 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#播放状态)播放状态
+## 播放状态
 
-使用 `animation-play-state` 可以控制动画的暂停与运行。
+📗  使用 `animation-play-state` 可以控制动画的暂停与运行。
 
 | 选项    | 说明 |
 | ------- | ---- |
 | paused  | 暂停 |
 | running | 运行 |
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#幻灯片)幻灯片
+### 幻灯片
 
 下面是使用无JS脚本参与的图片轮换效果，图片切换使用`steps` 步进与`animation-play-state`播放状态技术。
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9059867.a86bf9bf.gif)
+![](./img/keyframes/23.gif)
 
-```text
+```html
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
@@ -1689,7 +1680,7 @@ animation-direction: alternate-reverse;
                 <img src="3.jpg" alt="">
             </div>
             <div>
-                <img src="5.jpg" alt="">
+                <img src="4.jpg" alt="">
             </div>
         </section>
         <ul>
@@ -1702,9 +1693,9 @@ animation-direction: alternate-reverse;
 </body>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#填充模式)填充模式
+## 填充模式
 
-`animation-fill-mode` 用于定义动画播放结束后的处理模式，是回到原来状态还是停止在动画结束状态。
+📗  `animation-fill-mode` 用于定义动画播放结束后的处理模式，是回到原来状态还是停止在动画结束状态。
 
 | 选项      | 说明                                                         |
 | --------- | ------------------------------------------------------------ |
@@ -1713,11 +1704,11 @@ animation-direction: alternate-reverse;
 | forwards  | 结束后停留动画的最后一帧                                     |
 | both      | 包含backwards与forwards规则，即动画效果在起始帧，不等延迟结束，并且在结束后停止在最后一帧 |
 
-### [#](https://doc.houdunren.com/css/14 帧动画.html#效果对比)效果对比
+### 效果对比
 
-![Untitled](https://doc.houdunren.com/assets/img/Untitled-9067254.58a8233a.gif)
+![](./img/keyframes/24.gif)
 
-```text
+```html
 <head>
     <style>
         * {
@@ -1793,13 +1784,12 @@ animation-direction: alternate-reverse;
         <li>forwards</li>
         <li>both</li>
     </ul>
-    <h2>houdunren.com</h2>
 </body>
 ```
 
-## [#](https://doc.houdunren.com/css/14 帧动画.html#组合定义)组合定义
+## 组合定义
 
-和CSS中的其他属性一样，可以使用`animation`组合定义帧动画。animation 属性是一个简写属性，用于设置六个动画属性：
+📗  和CSS中的其他属性一样，可以使用`animation`组合定义帧动画。animation 属性是一个简写属性，用于设置**六个**动画属性：
 
 - animation-name
 - animation-duration
@@ -1808,4 +1798,5 @@ animation-direction: alternate-reverse;
 - animation-iteration-count
 - animation-direction
 
-必须存在 `animation-duration`属性，否则过渡时间为0没有动画效果。
+> 必须存在 `animation-duration`属性，否则过渡时间为0没有动画效果。
+

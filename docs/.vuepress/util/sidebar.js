@@ -47,6 +47,7 @@ module.exports = {
       "/css/transform.md",
       "/css/transition.md",
       "/css/keyframes.md",
+      "/css/media.md",
     ],
   }],
   "/book/": [{

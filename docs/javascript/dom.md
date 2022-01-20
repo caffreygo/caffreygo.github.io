@@ -1795,92 +1795,97 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 </script>
 ```
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#创建节点)创建节点
+## 创建节点
 
 创建节点的就是构建出DOM对象，然后根据需要添加到其他节点中
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#append)append
+### append
 
 append 也是用于添加元素，同时他也可以直接添加文本等内容。
 
+>  **`Element.append`** 方法在 `Element`的最后一个子节点之后插入一组 [`Node`](https://developer.mozilla.org/zh-CN/docs/Web/API/Node) 对象或 [`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString) 对象
+
 ```html
 <script>
+    // parent.append("Some text", document.createElement("p")); 同时添加文本和标签节点
     document.body.append((document.createElement('div').innerText = '向军'))
     document.body.append('caffreygo.com')
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#createtextnode)createTextNode
+### createTextNode
 
 创建文本对象并添加到元素中
 
 ```html
 <div id="app"></div>
 <script>
-  let app = document.querySelector('#app')
-  let text = document.createTextNode('google')
-  app.append(text)
+    let app = document.querySelector('#app')
+    let text = document.createTextNode('google')
+    app.append(text)
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#createelement)createElement
+### createElement
 
 使用createElement方法可以标签节点对象，创建span标签新节点并添加到div#app
 
 ```html
 <div id="app"></div>
 <script>
-  let app = document.querySelector('#app')
-  let span = document.createElement('span')
-  span.innerHTML = 'google'
-  app.append(span)
+    let app = document.querySelector('#app')
+    let span = document.createElement('span')
+    span.innerHTML = 'google'
+    app.append(span)
 </script>
 ```
 
-使用PROMISE结合节点操作来加载外部JAVASCRIPT文件
+💡💡使用PROMISE结合节点操作来加载外部JAVASCRIPT文件
 
-```html
+```JavaScript
 function js(file) {
-  return new Promise((resolve, reject) => {
-    let js = document.createElement('script')
-    js.type = 'text/javascript'
-    js.src = file
-    js.onload = resolve
-    js.onerror = reject
-    document.head.appendChild(js)
-  })
+    return new Promise((resolve, reject) => {
+        let js = document.createElement('script')
+        js.type = 'text/javascript'
+        js.src = file
+        js.onload = resolve
+        js.onerror = reject
+        document.head.appendChild(js)
+    })
 }
 
 js('11.js')
-  .then(() => console.log('加载成功'))
-  .catch((error) => console.log(`${error.target.src} 加载失败`))
+    .then(() => console.log('加载成功'))
+    .catch((error) => console.log(`${error.target.src} 加载失败`))
 ```
 
 使用同样的逻辑来实现加载CSS文件
 
-```html
+```javascript
 function css(file) {
-  return new Promise((resolve, reject) => {
-    let css = document.createElement('link')
-    css.rel = 'stylesheet'
-    css.href = file
-    css.onload = resolve
-    css.onerror = reject
-    document.head.appendChild(css)
-  })
+    return new Promise((resolve, reject) => {
+        let css = document.createElement('link')
+        css.rel = 'stylesheet'
+        css.href = file
+        css.onload = resolve
+        css.onerror = reject
+        document.head.appendChild(css)
+    })
 }
 css('1.css').then(() => {
-  console.log('加载成功')
+    console.log('加载成功')
 })
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#clonenode-importnode)cloneNode&importNode
+### cloneNode&importNode
 
-使用cloneNode和document.importNode用于复制节点对象操作
+::: tip 使用cloneNode和document.importNode用于复制节点对象操作
 
 - cloneNode是节点方法
 - cloneNode 参数为true时递归复制子节点即深拷贝
 - importNode是documet对象方法
+
+:::
 
 复制div#app节点并添加到body元素中
 
@@ -1888,7 +1893,7 @@ css('1.css').then(() => {
 <div id="app">google</div>
 <script>
   let app = document.querySelector('#app')
-  let newApp = app.cloneNode(true)
+  let newApp = app.cloneNode(true)  // <div id="app">google</div>
   document.body.appendChild(newApp)
 </script>
 ```
@@ -1901,21 +1906,21 @@ document.importNode方法是部分IE浏览器不支持的，也是复制节点�
 ```html
 <div id="app">google</div>
 <script>
-  let app = document.querySelector('#app')
-  let newApp = document.importNode(app, true)
-  document.body.appendChild(newApp)
+    let app = document.querySelector('#app')
+    let newApp = document.importNode(app, true)
+    document.body.appendChild(newApp)
 </script>
 ```
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#节点内容)节点内容
+## 节点内容
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#innerhtml)innerHTML
+### innerHTML
 
 inneHTML用于向标签中添加html内容，同时触发浏览器的解析器重绘DOM。
 
 下例使用innerHTML获取和设置div内容
 
-- innerHTML中只解析HTML标签语法，所以其中的 script 不会做为JS处理
+> innerHTML中只解析HTML标签语法，所以其中的 script 不会做为JS处理
 
 ```html
 <div id="app">
@@ -1924,7 +1929,7 @@ inneHTML用于向标签中添加html内容，同时触发浏览器的解析器�
 </div>
 <script>
   let app = document.querySelector('#app')
-  console.log(app.innerHTML)
+  console.log(app.innerHTML)  // string
 
   app.innerHTML = '<h1>测试数据</h1>'
 </script>
@@ -1932,27 +1937,29 @@ inneHTML用于向标签中添加html内容，同时触发浏览器的解析器�
 
 **重绘节点**
 
-使用innertHTML操作会重绘元素，下面在点击第二次就没有效果了
+:::tip 使用innertHTML操作会重绘元素，下面在点击第二次就没有效果了
 
 - 因为对#app内容进行了重绘，即删除原内容然后设置新内容
 - 重绘后产生的button对象没有事件
 - 重绘后又产生了新img对象，所以在控制台中可看到新图片在加载
 
+::: 
+
 ```html
 <div id="app">
-  <button>caffreygo.com</button>
-  <img src="1.jpg" alt="" />
+    <button>caffreygo.com</button>
+    <img src="1.jpg" alt="" />
 </div>
 <script>
-  const app = document.querySelector('#app')
-  app.querySelector('button').addEventListener('click', function () {
-    alert(this.innerHTML)
-    this.parentElement.innerHTML += '<hr/>hello world'
-  })
+    const app = document.querySelector('#app')
+    app.querySelector('button').addEventListener('click', function () {
+        alert(this.innerHTML)
+        this.parentElement.innerHTML += '<hr/>hello world'
+    })
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#outerhtml)outerHTML
+### outerHTML
 
 outerHTML与innerHTML的区别是包含父标签
 
@@ -1968,7 +1975,7 @@ outerHTML与innerHTML的区别是包含父标签
 </div>
 <script>
   let app = document.querySelector('#app')
-  console.log(app.outerHTML)
+  console.log(app.outerHTML) // <div id="app">...</div>
 
   app.outerHTML = '<h1>测试数据</h1>'
 </script>
@@ -1978,13 +1985,13 @@ outerHTML与innerHTML的区别是包含父标签
 
 ```html
 <div id="app">
-  caffreygo.com
+    caffreygo.com
 </div>
 <script>
-  const app = document.querySelector('#app')
-  console.log(app)
-  app.innerHTML = 'baidu.com'
-  console.log(app)
+    const app = document.querySelector('#app')
+    console.log(app)
+    app.innerHTML = 'baidu.com'
+    console.log(app)
 </script>
 ```
 
@@ -1998,28 +2005,30 @@ outerHTML与innerHTML的区别是包含父标签
   const app = document.querySelector('#app')
   console.log(app)
   app.outerHTML = 'baidu.com'
-  console.log(app)
+  console.log(app)  // 节点依然存在
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#textcontent与innertext)textContent与innerText
+### textContent与innerText
 
-textContent与innerText是访问或添加文本内容到元素中
+::: tip textContent与innerText是访问或添加文本内容到元素中
 
 - textContentb部分IE浏览器版本不支持
 - innerText部分FireFox浏览器版本不支持
-- 获取时忽略所有标签,只获取文本内容
+- 获取时**忽略所有标签**,只获取文本内容
 - 设置时将内容中的标签当文本对待不进行标签解析
+
+:::
 
 获取时忽略内容中的所有标签
 
 ```html
 <div id="app">
-  <h1>caffreygo.com</h1>
+    <h1>caffreygo.com</h1>
 </div>
 <script>
-  let app = document.querySelector('#app')
-  console.log(app.textContent)
+    let app = document.querySelector('#app')
+    console.log(app.textContent)  // caffreygo.com
 </script>
 ```
 
@@ -2027,30 +2036,32 @@ textContent与innerText是访问或添加文本内容到元素中
 
 ```html
 <div id="app">
-  <div class="google" data="jc">caffreygo.com</div>
-  <div class="baidu">baidu.com</div>
+    <div class="google" data="jc">caffreygo.com</div>
+    <div class="baidu">baidu.com</div>
 </div>
 <script>
-  let app = document.querySelector('#app')
-  app.textContent="<h1>测试数据</h1>"
+    let app = document.querySelector('#app')
+    app.textContent="<h1>测试数据</h1>"  // 是文本，不会渲染成标签
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#outertext)outerText
+### outerText
 
 与innerText差别是会影响所操作的标签
 
 ```html
 <h1>caffreygo.com</h1>
 <script>
-  let h1 = document.querySelector('h1')
-  h1.outerText = '测试数据'
+    let h1 = document.querySelector('h1')
+    h1.outerText = '测试数据'
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#insertadjacenttext)insertAdjacentText
+### insertAdjacentText
 
-将文本插入到元素指定位置，不会对文本中的标签进行解析，包括以下位置
+> Adjacent: 邻近的
+
+将**文本**插入到元素指定位置，不会对文本中的标签进行解析，包括以下位置
 
 | 选项        | 说明         |
 | ----------- | ------------ |
@@ -2063,13 +2074,13 @@ textContent与innerText是访问或添加文本内容到元素中
 
 ```html
 <div id="app">
-  <div class="google" data="jc">caffreygo.com</div>
-  <div class="baidu">baidu.com</div>
+    <div class="google" data="jc">caffreygo.com</div>
+    <div class="baidu">baidu.com</div>
 </div>
 <script>
-  let app = document.querySelector('#app')
-  let span = document.createElement('span')
-  app.insertAdjacentText('beforebegin', '<h1>测试数据</h1>')
+    let app = document.querySelector('#app')
+    let span = document.createElement('span')
+    app.insertAdjacentText('beforebegin', '<h1>测试数据</h1>')
 </script>
 ```
 

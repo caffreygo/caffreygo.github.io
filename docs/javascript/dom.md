@@ -2084,43 +2084,43 @@ outerHTML与innerHTML的区别是包含父标签
 </script>
 ```
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#节点管理)节点管理
+## 节点管理
 
-现在我们来讨论下节点元素的管理，包括添加、删除、替换等操作
+节点元素的管理，包括添加、删除、替换等操作
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#推荐方法)推荐方法
+### 推荐方法
 
-| 方法        | 说明                       |
-| ----------- | -------------------------- |
-| append      | 节点尾部添加新节点或字符串 |
-| prepend     | 节点开始添加新节点或字符串 |
-| before      | 节点前面添加新节点或字符串 |
-| after       | 节点后面添加新节点或字符串 |
-| replaceWith | 将节点替换为新节点或字符串 |
+| 方法        | 说明                         |
+| ----------- | ---------------------------- |
+| append      | 节点内尾部添加新节点或字符串 |
+| prepend     | 节点内开始添加新节点或字符串 |
+| before      | 节点前面添加新节点或字符串   |
+| after       | 节点后面添加新节点或字符串   |
+| replaceWith | 将节点替换为新节点或字符串   |
 
 在标签内容后面添加新内容
 
 ```html
 <div id="app">
-  caffreygo.com
+    caffreygo.com
 </div>
 <script>
-  let app = document.querySelector('#app')
-  app.append('-baidu.com')
+    let app = document.querySelector('#app')
+    app.append('-baidu.com')  // caffreygo.com -baidu.com
 </script>
 ```
 
-同时添加多个内容，包括字符串与元素标签
+**同时添加**多个内容，包括字符串与元素标签
 
 ```html
 <div id="app">
-  caffreygo.com
+    caffreygo.com
 </div>
 <script>
-  let app = document.querySelector('#app')
-  let h1 = document.createElement('h1')
-  h1.append('测试数据')
-  app.append('@', h1)
+    let app = document.querySelector('#app')
+    let h1 = document.createElement('h1')
+    h1.append('测试数据')
+    app.append('@', h1)  // caffreygo.com @<h1>测试数据</h1>
 </script>
 ```
 
@@ -2128,13 +2128,13 @@ outerHTML与innerHTML的区别是包含父标签
 
 ```html
 <div id="app">
-  caffreygo.com
+    caffreygo.com
 </div>
 <script>
-  let app = document.querySelector('#app')
-  let h1 = document.createElement('h1')
-  h1.append('baidu.com')
-  app.replaceWith(h1)
+    let app = document.querySelector('#app')
+    let h1 = document.createElement('h1')
+    h1.append('baidu.com')
+    app.replaceWith(h1)  // <h1>baidu.com</h1>
 </script>
 ```
 
@@ -2146,7 +2146,7 @@ outerHTML与innerHTML的区别是包含父标签
   let app = document.querySelector('#app')
   let h1 = document.createElement('h1')
   h1.innerHTML = 'google'
-  app.append(h1)
+  app.append(h1)  // <div id="app"> <h1>google</h1> </div>
 </script>
 ```
 
@@ -2156,9 +2156,9 @@ outerHTML与innerHTML的区别是包含父标签
 <h1>caffreygo.com@h1</h1>
 <h2>baidu@h2</h2>
 <script>
-  let h1 = document.querySelector('h1')
-  let h2 = document.querySelector('h2')
-  h1.before(h2)
+    let h1 = document.querySelector('h1')
+    let h2 = document.querySelector('h2')
+    h1.before(h2)  // 移动现有节点
 </script>
 ```
 
@@ -2166,17 +2166,17 @@ outerHTML与innerHTML的区别是包含父标签
 
 ```html
 <div id="app">
-  caffreygo.com
+    caffreygo.com
 </div>
 <script>
-  let app = document.querySelector('#app')
-  app.remove()
+    let app = document.querySelector('#app')
+    app.remove()
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#insertadjacenthtml)insertAdjacentHTML
+### insertAdjacentHTML
 
-将html文本插入到元素指定位置，浏览器会对文本进行标签解析，包括以下位置
+📗 将html文本插入到元素指定位置，浏览器会对文本进行标签解析，包括以下位置
 
 | 选项        | 说明         |
 | ----------- | ------------ |
@@ -2189,19 +2189,19 @@ outerHTML与innerHTML的区别是包含父标签
 
 ```html
 <div id="app">
-  <div class="google" data="jc">caffreygo.com</div>
-  <div class="baidu">baidu.com</div>
+    <div class="google" data="jc">caffreygo.com</div>
+    <div class="baidu">baidu.com</div>
 </div>
 <script>
-  let app = document.querySelector('#app')
-  let span = document.createElement('span')
-  app.insertAdjacentHTML('beforebegin', '<h1>测试数据</h1>')
+    let app = document.querySelector('#app')
+    let span = document.createElement('span')
+    app.insertAdjacentHTML('beforebegin', '<h1>测试数据</h1>')
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#insertadjacentelement)insertAdjacentElement
+### insertAdjacentElement
 
-insertAdjacentElement() 方法将指定元素插入到元素的指定位置，包括以下位置
+📗 insertAdjacentElement() 方法将指定元素插入到元素的指定位置，包括以下位置
 
 - 第一个参数是位置
 - 第二个参数为新元素节点
@@ -2217,18 +2217,18 @@ insertAdjacentElement() 方法将指定元素插入到元素的指定位置，�
 
 ```html
 <div id="app">
-  <div class="google" data="jc">caffreygo.com</div>
-  <div class="baidu">baidu.com</div>
+    <div class="google" data="jc">caffreygo.com</div>
+    <div class="baidu">baidu.com</div>
 </div>
 <script>
-  let app = document.querySelector('#app')
-  let span = document.createElement('span')
-  span.innerHTML = '测试数据'
-  app.insertAdjacentElement('beforebegin', span)
+    let app = document.querySelector('#app')
+    let span = document.createElement('span')
+    span.innerHTML = '测试数据'
+    app.insertAdjacentElement('beforebegin', span)
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#古老方法)古老方法
+### 古老方法
 
 下面列表过去使用的操作节点的方法，现在不建议使用了。但在阅读老代码时可来此查看语法
 
@@ -2239,33 +2239,33 @@ insertAdjacentElement() 方法将指定元素插入到元素的指定位置，�
 | removeChild  | 删除节点                       |
 | replaceChild | 进行节点的替换操作             |
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#documentfragment)DocumentFragment
+### DocumentFragment
 
-当对节点进行添加、删除等操作时，都会引起页面回流来重新渲染页面,即重新渲染颜色，尺寸，大小、位置等等。所以会带来对性能的影响。
+📗 当对节点进行添加、删除等操作时，都会引起页面回流来重新渲染页面,即重新渲染颜色，尺寸，大小、位置等等。所以会带来对性能的影响。
 
 **解决以上问题可以使用以下几种方式**
 
 1. 可以将DOM写成html字符串，然后使用innerHTML添加到页面中，但这种操作会比较麻烦，且不方便使用节点操作的相关方法。
-2. 使用createDocumentFragment来管理节点时，此时节点都在内存中，而不是DOM树中。对节点的操作不会引发页面回流,带来比较好的性能体验。
+2. 使用createDocumentFragment来管理节点时，此时节点都在内存中，而不是DOM树中。对节点的操作不会引发页面回流,带来比较好的性能体验。 📌
 
-**DocumentFragment特点**
+:::tip DocumentFragment特点
 
-- createDocumentFragment父节点为null
-- 继承自node所以可以使用NODE的属性和方法
-- createDocumentFragment创建的是文档碎片，节点类型nodeType为11。因为不在DOM树中所以只能通过JS进行操作
-- 添加createDocumentFragment添加到DOM后,就不可以再操作createDocumentFragment元素了,这与DOM操作是不同的
-- 将文档DOM添加到createDocumentFragment时,会移除文档中的DOM元素
-- createDocumentFragment创建的节点添加到其他节点上时，会将子节点一并添加
-- createDocumentFragment是虚拟节点对象，不直接操作DOM所以性能更好
-- 在排序/移动等大量DOM操作时建议使用createDocumentFragment
+- ✅ createDocumentFragment父节点为null
+- ✅ 继承自node所以可以使用NODE的属性和方法
+- ✅ createDocumentFragment创建的是文档碎片，节点类型nodeType为11。因为不在DOM树中所以只能通过JS进行操作
+- ✅ 添加createDocumentFragment添加到DOM后,就不可以再操作createDocumentFragment元素了,这与DOM操作是不同的
+- ✅ 将文档DOM添加到createDocumentFragment时,会移除文档中的DOM元素
+- ✅ createDocumentFragment创建的节点添加到其他节点上时，会将子节点一并添加
+- ✅ createDocumentFragment是虚拟节点对象，不直接操作DOM所以性能更好
+- ✅ 在排序/移动等大量DOM操作时建议使用createDocumentFragment
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#表单控制)表单控制
+:::
 
-表单是高频操作的元素，下面来掌握表单项的DOM操作
+## 表单控制
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#表单查找)表单查找
+### 表单查找
 
-JS为表单的操作提供了单独的集合控制
+::: tip JS为表单的操作提供了单独的集合控制
 
 - 使用document.forms获取表单集合
 - 使用form的name属性获取指定form元素
@@ -2273,13 +2273,15 @@ JS为表单的操作提供了单独的集合控制
 - 也可以直接写成form.name形式，不需要form.elements.title
 - 针对radio/checkbox获取的表单项是一个集合
 
+::: 
+
 ```html
 <form action="" name="jc">
   <input type="text" name="title" />
 </form>
 <script>
   const form = document.forms.jc
-  console.log(form.elements.title)
+  console.log(form.elements.title)  // <input type="text" name="title">
 </script>
 ```
 
@@ -2287,29 +2289,29 @@ JS为表单的操作提供了单独的集合控制
 
 ```html
 <form action="" name="jc">
-  <input type="text" name="title" />
+    <input type="text" name="title" />
 </form>
 <script>
-  const form = document.forms.jc
-  console.log(form.title.form === form) //true
+    const form = document.forms.jc
+    console.log(form.title.form === form) //true
 </script>
 ```
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#样式管理)样式管理
+## 样式管理
 
 通过DOM修改样式可以通过更改元素的class属性或通过style对象设置行样式来完成。
 
-- 建议使用class控制样式，将任务交给CSS处理，更简单高效
+> 建议使用class控制样式，将任务交给CSS处理，更简单高效
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#批量设置)批量设置
+### 批量设置
 
 使用JS的className可以批量设置样式
 
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.className = 'baidu'
+    let app = document.getElementById('app')
+    app.className = 'baidu'
 </script>
 ```
 
@@ -2318,12 +2320,12 @@ JS为表单的操作提供了单独的集合控制
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.setAttribute('class', 'baidu')
+    let app = document.getElementById('app')
+    app.setAttribute('class', 'baidu')
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#classlist)classList
+### classList
 
 如果对类单独进行控制使用 classList属性操作
 
@@ -2339,8 +2341,8 @@ JS为表单的操作提供了单独的集合控制
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.classList.add('baidu')
+    let app = document.getElementById('app')
+    app.classList.add('baidu')
 </script>
 ```
 
@@ -2349,62 +2351,62 @@ JS为表单的操作提供了单独的集合控制
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.classList.remove('container')
+    let app = document.getElementById('app')
+    app.classList.remove('container')
 </script>
 ```
 
-使用toggle切换类，即类已经存在时删除，不存在时添加
+✅ 使用toggle切换类，即类已经存在时删除，不存在时添加
 
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.addEventListener('click', function () {
-    this.classList.toggle('baidu')
-  })
+    let app = document.getElementById('app')
+    app.addEventListener('click', function () {
+        this.classList.toggle('baidu')
+    })
 </script>
 ```
 
-使用contains检查class是否存在
+✅ 使用contains检查class是否存在
 
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  console.log(app.classList.contains('container')) //true
-  console.log(app.classList.contains('baidu')) //false
+    let app = document.getElementById('app')
+    console.log(app.classList.contains('container')) //true
+    console.log(app.classList.contains('baidu')) //false
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#设置行样式)设置行样式
+### 设置行样式
 
 使用style对象可以对样式属性单独设置，使用cssText可以批量设置行样式
 
 **样式属性设置**
 
-使用节点的style对象来设置行样式
-
-- 多个单词的属性使用驼峰进行命名
+使用节点的style对象来设置行样式，多个单词的属性使用驼峰进行命名
 
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.style.backgroundColor = 'red'
-  app.style.color = 'yellow'
+    let app = document.getElementById('app')
+    app.style.backgroundColor = 'red'
+    app.style.color = 'yellow'
 </script>
 ```
 
 **批量设置行样式**
 
-使用 cssText属性可以批量设置行样式，属性名和写CSS一样不需要考虑驼峰命名
+使用 cssText属性可以**批量设置**行样式
+
+> 属性名和写CSS一样不需要考虑驼峰命名
 
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.style.cssText = `background-color:red;color:yellow`
+    let app = document.getElementById('app')
+    app.style.cssText = `background-color:red;color:yellow`
 </script>
 ```
 
@@ -2413,12 +2415,12 @@ JS为表单的操作提供了单独的集合控制
 ```html
 <div id="app" class="d-flex container">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  app.setAttribute('style', `background-color:red;color:yellow;`)
+    let app = document.getElementById('app')
+    app.setAttribute('style', `background-color:red;color:yellow;`)
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#获取样式)获取样式
+### 获取样式
 
 可以通过style对象，window.window.getComputedStyle对象获取样式属性，下面进行说明
 
@@ -2426,43 +2428,46 @@ JS为表单的操作提供了单独的集合控制
 
 可以使用DOM对象的style属性读取行样式
 
-- style对象不能获取行样式外定义的样式
+> style对象不能获取行样式外定义的样式  ⚠️
 
 ```html
 <style>
-  div {
-    color: yellow;
-  }
+    div {
+        color: yellow;
+    }
 </style>
 <div id="app" style="background-color: red; margin: 20px;">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  console.log(app.style.backgroundColor)
-  console.log(app.style.margin)
-  console.log(app.style.marginTop)
-  console.log(app.style.color)
+    let app = document.getElementById('app')
+    console.log(app.style.backgroundColor)  // red
+    console.log(app.style.margin)  // 20px
+    console.log(app.style.marginTop)  // 20px
+    console.log(app.style.color)  // ''
+</script>
 ```
 
 **getComputedStyle**
 
-使用window.getComputedStyle可获取所有应用在元素上的样式属性
+::: tip window.getComputedStyle可获取所有应用在元素上的样式属性
 
 - 函数第一个参数为元素
 - 第二个参数为伪类
 - 这是计算后的样式属性，所以取得的单位和定义时的可能会有不同
 
+::: 
+
 ```html
 <style>
-  div {
-    font-size: 35px;
-    color: yellow;
-  }
+    div {
+        font-size: 35px;
+        color: yellow;
+    }
 </style>
 <div id="app" style="background-color: red; margin: 20px;">测试数据</div>
 <script>
-  let app = document.getElementById('app')
-  let fontSize = window.getComputedStyle(app).fontSize
-  console.log(fontSize.slice(0, -2))
-  console.log(parseInt(fontSize))
+    let app = document.getElementById('app')
+    let fontSize = window.getComputedStyle(app).fontSize
+    console.log(fontSize.slice(0, -2))  // '35'
+    console.log(parseInt(fontSize))
 </script>
 ```

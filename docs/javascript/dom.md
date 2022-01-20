@@ -1495,15 +1495,15 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 
 ```html
 <div id="app">
-  <li>google</li>
-  <li>hello world</li>
-  <li name="baidu">baidu.com</li>
+    <li>google</li>
+    <li>hello world</li>
+    <li name="baidu">baidu.com</li>
 </div>
 <script>
-  const nodes = [...document.querySelectorAll('li')].filter(node => {
-    return !node.matches(`[name]`)
-  })
-  console.log(nodes)
+    const nodes = [...document.querySelectorAll('li')].filter(node => {
+        return !node.matches(`[name]`)
+    })
+    console.log(nodes)
 </script>
 ```
 
@@ -1513,22 +1513,22 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 
 ```html
 <div class="comment">
-  <ul class="comment">
-    <li>caffreygo.com</li>
-  </ul>
+    <ul class="comment">
+        <li>caffreygo.com</li>
+    </ul>
 </div>
 
 <script>
-  const li = document.getElementsByTagName('li')[0]
-  const node = li.closest(`.comment`)
-  //结果为 ul.comment
-  console.log(node)
+    const li = document.getElementsByTagName('li')[0]
+    const node = li.closest(`.comment`)
+    //结果为 ul.comment
+    console.log(node)
 </script>
 ```
 
 ## 标准属性
 
-元素的标准属性具有相对应的DOM对象属性
+::: tip 元素的标准属性具有相对应的DOM对象属性
 
 - 操作属性区分大小写
 - 多个单词属性命名规则为第一个单词小写，其他单词大写
@@ -1537,27 +1537,29 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 - style属性为CSSStyleDeclaration对象
 - DOM对象不同生成的属性也不同
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#属性别名)属性别名
+::: 
 
-有些属性名与JS关键词冲突，系统已经起了别名
+### 属性别名
+
+有些属性名与JS关键词冲突，系统已经起了别名 📌
 
 | 属性  | 别名      |
 | ----- | --------- |
 | class | className |
 | for   | htmlFor   |
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#操作属性)操作属性
+### 操作属性
 
 元素的标准属性可以直接进行操作，下面是直接设置元素的className
 
 ```html
 <div id="app">
-  <div class="google" data="jc">caffreygo.com</div>
-  <div class="baidu">baidu.com</div>
+    <div class="google" data="jc">caffreygo.com</div>
+    <div class="baidu">baidu.com</div>
 </div>
 <script>
-  const app = document.querySelector(`#app`)
-  app.className = 'google baidu'
+    const app = document.querySelector(`#app`)
+    app.className = 'google baidu'
 </script>
 ```
 
@@ -1566,25 +1568,25 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <img src="" alt="" />
 <script>
-  let img = document.images[0]
-  img.src = 'https://www.houdurnen.com/avatar.jpg'
-  img.alt = '测试数据'
+    let img = document.images[0]
+    img.src = 'https://www.houdurnen.com/avatar.jpg'
+    img.alt = '测试数据'
 </script>
 ```
 
-使用hidden隐藏元素
+使用hidden隐藏元素 💡
 
 ```html
 <div id="app">caffreygo.com</div>
 <script>
-  const app = document.querySelector('#app')
-  app.addEventListener('click', function () {
-    this.hidden = true
-  })
+    const app = document.querySelector('#app')
+    app.addEventListener('click', function () {
+        this.hidden = true
+    })
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#多类型)多类型
+### 多类型
 
 大部分属性值是都是字符串，但并不是全部，下例中需要转换为数值后进行数据运算
 
@@ -1592,36 +1594,39 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 <input type="number" name="age" value="88" />
 
 <script>
-  let input = document.getElementsByName('age').item(0)
-  input.value = parseInt(input.value) + 100
+    let input = document.getElementsByName('age').item(0)
+    input.value = parseInt(input.value) + 100
 </script>
 ```
 
 下面表单checked属性值为Boolean类型
 
 ```html
-<label for="hot"> <input id="hot" type="checkbox" name="hot" />热门 </label>
+<label for="hot">
+    <input id="hot" type="checkbox" name="hot" />热门
+</label>
 <script>
-  const node = document.querySelector(`[name='hot']`)
-  node.addEventListener('change', function () {
-    console.log(this.checked)
-  })
+    const node = document.querySelector(`[name='hot']`)
+    node.addEventListener('change', function () {
+        console.log(this.checked)
+    })
 </script>
 ```
 
-属性值并都与HTML定义的值一样，下面返回的href属性值是完整链接
+属性值并都与HTML定义的值一样，下面返回的href属性值是**完整链接**
 
 ```html
 <a href="#google" id="home">测试数据</a>
 <script>
-  const node = document.querySelector(`#home`)
-  console.log(node.href)
+    const node = document.querySelector(`#home`)
+    console.log(node.href)  
+    // file:///C:/Users/caffr/Desktop/demo/index.html#google
 </script>
 ```
 
-## [#](https://doc.caffreygo.com/js/18 DOM.html#元素特征)元素特征
+## 元素特征
 
-对于标准的属性可以使用DOM属性的方式进行操作，但对于标签的非标准的定制属性则不可以。但JS提供了方法来控制标准或非标准的属性
+📗 对于标准的属性可以使用DOM属性的方式进行操作，但对于标签的非标准的定制属性则不可以。但JS提供了方法来控制标准或非标准的属性
 
 可以理解为元素的属性分两个地方保存，DOM属性中记录标准属性，特征中记录标准和定制属性
 
@@ -1635,26 +1640,31 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 | removeAttribute | 删除属性 |
 | hasAttribute    | 属性检测 |
 
-特征是可迭代对象，下面使用for...of来进行遍历操作
+`attributes`特征是可迭代对象，下面使用for...of来进行遍历操作
 
 ```html
 <div id="app" content="测试数据" color="red">baidu.com</div>
 <script>
-  const app = document.querySelector('#app')
-  for (const { name, value } of app.attributes) {
-    console.log(name, value)
-  }
+    const app = document.querySelector('#app')
+    // id="app"  content="测试数据"  color="red" （属性节点）
+    for (const attr of app.attributes) {
+        console.log(attr)  
+    }
+    //  id app   content 测试数据   color red
+    for (const { name, value } of app.attributes) {
+        console.log(name, value)
+    }
 </script>
 ```
 
-属性值都为字符串，所以数值类型需要进行转换
+属性值都为**字符串**，所以数值类型需要进行转换
 
 ```html
 <input type="number" name="age" value="88" />
 <script>
-  let input = document.getElementsByName('age').item(0)
-  let value = input.getAttribute('value') * 1 + 100
-  input.setAttribute('value', value)
+    let input = document.getElementsByName('age').item(0)
+    let value = input.getAttribute('value') * 1 + 100
+    input.setAttribute('value', value)
 </script>
 ```
 
@@ -1663,47 +1673,49 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <div class="baidu">baidu.com</div>
 <script>
-  let baidu = document.querySelector('.baidu')
-  baidu.removeAttribute('class')
-  console.log(baidu.hasAttribute('class')) //false
+    let baidu = document.querySelector('.baidu')
+    baidu.removeAttribute('class')
+    console.log(baidu.hasAttribute('class')) //false
 </script>
 ```
 
-特征值与HTML定义是一致的，这和属性值是不同的
+特征值与HTML定义是**一致**的，这和属性值是不同的 📌
 
 ```html
 <a href="#google" id="home">测试数据</a>
 <script>
-  const node = document.querySelector(`#home`)
-  
-  // http://127.0.0.1:5500/test.html#google
-  console.log(node.href)
-  
-  // #google
-  console.log(node.getAttribute('href'))
+    const node = document.querySelector(`#home`)
+
+    // http://127.0.0.1:5500/test.html#google
+    console.log(node.href)
+
+    // #google
+    console.log(node.getAttribute('href'))
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#attributes)attributes
+### attributes
 
 元素提供了attributes 属性可以只读的获取元素的属性
 
 ```html
 <div class="baidu" data-content="测试数据">baidu.com</div>
 <script>
-  let baidu = document.querySelector('.baidu')
-  console.dir(baidu.attributes['class'].nodeValue) //baidu
-  console.dir(baidu.attributes['data-content'].nodeValue) //测试数据
+    let baidu = document.querySelector('.baidu')
+    console.dir(baidu.attributes['class'].nodeValue) //baidu
+    console.dir(baidu.attributes['data-content'].nodeValue) //测试数据
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#自定义特征)自定义特征
+### 自定义特征
 
-虽然可以随意定义特征并使用getAttribute等方法管理，但很容易造成与标签的现在或未来属性重名。建议使用以data-为前缀的自定义特征处理，针对这种定义方式JS也提供了接口方便操作。
+::: tip 📗 虽然可以随意定义特征并使用getAttribute等方法管理，但很容易造成与标签的现在或未来属性重名。建议使用以data-为前缀的自定义特征处理，针对这种定义方式JS也提供了接口方便操作。
 
 - 元素中以data-为前缀的属性会添加到属性集中
-- 使用元素的dataset可获取属性集中的属性
+- ✅ 使用元素的dataset可获取属性集中的属性 
 - 改变dataset的值也会影响到元素上
+
+::: 
 
 下面演示使用属性集设置DIV标签内容
 
@@ -1711,10 +1723,11 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 <div class="baidu" data-content="测试数据" data-color="red">baidu.com</div>
 
 <script>
-  let baidu = document.querySelector('.baidu')
-  let content = baidu.dataset.content
-  console.log(content) //测试数据
-  baidu.innerHTML = `<span style="color:${baidu.dataset.color}">${content}</span>`
+    let baidu = document.querySelector('.baidu')
+    // dataset:DOMStringMap {content: '测试数据', color: 'red'}
+    let content = baidu.dataset.content
+    console.log(content) //测试数据
+    baidu.innerHTML = `<span style="color:${baidu.dataset.color}">${content}</span>`
 </script>
 ```
 
@@ -1723,10 +1736,10 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <div class="baidu" data-title-color="red">baidu.com</div>
 <script>
-  let baidu = document.querySelector('.baidu')
-  baidu.innerHTML = `
-    <span style="color:${baidu.dataset.titleColor}">${baidu.innerHTML}</span>
-  `
+    let baidu = document.querySelector('.baidu')
+    baidu.innerHTML = `
+<span style="color:${baidu.dataset.titleColor}">${baidu.innerHTML}</span>
+`
 </script>
 ```
 
@@ -1735,28 +1748,28 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <div class="baidu" data-title-color="red">baidu.com</div>
 <script>
-  let baidu = document.querySelector('.baidu')
-  baidu.addEventListener('click', function () {
-    this.dataset.titleColor = ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
-    this.style.color = this.dataset.titleColor
-  })
+    let baidu = document.querySelector('.baidu')
+    baidu.addEventListener('click', function () {
+        this.dataset.titleColor = ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
+        this.style.color = this.dataset.titleColor
+    })
 </script>
 ```
 
-### [#](https://doc.caffreygo.com/js/18 DOM.html#属性同步)属性同步
+### 属性同步
 
-特征和属性是记录元素属性的两个不同场所，大部分更改会进行同步操作。
+📗 特征和属性是记录元素属性的两个不同场所，大部分更改会进行同步操作。
 
-下面使用属性更改了className，会自动同步到了特征集中，反之亦然
+下面使用属性更改了className，会自动**同步**到了特征集中，反之亦然
 
 ```html
 <div id="app" class="red">caffreygo.com</div>
 <script>
-  const app = document.querySelector('#app')
-  app.className = 'baidu'
-  console.log(app.getAttribute('class')) //baidu
-  app.setAttribute('class', 'blue')
-  console.log(app.className) //blue
+    const app = document.querySelector('#app')
+    app.className = 'baidu'
+    console.log(app.getAttribute('class')) //baidu
+    app.setAttribute('class', 'blue')
+    console.log(app.className) //blue
 </script>
 ```
 
@@ -1765,9 +1778,9 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <input type="text" name="package" value="caffreygo.com" />
 <script>
-  const package = document.querySelector(`[name='package']`)
-  package.value = 'baidu.com'
-  console.log(package.getAttribute('value'))//caffreygo.com
+    const package = document.querySelector(`[name='package']`)
+    package.value = 'baidu.com'
+    console.log(package.getAttribute('value'))//caffreygo.com
 </script>
 ```
 
@@ -1776,9 +1789,9 @@ querySelector使用CSS选择器获取一个元素，下面是根据属性获取�
 ```html
 <input type="text" name="package" value="caffreygo.com" />
 <script>
-  const package = document.querySelector(`[name='package']`)
-  package.setAttribute('value', 'baidu.com')
-  console.log(package.value) //baidu.com
+    const package = document.querySelector(`[name='package']`)
+    package.setAttribute('value', 'baidu.com')
+    console.log(package.value) //baidu.com
 </script>
 ```
 

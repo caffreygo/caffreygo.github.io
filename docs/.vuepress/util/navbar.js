@@ -66,6 +66,10 @@ module.exports = [{
           text: "Promise核心",
           link: "/javascript/JPromise",
         },
+        {
+          text: "DOM",
+          link: "/javascript/dom",
+        },
       ],
     }],
   },

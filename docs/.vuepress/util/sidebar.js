@@ -18,6 +18,7 @@ module.exports = {
       "/javascript/promise.md",
       "/javascript/task.md",
       "/javascript/JPromise.md",
+      "/javascript/dom.md",
     ],
   }],
   "/html/": [{

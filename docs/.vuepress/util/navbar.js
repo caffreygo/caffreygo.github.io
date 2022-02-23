@@ -1,163 +1,202 @@
-module.exports = [{
+module.exports = [
+  {
     text: "JavaScript",
-    children: [{
-      text: "语法基础",
-      children: [{
-          text: "概述",
-          link: "/javascript/basic",
-        },
-        {
-          text: "基本类型",
-          link: "/javascript/valueType",
-        },
-        {
-          text: "数组类型",
-          link: "/javascript/array",
-        },
-        {
-          text: "Symbol",
-          link: "/javascript/symbol",
-        },
-        {
-          text: "Set",
-          link: "/javascript/set",
-        },
-        {
-          text: "Map",
-          link: "/javascript/map",
-        },
-        {
-          text: "函数进阶",
-          link: "/javascript/function",
-        },
-        {
-          text: "作用域与闭包",
-          link: "/javascript/closure",
-        },
-        {
-          text: "对象",
-          link: "/javascript/object",
-        },
-        {
-          text: "原型与继承",
-          link: "/javascript/prototype",
-        },
-        {
-          text: "class",
-          link: "/javascript/class",
-        },
-        {
-          text: "模块设计",
-          link: "/javascript/module",
-        },
-        {
-          text: "正则表达式",
-          link: "/javascript/regexp",
-        },
-        {
-          text: "Promise",
-          link: "/javascript/promise",
-        },
-        {
-          text: "任务管理",
-          link: "/javascript/task",
-        },
-        {
-          text: "Promise核心",
-          link: "/javascript/JPromise",
-        },
-        {
-          text: "DOM",
-          link: "/javascript/dom",
-        },
-      ],
-    }],
+    children: [
+      {
+        text: "语法基础",
+        children: [
+          {
+            text: "概述",
+            link: "/javascript/basic",
+          },
+          {
+            text: "基本类型",
+            link: "/javascript/valueType",
+          },
+          {
+            text: "数组类型",
+            link: "/javascript/array",
+          },
+          {
+            text: "Symbol",
+            link: "/javascript/symbol",
+          },
+          {
+            text: "Set",
+            link: "/javascript/set",
+          },
+          {
+            text: "Map",
+            link: "/javascript/map",
+          },
+          {
+            text: "函数进阶",
+            link: "/javascript/function",
+          },
+          {
+            text: "作用域与闭包",
+            link: "/javascript/closure",
+          },
+          {
+            text: "对象",
+            link: "/javascript/object",
+          },
+          {
+            text: "原型与继承",
+            link: "/javascript/prototype",
+          },
+          {
+            text: "class",
+            link: "/javascript/class",
+          },
+          {
+            text: "模块设计",
+            link: "/javascript/module",
+          },
+          {
+            text: "正则表达式",
+            link: "/javascript/regexp",
+          },
+          {
+            text: "Promise",
+            link: "/javascript/promise",
+          },
+          {
+            text: "任务管理",
+            link: "/javascript/task",
+          },
+          {
+            text: "Promise核心",
+            link: "/javascript/JPromise",
+          },
+          {
+            text: "DOM",
+            link: "/javascript/dom",
+          },
+        ],
+      },
+    ],
   },
   {
     text: "HTML与CSS",
-    children: [{
-      text: "HTML",
-      children: [{
-        text: "页面结构",
-        link: "/html/structure",
-      }, {
-        text: "文本相关",
-        link: "/html/text",
-      }, {
-        text: "链接与图像",
-        link: "/html/link-img",
-      }, {
-        text: "表单与列表",
-        link: "/html/form-list",
-      }, {
-        text: "表格与媒体",
-        link: "/html/table-media",
-      }],
-    }, {
-      text: "CSS",
-      children: [{
-        text: "基本知识",
-        link: "/css/basic"
-      }, {
-        text: "css选择器",
-        link: "/css/selector"
-      }, {
-        text: "元素权重",
-        link: "/css/priority",
-      }, {
-        text: "文本控制",
-        link: "/css/text",
-      }, {
-        text: "盒子模型",
-        link: "/css/box-model",
-      }, {
-        text: "背景处理",
-        link: "/css/background",
-      }, {
-        text: "数据样式",
-        link: "/css/data",
-      }, {
-        text: "浮动布局",
-        link: "/css/float",
-      }, {
-        text: "定位布局",
-        link: "/css/position"
-      }, {
-        text: "弹性布局",
-        link: "/css/flex"
-      }, {
-        text: "栅格布局",
-        link: "/css/grid"
-      }, {
-        text: "变形动画",
-        link: "/css/transform"
-      }, {
-        text: "过渡延迟",
-        link: "/css/transition"
-      }, {
-        text: "帧动画",
-        link: "/css/keyframes"
-      }, {
-        text: "媒体查询",
-        link: "/css/media"
-      }]
-    }]
+    children: [
+      {
+        text: "HTML",
+        children: [
+          {
+            text: "页面结构",
+            link: "/html/structure",
+          },
+          {
+            text: "文本相关",
+            link: "/html/text",
+          },
+          {
+            text: "链接与图像",
+            link: "/html/link-img",
+          },
+          {
+            text: "表单与列表",
+            link: "/html/form-list",
+          },
+          {
+            text: "表格与媒体",
+            link: "/html/table-media",
+          },
+        ],
+      },
+      {
+        text: "CSS",
+        children: [
+          {
+            text: "基本知识",
+            link: "/css/basic",
+          },
+          {
+            text: "css选择器",
+            link: "/css/selector",
+          },
+          {
+            text: "元素权重",
+            link: "/css/priority",
+          },
+          {
+            text: "文本控制",
+            link: "/css/text",
+          },
+          {
+            text: "盒子模型",
+            link: "/css/box-model",
+          },
+          {
+            text: "背景处理",
+            link: "/css/background",
+          },
+          {
+            text: "数据样式",
+            link: "/css/data",
+          },
+          {
+            text: "浮动布局",
+            link: "/css/float",
+          },
+          {
+            text: "定位布局",
+            link: "/css/position",
+          },
+          {
+            text: "弹性布局",
+            link: "/css/flex",
+          },
+          {
+            text: "栅格布局",
+            link: "/css/grid",
+          },
+          {
+            text: "变形动画",
+            link: "/css/transform",
+          },
+          {
+            text: "过渡延迟",
+            link: "/css/transition",
+          },
+          {
+            text: "帧动画",
+            link: "/css/keyframes",
+          },
+          {
+            text: "媒体查询",
+            link: "/css/media",
+          },
+        ],
+      },
+    ],
   },
   {
     text: "前端书籍",
-    children: [{
-      text: "JavaScript书籍",
-      children: [{
-        text: "JavaScript数据结构与算法",
-        link: "/book/algorithm",
-      }]
-    }]
+    children: [
+      {
+        text: "JavaScript书籍",
+        children: [
+          {
+            text: "JavaScript数据结构与算法",
+            link: "/book/algorithm",
+          },
+        ],
+      },
+    ],
   },
   {
     text: "TypeScript",
-    children: [{
+    children: [
+      {
         text: "语法基础",
-        children: [{
+        children: [
+          {
+            text: "日常笔记",
+            link: "/typescript/grammar/note",
+          },
+          {
             text: "基础语法",
             link: "/typescript/grammar/basic",
           },
@@ -173,7 +212,8 @@ module.exports = [{
       },
       {
         text: "爬虫实现",
-        children: [{
+        children: [
+          {
             text: "爬虫工具",
             link: "/typescript/crawler/basic",
           },
@@ -191,9 +231,11 @@ module.exports = [{
   },
   {
     text: "前端框架",
-    children: [{
+    children: [
+      {
         text: "Vue Js",
-        children: [{
+        children: [
+          {
             text: "Composition API",
             link: "/framework/vue/compositionApi",
           },
@@ -221,7 +263,8 @@ module.exports = [{
       },
       {
         text: "React Js",
-        children: [{
+        children: [
+          {
             text: "React基础",
             link: "/framework/react/basic",
           },
@@ -239,7 +282,8 @@ module.exports = [{
   },
   {
     text: "工具 | 协议",
-    children: [{
+    children: [
+      {
         text: "HTTP",
         link: "/tools/http",
       },
@@ -249,7 +293,8 @@ module.exports = [{
       },
       {
         text: "Webpack4.0",
-        children: [{
+        children: [
+          {
             text: "基本概念",
             link: "/tools/webpack/basic",
           },
@@ -275,7 +320,7 @@ module.exports = [{
   },
   {
     text: "Github",
-    link: "https://github.com/caffreygo"
+    link: "https://github.com/caffreygo",
   },
   {
     text: "Vue源码课程",

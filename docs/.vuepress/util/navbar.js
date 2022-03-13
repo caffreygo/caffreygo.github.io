@@ -173,16 +173,15 @@ module.exports = [
     ],
   },
   {
-    text: "前端书籍",
+    text: "笔记",
     children: [
       {
-        text: "JavaScript书籍",
-        children: [
-          {
-            text: "JavaScript数据结构与算法",
-            link: "/book/algorithm",
-          },
-        ],
+        text: "日常随记",
+        link: "/note/daily",
+      },
+      {
+        text: "JavaScript数据结构与算法",
+        link: "/note/algorithm",
       },
     ],
   },

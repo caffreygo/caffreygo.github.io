@@ -29,7 +29,7 @@
 <JcInput v-model:value="model" />
 ```
 
-📗 如果子组件props的名字是**modelValue，**即对应`v-model:modelValue`和事件`@update:modelValue`，可以简写成`v-model`
+📗 如果子组件props的名字是**modelValue**，即对应`v-model:modelValue`和事件`@update:modelValue`，可以简写成`v-model`
 
 ### provide/inject
 

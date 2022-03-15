@@ -114,6 +114,31 @@ provide注入的数据是**非响应式**的，为了解决这个问题可以：
    </template>
    ```
 
+### 生命周期
+
+- beforeCreate： 组件创建之前，this为undefined
+- created：实例已经创建，但未渲染，this可以访问，但模板数据还未真正的挂载。所以还不能操作模板，this.$refs.el为undefined
+- beforeMount：DOM被挂载之前，依然不能读取DOM元素
+- mounted：DOM挂载完毕，可以访问模板
+
+```html
+父组件 beforeCreate
+父组件 created
+父组件 beforeMount
+
+子组件 beforeCreate
+子组件 created
+子组件 beforeMount
+子组件 mounted
+
+父组件 mounted
+```
+
+- beforeUpdate：更新之前，此时模板还未更新
+- updated：视图更新完毕
+- beforeUnmount：组件卸载之前
+- unmounted：组件卸载完毕，适用于比如播放器/定时器的销毁
+
 ## JavaScript
 
 ### ES6 module

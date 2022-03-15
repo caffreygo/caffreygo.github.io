@@ -1,5 +1,18 @@
 module.exports = [
   {
+    text: "笔记",
+    children: [
+      {
+        text: "日常随记",
+        link: "/note/daily",
+      },
+      {
+        text: "JavaScript数据结构与算法",
+        link: "/note/algorithm",
+      },
+    ],
+  },
+  {
     text: "JavaScript",
     children: [
       {
@@ -169,19 +182,6 @@ module.exports = [
             link: "/css/media",
           },
         ],
-      },
-    ],
-  },
-  {
-    text: "笔记",
-    children: [
-      {
-        text: "日常随记",
-        link: "/note/daily",
-      },
-      {
-        text: "JavaScript数据结构与算法",
-        link: "/note/algorithm",
       },
     ],
   },

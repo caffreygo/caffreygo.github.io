@@ -4,10 +4,19 @@
 
 ### 父子组件方法传递
 
+::: tip 理解
+
 - 子组件想要调用父组件的方法，可以直接传递Function类型
+
 - 或直接父组件`@click=“event”`，默认子组件为`inheritAttrs: true`会默认添加到子组件最外层标签
+
+  📗 事件`@event=“handler“`和属性一样都会被添加到子组件的最外层标签，这会将父组件的方法和属性传递给子组件。属性通过props接收，事件通过emits触发
+
 - 如果`inheritAttrs: false`，可以绑定`v-bind=“$attrs”`给目标标签（这种情况相当于把所有事件和属性都绑定给了对应的标签，局限性比较大）
-- 最好的方式就是子组件`emit`出自定义事件由父组件接收处理 🔑
+
+- 最好的方式就是子组件`emit`出自定义事件由父组件接收处理
+
+:::
 
 ### $event
 
@@ -71,6 +80,14 @@ provide注入的数据是**非响应式**的，为了解决这个问题可以：
     return { webName: computed(()=> this.webName) }
   }
   ```
+
+📗 在组合式api中，如果希望数据时响应式的，因为ref已经包装成了引用类型数据：
+
+```javascript
+let data = ref("hello");
+provide('data', data);
+provide('updateData', (newData)=> data.value = newData);
+```
 
 ### slot插槽
 
@@ -138,6 +155,103 @@ provide注入的数据是**非响应式**的，为了解决这个问题可以：
 - updated：视图更新完毕
 - beforeUnmount：组件卸载之前
 - unmounted：组件卸载完毕，适用于比如播放器/定时器的销毁
+
+### watchEffect
+
+::: tip watchEffect
+
+- 启动的时候就会被执行
+- 函数声明内使用的响应式数据发生变化时会自动执行
+- 返回值时一个可以停止监听的函数
+
+:::
+
+```javascript
+let num = ref(3);
+
+watch(num, (v)=> {
+  if(v < 0) num.value = 0; 
+})
+
+const stop = watchEffect(()=> {
+  if(num.value < 0) num.value = 0;
+})
+
+// 让监听失效：stop()  
+```
+
+### setup中的ref
+
+```html
+<template>
+	<child ref="childRef" @change="handleChange" :init="3" />
+  {{ handleChange() }}
+</template>
+
+<script>
+import Child from "./components/child.vue";
+import { ref, onMounted } from "vue";
+export default {
+  components: { Child },
+  setup() {
+    const childRef = ref();
+		const handleChange = (v) => childRef.value?.num;
+    return { childRef, handleChange }
+  }
+}
+</script>
+```
+
+```html
+<template>
+  <button @click="sub">sub</button>
+  	{{ num }}
+  <button @click="add">add</button>
+</template>
+
+<script>
+import { ref, watchEffect } from "vue";
+export default {
+  props: { init: Number, default: 3 },
+  emits: ['change'],
+  setup(props, context) {
+    const { emit, expose } = context;
+    let num = ref(props.init);
+    let add = ()=> {
+      num.value++
+      emit('change', num.value)
+    }
+    let sub = ()=> {
+      num.value--
+      emit('change', num.value)
+    }
+    watchEffect(()=> {
+      if(num.value < 0) num.value = 0
+      emit('change', num.vaue)
+    })
+    // 让child组件只暴露num属性
+    expose({ num })
+    return { num, add, sub }
+  }
+}
+</script>
+```
+
+### setup中的context
+
+::: tip setup函数中的context包含了emit、expose、attrs和slots
+
+1. emit即`this.$emits`
+2. expose可以只将需要暴露的属性或方法声明给外部
+3. attrs即`this.$attrs`，当使用该方法需要声明`inheritAttrs: false`
+4. slots获取插槽： `const defaults = slots.default()`返回一个组件数组
+
+:::
+
+```html
+<!-- 显示父组件默认插槽内的第二个标签 -->
+<component :is="defaults[1]" />
+```
 
 ## JavaScript
 

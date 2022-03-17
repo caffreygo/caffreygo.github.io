@@ -297,17 +297,17 @@ todos.value = await fetch(`http://127.0.0.1:3003/news`).then(res=> {
 {name}-leave-to
 ```
 
-除了直接定义class，组件自身也允许我们传入**自定义动画类名，**因此可借助animate.css（https://animate.style/）
+除了直接定义class，组件自身也允许我们传入**自定义动画类名**，因此可借助animate.css（https://animate.style/）
 
 `appear`允许初始加载的时候也有动画
 
-```html
+```vue
 <Transition
-    appear
-		enter-active-class="animate__animated animate__flip"
-		enter-active-class="animate__animated animate__rotateOut"
->
-		<hello-world v-if="show" />
+            appea=""
+            enter-active-class="animate__animated animate__flip"
+            enter-active-class="animate__animated animate__rotateOut"
+            >
+  <hello-world v-if="show" ></hello-world>
 </Transition>
 ```
 
@@ -409,12 +409,16 @@ button {
 
 #### TransitionGroup
 
-组动画可以一次性控制所有子元素的动画效果，同时还有`v-move`允许我们配置其余元素位置移动时的动画效果
+::: tip 动画组
+
+可以一次性控制所有子元素的动画效果，同时还有`v-move`允许我们配置其余元素位置移动时的动画效果
 
 - enter时为不同index元素设置不同的动画延迟时间，达到按序动画的效果
 - appear允许初始化就出现该动画
 - `todo-move`定义了其他元素移动的平滑过渡动画
 - `todo-leave-active`设置元素消失时为绝对定位，不占空间（外层使用当前组件要套一个相对定位元素），让后面元素平滑上移
+
+:::
 
 ```vue
 <script setup>

@@ -257,7 +257,7 @@ export default {
 
 ### sort
 
-📗 sort是按照字符串UniCode码的顺序进行排序的，所以首先应该把数组元素都转化成字符串（如有必要），以便进行比较。
+📗 sort是按照字符串ASCII码的顺序进行排序的，所以首先应该把数组元素都转化成字符串（如有必要），以便进行比较。
 
 https://www.asciitable.com/
 
@@ -287,19 +287,17 @@ names2.sort((a, b) => a.localeCompare(b))
 // (2) ['Maève', 'Maeve']
 ```
 
-
-
 ### 数组迭代器
 
 📗 ES2015为Array类增加了一个`@@iterator`属性，需要通过`Symbol.iterator`来访问:
 
 ```javascript
 const numbers = [1,2,3,4,5];
-let iterator = numbers[Symbol.iterator]();￼  //获取数组迭代器
-iterator.next().value; // 1￼
+let iterator = numbers[Symbol.iterator](); //获取数组迭代器
+iterator.next().value; // 1
 iterator.next().value; // 2
-iterator.next().value; // 3￼
-iterator.next().value; // 4￼
+iterator.next().value; // 3
+iterator.next().value; // 4
 iterator.next().value; // 5
 ```
 
@@ -307,22 +305,22 @@ ES2015还增加了三种从数组中得到迭代器的方法: entries、keys和v
 
 ```javascript
 let aEntries = numbers.entries(); // 得到键值对的迭代器
-console.log(aEntries.next().value); // [0, 1] - 位置0 的值为1￼
-console.log(aEntries.next().value); // [1, 2] - 位置1 的值为2￼
+console.log(aEntries.next().value); // [0, 1] - 位置0 的值为1
+console.log(aEntries.next().value); // [1, 2] - 位置1 的值为2
 console.log(aEntries.next().value); // [2, 3] - 位置2 的值为3
 
-const aValues = numbers.values();￼
-console.log(aValues.next()); // {value: 1, done: false }￼
-console.log(aValues.next()); // {value: 2, done: false }￼
-console.log(aValues.next()); // {value: 3, done: false }
+const aValues = numbers.values();
+console.log(aValues.next()); // { value: 1, done: false }
+console.log(aValues.next()); // { value: 2, done: false }
+console.log(aValues.next()); // { value: 3, done: false }
 ```
 
 可以使用`for...of`遍历迭代器
 
 ```javascript
-aEntries = numbers.entries();￼
-for (const n of aEntries) {￼ 
-	console.log(n);￼
+aEntries = numbers.entries();
+for (const n of aEntries) {
+	console.log(n);
 }
 ```
 

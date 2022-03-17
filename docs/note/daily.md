@@ -253,6 +253,215 @@ export default {
 <component :is="defaults[1]" />
 ```
 
+### suspense
+
+suspense组件可以处理全局异步问题，setup中使用await移步方法的时候不需要写async，当setup函数执行完后才会渲染组件。suspsense组件有两个插槽：
+
+```html
+<suspense>
+  <template #default>
+    <div>
+      <todo />
+    </div>
+  </template>
+  <template #fallback>
+    loading
+  </template>
+</suspense>
+```
+
+```html
+<script setup>
+import { ref } from "vue"
+const todos = ref([])
+// setup中可以使用await
+todos.value = await fetch(`http://127.0.0.1:3003/news`).then(res=> {
+  return new Promise(resolve => {
+    setTimeout(()=> resolve(res.json()), 2000)
+  })
+})
+</script>
+```
+
+### Transition
+
+使用Transition组件，在未显示定义name属性的情况下，name默认为v，class如下：
+
+```shell
+{name}-enter-from
+{name}-enter-active
+{name}-enter-to
+
+{name}-leave-from
+{name}-leave-active
+{name}-leave-to
+```
+
+除了直接定义class，组件自身也允许我们传入**自定义动画类名，**因此可借助animate.css（https://animate.style/）
+
+`appear`允许初始加载的时候也有动画
+
+```html
+<Transition
+    appear
+		enter-active-class="animate__animated animate__flip"
+		enter-active-class="animate__animated animate__rotateOut"
+>
+		<hello-world v-if="show" />
+</Transition>
+```
+
+#### 动画钩子函数
+
+组件还提供了动画钩子函数动画钩子函数，可借助gsap帮助我们操作元素
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import HelloWorld from './components/HelloWorld.vue'
+const show = ref(false)
+
+const beforeEnter = (el) => {
+  gsap.set(el, {
+    opacity: 0
+  })
+}
+
+const enter = (el, done) => {
+  gsap.to(el, {
+    opacity: 1,
+    duration: 2,
+    onComplete: done
+  })
+}
+
+const leave = (el, done) => {
+  gsap.to(el, {
+    opacity: 0,
+    duration: 2,
+    onComplete: done
+  })
+}
+</script>
+
+<template>
+  <!-- beforeEnter enter afterEnter beforeLeave leave afterLeave -->
+  <transition @before-enter="beforeEnter" @enter="enter" @leave="leave">
+    <hello-world v-if="show">hello world</hello-world>
+  </transition>
+  <button @click="show = !show">切换</button>
+</template>
+```
+
+#### 多标签的动画过渡
+
+对于多标签切换时位置抖动的问题：
+
+1. 将元素设置为绝对定位，外层套一个相对定位的父组件，切换时则是在原位置上切换
+2. 使用**mode为**`out-in`，即当前元素先消失之后，另一个元素才出来
+
+使用额外的class可以达到重写animate的duration的效果
+
+```vue
+<script setup>
+import 'animate.css'
+import { ref } from 'vue'
+const action = ref('on')
+</script>
+
+<template>
+  <section>
+    <transition
+      enter-active-class="animate__animated animate__zoomIn jc"
+      leave-active-class="animate__animated animate__zoomOut jc"
+      mode="out-in"
+    >
+      <button v-if="action == 'on'" @click="action = 'off'" class="on">开启</button>
+      <button v-else @click="action = 'on'" class="off">关闭</button>
+    </transition>
+  </section>
+</template>
+
+<style lang="scss">
+// section {
+//   position: relative;
+//   button {
+//     position: absolute;
+//   }
+// }
+.jc {
+  animation-duration: 5s !important;
+}
+button {
+  border: none;
+  padding: 5px 10px;
+  color: #fff;
+  &.on {
+    background-color: #16a085;
+  }
+  &.off {
+    background-color: #d35400;
+  }
+}
+</style>
+
+```
+
+#### TransitionGroup
+
+组动画可以一次性控制所有子元素的动画效果，同时还有`v-move`允许我们配置其余元素位置移动时的动画效果
+
+- enter时为不同index元素设置不同的动画延迟时间，达到按序动画的效果
+- appear允许初始化就出现该动画
+- `todo-move`定义了其他元素移动的平滑过渡动画
+- `todo-leave-active`设置元素消失时为绝对定位，不占空间（外层使用当前组件要套一个相对定位元素），让后面元素平滑上移
+
+```vue
+<script setup>
+import gsap from 'gsap'
+
+const prop = defineProps({
+	duration: { default: 0.6 },
+	delay: { default: 0.2 },
+	tag: { default: null }
+})
+const beforeEnter = (el) => {
+	gsap.set(el, {
+		opacity: 0
+	})
+}
+
+const enter = (el, done) => {
+	gsap.to(el, {
+		opacity: 1,
+		duration: prop.duration,
+		delay: el.dataset.index * prop.delay,
+	})
+}
+
+</script>
+
+<template>
+	<transition-group :tag="tag" appear name="todo" @before-enter="beforeEnter" @enter="enter">
+		<slot />
+	</transition-group>
+</template>
+
+<style lang="scss">
+.todo-leave-to {
+	opacity: 0;
+	transform: scale(0);
+}
+.todo-leave-active {
+	transition: 1s ease;
+	position: absolute;
+}
+.todo-move {
+	transition: all 1s ease;
+}
+</style>
+```
+
 ## JavaScript
 
 ### sort

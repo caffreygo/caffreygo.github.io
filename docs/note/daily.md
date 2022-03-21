@@ -466,6 +466,26 @@ const enter = (el, done) => {
 </style>
 ```
 
+### vue-router
+
+- 页面兜底
+
+  `:any(.*)`这边括号内的正则即匹配除了换行外的一个或多个字符，any表示任意参数，可随意
+
+  ```javascript
+  path: "/:any(.*)"
+  ```
+
+- RouterView组件
+
+  ```html
+  <router-view #default="{route, Component}">
+  	<div :class="route.meta?.class">
+          <component :is="Component" />
+      </div>
+  </router-view>
+  ```
+
 ## JavaScript
 
 ### sort
@@ -546,6 +566,16 @@ for (const n of aEntries) {
 2. `import "file.js"`会这种方式引入会**立即执行**该js文件
 
    `import App friom "file.js"`在**引入而未调用**的情况下则不会
+
+### 对象结构赋值
+
+```javascript
+const jc = { article: "hello" };
+const { article: hello } = jc;
+console.log(hello);  // "hello"
+```
+
+
 
 ## TypeScript
 

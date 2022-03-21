@@ -20,6 +20,7 @@ module.exports = {
         "/javascript/task.md",
         "/javascript/JPromise.md",
         "/javascript/dom.md",
+        "/javascript/canvas.md",
       ],
     },
   ],

@@ -86,6 +86,10 @@ module.exports = [
             text: "DOM",
             link: "/javascript/dom",
           },
+          {
+            text: "Canvas",
+            link: "/javascript/canvas",
+          },
         ],
       },
     ],

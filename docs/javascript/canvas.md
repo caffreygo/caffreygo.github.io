@@ -2,7 +2,7 @@
 
 ## 基础知识
 
-Canvas是用使用 JS画布的思想来绘制图形，下面通过一些示例掌握 Canvas 的使用
+📗 Canvas是用使用 JS画布的思想来绘制图形，下面通过一些示例掌握 Canvas 的使用
 
 ### 项目模板
 
@@ -252,7 +252,7 @@ $ yarn create vite
 
 ## 线性渐变
 
-使用canvas的createLinearGradient() 方法可以创建线性的渐变对象，用于实现线性渐变效果。
+📗 使用canvas的createLinearGradient() 方法可以创建线性的渐变对象，用于实现线性渐变效果。
 
 ### createLinearGradient
 
@@ -534,22 +534,22 @@ textAlign用于文本的对齐方式的属性
 <script>
     const el = document.getElementById('canvas')
     //画布对象并填充为黑色
-    const app = el.getContext('2d')!
+    const app = el.getContext('2d')
     app.fillStyle = '#000'
     app.fillRect(0, 0, el.width, el.height)
-    
+
     //向画出中绘制点
     for (let index = 0; index < 20; index++) {
-      app.beginPath()
-      //随机设置绘制位置
-      //随机设置圆的半径
-      app.arc(Math.random() * el.width, Math.random() * el.height, 5 + Math.floor(Math.random() * 100), 0, 2 * Math.PI)
-      
-      //随机设置填充颜色 
-      app.fillStyle = ['yellow', 'red', '#16a085', '#2ecc71', '#f1c40f', '#9b59b6'].sort(() => {
-        return Math.floor(Math.random() * 3) ? 1 : -1
-      })[0]
-      app.fill()
+        app.beginPath()
+        //随机设置绘制位置
+        //随机设置圆的半径
+        app.arc(Math.random() * el.width, Math.random() * el.height, Math.floor(Math.random() * 100), 0, 2 * Math.PI)
+
+        //随机设置填充颜色 
+        app.fillStyle = ['yellow', 'red', '#16a085', '#2ecc71', '#f1c40f', '#9b59b6'].sort(() => {
+            return Math.floor(Math.random() * 2) ? 1 : -1
+        })[0]
+        app.fill()
     }
 </script>
 ```

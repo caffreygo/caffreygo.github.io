@@ -486,6 +486,37 @@ const enter = (el, done) => {
   </router-view>
   ```
 
+### 命名视图
+
+同一个页面当中可以使用多个`RouterView`组件，不同的视图设置不同的name，默认上default。对应的路由的定义当中components属性：
+
+```javascript
+let route = {
+  path: "/",
+  name: "home",
+  components: {
+    default: CustomNavigation,  // 默认试图渲染的组件
+		navigation: HomeView  // navigation视图组件，如果有，在渲染时代替DefaultNavigation
+  }
+}
+```
+
+```html
+<router-view name="navigation" #default="{ Component }">
+  <component :is="Component ?? DefaultNavigation" />
+</router-view>
+<router-view name="default" />
+```
+
+### 路由别名
+
+route配置中有`alias`属性，它可以是string或array，为当前页面设置其它的路径
+
+```javascript
+alias： "/:id(\\d+).html"     // ‘/123.html’
+alias: ["/hello", "/world"]
+```
+
 ## JavaScript
 
 ### sort

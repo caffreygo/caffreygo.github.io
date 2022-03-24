@@ -466,7 +466,7 @@ const enter = (el, done) => {
 </style>
 ```
 
-### vue-router
+## vue-router
 
 - 页面兜底
 
@@ -515,6 +515,60 @@ route配置中有`alias`属性，它可以是string或array，为当前页面设
 ```javascript
 alias： "/:id(\\d+).html"     // ‘/123.html’
 alias: ["/hello", "/world"]
+```
+
+### 路由守卫
+
+路由的守卫包括**全局守卫**，**路由中定义的守卫**和**组件路由守卫**
+
+- 当页面跳转时
+
+1. beforeRouteLeave  离开组件
+2. beforeEach  全局前置守卫
+3. beforeEnter  路由前置守卫
+4. beforeRouteEnter  组件前置守卫
+5. beforeResolve  全局解析守卫
+6. afterEach 全局后置守卫
+
+- 当路由更新时
+
+1. beforeEach 全局前置守卫
+2. beforeRouteUpdate  组件更新守卫
+3. beforeResolve  全局解析守卫
+4. afterEach  全局后置守卫
+
+```javascript
+router.beforeEach((to, from)=> {
+  // return true/false
+  
+  // return new Promise((resolve, reject)=> {
+  //   setTimeout(()=> resolve(true), 2000)
+  // })
+  
+  // return await new Promise((resolve)=> {
+  //   resolve(false)
+  // })
+  
+  // if(to.name === "about") next('/login')
+  // else next()
+  if(to.name === "about") return '/login'   // return from
+})
+```
+
+组件路由守卫的使用
+
+```javascript
+const loadData = async ()=> {
+  return await new Promise(resolve=> {data: '1'})
+}
+beforeRouteEnter((ro, from, next)=> {
+  next(async (vm)=> {
+    vm.data = await loadData()
+  })
+})
+async beforeRouteUpdate() {
+  this.data = await loadData()
+}
 ```
 
 ## JavaScript

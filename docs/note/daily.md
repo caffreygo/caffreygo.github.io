@@ -1,5 +1,132 @@
 # 日常笔记
 
+## JavaScript
+
+### sort
+
+📗 sort是按照字符串ASCII码的顺序进行排序的，所以首先应该把数组元素都转化成字符串（如有必要），以便进行比较。
+
+https://www.asciitable.com/
+
+```javascript
+[1,2,4,9,11,12].sort()
+// (6) [1, 11, 12, 2, 4, 9]  转化成字符串比较，1开始在前
+
+['Ana', 'ana', 'john', 'John'].sort()
+// (4) ['Ana', 'John', 'ana', 'john']  大写字母的ASCII值较小，排前面
+
+['Ana', 'ana', 'john', 'John'].sort((a, b) => {
+    if (a.toLowerCase() < b.toLowerCase()) { return -1;}
+    if (a.toLowerCase() > b.toLowerCase()) { return 1; }
+    return 0;
+})
+// (4) ['Ana', 'ana', 'john', 'John']  忽略大小写之后当前sort函数则无作用: a < b 
+```
+
+如果希望小写字母排前面（或带有重音符号的字符），可以使用`localeCompare`方法：
+
+```javascript
+['Ana', 'ana', 'john', 'John'].sort((a,b)=> a.localeCompare(b))
+// (4) ['ana', 'Ana', 'john', 'John']
+
+const names2 = ['Maève', 'Maeve'];
+names2.sort((a, b) => a.localeCompare(b))
+// (2) ['Maève', 'Maeve']
+```
+
+### 数组迭代器
+
+📗 ES2015为Array类增加了一个`@@iterator`属性，需要通过`Symbol.iterator`来访问:
+
+```javascript
+const numbers = [1,2,3,4,5];
+let iterator = numbers[Symbol.iterator](); //获取数组迭代器
+iterator.next().value; // 1
+iterator.next().value; // 2
+iterator.next().value; // 3
+iterator.next().value; // 4
+iterator.next().value; // 5
+```
+
+ES2015还增加了三种从数组中得到迭代器的方法: entries、keys和values
+
+```javascript
+let aEntries = numbers.entries(); // 得到键值对的迭代器
+console.log(aEntries.next().value); // [0, 1] - 位置0 的值为1
+console.log(aEntries.next().value); // [1, 2] - 位置1 的值为2
+console.log(aEntries.next().value); // [2, 3] - 位置2 的值为3
+
+const aValues = numbers.values();
+console.log(aValues.next()); // { value: 1, done: false }
+console.log(aValues.next()); // { value: 2, done: false }
+console.log(aValues.next()); // { value: 3, done: false }
+```
+
+可以使用`for...of`遍历迭代器
+
+```javascript
+aEntries = numbers.entries();
+for (const n of aEntries) {
+	console.log(n);
+}
+```
+
+### ES6 module
+
+1. 使用ES6语法的导出export时，html页面引入该文件需要设置script标签的`type=“module”`
+
+   然后才能import:  `import App from "./App.js"`
+
+2. `import "file.js"`会这种方式引入会**立即执行**该js文件
+
+   `import App friom "file.js"`在**引入而未调用**的情况下则不会
+
+### 对象结构赋值
+
+```javascript
+const jc = { article: "hello" };
+const { article: hello } = jc;
+console.log(hello);  // "hello"
+```
+
+### weakMap与Map
+
+::: tip 基本上，Map和Set与其弱化版本之间仅有的区别是：
+❑ WeakSet或WeakMap类没有entries、keys和values等方法；
+❑ 只能用对象作为键。
+
+:::
+
+- 创建和使用这两个类主要是为了性能。WeakSet和WeakMap是弱化的（用对象作为键），没有强引用的键。这使得JavaScript的垃圾回收器可以从中清除整个入口。
+- 另一个优点是，必须用键才可以取出值。这些类没有entries、keys和values等迭代器方法，因此，除非你知道键，否则没有办法取出值。使用WeakMap类封装ES2015类的私有属性。
+
+```javascript
+const items = new WeakMap();
+
+class Stack {
+    constructor () {
+        items.set(this, []);
+    }
+    push(element){
+        const s = items.get(this);
+        s.push(element);
+    }
+    pop(){
+        const s = items.get(this);
+        const r = s.pop();
+        return r;
+    }
+}
+```
+
+## TypeScript
+
+### 对象所有键
+
+```typescript
+type ObjKey = keyof typeof obj;
+```
+
 ## Vue
 
 ### 父子组件方法传递
@@ -521,7 +648,7 @@ alias: ["/hello", "/world"]
 
 路由的守卫包括**全局守卫**，**路由中定义的守卫**和**组件路由守卫**
 
-- 当页面跳转时
+::: tip 当页面跳转时
 
 1. beforeRouteLeave  离开组件
 2. beforeEach  全局前置守卫
@@ -530,12 +657,7 @@ alias: ["/hello", "/world"]
 5. beforeResolve  全局解析守卫
 6. afterEach 全局后置守卫
 
-- 当路由更新时
-
-1. beforeEach 全局前置守卫
-2. beforeRouteUpdate  组件更新守卫
-3. beforeResolve  全局解析守卫
-4. afterEach  全局后置守卫
+:::
 
 ```javascript
 router.beforeEach((to, from)=> {
@@ -555,6 +677,15 @@ router.beforeEach((to, from)=> {
 })
 ```
 
+::: tip 当路由更新时
+
+1. beforeEach 全局前置守卫
+2. beforeRouteUpdate  组件更新守卫
+3. beforeResolve  全局解析守卫
+4. afterEach  全局后置守卫
+
+:::
+
 组件路由守卫的使用
 
 ```javascript
@@ -570,131 +701,3 @@ async beforeRouteUpdate() {
   this.data = await loadData()
 }
 ```
-
-## JavaScript
-
-### sort
-
-📗 sort是按照字符串ASCII码的顺序进行排序的，所以首先应该把数组元素都转化成字符串（如有必要），以便进行比较。
-
-https://www.asciitable.com/
-
-```javascript
-[1,2,4,9,11,12].sort()
-// (6) [1, 11, 12, 2, 4, 9]  转化成字符串比较，1开始在前
-
-['Ana', 'ana', 'john', 'John'].sort()
-// (4) ['Ana', 'John', 'ana', 'john']  大写字母的ASCII值较小，排前面
-
-['Ana', 'ana', 'john', 'John'].sort((a, b) => {
-    if (a.toLowerCase() < b.toLowerCase()) { return -1;}
-    if (a.toLowerCase() > b.toLowerCase()) { return 1; }
-    return 0;
-})
-// (4) ['Ana', 'ana', 'john', 'John']  忽略大小写之后当前sort函数则无作用: a < b 
-```
-
-如果希望小写字母排前面（或带有重音符号的字符），可以使用`localeCompare`方法：
-
-```javascript
-['Ana', 'ana', 'john', 'John'].sort((a,b)=> a.localeCompare(b))
-// (4) ['ana', 'Ana', 'john', 'John']
-
-const names2 = ['Maève', 'Maeve'];
-names2.sort((a, b) => a.localeCompare(b))
-// (2) ['Maève', 'Maeve']
-```
-
-### 数组迭代器
-
-📗 ES2015为Array类增加了一个`@@iterator`属性，需要通过`Symbol.iterator`来访问:
-
-```javascript
-const numbers = [1,2,3,4,5];
-let iterator = numbers[Symbol.iterator](); //获取数组迭代器
-iterator.next().value; // 1
-iterator.next().value; // 2
-iterator.next().value; // 3
-iterator.next().value; // 4
-iterator.next().value; // 5
-```
-
-ES2015还增加了三种从数组中得到迭代器的方法: entries、keys和values
-
-```javascript
-let aEntries = numbers.entries(); // 得到键值对的迭代器
-console.log(aEntries.next().value); // [0, 1] - 位置0 的值为1
-console.log(aEntries.next().value); // [1, 2] - 位置1 的值为2
-console.log(aEntries.next().value); // [2, 3] - 位置2 的值为3
-
-const aValues = numbers.values();
-console.log(aValues.next()); // { value: 1, done: false }
-console.log(aValues.next()); // { value: 2, done: false }
-console.log(aValues.next()); // { value: 3, done: false }
-```
-
-可以使用`for...of`遍历迭代器
-
-```javascript
-aEntries = numbers.entries();
-for (const n of aEntries) {
-	console.log(n);
-}
-```
-
-### ES6 module
-
-1. 使用ES6语法的导出export时，html页面引入该文件需要设置script标签的`type=“module”`
-
-   然后才能import:  `import App from "./App.js"`
-
-2. `import "file.js"`会这种方式引入会**立即执行**该js文件
-
-   `import App friom "file.js"`在**引入而未调用**的情况下则不会
-
-### 对象结构赋值
-
-```javascript
-const jc = { article: "hello" };
-const { article: hello } = jc;
-console.log(hello);  // "hello"
-```
-
-### weakMap与Map
-
-::: tip 基本上，Map和Set与其弱化版本之间仅有的区别是：
-❑ WeakSet或WeakMap类没有entries、keys和values等方法；
-❑ 只能用对象作为键。
-
-:::
-
-- 创建和使用这两个类主要是为了性能。WeakSet和WeakMap是弱化的（用对象作为键），没有强引用的键。这使得JavaScript的垃圾回收器可以从中清除整个入口。
-- 另一个优点是，必须用键才可以取出值。这些类没有entries、keys和values等迭代器方法，因此，除非你知道键，否则没有办法取出值。使用WeakMap类封装ES2015类的私有属性。
-
-```javascript
-const items = new WeakMap();
-
-class Stack {
-    constructor () {
-        items.set(this, []);
-    }
-    push(element){
-        const s = items.get(this);
-        s.push(element);
-    }
-    pop(){
-        const s = items.get(this);
-        const r = s.pop();
-        return r;
-    }
-}
-```
-
-## TypeScript
-
-### 对象所有键
-
-```typescript
-type ObjKey = keyof typeof obj;
-```
-

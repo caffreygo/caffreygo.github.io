@@ -660,7 +660,35 @@ const { article: hello } = jc;
 console.log(hello);  // "hello"
 ```
 
+### weakMap与Map
 
+::: tip 基本上，Map和Set与其弱化版本之间仅有的区别是：
+❑ WeakSet或WeakMap类没有entries、keys和values等方法；
+❑ 只能用对象作为键。
+
+:::
+
+- 创建和使用这两个类主要是为了性能。WeakSet和WeakMap是弱化的（用对象作为键），没有强引用的键。这使得JavaScript的垃圾回收器可以从中清除整个入口。
+- 另一个优点是，必须用键才可以取出值。这些类没有entries、keys和values等迭代器方法，因此，除非你知道键，否则没有办法取出值。使用WeakMap类封装ES2015类的私有属性。
+
+```javascript
+const items = new WeakMap();
+
+class Stack {
+    constructor () {
+        items.set(this, []);
+    }
+    push(element){
+        const s = items.get(this);
+        s.push(element);
+    }
+    pop(){
+        const s = items.get(this);
+        const r = s.pop();
+        return r;
+    }
+}
+```
 
 ## TypeScript
 

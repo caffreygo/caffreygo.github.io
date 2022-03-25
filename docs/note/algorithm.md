@@ -1,27 +1,8 @@
 # JavaScript数据结构和算法
 
-## weakMap实现私有属性
+## 数据结构
 
-```javascript
-const items = new WeakMap();
-
-class Stack {
-    constructor () {
-        items.set(this, []);
-    }
-    push(element){
-        const s = items.get(this);
-        s.push(element);
-    }
-    pop(){
-        const s = items.get(this);
-        const r = s.pop();
-        return r;
-    }
-}
-```
-
-## 双端队列
+### 双端队列
 
 ```javascript
 class Deque {
@@ -73,6 +54,66 @@ class Deque {
     }
 }
 ```
+
+### 字典和散列表
+
+::: tip 概念
+
+在字典Dictionary（或映射Map）中，我们用[键，值]对的形式来存储数据。
+
+在散列表中也是一样（也是以[键，值]对的形式来存储数据）。
+
+但是两种数据结构的实现方式略有不同，例如字典中的每个键只能有一个值
+
+:::
+
+#### 散列表HashTable
+
+散列表的创建需要一个hash函数生成键，即散列函数
+
+```javascript
+loseloseHashCode(key) {
+  if (typeof key === 'number') {
+    return key;
+  }
+  const tableKey = this.toStrFn(key);
+  let hash = 0;
+  for (let i = 0; i < tableKey.length; i++) {
+    hash += tableKey.charCodeAt(i);
+  }
+  return hash % 37;
+}
+
+hashCode(key) {
+  return this.loseloseHashCode(key);
+}
+
+// 更好的散列函数可以降低冲突
+djb2HashCode(key) {
+  const tableKey = this.toStrFn(key);
+  let hash = 5381;
+  for (let i = 0; i < tableKey.length; i++) {
+    hash = (hash * 33) + tableKey.charCodeAt(i);
+  }
+  return hash % 1013;
+}
+```
+
+有时候，一些键会有相同的散列值。不同的值在散列表中对应相同位置的时候，我们称其为冲突。
+
+::: tip 处理冲突有几种方法：
+
+- 分离链接：包括为散列表的每一个位置创建一个**链表**并将元素存储在里面。它是解决冲突的最简单的方法，但是在HashTable实例之外还需要额外的存储空间
+
+- 线性探查：将元素直接存储到表中，而不是在单独的数据结构中
+
+  线性探查技术分为两种。第一种是软删除方法。我们使用一个特殊的值（标记）来表示键值对被删除了（惰性删除或软删除），而不是真的删除它。经过一段时间，散列表被操作过后，我们会得到一个标记了若干删除位置的散列表。这会逐渐降低散列表的效率，因为搜索键值会随时间变得更慢。能快速访问并找到一个键是我们使用散列表的一个重要原因。
+
+  第二种方法需要检验是否有必要将一个或多个元素移动到之前的位置。当搜索一个键的时候，这种方法可以避免找到一个空位置。如果移动元素是必要的，我们就需要在散列表中挪动键值对。
+
+- 双散列
+
+:::
 
 ## 排序和搜索算法
 

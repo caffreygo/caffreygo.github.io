@@ -1,8 +1,6 @@
 # JavaScript数据结构和算法
 
-## 数据结构
-
-### 双端队列
+## 双端队列
 
 ```javascript
 class Deque {
@@ -55,7 +53,7 @@ class Deque {
 }
 ```
 
-### 字典和散列表
+## 字典和散列表
 
 ::: tip 概念
 
@@ -67,7 +65,7 @@ class Deque {
 
 :::
 
-#### 散列表HashTable
+### 散列表HashTable
 
 散列表的创建需要一个hash函数生成键，即散列函数
 
@@ -114,6 +112,83 @@ djb2HashCode(key) {
 - 双散列
 
 :::
+
+## 二叉树
+
+::: tip Binary Search Tree
+
+二叉树中的节点最多只能有两个子节点：一个是左侧子节点，另一个是右侧子节点。这个定义有助于我们写出更高效地在树中插入、查找和删除节点的算法。二叉树在计算机科学中的应用非常广泛。
+
+二叉搜索树（BST）是二叉树的一种，但是只允许你在左侧节点存储（比父节点）小的值，在右侧节点存储（比父节点）大的值。
+
+:::
+
+### insert
+
+```javascript
+insertNode(node, key) {
+  if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+    if (node.left == null) { // 比当前节点小，放左边
+      node.left = new Node(key);
+    } else {
+      this.insertNode(node.left, key);
+    }
+  } else {
+    if (node.right == null) { // 比当前节点大，放右边
+      node.right = new Node(key);
+    } else {
+      this.insertNode(node.right, key); 
+    }
+  }
+}
+```
+
+### 二叉树的遍历
+
+::: tip 二叉树的遍历
+
+- 前序遍历：若二叉树为空，则空操作返回，否则**先访问根结点**，然后前序遍历左子树，再前序遍历右子树。
+- 中序遍历：若树为空，则空操作返回，否则从根结点开始（注意并不是先访问根结点)，中序遍历根结点的左子树，**然后访问根结点**，最后中序遍历右子树。
+- 后序遍历：若树为空，则空操作返回，否则从左到右先叶子后结点的方式遍历访问左右子树，**最后访问根结点**。
+
+:::
+
+### 从尾到头打印链表
+
+1. 先给递归算法的基线条件
+2. 然后调用自身即递归
+3. 最后再操作当前节点 （后序遍历）
+
+```javascript
+var reversePrint = function(head) {
+  if (!head) return []
+  const result = reversePrint(head.next)
+  result.push(head.val)
+  return result
+};
+```
+
+### AVL与红黑树
+
+- AVL: 一般用平衡因子判断是否平衡并通过旋转来实现平衡，左右子树树高不超过1，和红黑树相比，AVL树是高度平衡的二叉树，平衡条件必须满足（所有节点的左右子树高度差不超过1）。不管我们是执行插入还是删除操作，只要不满足上面的条件，就要通过旋转来保持平衡，而的由于旋转比较耗时，由此我们可以知道AVL树适合用于插入与删除次数比较少，但查找多的情况
+- 红黑树：也是一种平衡二叉树，但每个节点有一个存储位表示节点的颜色，可以是红或黑。通过对任何一条从根到叶子的路径上各个节点着色的方式的限制，红黑树确保没有一条路径会比其它路径长出两倍，因此，红黑树是一种弱平衡二叉树（由于是弱平衡，可以看到，在相同的节点情况下，AVL树的高度<=红黑树），相对于要求严格的AVL树来说，它的旋转次数少，所以对于搜索，插入，删除操作较多的情况下，用红黑树。
+
+### 重建二叉树
+
+![](./img/algorithm/rebuildBT.png)
+
+```javascript
+var buildTree = function(preorder, inorder) {
+    if(preorder.length === 0) return null;
+    const rootVal = preorder[0];
+    const rootNode = new TreeNode(rootVal);
+    if(preorder.length === 1 ) return rootNode; 
+    const index = inorder.indexOf(rootVal);
+    rootNode.left = buildTree(preorder.slice(1, index+1), inorder.slice(0, index));
+    rootNode.right = buildTree(preorder.slice(index+1), inorder.slice(index+1));
+    return rootNode;
+};
+```
 
 ## 排序和搜索算法
 
@@ -222,7 +297,7 @@ function insertSort(array) {
 
 #### 实现
 
-![](./img/mergeSort.png)
+![](./img/algorithm/mergeSort.png)
 
 首先，假设我们有两个已经是排序过的数组，实现一个将这两个数组合并成一个的`merge`方法:
 
@@ -403,7 +478,7 @@ function sequentSearch (array, value) {
 }
 ```
 
-![](./img/sequentSearch.png)
+![](./img/algorithm/sequentSearch.png)
 
 ### 二分搜索
 
@@ -449,14 +524,5 @@ console.log(binarySearch([8, 7, 6, 5, 4, 3, 2, 1], 2))  // true
 
 以下是二分搜索算法的搜索示意图：
 
-![](./img/binarySearch.png)
+![](./img/algorithm/binarySearch.png)
 
-## 二叉树
-
-::: tip 二叉树的遍历
-
-- 前序遍历：若二叉树为空，则空操作返回，否则**先访问根结点**，然后前序遍历左子树，再前序遍历右子树。
-- 中序遍历：若树为空，则空操作返回，否则从根结点开始（注意并不是先访问根结点)，中序遍历根结点的左子树，**然后访问根结点**，最后中序遍历右子树。
-- 后序遍历：若树为空，则空操作返回，否则从左到右先叶子后结点的方式遍历访问左右子树，**最后访问根结点**。
-
-:::

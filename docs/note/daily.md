@@ -732,3 +732,58 @@ async beforeRouteUpdate() {
   this.data = await loadData()
 }
 ```
+
+### scrollBehavior
+
+路由创建时允许传入`scrollBehavior`属性来调整路由跳转后到滚动效果
+
+```javascript
+scrollBehavior(to, from, savedPosition) {
+  // savedPosition 页面返回时定位到之前浏览到位置
+  // el 指定要滚动到的元素位置
+  // 这个函数也可以返回Promise，来处理异步情况
+  return savedPosition ?? { el: '.page', top: 0, behavior: 'smooth'}
+}
+```
+
+### 页面懒加载
+
+ES6动态加载模块，将页面组件打包成独立的js文件，使用时再加载
+
+```javascript
+component: ()=> import('@/views/home.vue')
+```
+
+### Vite分包加载
+
+也可以将某一类文件打包成单独文件，在vite中的配置如下：
+
+```javascript
+import { defineCOnfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 将这三个页面组件打包成'hello.hash[8].js'文件
+          hello: [
+            './src/views/home.vue',
+            './src/views/about.vue',
+            './src/views/article.vue',
+          ]
+        }
+      }
+    }
+  }
+})
+```
+

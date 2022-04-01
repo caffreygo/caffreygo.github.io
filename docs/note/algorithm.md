@@ -190,6 +190,50 @@ var buildTree = function(preorder, inorder) {
 };
 ```
 
+## 动态规划
+
+📗 动态规划跟带备忘录的递归解法基本思想是一致的，都是减少重复计算，时间复杂度也都是差不多。但是呢：
+
+- 带备忘录的递归，是从f(10)往f(1）方向延伸求解的，所以也称为**自顶向下**的解法。
+- 动态规划从较小问题的解，由交叠性质，逐步决策出较大问题的解，它是从f(1)往f(10）方向，往上推求解，所以称为**自底向上**的解法。
+
+动态规划有几个典型特征，**最优子结构、状态转移方程、边界、重叠子问题**。在青蛙跳阶或斐波那契数问题中：
+
+- f(n-1)和f(n-2) 称为 f(n) 的最优子结构
+- f(n)= f（n-1）+f（n-2）就称为状态转移方程
+- f(1) = 1, f(2) = 2 就是边界啦
+- 比如f(10)= f(9)+f(8),f(9) = f(8) + f(7) ,f(8)就是重叠子问题。
+
+### 记忆化递归
+
+```javascript
+const cache = [0, 1]
+
+var fib = function(n) {
+    if(cache[n] != null) return cache[n]
+    const result = (fib(n-1) + fib(n-2)) % 1000000007; 
+    if(cache[n] == null) cache[n] = result
+    return cache[n]
+};
+```
+
+### 动态规划
+
+```javascript
+var fib = function(n) {
+    if(n === 0) return 0; // 边界
+    if(n === 1) return 1;
+    let a = 1, b = 0; // 最优子结构 f(n-1)和f(n-2)
+    let result = 0;
+    for(let i = 2; i <= n; i++) {
+        result = (a+b) % 1000000007; // 状态转移方程 f(n)= f（n-1）+f（n-2）
+        b = a;
+        a = result
+    }
+    return result
+};
+```
+
 ## 排序和搜索算法
 
 ### 冒泡排序

@@ -1,5 +1,41 @@
 # Vue
 
+## 数据驱动
+
+![](./img/new-vue.png)
+
+1. Vue构造函数，在原型和实例中添加全局API，初始化各部分功能
+
+2. new Vue之后通过init方法处理各类数据，$options
+
+3. 实例挂载，通过 `$mount` 实例方法挂载 `vm` 
+
+      `mountComponent` 核心就是先实例化一个渲染`Watcher`，在它的回调函数中会调用 `updateComponent` 方法，在此方法中调用 `vm._render` 方法先生成虚拟 Node
+
+      ```javascript
+      updateComponent = () => {
+        vm._update(vm._render(), hydrating)
+      }  
+      ```
+
+3. 如果使用了模板template或者SFC，需要通过compiler编译成render函数
+
+4. render函数，内部使用createElement方法返回vnode
+   
+6. 更新 DOM
+
+   `_update` 是实例的一个私有方法，它被调用的时机有 2 个，一个是首次渲染，一个是数据更新的时候。该方法内部最终调用了patch方法进行节点的更新：
+   
+   ```javascript
+   if (!prevVnode) {
+     // initial render
+     vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
+   } else {
+     // updates  diff...
+     vm.$el = vm.__patch__(prevVnode, vnode)
+   }
+   ```
+
 ## 响应式数据原理
 
 ### 构造函数

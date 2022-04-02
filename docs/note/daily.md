@@ -176,6 +176,50 @@ type ObjKey = keyof typeof obj;
 
 :::
 
+### 简易传送门组件
+
+```html
+<body>
+  <div id="app">
+    <my-component></my-component>
+  </div>
+  <div id="outside"></div>
+
+  <script src="../../dist/vue.js"></script>
+
+  <script type="text/x-template" id="my-component">
+      <div>
+          <p>This is the content of component</p>
+          <p>Hello Vue!</p>
+      </div>
+  </script>
+
+  <script>
+    Vue.component('my-component', {
+      template: '#my-component'
+    });
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          message: 'hello world'
+        }
+      },
+      mounted() {
+        const node = this.$el;
+        document.querySelector("#outside").appendChild(node)
+      },
+      destroyed() {
+        const node = this.$el;
+        node.remove();
+      }
+    })
+  </script>
+</body>
+```
+
+![](./img/daily/teleport.png)
+
 ### $event
 
 事件指令不写处理方法，也可以直接写代码，模板内可以直接使用`$event`参数得到**原生事件对象**或者**自定义事件参数**

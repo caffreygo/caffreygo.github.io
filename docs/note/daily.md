@@ -150,6 +150,18 @@ class Stack {
 }
 ```
 
+## 零散
+
+### 命名规范
+
+- 驼峰：CamelCase 
+- 大驼峰命名法：UpperCamelCase  （pascak case）
+- 小驼峰命名法：lowerCamelCase
+- 蛇形命名法：snake_case
+- 驼峰蛇形：Python_Case、user_Name
+- 串式命名：kebab-case （train case、spinal case脊柱命名法）
+  
+
 ## TypeScript
 
 ### 对象所有键

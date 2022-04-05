@@ -36,6 +36,17 @@
    }
    ```
 
+## 组件化
+
+### createComponent
+
+render函数的createElement的，碰到组件会走`createComponent`，这个函数的作用:
+
+1. 构造子类构造函数：Ctor,通过Vue.extend(组件配置对象)，中间会做一些配置的合并，最终生成一个构造函数即Vue的子类
+2. 安装组件钩子函数：将钩子函数进行处理合并，放到vnodeData参数中
+3. 实例化：vnode = new VNode(name, vnodeData, …, { Ctro, propsData, listeners, tag, children }, …)
+最终生成的组件**vnode**的children是空的，同时vnodeData携带着钩子函数，还有组件构造函数，组件信息等等
+
 ## 响应式数据原理
 
 ### 构造函数

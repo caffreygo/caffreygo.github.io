@@ -1,6 +1,130 @@
 # JavaScript数据结构和算法
 
-## 双端队列
+## 栈
+
+栈是一种遵从**后进先出**(`LIFO`)原则的有序集合，新添加或待删除的元素都保存在栈的同一端，称之为栈顶，另一端叫栈底。
+
+```javascript
+class Stack {
+  constructor () {
+    this.count = 0
+    this.items = {}
+  }
+  push (element) {
+    this.items[this.count] = element
+    this.count++
+  }
+  size () {
+    return this.count
+  }
+  isEmpty () {
+    return this.size() === 0
+  }
+  pop () {
+    if (this.isEmpty()) {
+      return undefined
+    }
+    this.count--
+    const result = this.items[this.count]
+    delete this.items[this.count]
+    return result
+  }
+  peek () {
+    return this.items[this.count - 1]
+  }
+  clear () {
+    this.count = 0
+    this.items = {}
+  }
+  toString () {
+    if (this.isEmpty()) {
+      return ''
+    }
+    let str = this.items['0']
+    for(let i = 1; i < this.count; i++) {
+      str = `${str},${this.items[i]}`
+    }
+    return str
+  }
+}
+```
+
+## 队列和双端队列
+
+### 队列
+
+队列是一种遵循**先进先出**(`FIFO`)原则的一组有序的项，队列在尾部添加新元素，并从顶部移除元素，而双端队列是一种将栈的原则和队列的原则混合在一起的数据结构。
+
+```javascript
+class Queue {
+  constructor () {
+    this.count = 0
+    this.lowestCount = 0
+    this.items = {}
+  }
+  size () {
+    return this.count - this.lowestCount
+  }
+  isEmpty () {
+    return this.size() === 0
+  }
+  enqueue (element) {
+    this.items[this.count] = element
+    this.count++
+  }
+  dequeue () {
+    if (this.isEmpty()) {
+      return undefined
+    }
+    const result = this.items[this.lowestCount]
+    delete this.items[this.lowestCount]
+    this.lowestCount++
+    return result
+  }
+  peek () {
+    if (this.isEmpty()) {
+      return undefined
+    }
+    return this.items[this.lowestCount]
+  }
+  clear () {
+    this.count = 0
+    this.lowestCount = 0
+    this.items = {}
+  }
+  toString () {
+    if (this.isEmpty()) {
+      return ''
+    }
+    let objStr = this.items[this.lowestCount]
+    for(let i = this.lowestCount + 1; i < this.count; i++) {
+      objStr = `${objStr},${this.items[i]}`
+    }
+    return objStr
+  }
+}
+```
+
+代码测试队列：
+
+```js
+const queue = new Queue()
+console.log(queue.isEmpty())  // true
+queue.enqueue('AAA')
+queue.enqueue('BBB')
+queue.enqueue('CCC')
+console.log(queue.isEmpty())  // false
+console.log(queue.size())     // 3
+console.log(queue.toString()) // AAA,BBB,CCC
+console.log(queue.peek())     // AAA
+queue.dequeue()
+queue.clear()
+console.log(queue.isEmpty())  // true
+```
+
+### 双端队列
+
+双端队列是一种允许我们同时从前端和后端添加和移除元素的特殊队列，在计算机科学中，双端队列的一个常见应用是存储一系列撤销操作，每当用户在软件中进行了一个操作，该操作被存在一个双端队列中，当用户点击撤销按钮时，该操作会被从双端队列中弹出，表示它被从后面移除了。在进行预先定义的一定数量的操作后，最新进行的操作会被从双端队列的前端移除。
 
 ```javascript
 class Deque {
@@ -53,7 +177,85 @@ class Deque {
 }
 ```
 
+## 链表
+
+### 链表
+
+在大多数语言中数组的大小是固定的，在数组的起点或者中间插入或移除项的成本很高。而链表的出现解决了这个问题
+
+链表存储有序的元素集合，但不同于数组，链表中的元素在内存中并不是连续放置的。每个与元素由一个存储自身的节点和一个指向下一个元素的引用组成，所以链表的一个好处在于：添加和移除元素的时候不需要移动其它元素。
+
+然而，链表需要使用指针，因此不像在数组中可以直接访问任何位置的任何元素，链表需要我们从起点或者头开始迭代链表直到找到所需的元素。
+
+```js
+class Node {
+  constructor (element) {
+    this.element = element
+    this.next = null
+  }
+}
+```
+
+### 双向链表
+
+双向链表和普通链表的区别在于：在链表中，一个节点只有链向下一个节点的链接，而在双向链表中，链表是双向的，一个链向下一个元素，另一个链向前一个元素。
+
+```js
+class DoublyNode extends Node {
+  constructor (element, next, prev) {
+    super(element, next)
+    this.prev = prev
+  }
+} 
+```
+
+### 循环链表
+
+循环链表可以像普通(单向)链表一样只有单向引用，也可以像双向链表一样有双向引用。
+
+循环链表和普通(单向)链表的唯一区别在于：最后一个元素的指针不是`null`或者`undefined`，而是指向第一个元素`head`。
+
+## 集合Set
+
+```js
+class Set {
+  constructor () {
+    this.items = {}
+  }
+  has (element) {
+    return element in this.items
+  }
+  add (element) {
+    if (!this.has(element)) {
+      this.items[element] = element
+      return true
+    }
+    return false
+  }
+  delete (element) {
+    if (this.has(element)) {
+      delete this.items[element]
+      return true
+    }
+    return false
+  }
+  clear () {
+    this.items = {}
+  }
+  size () {
+    return Object.keys(this.items).length
+  }
+  values () {
+    return Object.values(this.items)
+  }
+}
+```
+
+
+
 ## 字典和散列表
+
+### 字典
 
 ::: tip 概念
 
@@ -65,7 +267,13 @@ class Deque {
 
 :::
 
+> 字典也称映射、符号表或关联数组。在计算机科学中，字典经常用来保存对象的引用地址
+
 ### 散列表HashTable
+
+散列表也叫`HashTable`类或者`HashMap`类，它是`Dictionary`类的一种散列实现方式。
+
+**散列算法**：散列算法的作用是尽可能的快的在数据结构中找到一个值，因为它是字典的一种实现，所以可以用作关联数组，它也可以用来对数据库进行索引。当我们使用关系型数据库的时候，创建一个新的表时，一个不错的做法是同时创建一个索引来更快的查询到记录的`key`，在这种情况下，散列表可以用来保存键和对表中记录的引用。
 
 散列表的创建需要一个hash函数生成键，即散列函数
 
@@ -189,6 +397,91 @@ var buildTree = function(preorder, inorder) {
     return rootNode;
 };
 ```
+
+## 二叉堆与堆排序
+
+::: tip 堆
+
+- 堆是一个完全二叉树。
+- 完全二叉树： 二叉树除开最后一层，其他层结点数都达到最大，最后一层的所有结点都集中在左边（左边结点排列满的情况下，右边才能缺失结点）。
+- 大顶堆：根结点为最大值，每个结点的值大于或等于其孩子结点的值。
+- 小顶堆：根结点为最小值，每个结点的值小于或等于其孩子结点的值。
+- 堆的存储： 堆由数组来实现，相当于对二叉树做层序遍历。
+
+::::
+
+### 二叉堆
+
+二叉堆是一种特俗的二叉树，二叉堆是计算机科学中一种非常著名的数据结构，由于它能高效、快速地找出最大值和最小值，常被应用于优先队列。它也被用于著名的堆排序算法中。
+
+- 它是一棵**完全二叉树**，表示树的每一层都有左侧和右侧子节点（除了最后一层的叶节点），并且最后一层的叶节点尽可能都是左侧子节点，这叫作结构特性。
+- 二叉堆不是**最小堆 MinHeap**就是**最大堆 MaxHeap**。最小堆允许你快速导出树的最小值，最大堆允许你快速导出树的最大值。所有的节点都大于等于（最大堆）或小于等于（最小堆）每个它的子节点。这叫作堆特性。
+
+![](./img/algorithm/minHeap.jpeg)
+
+### 堆排序
+
+二叉树做升序排序，总共分为三步：
+
+1. 将初始二叉树转化为大顶堆（heapify）（实质是从第一个非叶子结点开始，从下至上，从右至左，对每一个非叶子结点做shiftDown操作），此时**根结点为最大值**，将其与最后一个结点交换。
+2. 除开最后一个结点，将其余节点组成的新堆转化为大顶堆（实质上是对根节点做shiftDown操作），此时根结点为次最大值，将其与最后一个结点交换。
+3. 重复步骤2，直到堆中元素个数为1（或其对应数组的长度为1），排序完成。
+
+```js
+// 交换两个节点
+function swap(A, i, j) {
+  let temp = A[i];
+  A[i] = A[j];
+  A[j] = temp; 
+}
+
+// 将 i 结点以下的堆整理为大顶堆，注意这一步实现的基础实际上是：
+// 假设 结点 i 以下的子堆已经是一个大顶堆，shiftDown函数实现的
+// 功能是实际上是：找到 结点 i 在包括结点 i 的堆中的正确位置。后面
+// 将写一个 for 循环，从第一个非叶子结点开始，对每一个非叶子结点
+// 都执行 shiftDown操作，所以就满足了结点 i 以下的子堆已经是一大
+//顶堆
+function shiftDown(A, i, length) {
+  let temp = A[i]; // 当前父节点
+// j<length 的目的是对结点 i 以下的结点全部做顺序调整
+  for(let j = 2*i+1; j<length; j = 2*j+1) {
+    temp = A[i];  // 将 A[i] 取出，整个过程相当于找到 A[i] 应处于的位置
+    if(j+1 < length && A[j] < A[j+1]) { 
+      j++;   // 找到两个孩子中较大的一个，再与父节点比较
+    }
+    if(temp < A[j]) {
+      swap(A, i, j) // 如果父节点小于子节点:交换；否则跳出
+      i = j;  // 交换后，temp 的下标变为 j
+    } else {
+      break;
+    }
+  }
+}
+
+// 堆排序
+function heapSort(A) {
+  // 初始化大顶堆，从第一个非叶子结点开始
+  for(let i = Math.floor(A.length/2-1); i>=0; i--) {
+    shiftDown(A, i, A.length);
+  }
+  // 排序，每一次for循环找出一个当前最大值，数组长度减一
+  for(let i = Math.floor(A.length-1); i>0; i--) {
+    swap(A, 0, i); // 根节点与最后一个节点交换
+    shiftDown(A, 0, i); // 从根节点开始调整，并且最后一个结点已经为当
+                         // 前最大值，不需要再参与比较，所以第三个参数
+                         // 为 i，即比较到最后一个结点前一个即可
+  }
+}
+
+let Arr = [4, 6, 8, 5, 9, 1, 2, 5, 3, 2];
+heapSort(Arr);
+alert(Arr);
+```
+
+复杂度分析：adjustHeap 函数中相当于堆的每一层只遍历一个结点，因为
+具有n个结点的完全二叉树的深度为[log2n]+1，所以 shiftDown的复杂度为 O(logn)，而外层循环共有 f(n) 次，所以最终的复杂度为 O(nlogn)。
+
+## 图
 
 ## 动态规划
 

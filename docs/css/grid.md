@@ -12,19 +12,19 @@
 
 下面是栅格系统兼容性数据，你也可以在 [https://caniuse.com/ (opens new window)](https://caniuse.com/)网站查看，所以在根据项目使用的场景决定是否使用栅格布局。
 
-![](./img/grid/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/2.png)
 
 ## 基本知识
 
 栅格有关的元素说明
 
-![](./img/grid/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/3.png)
 
 ## 声明容器
 
 ### 块级容器
 
-![](./img/grid/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/4.png)
 
 ```css
 #container {
@@ -40,7 +40,7 @@
 display: inline-grid;
 ```
 
-![](./img/grid/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/5.png)
 
 ## 划分行列
 
@@ -69,13 +69,13 @@ article div {
 }
 ```
 
-![](./img/grid/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/6.png)
 
 ### 百分比 %
 
 可以使用使用百分比自动适就容器。
 
-![](./img/grid/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/7.png)
 
 ```text
 display: grid;
@@ -87,7 +87,7 @@ grid-template-columns: 25% 25% 25% 25%;
 
 📗 使用 `repeat` 统一设置值，第一个参数为重复数量，第二个参数是重复值
 
-![](./img/grid/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/8.png)
 
 ```css
 grid-template-rows: repeat(2, 50%);
@@ -96,7 +96,7 @@ grid-template-columns: repeat(2, 50%);
 
 👾 可以设置**多个值**来定义重复，下面定义了四列，以 `100%、20px` 重复排列。
 
-![](./img/grid/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/9.png)
 
 ```css
 display: grid;
@@ -110,7 +110,7 @@ grid-template-columns: repeat(2, 100px 50px);
 
 自动填充是根据容器尺寸，自动**设置元素尺寸**。(在容器宽度已知的情况下，自动计算单元格大小)
 
-![](./img/grid/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/6.png)
 
 ```css
 width: 300px;
@@ -126,7 +126,7 @@ grid-template-columns: repeat(auto-fill, 100px);
 
 #### 单位组合
 
-![](./img/grid/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/10.png)
 
 ```css
 width: 300px;
@@ -138,7 +138,7 @@ grid-template-columns: 100px 2fr 1fr;
 
 #### 重复定义
 
-![](./img/grid/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/9.png)
 
 ```css
 width: 300px;
@@ -152,7 +152,7 @@ grid-template-columns: repeat(2, 2fr 1fr);
 
 📗 下面为第二个栅格列使用`auto`来让其获取所有剩余空间
 
-![](./img/grid/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/11.png)
 
 ```html
 <style>
@@ -211,7 +211,7 @@ div {
 }
 ```
 
-![](./img/grid/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/12.png)
 
 ### minmax
 
@@ -235,7 +235,7 @@ grid-template-columns: 100px 1fr;
 
 使用 `row-gap` 设置行间距。
 
-![](./img/grid/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/13.png)
 
 ```css
 width: 300px;
@@ -250,7 +250,7 @@ row-gap: 30px;
 
 使用 `column-gap` 定义列间距。
 
-![](./img/grid/14.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/14.png)
 
 ```css
 width: 300px;
@@ -267,7 +267,7 @@ column-gap: 20px;
 
 **设置行列间距为20px与10px**
 
-![](./img/grid/15.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/15.png)
 
 ```css
 width: 300px;
@@ -280,7 +280,7 @@ gap: 20px 10px;
 
 **统一设置行列间距为20px**
 
-![](./img/grid/16.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/16.png)
 
 ```css
 gap: 20px;
@@ -290,13 +290,13 @@ gap: 20px;
 
 📗 栅格线可以使用命名与编号找到，方便控制指定栅格，或将内容添加到指定栅格中。
 
-![](./img/grid/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/17.png)
 
 ### 独立命名
 
 可以为每个栅格独立命名来进行调用。
 
-![](./img/grid/18.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/18.png)
 
 ```html
 <style>
@@ -385,7 +385,7 @@ div:first-child {
 
 通过设置具体的第几条栅格线来设置区域位置，设置的数值可以是正数和负数。
 
-![](./img/grid/20.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/20.png)
 
 ```css
 article {
@@ -421,7 +421,7 @@ div:first-child {
 }
 ```
 
-![](./img/grid/19.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/19.png)
 
 ### 根据自动命名
 
@@ -484,7 +484,7 @@ div {
 }
 ```
 
-![](./img/grid/21.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/21.png)
 
 
 
@@ -515,7 +515,7 @@ div {
 
 下面是bootstrap栅格系统的开发，根据指定的样式自动设置栅格大小。
 
-![](./img/grid/22.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/22.png)
 
 ```html
 <style>
@@ -611,7 +611,7 @@ div {
 
 下例中将元素放在容器的中心位置中的栅格中。
 
-![](./img/grid/21.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/21.png)
 
 ```css
 article {
@@ -628,7 +628,7 @@ article div:first-child {
 
 同样是上面的例子可以使用栅格线命名来附加元素。
 
-![](./img/grid/23.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/23.png)
 
 ```css
 article {
@@ -653,7 +653,7 @@ article div:first-child {
 
 下面是使用栅格区域布局移动端页面结构：
 
-![](./img/grid/25.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/25.png)
 
 ```html
 <style>
@@ -736,7 +736,7 @@ body {
 }
 ```
 
-![](./img/grid/24.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/24.png)
 
 ### 区域命名
 
@@ -744,7 +744,7 @@ body {
 
 下面使用区域命名部署的效果
 
-![](./img/grid/26.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/26.png)
 
 ```html
 <style>
@@ -788,7 +788,7 @@ body {
 
 使用一个或多个 连续的`.` 定义区域占位 📌
 
-![](./img/grid/27.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/27.png)
 
 ```html
 <style>
@@ -853,7 +853,7 @@ body {
 
 下例将单元按列排序流动`grid-auto-flow: column;`
 
-![](./img/grid/28.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/28.png)
 
 ```html
 <style>
@@ -888,7 +888,7 @@ body {
 
 当元素在栅格中放不下时，将会发生换行产生留白，使用`grid-auto-flow: row dense;` 可以执行填充空白区域操作。
 
-![](./img/grid/29.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/29.png)
 
 ```html
 <style>
@@ -979,7 +979,7 @@ align-content属性的值如下
 | space-around  | 每个元素两侧的间隔相等。所以，栅格之间的间隔比栅格与容器边距的间隔大一倍 |
 | space-evenly  | 栅格间距离完全平均分配                                       |
 
-![](./img/grid/30.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/30.png)
 
 ```css
 border: solid 5px silver;
@@ -996,7 +996,7 @@ align-content: space-evenly;
 
 下面是栅格水平与垂直居中对齐的示例
 
-![](./img/grid/31.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/31.png)
 
 ```html
 <style>
@@ -1065,7 +1065,7 @@ align-items用于控制元素的垂直对齐方式，可用的属性值如下
 
 下面是将元素在所在栅格中水平、垂直居中的示例
 
-![](./img/grid/32.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/32.png)
 
 ```css
 main {
@@ -1082,7 +1082,7 @@ main {
 
 下面是所有元素在所在栅格中居中对齐的示例
 
-![](./img/grid/33.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/33.png)
 
 ```css
 main {
@@ -1099,7 +1099,7 @@ main {
 
 📗 justify-self与align-self控制单个栅格内元素的对齐方式，属性值与justify-items和align-items是一致的。
 
-![](./img/grid/34.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/34.png)
 
 ```css
 div:first-child {
@@ -1154,7 +1154,7 @@ place-self: <align-self> <justify-self>
 
 下面定义了2X2的栅格，但有多个元素，系统将自动创建栅格用于放置额外元素。我们使用grid-auto-rows来控制增加栅格的行高。
 
-![](./img/grid/35.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/35.png)
 
 ```html
 <style>
@@ -1187,7 +1187,7 @@ place-self: <align-self> <justify-self>
 
 下面创建了2X2栅格，我们将第2个DIV设置的格栅已经超过了四个栅格，所以系统会自动创建栅格。
 
-![](./img/grid/36.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/36.png)
 
 ```html
 <style>
@@ -1234,7 +1234,7 @@ grid是简写属性，可以用来设置：
 
 下面使用grid布局内容，将body容器的栅格居中排列，将main容器内的栅格内的元素居中排列。
 
-![](./img/grid/37.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/37.png)
 
 ```html
 <style>
@@ -1287,7 +1287,7 @@ grid是简写属性，可以用来设置：
 
 使用grid也可以定义栅格区域
 
-![](./img/grid/38.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/grid/38.png)
 
 ```html
 <style>

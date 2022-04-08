@@ -133,7 +133,7 @@ span.help-block {
 </main>
 ```
 
-![](./img/selector/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/1.png)
 
 ### 子元素选择
 
@@ -159,7 +159,7 @@ span.help-block {
 </main>
 ```
 
-![](./img/selector/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/2.png)
 
 ### 紧邻兄弟元素
 
@@ -185,7 +185,7 @@ span.help-block {
 </main>
 ```
 
-![](./img/selector/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/3.png)
 
 ### 后面兄弟元素
 
@@ -211,7 +211,7 @@ span.help-block {
 </main>
 ```
 
-![](./img/selector/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/4.png)
 
 ## 属性选择器
 
@@ -239,7 +239,7 @@ span.help-block {
 <h1 class="container">google.com</h1>
 ```
 
-![](./img/selector/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/5.png)
 
 约束多个属性
 
@@ -270,7 +270,7 @@ span.help-block {
 <a href="">Baidu</a>
 ```
 
-![](./img/selector/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/6.png)
 
 ### ^= 开始匹配
 
@@ -286,7 +286,7 @@ h2[name^="mdn"] {
 <h2 name="mdn.com">mdn.com</h2>
 ```
 
-![](./img/selector/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/7.png)
 
 ### $= 结束匹配
 
@@ -303,7 +303,7 @@ h2[name^="mdn"] {
 <h2 name="mdn.com">mdn.com</h2>
 ```
 
-![](./img/selector/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/8.png)
 
 ### *= 任意匹配
 
@@ -319,7 +319,7 @@ h2[name^="mdn"] {
 <h2 name="google.com">mdn.com</h2>
 ```
 
-![](./img/selector/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/9.png)
 
 ### ~= 包含匹配 💡
 
@@ -337,7 +337,7 @@ h2[name^="mdn"] {
 <h2 name="google.com">mdn.com</h2>
 ```
 
-![](./img/selector/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/8.png)
 
 ### |= -连接匹配 💡
 
@@ -353,7 +353,7 @@ h2[name^="mdn"] {
 <h2 name="google-web">mdn.com</h2>
 ```
 
-![](./img/selector/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/9.png)
 
 ## 伪类选择器 👾
 
@@ -407,7 +407,7 @@ h2[name^="mdn"] {
 <a href="javascript:;">链接</a>
 ```
 
-![](./img/selector/a.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/a.gif)
 
 不只是链接可以使用伪类，其他元素也可以使用。下面是对表单的点击与获取焦点状态的样式设置。
 
@@ -428,7 +428,7 @@ h2[name^="mdn"] {
 <input type="text">
 ```
 
-![](./img/selector/input.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/input.gif)
 
 ### :target
 
@@ -455,7 +455,7 @@ h2[name^="mdn"] {
 <p><b>注释：</b> Internet Explorer 8 以及更早的版本不支持 :target 选择器。</p>
 ```
 
-![](./img/selector/target.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/target.gif)
 
 ### :root
 
@@ -486,7 +486,7 @@ h2[name^="mdn"] {
 <p> </p>
 ```
 
-![](./img/selector/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/10.png)
 
 ## 结构伪类
 
@@ -521,7 +521,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/11.png)
 
 ### :first-of-type
 
@@ -546,7 +546,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/11.png)
 
 ### :last-child
 
@@ -570,7 +570,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/12.png)
 
 ### :last-of-type
 
@@ -596,7 +596,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/12.png)
 
 ### :only-child
 
@@ -617,7 +617,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/13.png)
 
 ### :only-of-type
 
@@ -638,7 +638,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/14.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/14.png)
 
 ### :nth-child(n)
 
@@ -660,7 +660,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/15.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/15.png)
 
 ### :nth-of-type(n)
 
@@ -683,7 +683,7 @@ h2[name^="mdn"] {
 </article>
 ```
 
-![](./img/selector/16.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/16.png)
 
 ### 计算数量
 
@@ -708,7 +708,7 @@ h2[name^="mdn"] {
 </table>
 ```
 
-![](./img/selector/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/17.png)
 
 从第三个开始设置样式
 
@@ -719,7 +719,7 @@ table tr>td:nth-child(n+3) {
 }
 ```
 
-![](./img/selector/18.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/18.png)
 
 设置前三个元素
 
@@ -730,7 +730,7 @@ table tr>td:nth-child(-n+3) {
 }
 ```
 
-![](./img/selector/19.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/19.png)
 
 ### 奇数元素 odd
 
@@ -743,7 +743,7 @@ table tr>td:nth-child(odd) {
 }
 ```
 
-![](./img/selector/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/17.png)
 
 ### 偶数元素 even
 
@@ -767,7 +767,7 @@ table tr>td:nth-last-child(2n+1){
 }
 ```
 
-![](./img/selector/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/17.png)
 
 取最后两个元素
 
@@ -777,7 +777,7 @@ main>ul li:nth-last-child(-n+2) {
 }
 ```
 
-![](./img/selector/20.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/20.png)
 
 ### :nth-last-of-type(n)
 
@@ -808,7 +808,7 @@ article span:nth-last-of-type(1) {
 </ul>
 ```
 
-![](./img/selector/21.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/21.png)
 
 ## 表单伪类
 
@@ -847,7 +847,7 @@ article span:nth-last-of-type(1) {
 <label for="girl">女</label>
 ```
 
-![](./img/selector/22.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/22.png)
 
 ### 表单必选样式
 
@@ -866,7 +866,7 @@ article span:nth-last-of-type(1) {
 <input type="text" name="name">
 ```
 
-![](./img/selector/23.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/23.png)
 
 ### 表单验证样式
 
@@ -887,7 +887,7 @@ article span:nth-last-of-type(1) {
 </form>
 ```
 
-![](./img/selector/valid.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/valid.gif)
 
 ## 字符伪类
 
@@ -914,7 +914,7 @@ p::first-letter {
 }
 ```
 
-![](./img/selector/24.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/24.png)
 
 ### 在元素前添加
 
@@ -934,7 +934,7 @@ p::first-letter {
 <span>Hello world</span>
 ```
 
-![](./img/selector/25.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/25.png)
 
 ### 搜索框示例
 
@@ -968,7 +968,7 @@ div>input[type="text"]+span:after {
 <p data-foo="hello">world</p>
 ```
 
-![](./img/selector/26.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/26.png)
 
 ```html
 <style>
@@ -980,4 +980,4 @@ div>input[type="text"]+span:after {
 <h2 title="this is h2 title ">hello world</h2>
 ```
 
-![](./img/selector/27.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/selector/27.png)

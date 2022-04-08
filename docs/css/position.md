@@ -27,7 +27,7 @@
 
 👾 元素直接设置`absolute`定位是相对于文档的：
 
-![](./img/position/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/1.png)
 
 ```html
 <style>
@@ -58,7 +58,7 @@
 
 👾 使用百分比单位时使用的是父级尺寸，比如下面的示例`left:100%`会定位到最右边
 
-![](./img/position/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/2.png)
 
 ```html
 <style>
@@ -94,7 +94,7 @@
 
 👾 `relative`相对定位是相对于元素**原来的位置**控制，当元素发生位置偏移时，原位置留白。
 
-![](./img/position/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/3.png)
 
 ```html
 <style>
@@ -130,7 +130,7 @@
 
 如果父级元素设置了 `relative | fixed | sticky` ，绝对定位子元素将参数此父元素进行定位。
 
-![](./img/position/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/4.png)
 
 ```html
 <style>
@@ -164,7 +164,7 @@
 
 💡 如果没有为定位元素设置偏移，将受父元素的padding等属性影响（content-box）。但使用定位一般都会设置偏移位置。
 
-![](./img/position/1.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/1.gif)
 
 ```css
 body {
@@ -194,7 +194,7 @@ div {
 
 以下如果我们设置了div的宽高，那么`right: 0; bottom: 0;`就是不生效的；而现在它会依据这个设置得到尺寸是宽高一半一半。
 
-![](./img/position/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/5.png)
 
 ```html
 <style>
@@ -224,13 +224,13 @@ div {
 
 通过将 `left` 设置为50% ,并向左偏移子元素宽度一半可以实现水平居中，垂直居中使用方式类似。
 
-![](./img/position/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/6.png)
 
 ### 滚动行为 💡
 
 💡 固定定位元素会随滚动条发生滚动。
 
-![](./img/position/2.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/2.gif)
 
 ```html
 <style>
@@ -282,11 +282,11 @@ div {
 
 
 
-![](./img/position/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/7.png)
 
 ### 层级改变
 
-![](./img/position/3.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/3.gif)
 
 ```html
 <style>
@@ -341,7 +341,7 @@ div {
 
 👾 为了让 `我的购物车` 的z-index生效，必须设置元素的定位属性：`position: relative`。
 
-![](./img/position/4.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/4.gif)
 
 ```html
 <style>
@@ -402,7 +402,7 @@ div {
 
 📗 元素相对于页面固定定位在某个位置，固定定位元素不会在滚动时改变位置 ，使用`position: fixed` 产生固定定位。
 
-![](./img/position/5.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/5.gif)
 
 ```html
 <style>
@@ -433,7 +433,7 @@ div {
 
 粘性定位如果是同级的，上面的元素并不会被顶走，会一直**叠加**堆接在一起。
 
-![](./img/position/6.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/6.gif)
 
 ```html
 <style>
@@ -486,7 +486,7 @@ div {
 
 不属于同一个父元素设置粘性定位时，后面的元素**挤掉**原来位置的元素如下例。
 
-![](./img/position/7.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/position/7.gif)
 
 ```html
 <style>

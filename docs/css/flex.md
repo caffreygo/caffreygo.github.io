@@ -8,7 +8,7 @@
 
 下面是FLEX系统兼容性数据，在 [https://caniuse.com/ (opens new window)](https://caniuse.com/)网站查看，绝大多数设备尤其是**移动端**都很好的支持FLEX，所以可以放心使用。
 
-![](./img/flex/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/1.png)
 
 ## 弹性盒子
 
@@ -18,7 +18,7 @@
 
 **声明块级弹性盒子**
 
-![](./img/flex/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/2.png)
 
 ```html
 <style>
@@ -71,7 +71,7 @@ article {
 
 **row-reverse**
 
-![](./img/flex/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/3.png)
 
 ```html
 <style>
@@ -108,7 +108,7 @@ article {
 
 **column-reverse**
 
-![](./img/flex/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/4.png)
 
 ```css
 article {
@@ -128,7 +128,7 @@ article {
 
 **行元素换行**
 
-![](./img/flex/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/5.png)
 
 ```html
 <style>
@@ -174,7 +174,7 @@ article {
 
 **水平排列反向换行**
 
-![](./img/flex/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/6.png)
 
 ```css
 flex-direction: row;
@@ -183,7 +183,7 @@ flex-wrap: wrap-reverse;
 
 **垂直元素换行**
 
-![](./img/flex/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/7.png)
 
 ```css
 flex-direction: column;
@@ -192,7 +192,7 @@ flex-wrap: wrap;
 
 **垂直元素反向换行**
 
-![](./img/flex/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/8.png)
 
 ```text
 flex-direction: column;
@@ -205,7 +205,7 @@ flex-wrap: wrap-reverse;
 
 下面是从右向左排列，换行向上拆分行。
 
-![](./img/flex/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/9.png)
 
 ```css
 flex-flow: row-reverse wrap-reverse;
@@ -217,17 +217,17 @@ flex-flow: row-reverse wrap-reverse;
 
 下面是使用 `flex-flow: row wrap` 的主轴与交叉轴说明。
 
-![](./img/flex/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/10.png)
 
 下面是使用 `flex-flow: row-reverse wrap-reverse` 的主轴与交叉轴说明。
 
-![](./img/flex/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/11.png)
 
 **垂直排列**
 
 下面是使用 `flex-flow: column wrap` 的主轴与交叉轴说明。
 
-![](./img/flex/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/12.png)
 
 ### justify-content
 
@@ -244,7 +244,7 @@ flex-flow: row-reverse wrap-reverse;
 
 水平排列元素，并使用 `justify-content: flex-end` 对齐到主轴终点
 
-![](./img/flex/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/13.png)
 
 ```html
 <style>
@@ -283,7 +283,7 @@ flex-flow: row-reverse wrap-reverse;
 
 使用 `space-evenly` 平均分配容器元素
 
-![](./img/flex/14.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/14.png)
 
 ```css
 article {
@@ -297,7 +297,7 @@ article {
 
 垂直排列时对齐到主轴终点
 
-![](./img/flex/15.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/15.png)
 
 ```css
 article {
@@ -317,7 +317,7 @@ article {
 - align-item是控制元素在行上的排列 
 - align-content是控制行在交差轴上的排列（参考justify-content）
 
-<img src="./img/flex/16.png" style="zoom:75%;" />
+<img src="http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/16.png" style="zoom:75%;" />
 
 ### align-items
 
@@ -334,7 +334,7 @@ article {
 
 📌 如果设置了 `width | height | min-height | min-width | max-width | max-height` ，将影响`stretch` 的结果。（stretch的优先级高于width/height）
 
-![](./img/flex/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/17.png)
 
 ```html
 <style>
@@ -376,7 +376,7 @@ article {
 
 **对齐到交叉轴的顶部**
 
-![](./img/flex/18.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/18.png)
 
 ```css
 flex-direction: row;
@@ -385,7 +385,7 @@ align-items: flex-start;
 
 **对齐到交叉轴底部**
 
-![](./img/flex/19.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/19.png)
 
 ```css
 flex-direction: row;
@@ -394,7 +394,7 @@ align-items: flex-end;
 
 **对齐到交叉轴中心**
 
-![](./img/flex/20.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/20.png)
 
 ```css
 flex-direction: row;
@@ -403,7 +403,7 @@ align-items: center;
 
 纵向排列时交叉轴排列
 
-![](./img/flex/21.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/21.png)
 
 ```html
 <style>
@@ -455,7 +455,7 @@ align-items: center;
 
 **水平排列在交叉轴中居中排列**
 
-![](./img/flex/22.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/22.png)
 
 ```html
 <style>
@@ -494,7 +494,7 @@ align-items: center;
 
 **垂直排列时交叉轴的排列**
 
-![](./img/flex/23.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/23.png)
 
 ```html
 <style>
@@ -554,7 +554,7 @@ align-items: center;
 | flex-end   | 元素紧靠主轴终点       |
 | center     | 元素从弹性容器中心开始 |
 
-![](./img/flex/26.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/26.png)
 
 ```html
 <style>
@@ -598,7 +598,7 @@ align-items: center;
 
 📗 用于将弹性盒子的可用空间，分配给弹性元素。可以使用整数或小数声明。
 
-![](./img/flex/27.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/27.png)
 
 ```html
 <style>
@@ -644,7 +644,7 @@ align-items: center;
 
 下例中为三个DIV 弹性元素设置了1、3、6 ，即宽度分成10等份，第三个元素所占宽度为`(宽度/(1+3+6)) X 6`。
 
-![](./img/flex/28.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/28.png)
 
 ```html
 <style>
@@ -693,7 +693,7 @@ align-items: center;
 最终尺寸 = 元素三宽度 - (缩小比例 x  元素 3 的宽度) X 元素宽度
 ```
 
-![](./img/flex/29.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/29.png)
 
 ```html
 <style>
@@ -753,7 +753,7 @@ align-items: center;
 
 flex-basis 优先级大于 width、height。
 
-![](./img/flex/30.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/30.png)
 
 ```html
 <style>
@@ -804,7 +804,7 @@ flex-basis 优先级大于 width、height。
 
 下例定义平均分配剩余空间，并不进行尺寸缩小，基础尺寸为200px。
 
-![](./img/flex/31.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/31.png)
 
 ```css
 * {
@@ -837,7 +837,7 @@ article div {
 
 下面是通过J动态改变order属性产生移动效果，因为本章节是讲CSS所以JS功能没有完善，只是体验一下order。
 
-![](./img/flex/32.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/32.gif)
 
 ```html
 <style>
@@ -918,7 +918,7 @@ article div {
 
 文本节点也在弹性布局操作范围内。
 
-![](./img/flex/33.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/33.png)
 
 ```html
 <style>
@@ -943,7 +943,7 @@ article div {
 
 绝对定位的弹性元素不参与弹性布局（绝对定位的元素已经失去了原始的文档位置，而相对定位保持）
 
-![](./img/flex/34.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/34.png)
 
 ```html
 <style>
@@ -986,7 +986,7 @@ article div {
 
 下面来开发类似微信公众号布局，包括底部二级菜单的弹性布局。
 
-![](./img/flex/35.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/35.png)
 
 ```html
 <style>
@@ -1079,7 +1079,7 @@ article div {
 
 在弹性布局中对元素使用`margin-right:auto` 等形式可以自动撑满空间。下例为第一个ul设置 `margin-right:auto` 表示右侧空间自动撑满，第二个ul靠近父元素右边界。（`flex: 1`也可以达到这个效果）
 
-![](./img/flex/36.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/flex/36.png)
 
 ```html
 <head>

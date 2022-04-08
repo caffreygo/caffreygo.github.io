@@ -12,7 +12,7 @@
 
 下面例子中边框的变化是没有中间值的，所以没有过渡效果。但线宽度是数值类型有中间值所以会有过渡效果。
 
-![](./img/transition/1.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/1.gif)
 
 ```html
 <style>
@@ -66,7 +66,7 @@
 
 *元素的过渡效果采用的是过渡终点的定义，如果为hover状态下的元素设置了过渡效果，则初始状态到hover状态采用的将会是hover下声明的过渡效果*
 
-![](./img/transition/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/2.png)
 
 ```html
 <style>
@@ -126,7 +126,7 @@
 
 📗 指元素由初始状态变化后的状态，比如鼠标放上、表单获得焦点后的形态。
 
-![](./img/transition/3.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/3.gif)
 
 ```html
 <style>
@@ -201,7 +201,7 @@
 ::: 
 
 ### 属性设置
-![](./img/transition/4.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/4.gif)
 ```html
 <style>
     * {
@@ -250,7 +250,7 @@
 ### 禁用属性
 
 `transition-property: none;`将第二个div的适配过渡属性清空了。
-![](./img/transition/5.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/5.gif)
 
 ```html
 <style>
@@ -312,7 +312,7 @@
 | pseudoElement | 过渡的伪元素                  |
 | isTrusted     | true:用户触发，false:脚本触发 |
 
-![](./img/transition/6.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/6.gif)
 
 ```html
 <style>
@@ -410,7 +410,7 @@
 
 ### 统一时间
 
-![](./img/transition/7.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/7.gif)
 
 ```html
 <style>
@@ -497,7 +497,7 @@ div {
 
 下面是将`hover` 设置为3s，当鼠标放上时变化时间为3s。为初始设置为1s即表示变化到初始状态需要1s。
 
-![](./img/transition/8.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/8.gif)
 
 ```html
 <style>
@@ -611,7 +611,7 @@ div {
 
 📗 需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
 
-![](./img/transition/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/9.png)
 
 ```css
 ...
@@ -640,7 +640,7 @@ div {
 
 ### steps
 
-![](./img/transition/9.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/9.gif)
 
 ```html
 <head>
@@ -734,7 +734,7 @@ div {
 
 ### 时钟效果
 
-![](./img/transition/10.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/10.gif)
 
 ```html
 <head>
@@ -798,7 +798,7 @@ div {
 
 ### step-start/end
 
-![](./img/transition/11.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/11.gif)
 
 ```html
 <head>
@@ -890,7 +890,7 @@ div {
 
 ### 步进形态
 
-![](./img/transition/12.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/12.gif)
 
 ```html
 <style>
@@ -940,7 +940,7 @@ div {
 
 ### 变化广告
 
-![](./img/transition/13.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/13.gif)
 
 ```html
 <head>
@@ -1004,7 +1004,7 @@ div {
 
 下面设置了延迟时间为1s，当鼠标放上
 
-![](./img/transition/14.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/14.gif)
 
 ```html
 <style>
@@ -1056,7 +1056,7 @@ div {
 
 可以设置不同属性的延迟时间。
 
-![](./img/transition/15.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/15.gif)
 
 ```html
 <style>
@@ -1108,7 +1108,7 @@ div {
 
 下例圆角属性的过渡时间为4s，设置延迟为 -4s，表示鼠标放上时直接显示在4s上的效果。如果设置为-2s显示圆角变形一半的效果。
 
-![](./img/transition/16.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/16.gif)
 
 ```html
 <style>
@@ -1172,7 +1172,7 @@ div {
 
 ### 点赞案例
 
-![](./img/transition/17.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transition/17.gif)
 
 ```html
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">

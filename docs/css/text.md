@@ -201,7 +201,7 @@ span {
 <span class="font-variant">source.com</span>
 ```
 
-![](./img/text/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/1.png)
 
 字母大小写转换		
 
@@ -252,7 +252,7 @@ span {
 <span class="overline">上划线</span>
 ```
 
-![](./img/text/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/2.png)
 
 ### 阴影控制
 
@@ -268,7 +268,7 @@ span {
 <h2>source.com</h2>
 ```
 
-![](./img/text/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/3.png)
 
 ### 空白处理
 
@@ -293,7 +293,7 @@ span {
 <h2>hel lo World</h2>
 ```
 
-![](./img/text/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/4.png)
 
 ### 文本溢出 💡
 
@@ -313,7 +313,7 @@ span {
 <h2>helloWorld</h2>
 ```
 
-![](./img/text/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/5.png)
 
 溢出内容末尾添加 `...`
 
@@ -332,7 +332,7 @@ span {
 </div>
 ```
 
-![](./img/text/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/6.png)
 
 **多行文本**
 
@@ -354,7 +354,7 @@ span {
 </div>
 ```
 
-![](./img/text/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/7.png)
 
 **表格文本溢出**
 
@@ -410,7 +410,7 @@ h2 {
 </p>
 ```
 
-![](./img/text/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/8.png)
 
 ### 垂直对齐
 
@@ -430,7 +430,7 @@ h2 {
 </p>
 ```
 
-![](./img/text/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/9.png)
 
 **顶部与底部对齐**
 
@@ -447,7 +447,7 @@ h2 {
 <h2>source.com <span>mdn</span></h2>
 ```
 
-![](./img/text/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/10.png)
 
 **使用单位对齐**
 
@@ -460,7 +460,7 @@ h2>span {
 }
 ```
 
-![](./img/text/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/11.png)
 
 ### 字符间隔
 
@@ -491,5 +491,5 @@ div {
 }
 ```
 
-![](./img/text/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/text/12.png)
 

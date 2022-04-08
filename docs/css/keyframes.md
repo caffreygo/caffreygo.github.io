@@ -40,7 +40,7 @@ animation-duration: 3s;
 
 👾 动画命名不要使用CSS关键字如 `none`
 
-![](./img/keyframes/1.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/1.gif)
 
 ```html
 <style>
@@ -106,7 +106,7 @@ animation-duration: 3s;
 
 下面定义不同时间点来让物体元素移动一圈，下例中可以不设置`from/to` 系统将定义为元素初始状态。
 
-![](./img/keyframes/2.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/2.gif)
 
 ```html
 <style>
@@ -165,7 +165,7 @@ animation-duration: 3s;
 
 时间点可以动画样式一样时可以一起声明，下面将25%/75%背景一起声明。
 
-![](./img/keyframes/3.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/3.gif)
 
 ```css
 @keyframes test {
@@ -206,7 +206,7 @@ animation-duration: 3s;
 
 ### 基本使用
 
-![](./img/keyframes/4.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/4.gif)
 
 ```css
 div {
@@ -273,7 +273,7 @@ div {
 
 📌 当动画开始时，三个动画是同时开始执行的，duration规定了从开始到结束的总时间。
 
-![](./img/keyframes/5.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/5.gif)
 
 ```html
 <style>
@@ -412,14 +412,14 @@ div {
 
 👾 上面的示例在早期chrome与safari浏览器效果是相同的：后面的background动画优先级高，4秒时长的动画都用background动画来控制translate属性。
 
-![](./img/keyframes/6.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/6.gif)
 
 在最新版本的chrome/edge中执行过程将两个帧动画**结合**处理
 
 - 前25%帧使用background的动画
 - 25%帧后综合使用background与translate动画
 
-![](./img/keyframes/7.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/7.gif)
 
 ✅ 所以建议尽量不要在两个动画中控制相同的属性
 
@@ -431,7 +431,7 @@ div {
 
 📌 下例中的边框变化**没有中间值**，所以是瞬间改变也没有产生动画效果。
 
-![](./img/keyframes/8.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/8.gif)
 
 ```html
 <head>
@@ -489,7 +489,7 @@ div {
 
 下面是例子尺寸没有产生动画，因为`0%`帧设置的尺寸单位与 `100%` 设置的尺寸没有中间值，解析器没有办法计算，最终效果如下：
 
-![](./img/keyframes/9.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/9.gif)
 
 ```html
 <head>
@@ -545,7 +545,7 @@ div {
 
 正确效果应该是这样
 
-![](./img/keyframes/10.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/10.gif)
 
 ```css
 @keyframes jj {
@@ -582,7 +582,7 @@ div {
 
 使用循环动画绘制心动效果
 
-![](./img/keyframes/11.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/11.gif)
 
 ```html
 <style>
@@ -646,7 +646,7 @@ div {
 
 ### 效果比较
 
-![](./img/keyframes/12.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/12.gif)
 
 ```html
 <head>
@@ -753,13 +753,13 @@ div {
 
 根据上面的心动例子改变方向为100%~0%
 
-![Untitled](./img/keyframes/13.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/13.gif)
 
 ### alternate
 
 根据上面的心动例子改变方向为0%~100%然后100%~0%
 
-![Untitled](./img/keyframes/14.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/14.gif)
 
 ```css
 animation-direction: alternate-reverse;
@@ -769,7 +769,7 @@ animation-direction: alternate-reverse;
 
 通过使用合适的运动方向 `alternate-reverse` 制作跳动的小球
 
-![Untitled](./img/keyframes/15.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/15.gif)
 
 ```html
 <style>
@@ -836,7 +836,7 @@ animation-direction: alternate-reverse;
 
 ### 微场景
 
-![](./img/keyframes/16.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/16.gif)
 
 ```html
 <style>
@@ -1000,11 +1000,11 @@ animation-timing-function
 
 📗  需要设置四个值 `cubic-bezier(<x1>, <y1>, <x2>, <y2>)`，来控制曲线速度，可在 [https://cubic-bezier.com (opens new window)](https://cubic-bezier.com/)网站在线体验效果。
 
-![](./img/keyframes/17.jpg)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/17.jpg)
 
 ### 体验效果
 
-![](./img/keyframes/17.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/17.gif)
 
 ```html
 <head>
@@ -1082,7 +1082,7 @@ animation-timing-function
 
 ### 弹跳小球 💡
 
-![Untitled](./img/keyframes/18.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/18.gif)
 
 ```html
 <head>
@@ -1163,7 +1163,7 @@ animation-timing-function
 
 ### 魔术小球
 
-![Untitled](./img/keyframes/19.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/19.gif)
 
 ```html
 <style>
@@ -1268,7 +1268,7 @@ animation-timing-function
 
 ### 按钮提交
 
-![Untitled](./img/keyframes/20.gif)
+![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/20.gif)
 
 ```html
 <head>
@@ -1347,7 +1347,7 @@ animation-timing-function
 
 📗  `steps(n,start)` 可以简单理解为从第二个开始，`steps(n,end)` 从第一个开始。
 
-![](./img/keyframes/21.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/21.gif)
 
 ```html
 <head>
@@ -1441,7 +1441,7 @@ animation-timing-function
 
 📗  `step-start` 效果等于 `steps(1,start)` ,`step-end` 效果等同于 `steps(1,end)`。
 
-![](./img/keyframes/22.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/22.gif)
 
 ```html
 <head>
@@ -1546,7 +1546,7 @@ animation-timing-function
 
 下面是使用无JS脚本参与的图片轮换效果，图片切换使用`steps` 步进与`animation-play-state`播放状态技术。
 
-![](./img/keyframes/23.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/23.gif)
 
 ```html
 <head>
@@ -1706,7 +1706,7 @@ animation-timing-function
 
 ### 效果对比
 
-![](./img/keyframes/24.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/keyframes/24.gif)
 
 ```html
 <head>

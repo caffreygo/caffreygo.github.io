@@ -16,7 +16,7 @@
 <h2>hello world</h2>
 ```
 
-![](./img/bg/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/1.png)
 
 ### 背景图片
 
@@ -96,7 +96,7 @@ background-repeat: repeat-y
 </main>
 ```
 
-![](./img/bg/scroll.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/scroll.gif)
 
 #### fixed
 
@@ -104,7 +104,7 @@ background-repeat: repeat-y
 background-attachment: fixed;
 ```
 
-![](./img/bg/fixed.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/fixed.gif)
 
 ### 背景位置
 
@@ -152,7 +152,7 @@ background-repeat: no-repeat;
 background-position: 80px 70px;
 ```
 
-![](./img/bg/position.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/position.gif)
 
 ### 背景尺寸
 
@@ -207,7 +207,7 @@ padding: 40px;
 background-clip: content-box;
 ```
 
-![](./img/bg/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/2.png)
 
 ### 组合设置
 
@@ -217,7 +217,7 @@ background-clip: content-box;
 background: url(bg1.png) no-repeat content-box fixed;
 ```
 
-![](./img/bg/syntax.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/syntax.gif)
 
 ## 盒子阴影
 
@@ -227,7 +227,7 @@ background: url(bg1.png) no-repeat content-box fixed;
 box-shadow: 10px 10px 5px rgba(100, 100, 100, .5);
 ```
 
-![](./img/bg/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/3.png)
 
 ## 颜色渐变
 
@@ -239,7 +239,7 @@ box-shadow: 10px 10px 5px rgba(100, 100, 100, .5);
 background: linear-gradient(red, green);
 ```
 
-![](./img/bg/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/4.png)
 
 渐变角度
 
@@ -247,7 +247,7 @@ background: linear-gradient(red, green);
 background: linear-gradient(30deg, red, green);
 ```
 
-![](./img/bg/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/5.png)
 
 向右渐变
 
@@ -255,7 +255,7 @@ background: linear-gradient(30deg, red, green);
 background: linear-gradient(to right, red, green)
 ```
 
-![](./img/bg/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/6.png)
 
 向左渐变
 
@@ -269,7 +269,7 @@ background: linear-gradient(to left, red, green);
 background: linear-gradient(to top left, red, green);
 ```
 
-![](./img/bg/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/7.png)
 
 右下渐变
 
@@ -283,7 +283,7 @@ background: linear-gradient(to right bottom, red, green);
 background: linear-gradient(red, rgb(0, 0, 200), green, rgba(122, 211, 100, 0));
 ```
 
-![](./img/bg/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/8.png)
 
 ### 径向渐变
 
@@ -293,7 +293,7 @@ background: linear-gradient(red, rgb(0, 0, 200), green, rgba(122, 211, 100, 0));
 background: radial-gradient(red, blue, green);
 ```
 
-![](./img/bg/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/9.png)
 
 设置渐变宽度与高度
 
@@ -301,7 +301,7 @@ background: radial-gradient(red, blue, green);
 background: radial-gradient(100px 200px, red, blue, green);
 ```
 
-![](./img/bg/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/10.png)
 
 左下渐变
 
@@ -309,7 +309,7 @@ background: radial-gradient(100px 200px, red, blue, green);
 background: radial-gradient(at bottom left, red, blue);
 ```
 
-![](./img/bg/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/11.png)
 
 右下渐变
 
@@ -323,7 +323,7 @@ background: radial-gradient(at bottom right, red, blue);
 background: radial-gradient(at center left, red, blue);
 ```
 
-![](./img/bg/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/12.png)
 
 底部向中心渐变
 
@@ -341,7 +341,7 @@ background: radial-gradient(at 50% 100%, red, blue);
 background: linear-gradient(45deg, red 50%, blue 60%);
 ```
 
-![](./img/bg/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/13.png)
 
 标识位相同时将没有过渡效果
 
@@ -349,11 +349,11 @@ background: linear-gradient(45deg, red 50%, blue 60%);
 background: linear-gradient(45deg, red 50%, blue 50%, blue);
 ```
 
-![](./img/bg/14.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/14.png)
 
 径向标识位绘制小太阳
 
-![](./img/bg/15.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/15.png)
 
 ```css
 width: 150px;
@@ -367,13 +367,13 @@ background: radial-gradient(red 0, yellow 30%, black 60%, black 100%);
 background: linear-gradient(45deg, red, 30%, blue);
 ```
 
-![](./img/bg/16.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/16.png)
 
 ### 渐变重复 💡
 
 下例定义从0到50px为蓝色,50px到100px的黄色，并进行重复后产生渐变的进度条。
 
-![](./img/bg/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/17.png)
 
 ```css
 background: repeating-linear-gradient(90deg, blue, blue 50px,yellow 50px,yellow 100px);
@@ -387,4 +387,4 @@ height: 200px;
 background: repeating-radial-gradient(100px 100px, red 0%, yellow 40%, black 60%, black 200%);
 ```
 
-![](./img/bg/18.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/bg/18.png)

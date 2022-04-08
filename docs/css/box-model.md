@@ -1,6 +1,6 @@
 # 盒子模型
 
-<img src="./img/box-model/1.png" style="zoom:50%;" />
+<img src="http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/1.png" style="zoom:50%;" />
 
 ## 外边距
 
@@ -30,7 +30,7 @@
 </main>
 ```
 
-<img src="./img/box-model/2.png" style="zoom:40%;" />
+<img src="http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/2.png" style="zoom:40%;" />
 
 下例定义上下`50px`边距，左右`80px`边距
 
@@ -77,7 +77,7 @@ margin:100px;
 </article>
 ```
 
-![](./img/box-model/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/3.png)
 
 ### 负值设置
 
@@ -102,7 +102,7 @@ margin:100px;
 </main>
 ```
 
-![](./img/box-model/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/4.png)
 
 ### 边距合并
 
@@ -126,7 +126,7 @@ margin:100px;
 <h3></h3>
 ```
 
-![](./img/box-model/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/5.png)
 
 ## 内边距
 
@@ -152,7 +152,7 @@ margin:100px;
 <a href="">CSS</a>
 ```
 
-![](./img/box-model/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/6.png)
 
 ## BOX-SIZING
 
@@ -177,7 +177,7 @@ margin:100px;
 <h2>source.com</h2>
 ```
 
-![](./img/box-model/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/7.png)
 
 ## 边框设计
 
@@ -212,7 +212,7 @@ h2 {
 }
 ```
 
-![](./img/box-model/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/8.png)
 
 单独设置一边样式
 
@@ -231,7 +231,7 @@ h2 {
 }
 ```
 
-![](./img/box-model/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/9.png)
 
 ### 边框宽度
 
@@ -325,7 +325,7 @@ em {
 }
 ```
 
-![](./img/box-model/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/10.png)
 
 ## 轮廓线
 
@@ -372,7 +372,7 @@ em {
 <p class="outset">外凸轮廓</p>
 ```
 
-![](./img/box-model/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/11.png)
 
 ### 线宽设置
 
@@ -431,7 +431,7 @@ input:focus {
 <a href="">source.com</a>
 ```
 
-![](./img/box-model/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/12.png)
 
 ### 块转为行元素
 
@@ -456,7 +456,7 @@ input:focus {
 </ul>
 ```
 
-![](./img/box-model/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/13.png)
 
 ### 行级块使用 
 
@@ -479,13 +479,13 @@ input:focus {
 <a href="">PHP</a>
 ```
 
-![](./img/box-model/14.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/14.png)
 
 ## VISIBILITY
 
 控制元素的显示隐藏，在隐藏后空间位也保留。
 
-![](./img/box-model/15.1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/15.1.png)
 
 ```html
 <style>
@@ -511,7 +511,7 @@ input:focus {
 </article>
 ```
 
-![](./img/box-model/15.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/15.png)
 
 ## 溢出控制
 
@@ -535,7 +535,7 @@ div {
 }
 ```
 
-![](./img/box-model/16.1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/16.1.png)
 
 **溢出产生滚动条**
 
@@ -551,7 +551,7 @@ div {
 }
 ```
 
-![](./img/box-model/16.2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/16.2.png)
 
 ### 文本溢出 👾
 
@@ -569,7 +569,7 @@ div {
 }
 ```
 
-![](./img/box-model/16.3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/16.3.png)
 
 **多行文本溢出控制**
 
@@ -584,7 +584,7 @@ div {
 }
 ```
 
-![](./img/box-model/16.4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/16.4.png)
 
 ## 尺寸定义
 
@@ -625,7 +625,7 @@ div {
 
 下面是行块元素可以撑满可用空间后的效果。
 
-![](./img/box-model/17.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/17.png)
 
 ```html
 <style>
@@ -666,7 +666,7 @@ div {
 
 下面是根据内容自动适应宽度，让元素居中显示的效果。(h2原本作为block元素宽度是100%)
 
-![](./img/box-model/18.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/18.png)
 
 ```html
 <style>
@@ -696,7 +696,7 @@ div {
 
 使用`min-content` 将容器尺寸按最小元素宽度设置。
 
-![](./img/box-model/19.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/19.png)
 
 ```html
 <style>
@@ -739,7 +739,7 @@ div {
 
 容器尺寸按子元素最大宽度设置。
 
-![](./img/box-model/20.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/css/box-model/20.png)
 
 ```html
 <style>

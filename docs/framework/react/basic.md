@@ -542,7 +542,7 @@ TodoItem.defaultProps = {
 
 - 每个虚拟 DOM 节点的比较通过 key 值做关联（比较性能提升的前提，要保证前后虚拟 DOM 前后的 key 值一致，如果使用 index 作为 key 值就无法保证前后 key 值的一致，失去了 key 值存在的意义）
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/react/key.png)
+  ![](http://ra15bg9hk.hn-bkt.clouddn.com/react/key.PNG)
 
 ### React 中 ref 的使用
 
@@ -612,7 +612,7 @@ ref 参数等于一个函数(箭头函数传递 this)，如下我们构建了一
 
 :::
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/react/lifeFunc.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/lifeFunc.PNG)
 
 - componentWillMount：在组件即将被挂载到页面的时刻自动执行
 

@@ -481,7 +481,89 @@ alert(Arr);
 复杂度分析：adjustHeap 函数中相当于堆的每一层只遍历一个结点，因为
 具有n个结点的完全二叉树的深度为[log2n]+1，所以 shiftDown的复杂度为 O(logn)，而外层循环共有 f(n) 次，所以最终的复杂度为 O(nlogn)。
 
-## 图
+## DFS与BFS
+
+📗 深度优先遍历（Depth First Search, 简称 DFS） 与广度优先遍历（Breath First Search）是图论中两种非常重要的算法，生产上广泛用于拓扑排序，寻路（走迷宫），搜索引擎，爬虫等。
+
+### 深度优先遍历
+
+深度优先遍历主要思路是从图中一个未访问的顶点 V 开始，沿着一条路一直走到底，然后从这条路尽头的节点回退到上一个节点，再从另一条路开始走到底...，不断递归重复此过程，直到所有的顶点都遍历完成。
+
+这就是树的**前序遍历**,实际上不管是前序遍历，还是中序遍历，亦或是后序遍历，都属于**深度优先遍历**。
+
+**1、递归实现**
+
+```javascript
+preOrderTraverse(callback) {
+  this.preOrderTraverseNode(this.root, callback);
+}
+
+preOrderTraverseNode(node, callback) {
+  if (node ! = null) {
+    callback(node.key);
+    this.preOrderTraverseNode(node.left, callback);
+    this.preOrderTraverseNode(node.right, callback);
+  }
+}
+```
+
+**2、遍历实现**
+
+![](./img/algorithm/DFS.png)
+
+```java
+public static void dfsWithStack(Node root) {
+    if (root == null) {
+        return;
+    }
+
+    Stack<Node> stack = new Stack<>();
+    // 先把根节点压栈
+    stack.push(root);
+    while (!stack.isEmpty()) {
+        Node treeNode = stack.pop();
+        // 遍历节点
+        process(treeNode)
+
+        // 先压右节点
+        if (treeNode.right != null) {
+            stack.push(treeNode.right);
+        }
+
+        // 再压左节点
+        if (treeNode.left != null) {
+            stack.push(treeNode.left);
+        }
+    }
+}
+```
+
+### 广度优先遍历
+
+![](./img/algorithm/BFS.png)
+
+```java
+private static void bfs(Node root) {
+    if (root == null) {
+        return;
+    }
+    Queue<Node> stack = new LinkedList<>();
+    stack.add(root);
+
+    while (!stack.isEmpty()) {
+        Node node = stack.poll();
+        System.out.println("value = " + node.value);
+        Node left = node.left;
+        if (left != null) {
+            stack.add(left);
+        }
+        Node right = node.right;
+        if (right != null) {
+            stack.add(right);
+        }
+    }
+}
+```
 
 ## 动态规划
 

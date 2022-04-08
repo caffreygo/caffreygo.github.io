@@ -22,13 +22,13 @@ JavaScript是一个基于原型继承的，ES6的class其实也是原型继承
 
 ## 原型
 
-![原型](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/prototype/yuanxing.png)
+![原型](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/prototype/yuanxing.png)
 
 ## 原型链
 
   <img src="D:/learn-blog/docs/javascript/img/prototype.jpg" style="zoom: 20%;" />
 
-![原型链](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/prototype/yuanxinglian2.png)
+![原型链](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/prototype/yuanxinglian2.png)
 
 ## getPrototypeOf
 
@@ -210,7 +210,7 @@ for(const key in a) {
 
 ## Tab构造函数
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/prototype/tab.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/prototype/tab.gif)
 
 ```html
 <!DOCTYPE html>

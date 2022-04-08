@@ -8,7 +8,7 @@
 4. 数据链路层
 5. 物理层
 
-<img src="http://ra15bg9hk.hn-bkt.clouddn.com/http/img1.jpg" alt="通信协议" style="zoom:80%;" />
+<img src="https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img1.jpg" alt="通信协议" style="zoom:80%;" />
 
 ## HTTP 的三次握手
 
@@ -16,7 +16,7 @@
 
 为了提供可靠的传送，TCP 在发送新的数之前，以特定的顺序将数据包的序号，并需要这些包传送给目标机之后的确认消息。TCP 总是用来发送大批量的数据。当应用程序在收到数据后要做出确认时也要用到 TCP
 
-<img src="http://ra15bg9hk.hn-bkt.clouddn.com/http/img2.jpg" alt="三次握手" style="zoom:80%;" />
+<img src="https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img2.jpg" alt="三次握手" style="zoom:80%;" />
 
 ## URI URL-URN
 
@@ -40,7 +40,7 @@
 
 ## HTTP 报文格式
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/http/img3.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img3.jpg)
 
  http 方法：用来定义对资源的操作（GET、POST...）
 
@@ -50,7 +50,7 @@
 
  curl 它的功能非常强大，命令行参数多达几十种。如果熟练的话，完全可以取代 Postman 这一类的图形界面工具。
 
-![1574690272753](http://ra15bg9hk.hn-bkt.clouddn.com/http/curlV.png)
+![1574690272753](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/curlV.png)
 
 - 不带有任何参数时，curl 就是发出 GET 请求。
 
@@ -78,7 +78,7 @@
 
 ### Access-Control-Allow-Origin
 
-![跨域实例](http://ra15bg9hk.hn-bkt.clouddn.com/http/img4.png)
+![跨域实例](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img4.png)
 
 在 8888 端口下返回 test.html 文件，在 test 中访问 8887 端口
 
@@ -102,7 +102,7 @@ response.writeHead(200, {
 
 原理：浏览器允许 link script 和 img 标签加载数据，不需要设置允许跨域 Access-Control-Allow-Origin
 
-![JSONP](http://ra15bg9hk.hn-bkt.clouddn.com/http/img5.png)
+![JSONP](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img5.png)
 
 ## CORS 跨域限制以及请求校验
 

@@ -47,7 +47,7 @@
 </article>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/1.png)
 
 ```css
 /* table */ 
@@ -100,9 +100,9 @@
 
 通过 `caption-side` 可以设置标题位置，值可以设置为 `top | bootom`。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/2.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/2.png)
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/3.png)
 
 ```html
 <style>
@@ -154,7 +154,7 @@ table tr td {
 
 为表格设置颜色与普通标签相似，可以为 `table | thead | tbody | caption | tfoot| tr| td` 设置颜色样式。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/4.png)
 
 ```css
 table tr {
@@ -172,7 +172,7 @@ table tr:nth-child(even) {
 
 设置单元格间距，设置间距上下左右 `20px`、`10px` 。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/5.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/5.png)
 
 ```css
 table {
@@ -184,7 +184,7 @@ table {
 
 默认表格边框间是有间距的，以下示例将边框合并形成细线表格  📌
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/6.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/6.png)
 
 ```css
 table {
@@ -192,11 +192,11 @@ table {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/7.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/7.png)
 
 ### 隐藏单元格
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/8.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/8.png)
 
 ```css
 table {
@@ -206,7 +206,7 @@ table {
 
 ### 无边框表格
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/9.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/9.png)
 
 ```css
 table {
@@ -287,7 +287,7 @@ ul li {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/10.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/10.png)
 
 ### 符号位置
 
@@ -304,7 +304,7 @@ ul {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/11.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/11.png)
 
 ### 组合定义
 
@@ -320,7 +320,7 @@ ul {
 
 通过为li元素设置背景图片，也可以达到效果
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/12.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/12.png)
 
 ```css
 ul li {
@@ -335,7 +335,7 @@ ul li {
 
 多图背景定义
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/13.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/13.png)
 
 ```css
 ul {
@@ -382,7 +382,7 @@ a::after {
 
 通过属性值添加标签提示
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/14.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/14.png)
 
 ```html
 <style>
@@ -406,7 +406,7 @@ a::after {
 
 ### 自定义表单 
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/data/before.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/data/before.gif)
 
 ```html
 <style>

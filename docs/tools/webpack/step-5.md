@@ -66,7 +66,7 @@ if('serviceWorker' in navigator) {
 
 在`npm run dev`后，我们利用`webpack-dev-server`启动了一个小型的服务器，然后我们停掉这个服务器，刷新页面，PWA的实际结果如下图所示
 
-![PWA实际结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-1.png)
+![PWA实际结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-1.png)
 
 ## DevServer请求转发
 
@@ -125,7 +125,7 @@ axios.get('/react/api/header.json').then((res) => {
 
 使用`npm run dev`后， 我们可以在浏览器中看到，我们已经成功请求到了我们的数据。
 
-![请求的结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-2.png)
+![请求的结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-2.png)
 
 ### 如何使用接口路径重写
 
@@ -160,7 +160,7 @@ const devConfig = {
 
 同样，我们打包后在浏览器中可以看到，我们的测试接口的数据已经成功拿到了。
 
-![请求结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-3.png)
+![请求结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-3.png)
 
 ### 其他常见配置的含义
 
@@ -291,7 +291,7 @@ $ npm run build
 
 随机选择`list.html`在浏览器中运行，结果如下：
 
-![运行结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-4.png)
+![运行结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-4.png)
 
 ::: tip 思考
 
@@ -569,7 +569,7 @@ module.exports = {
 
 在配置完毕后，我们再使用`npm run build`进行打包，并在浏览器中运行`index.html`，在`console`控制台输出`library`这个全局变量，结果如下图所示:
 
-![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-5.png)
+![打包结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-5.png)
 
 以上我们所写的库非常简单，在实际的库开发过程中，往往需要使用到一些**第三方库**，如果我们不做其他配置的话，第三方库会直接打包进我们的库文件中。
 
@@ -746,7 +746,7 @@ console.log(greeter.greet());
 - 在生成`dist`目录下，新建`index.html`，并引入打包后的`main.js`文件
 - 在浏览器中运行`index.html`
 
-![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-6.png)
+![打包结果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-6.png)
 
 ### 使用其他模块的类型定义文件
 
@@ -785,4 +785,4 @@ console.log(greeter.greet());
 
 使用`npm run build`，在浏览器中运行`index.html`，结果如下：
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-5-7.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/step-5-7.png)

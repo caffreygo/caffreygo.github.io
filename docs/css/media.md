@@ -42,7 +42,7 @@ viewport是虚拟窗口，虚拟窗口大于手机的屏幕尺寸。手机端浏
 
 下面是在屏幕显示与打印设备上不同的CSS效果
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/media/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/media/1.png)
 
 ```html
 <!DOCTYPE html>
@@ -201,7 +201,7 @@ viewport是虚拟窗口，虚拟窗口大于手机的屏幕尺寸。手机端浏
 - 横屏显示
 - 宽度不能超过600px
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/media/2.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/media/2.png)
 
 ```html
 <head>
@@ -233,7 +233,7 @@ viewport是虚拟窗口，虚拟窗口大于手机的屏幕尺寸。手机端浏
 
 下面的示例中如果设备是横屏显示或宽度不超600px时就使用样式规则。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/media/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/media/3.png)
 
 ```html
 <head>
@@ -266,7 +266,7 @@ viewport是虚拟窗口，虚拟窗口大于手机的屏幕尺寸。手机端浏
 
 > 必须将not写在查询的最前面
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/media/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/media/4.png)
 
 ```html
 <head>

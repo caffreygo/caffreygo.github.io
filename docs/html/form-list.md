@@ -150,7 +150,7 @@
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/1.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/1.jpg)
 
 ### TEXTAREA
 
@@ -177,7 +177,7 @@
 | selected | 选中状态   |
 | option   | 选项值     |
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/2.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/2.jpg)
 
 ```html
 <form action="">
@@ -220,7 +220,7 @@ select支持多选，并且可以通过size调整数量。
 | ------- | -------- |
 | checked | 选中状态 |
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/3.png)
 
 ```html
 <input type="radio" name="sex" value="boy" id="boy">
@@ -234,7 +234,7 @@ select支持多选，并且可以通过size调整数量。
 
 复选框指允许选择多个值的表单。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/4.png)
 
 ```html
 <fieldset>
@@ -256,7 +256,7 @@ select支持多选，并且可以通过size调整数量。
 | multiple | 支持多选                                          |
 | accept   | 允许上传类型 `.png,.psd` 或 `image/png,image/gif` |
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/5.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/5.png)
 
 ```html
 <form action="" method="POST" enctype="multipart/form-data">
@@ -457,7 +457,7 @@ Content-Type: text/html
 
 **日期选择**
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/6.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/6.png)
 
 ```html
 <input type="date" step="5" min="2020-09-22" max="2025-01-15" name="datetime">
@@ -465,7 +465,7 @@ Content-Type: text/html
 
 **周选择**
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/7.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/7.png)
 
 ```html
 <input type="week">
@@ -473,7 +473,7 @@ Content-Type: text/html
 
 **月份选择**
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/8.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/8.png)
 
 ```html
 <input type="month">
@@ -481,7 +481,7 @@ Content-Type: text/html
 
 **日期与时间**
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/9.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/9.png)
 
 ```html
 <input type="datetime-local" name="datetime">
@@ -491,7 +491,7 @@ Content-Type: text/html
 
 input表单的输入值选项列表
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/10.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/10.png)
 
 ```html
 <form action="" method="post">
@@ -523,7 +523,7 @@ input表单的输入值选项列表
 
 📗 有序列表是指有数字编号的列表项，可以使用`CSS`定义更多样式，具体请查看CSS章节。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/12.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/12.png)
 
 ```html
 <ol>
@@ -537,7 +537,7 @@ input表单的输入值选项列表
 
 📗 没有数字编号的列表项，可以使用`CSS`定义更多样式。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/11.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/11.png)
 
 ```html
 <ul>
@@ -551,7 +551,7 @@ input表单的输入值选项列表
 
 描述列表指每个列表项有单独的标题。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/13.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/html/form/13.png)
 
 ```html
 <dl>

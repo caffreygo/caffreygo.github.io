@@ -1684,7 +1684,7 @@ let view = new View().run();
 </html>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/object/proxy.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/object/proxy.gif)
 
 ## JSON
 

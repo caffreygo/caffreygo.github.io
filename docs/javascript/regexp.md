@@ -719,7 +719,7 @@ let abc = "<h1>google.com</h1>";
 console.dir(abc.match(/<(?<tag>h[1-6])[\s\S]*<\/\1>/));
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/1.png)
 
 ---
 
@@ -764,7 +764,7 @@ console.log(abc.replace(reg, `<p>$<con></p>`));
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/2.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/2.jpg)
 
 ## 重复匹配
 
@@ -887,7 +887,7 @@ console.log(str.match(/a{2,}?/)); //aa
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/3.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/3.jpg)
 
 ---
 
@@ -910,7 +910,7 @@ console.log(str.match(/a{2,}?/)); //aa
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/4.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/4.jpg)
 
 ---
 
@@ -937,7 +937,7 @@ console.log(str.match(/a{2,}?/)); //aa
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/5.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/5.jpg)
 
 ---
 
@@ -981,7 +981,7 @@ let str = "jerry";
 console.dir(str.matchAll(/(\w)/i));
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/6.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/6.jpg)
 
 ---
 
@@ -1008,7 +1008,7 @@ console.dir(str.matchAll(/(\w)/i));
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/7.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/7.jpg)
 
 ---
 
@@ -1147,7 +1147,7 @@ console.log(abc.replace(/\((\d{3,4})\)(\d{7,8})/g, "$1-$2"));
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/8.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/8.jpg)
 
 ---
 
@@ -1175,7 +1175,7 @@ console.log(abc.replace(/\((\d{3,4})\)(\d{7,8})/g, "$1-$2"));
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/9.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/9.jpg)
 
 ---
 
@@ -1288,7 +1288,7 @@ replace 支持回调函数操作，用于处理复杂的替换逻辑
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/10.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/10.jpg)
 
 ---
 
@@ -1369,7 +1369,7 @@ replace 支持回调函数操作，用于处理复杂的替换逻辑
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/11.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/11.jpg)
 
 ---
 
@@ -1563,5 +1563,5 @@ console.log(reg.exec(abc));
 </script>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/regexp/12.jpg)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/regexp/12.jpg)
 

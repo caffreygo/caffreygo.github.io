@@ -53,7 +53,7 @@ $ yarn create vite
 
 下面使用纯色填充画布
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/1.png)
 
 ```html
 <!-- 画布元素 -->
@@ -84,7 +84,7 @@ $ yarn create vite
 
 下面绘制实线边框的示例代码
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/2.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/2.png)
 
 ```html
 <canvas id="canvas" width="500" height="500"> 您的浏览器不支持 HTML5 canvas </canvas>
@@ -122,7 +122,7 @@ $ yarn create vite
 
 ### 绘制空心圆
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/3.png)
 
 ```html
 <div class="app">
@@ -146,7 +146,7 @@ $ yarn create vite
 
 下面来掌握使用canvas绘制填充圆，绘制圆使用 arc 函数，具体参数说明参考上例。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/4.png)
 
 ```html
 <div class="app">
@@ -184,7 +184,7 @@ $ yarn create vite
 
 下面是根据节点来绘制三角形图形
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/5.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/5.png)
 
 ```html
 <!DOCTYPE html>
@@ -269,7 +269,7 @@ $ yarn create vite
 
 下面是绘制激变的边框的效果
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/6.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/6.png)
 
 ```html
 <!-- 画布元素 -->
@@ -297,7 +297,7 @@ $ yarn create vite
 
 渐变也可以用于填充
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/7.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/7.png)
 
 ```html
 <!-- 画布元素 -->
@@ -323,7 +323,7 @@ $ yarn create vite
 
 下面是将红色画布上清除一块区域，清除后的内容是透明的。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/8.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/8.png)
 
 ```html
 <canvas id="app" width="500" height="500"></canvas>
@@ -379,7 +379,7 @@ textAlign用于文本的对齐方式的属性
 
 ### 示例代码
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/9.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/9.png)
 
 ```html
 <canvas id="canvas" width="500" height="500"></canvas>
@@ -401,7 +401,7 @@ textAlign用于文本的对齐方式的属性
 
 ### 激变文字
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/10.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/10.png)
 
 ```html
 <canvas id="canvas" width="500" height="500"></canvas>
@@ -439,7 +439,7 @@ textAlign用于文本的对齐方式的属性
 
 ### 示例代码
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/11.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/11.png)
 
 ```html
 <!-- 画布元素 -->
@@ -467,7 +467,7 @@ textAlign用于文本的对齐方式的属性
 
 下面将图片直接绘制到画布上。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/12.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/12.png)
 
 ```html
 <!-- 画布元素 -->
@@ -498,7 +498,7 @@ textAlign用于文本的对齐方式的属性
 
 下面是绘制像素点的示例
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/13.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/13.png)
 
 ```html
 <!-- 画布元素 -->
@@ -525,7 +525,7 @@ textAlign用于文本的对齐方式的属性
 
 ## 绘制不规则
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/14.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/14.png)
 
 ```html
 <!-- 画布元素 -->
@@ -558,7 +558,7 @@ textAlign用于文本的对齐方式的属性
 
 https://github.com/caffreygo/canvas-blackboard
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/canvas/15.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/canvas/15.png)
 
 ```typescript
 class Draw {

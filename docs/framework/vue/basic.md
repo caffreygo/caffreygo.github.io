@@ -180,11 +180,11 @@ const component = {
 
 ### Function类型的传值
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/functionProp.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/functionProp.png)
 
 ### validator
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/validator.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/validator.png)
 
 ### 对象多属性传值
 

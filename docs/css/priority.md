@@ -33,7 +33,7 @@
 <h2 class="color" id="hot" style="color: red;">Title</h2>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/priority/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/priority/1.png)
 
 属性权重的示例
 
@@ -55,7 +55,7 @@
 </article>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/priority/2.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/priority/2.png)
 
 行级权重优先级最高
 
@@ -76,7 +76,7 @@
 </article>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/priority/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/priority/3.png)
 
 ## 强制优先级
 
@@ -147,7 +147,7 @@ main article h1 {
 </article>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/priority/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/priority/4.png)
 
 上例中 `h2` 标签没有设置颜色样式，将继承 `article` 的颜色，并且边框没有产生继承。
 
@@ -171,7 +171,7 @@ main article h1 {
 </article>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/priority/5.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/priority/5.png)
 
 span并没有继承 `h2` 的颜色，就是因为继承没有权重。而使用了 `*` 权重为0的规则。(0权重大于null无权重，`*` > 继承)
 

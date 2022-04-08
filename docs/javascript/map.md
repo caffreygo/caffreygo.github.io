@@ -337,7 +337,7 @@ setTimeout(() => {
 
 ### 选课案例
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/map/map.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/map/map.gif)
 
 ```html
 <!DOCTYPE html>

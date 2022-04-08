@@ -12,7 +12,7 @@ git config --list    查看所有配置
 
 ## 多账号
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/git/acount.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/git/acount.png)
 
 config内容：
 
@@ -328,7 +328,7 @@ git merge --no-ff -m "提交说明" dev
 
 所以，团队合作的分支看起来就像这样：
 
-![分支](http://ra15bg9hk.hn-bkt.clouddn.com/git/branch.png)
+![分支](https://raw.githubusercontent.com/caffreygo/static/main/blog/git/branch.png)
 
 ### 分支储藏
 
@@ -408,13 +408,13 @@ git reset --hard feature会将整个分支回到过去，将HEAD指向的分支�
 
 - 在master分支reset feature分支
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/git/reset.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/git/reset.png)
 
 （master的修改6.txt消失）
 
 - 在feature查看log
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/git/checkout.png)
+  ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/git/checkout.png)
 
 
 

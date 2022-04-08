@@ -237,7 +237,7 @@ function template() {
 document.body.innerHTML += template();
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/basicType/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/basicType/1.png)
 
 ### 获取长度
 

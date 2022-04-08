@@ -1196,7 +1196,7 @@ console.log(filterArr); // [1,2,6]
 
 ## 动画案例
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/array/jsAnimation.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/array/jsAnimation.gif)
 
 ```html
 <!DOCTYPE html>

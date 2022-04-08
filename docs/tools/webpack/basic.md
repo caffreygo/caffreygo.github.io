@@ -234,7 +234,7 @@ webpack`默认打包路径到`dist`文件夹，打包后的`.js`文件名字叫`
 $ npx webpack index.js
 ```
 
-打包结果： ![效果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/img2.png)
+打包结果： ![效果](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/img2.png)
 
 正如上面你所看到的那样，网页正确显示了我们期待的结果，这也是 Webpack 能为我们解决问题的一小部分能力，下面将正式开始介绍 Webpack 。
 
@@ -462,7 +462,7 @@ class CopyrightWebpackPlugin {
 module.exports = CopyrightWebpackPlugin;
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/debug.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/webpack/debug.png)
 
 ## bundler源码的编写
 

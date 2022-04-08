@@ -2,7 +2,7 @@
 
 ## 变化侦测
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/deps.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/deps.png)
 
 - 只有Watcher触发的getter才会收集依赖，哪个Watcher触发了getter，就把哪个Watcher收集到Dep中; 
 
@@ -39,7 +39,7 @@
   Dep => depend { window.target.addDep(this) }
   ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/addDep.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/addDep.png)
 
 - window.target就是Watcher实例，Watcher的addDep方法先将监听对象的dep添加到自身当中，然后又触发dep的addSub方法将自身Watcher实例添加到了侦测数据的subs中，实现了多对多的dep与watcher关系
 - Watcher虽然每次只收集一个数据，但如果数据是个函数，内部又包含了多个响应式的数据，这就让Watcher收集了多个Dep的发生
@@ -64,17 +64,17 @@
 
 - 让value可以访问到当前Observer实例，获取到dep，标记是否是响应式数据：
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/arrayProto.png)
+  ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/arrayProto.png)
 
 - 当value身上被标记了 __ob__ 之后，就可以通过value.__ob__ 来访问Observer实例。如果是Array拦截器，因为拦截器是原型方法，所以可以直接通过this.__ob__ 来访问Observer实例——调用了ob.dep.notify()去通知依赖（Watcher）数据发生了改变。
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/arrayNotify.png)
+  ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/arrayNotify.png)
 
 - 除了方法调用时需要拦截到对应的操作，对于一些**数据更新的操作**我们同样需要对新数据进行的新属性转换为**响应式数据进行侦测**
 
 - observerArray循环数组的每一项尝试将其转化为响应式数据，inserted的新数据。侦测数组的每一项
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/observerArray.png)
+  ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/observerArray.png)
 ----
 
 1. Array追踪变化的方式和Object不一样。因为它是通过方法来改变内容的，所以我们通过创建拦截器去覆盖数组原型的方式来追踪变化。
@@ -125,7 +125,7 @@ methods: {
 
 ​		Vue.js中通过模板来描述状态与视图之间的映射关系，所以它会先将**模板**编译成**渲染函数**，然后执行渲染函数生成**虚拟节点**，最后使用虚拟节点更新视图
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/compile.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/compile.png)
 
 ```shell
 template > ast > render function > 执行 render function > VNode
@@ -162,7 +162,7 @@ template > ast > render function > 执行 render function > VNode
 
 :::
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/addNode.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/addNode.png)
 
 对于子节点的分析，我们进行循环和旧节点对比，如果是不存在于旧节点的我们进行新增操作，如果节点存在则进行更新操作，如果位置不同则移动节点；
 
@@ -175,7 +175,7 @@ template > ast > render function > 执行 render function > VNode
 - 移动节点：对于节点的移动操作，因为我们是循环新节点然后在旧节点当中寻找，进而通过DOM操作移动旧节点的位置，所以新节点循环过的节点都是已经处理过的节点。所以我们需要做的就是把旧节点对应的DOM节点移动到所有未处理节点的前面。
 - 删除节点
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/nodeLogic.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/nodeLogic.png)
 
 - [ ] 因为如果是oldChildren先循环完毕，这个时候如果newChildren中还有剩余的节点，那么说明什么问题？说明这些节点都是需要新增的节点，直接把这些节点插入到DOM中就行了，不需要循环比对了。
 - [ ] 如果是newChildren先循环完毕，这时如果oldChildren还有剩余的节点，又说明了什么问题？这说明oldChildren中剩余的节点都是被废弃的节点，是应该被删除的节点。这时不需要循环对比就可以知道需要将这些节点从DOM中移除。
@@ -186,7 +186,7 @@ template > ast > render function > 执行 render function > VNode
 - 生成了一个key对应着一个节点下标这样一个对象。也就是说，如果在节点上设置了属性key，那么在oldChildren中找相同节点时，可以直接通过key拿到下标，从而获取节点。这样，我们根本不需要通过循环来查找节点。
 - 我们在旧节点中寻找节点需要一个循环操作，而如果前台为列表循环时设置了key作为节点的唯一标识符，那么patch中会建立一个key对应节点的对象，获取这个节点通过key直接获取，省去了循环的时间
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/key.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/key.png)
 
 理解：dom的更新本身之后更新文本节点，而为了触发动画效果，需要span标签也重新走一次渲染，我们为span设置了一个key，那么patch过程中会把这个span节点作为新的节点处理，移除旧节点，也就触发了动画过程
 
@@ -200,7 +200,7 @@ template > ast > render function > 执行 render function > VNode
 
    声明响应式时，我们为数据声明了 dep = new Dep(), dep就会是一个包含subs数组的对象，同时拥有类似addSub removeSub和notify的方法。其中notify实际上就是遍历subs这个Watcher实例数组，调用watcher的update方法，触发更新
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/forceUpdate.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/forceUpdate.png)
 
 ::: tip
 
@@ -212,11 +212,11 @@ template > ast > render function > 执行 render function > VNode
 
 ### 优缺点
 
-​		<img src="http://ra15bg9hk.hn-bkt.clouddn.com/vue/virtualDom.png" style="zoom:50%;" />
+​		<img src="https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/virtualDom.png" style="zoom:50%;" />
 
 ## 模板编译
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/vueRender.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/vueRender.png)
 
 ​		模板template的内容通过编译生成为render function渲染函数，然后执行渲染函数生成vnodes，虚拟DOM，虚拟dom经过patch操作页面的节点生成最终我们需要的新页面。
 
@@ -239,7 +239,7 @@ template > ast > render function > 执行 render function > VNode
 
 HTML解析器文本截取时的一些**片段类型**:
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/htmlParser.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/htmlParser.png)
 
 - 需要每解析一个属性就截取一个属性。如果截取完后，剩下的HTML模板依然符合标签属性的正则表达式，那么说明还有剩余的属性需要处理，此时就重复执行前面的流程，直到剩余的模板不存在属性，也就是剩余的模板不存在符合正则表达式所预设的规则
 
@@ -247,7 +247,7 @@ HTML解析器文本截取时的一些**片段类型**:
 
 - 解析开始标签的过程分为三步，分别是解析标签名，然后是循环解析标签的属性，最后一步判断标签是不是单闭合标签，没执行一步解析都会将解析完的模板字符串删除  (因此，判断剩余模板是否符合开始标签的规则，只需要调用parseStartTag即可。如果调用它后得到了解析结果，那么说明剩余模板的开始部分符合开始标签的规则，此时将解析出来的结果取出来并调用钩子函数start即可)
 
-  ![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/parserStartTag.png)
+  ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/parserStartTag.png)
 
 ### 优化器
 
@@ -267,13 +267,13 @@ HTML解析器文本截取时的一些**片段类型**:
 
 ### 架构设计与项目设计
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/structure.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/structure.png)
 
 Vue.js在大体上可以分三部分：**核心代码**、**跨平台相关**与**公用工具函数**。
 核心代码包含原型方法和全局API，它们可以在各个平台下运行，而跨平台相关的部分更多的是渲染相关的功能，不同平台下的渲染API是不同的。
 以Web平台为例，Web页面中的渲染操作就是操作DOM，所以在跨平台的Web环境下对DOM操作的API进行了封装，这个封装主要与虚拟DOM对接，而虚拟DOM中所使用的各种节点操作其实是调用跨平台层封装的API接口。而Weex平台对节点的操作与Web平台并不相同。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/initVue.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/initVue.png)
 
 先向Vue构造函数的prototype属性上添加一些方法，然后向Vue构造函数自身添加一些全局API，接着将平台特有的代码导入进来，最后将编译器导入进来。最终将所有代码同Vue构造函数一起导出去
 
@@ -290,7 +290,7 @@ Vue.js在大体上可以分三部分：**核心代码**、**跨平台相关**与
 
 ### vm.$once
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/once.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/once.png)
 
 $on进行事件对应回调函数的绑定，在$emit触发的时候，就遍历事件的回调列表执行即可
 
@@ -318,11 +318,11 @@ setTimeout属于宏任务，使用它注册的回调会加入到宏任务中。�
 
 所以即便是先注册，也是先更新DOM后执行setTimeout中设置的回调。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/setTimeout.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/setTimeout.png)
 
 在事件循环中，必须当微任务队列中的事件都执行完之后，才会从宏任务队列中取出一个事件执行下一轮，所以添加到微任务队列中的任务的执行时机优先于向宏任务队列中添加的任务
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/setTimeOut1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/setTimeOut1.png)
 
 理解： 微任务的执行优先于宏任务，当数据改变实际上向微任务队列注册了DOM更新的回调，而setTimeout则作为宏任务添加到事件队列当中。事件循环会先执行微任务队列的所有回调，这里就是更新DOM，然后再执行宏任务队列的setTimeout回调。所以，虽然代码顺序里setTimeout在前，但是在事件循环里面是在微任务之后执行的，所以能获取到更新后的DOM数据
 
@@ -345,7 +345,7 @@ slice(0)相当于返回一个原始数组的浅拷贝数组
 
 ### nextTick
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/nextTick.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/nextTick.png)
 
 立即resolve的 Promise 对象，是在本轮“事件循环”（event loop）的结束时执行执行，不是马上执行,也不是在下一轮“事件循环”的开始时执行
 原因：传递到 then() 中的函数被置入了一个微任务队列，而不是立即执行，这意味着它是在 JavaScript 事件队列的所有运行时结束了，事件队列被清空之后，才开始执行
@@ -358,7 +358,7 @@ slice(0)相当于返回一个原始数组的浅拷贝数组
 
 我们在前面介绍过Event Loop事件循环，由于macro task和micro task特殊的执行机制，我们首先判断当前浏览器是否支持Promise，如果不支持，则降级到判断是否支持MutationObserver，如果还不支持，则继续降级到判断是否支持setImmediate，最后降级使用setTimeout。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/timerFunc.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/timerFunc.png)
 
 ```js
 ()=> (Promise.resolve().then(()=> {console.log(1)}))   // 1
@@ -382,4 +382,4 @@ MutationObserver可以实现观测一个DOM节点的变化，new MutationObserve
 
 先保存初始的函数，重新声明一个函数覆盖它，在函数执行之前我们可以增加一些操作
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/mount.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/vue/mount.png)

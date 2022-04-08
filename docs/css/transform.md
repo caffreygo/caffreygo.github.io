@@ -12,7 +12,7 @@
 - Y轴是垂直轴
 - Z轴是纵深轴
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/1.png)
 
 ### 变形操作
 
@@ -63,11 +63,11 @@ div:nth-child(1) {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/3.png)
 
 #### 伪类叠加
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/2.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/2.gif)
 
 ```html
 <style>
@@ -94,7 +94,7 @@ div:nth-child(1) {
 
 👾 行级元素不产生变形效果，将其转为 `inline-block` 或 `block` 以及弹性元素时都可以产生变化效果。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/4.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/4.gif)
 
 ```html
 <style>
@@ -122,7 +122,7 @@ div:nth-child(1) {
 
 鼠标移动上后发生改变。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/5.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/5.gif)
 
 ```css
 article div:nth-child(2):hover {
@@ -136,7 +136,7 @@ article div:nth-child(2):hover {
 
 *当页面链接有#elementId时，对应的element的css伪类:target生效*
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/6.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/6.gif)
 
 ```html
 <style>
@@ -212,7 +212,7 @@ article div:nth-child(2):hover {
 
 正值向右移动、负值向左移动。
 
-![image-20190901223332605](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/7.png)
+![image-20190901223332605](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/7.png)
 
 ```html
 <style>
@@ -254,7 +254,7 @@ article div:nth-child(2):hover {
 
 正值向下移动、负值向上移动。
 
-![image-20190901223350501](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/8.png)
+![image-20190901223350501](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/8.png)
 
 ```css
 article div:nth-child(2) {
@@ -266,7 +266,7 @@ article div:nth-child(2) {
 
 📗 使用 `translate` 可以控制按X、Y同时移动操作，第一个值控制X移动，第二个值控制Y移动。
 
-![image-20190901223632200](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/9.png)
+![image-20190901223632200](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/9.png)
 
 ```css
 article div:nth-child(2) {
@@ -278,7 +278,7 @@ article div:nth-child(2) {
 
 📗 元素宽度为100px设置50%时将移动50px，即百分比是指**元素的尺寸**的百分比。
 
-![image-20190902145927971](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/10.png)
+![image-20190902145927971](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/10.png)
 
 ```css
 article div:nth-child(2) {
@@ -290,7 +290,7 @@ article div:nth-child(2) {
 
 📗 居中可以使用多种方式，如弹性布局、定位操作，下面是使用移动操作居中。
 
-![image-20190904112916419](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/11.png)
+![image-20190904112916419](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/11.png)
 
 ```html
 <style>
@@ -325,7 +325,7 @@ article div:nth-child(2) {
 
 📗 控制Z轴移动，正数向外、负数向里移动。因为Z轴是透视轴没有像X/Y一样的固定尺寸，所以**不能使用百分数**。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/12.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/12.gif)
 
 ```html
 <style>
@@ -382,7 +382,7 @@ article div:nth-child(2) {
 
 📗 用于同时控制X/Y/Z轴的移动，三个值必须输入如果某个轴不需要移动时设置为零。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/13.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/13.gif)
 
 ```html
 <style>
@@ -423,7 +423,7 @@ article div:nth-child(2) {
 
 ### 渐变表单
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/14.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/14.gif)
 
 ```html
 <style>
@@ -488,7 +488,7 @@ article div:nth-child(2) {
 
 下面是使用移动效果制作的页面切换效果。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/15.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/15.gif)
 
 ```html
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -611,7 +611,7 @@ article div:nth-child(2) {
 
 下面是沿X轴缩放一半。（缩放指的是轴的缩放，不是元素的缩放📌）
 
-![image-20190902151123183](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/16.png)
+![image-20190902151123183](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/16.png)
 
 ```css
 article div:nth-child(2) {
@@ -623,7 +623,7 @@ article div:nth-child(2) {
 
 下面是沿Y轴缩放一半。
 
-![image-20190902151103536](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/17.png)
+![image-20190902151103536](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/17.png)
 
 ```css
 article div:nth-child(2) {
@@ -637,7 +637,7 @@ article div:nth-child(2) {
 
 使用数值定义缩放，如 .5 表示缩小一半，2 表示放大两倍。
 
-![image-20190902151035273](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/18.png)
+![image-20190902151035273](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/18.png)
 
 ```css
 article div:nth-child(2) {
@@ -649,7 +649,7 @@ article div:nth-child(2) {
 
 沿Z轴缩放元素，需要有3D透视才可以查看到效果。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/19.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/19.gif)
 
 ```html
 <style>
@@ -713,7 +713,7 @@ article div:nth-child(2) {
 
 沿X/Y/Z三个轴绽放元素。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/20.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/20.gif)
 
 ```html
 <style>
@@ -768,7 +768,7 @@ article div:nth-child(2) {
 
 ### 菜单缩放
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/21.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/21.gif)
 
 ```html
 <style>
@@ -861,7 +861,7 @@ article div:nth-child(2) {
 
 下面是使用缩放开发相册放大效果的示例。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/22.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/22.gif)
 
 ```html
 <style>
@@ -952,13 +952,13 @@ article div:nth-child(2) {
 
 下面是旋转89deg后，只会看到一条线。
 
-![image-20190902130411118](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/23.png)
+![image-20190902130411118](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/23.png)
 
 #### 父级透视
 
 当X旋转90度后无法看到元素，这时可以控制父级旋转从上看子元素。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/24.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/24.gif)
 
 ```html
 <style>
@@ -1020,7 +1020,7 @@ article div:nth-child(2) {
 
 没Z轴旋转元素，效果就是沿X/Y轴的平面旋转。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/25.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/25.gif)
 
 ```html
 <style>
@@ -1081,7 +1081,7 @@ rotate3d(tx,ty,tz,angle)
 
 #### 只转X轴
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/26.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/26.gif)
 
 ```html
 <style>
@@ -1122,7 +1122,7 @@ rotate3d(tx,ty,tz,angle)
 
 #### 只转Y轴
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/27.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/27.gif)
 
 ```css
 body:hover main {
@@ -1132,11 +1132,11 @@ body:hover main {
 
 #### 只转Z轴
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/28.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/28.gif)
 
 #### XY旋转
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/29.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/29.gif)
 
 ```css
 body:hover main {
@@ -1148,7 +1148,7 @@ body:hover main {
 
 加入适当的Z向量值，可增加元素沿Z轴旋转的力度。
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/30.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/30.gif)
 
 ```css
 body:hover main {
@@ -1160,7 +1160,7 @@ body:hover main {
 
 可以同时设置多个旋转规则，顺序不同结果也会不同。(参考**矩阵的乘法**，顺序不同结果也不同)
 
-![image-20190902130625513](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/31.png)
+![image-20190902130625513](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/31.png)
 
 ```css
 article div:nth-child(2) {
@@ -1170,7 +1170,7 @@ article div:nth-child(2) {
 
 ### 旋转文字
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/32.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/32.gif)
 
 ```html
 <style>
@@ -1242,7 +1242,7 @@ article div:nth-child(2) {
 
 ### 电子时钟 🕒
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/33.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/33.gif)
 
 ```html
 <style>
@@ -1411,7 +1411,7 @@ article div:nth-child(2) {
 
 没X轴倾斜元素
 
-![image-20190902151842782](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/34.png)
+![image-20190902151842782](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/34.png)
 
 ```css
 article div:nth-child(2) {
@@ -1423,7 +1423,7 @@ article div:nth-child(2) {
 
 沿Y轴倾斜元素
 
-![image-20190902151909797](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/35.png)
+![image-20190902151909797](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/35.png)
 
 ```css
 article div:nth-child(2) {
@@ -1435,7 +1435,7 @@ article div:nth-child(2) {
 
 同时设置X/Y轴倾斜操作，不指定第二个参数时Y轴倾斜为零。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/36.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/36.png)
 
 ```css
 article div:nth-child(2) {
@@ -1447,7 +1447,7 @@ article div:nth-child(2) {
 
 Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/34.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/34.gif)
 
 ```html
 <style>
@@ -1511,7 +1511,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 立体按钮 👾
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/37.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/37.png)
 
 ```html
 <style>
@@ -1586,7 +1586,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 平面旋转
 
-![Untitled](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/38.gif)
+![Untitled](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/38.gif)
 
 ```html
 <style>
@@ -1643,7 +1643,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 参考右上角控制倾斜。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/39.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/39.gif)
 
 ```html
 <style>
@@ -1697,7 +1697,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 ### 三维旋转
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/41.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/41.gif)
 
 ```html
 <style>
@@ -1757,7 +1757,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面先写rotate 后写translate，即先按原位置的 `transform-origin: top left` 进行旋转，再按原位置的`transform-origin: top left`进行移动
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/40.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/40.gif)
 
 ```html
 <style>
@@ -1806,7 +1806,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 现在交换 `rotate` 与 `translate`的顺序后，表示先移动元素，这时候旋转就是参考移动后的位置的 `transform-origin: top left;`结果如下
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/42.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/42.gif)
 
 ```html
 <style>
@@ -1857,7 +1857,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面是通过设置基点来制作贺卡的效果。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/43.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/43.gif)
 
 ```html
 <style>
@@ -1942,15 +1942,15 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 为了让大家清楚理解，下面把思路给大家解析一下。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/44.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/44.png)
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/45.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/45.png)
 
 #### 父级有宽度
 
 设置父级ul有宽度，每层都是居中对齐。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/46.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/46.gif)
 
 ```html
 <style>
@@ -2129,7 +2129,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 下面代码父级 UL 没有设置宽度，而是使用边框撑开了空间的效果，基本原理和上面一样。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/47.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/47.gif)
 
 ```html
 <style>
@@ -2302,7 +2302,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 `perspective` 规则用于将父级整个做为透视元素，会造成里面的每个子元素的透视是不一样的。就像现实中摆一排杯子，是使用统一透视的，每个杯子的透视不一样，造成有大有小。
 
-![image-20190902164314985](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/48.png)
+![image-20190902164314985](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/48.png)
 
 ```html
 <style>
@@ -2337,7 +2337,7 @@ Y轴不倾斜，上下保持水平；X轴倾斜，左右出现斜边。
 
 `perspective` 函数用于为元素设置单独透视，下面是为元素单独设置透视参数，每个元素的透视效果是一样的。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/49.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/49.png)
 
 ```css
 article div {
@@ -2369,7 +2369,7 @@ article div {
 
 下面是设置`3D`舞台后看到的效果。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/50.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/50.gif)
 
 ```html
 <style>
@@ -2422,7 +2422,7 @@ article div {
 
 整体图形的角度变形基点和图像旋转的中心应该保持一致，才能看起来是绕着中心旋转 📌
 
-<img src="http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/51.gif" style="zoom:67%;" />
+<img src="https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/51.gif" style="zoom:67%;" />
 
 ```html
 <style>
@@ -2522,7 +2522,7 @@ article div {
 
 ### 效果体验
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/52.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/52.gif)
 
 ```html
 <style>
@@ -2580,11 +2580,11 @@ article div {
 
 ### 立方体 👾
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/53.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/53.png)
 
 效果如下
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/53.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/53.gif)
 
 ```html
 <style>
@@ -2700,7 +2700,7 @@ article div {
 
 下面使用隐藏背面与透视技术制作的翻转卡片效果。
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/transform/54.gif)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/transform/54.gif)
 
 ```html
 <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>

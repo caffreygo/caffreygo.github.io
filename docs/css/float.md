@@ -35,7 +35,7 @@ div:last-of-type {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/1.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/1.png)
 
 ### 丢失空间
 
@@ -52,7 +52,7 @@ div:last-of-type {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/2.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/2.png)
 
 ### 使用浮动
 
@@ -70,7 +70,7 @@ div:last-of-type {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/3.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/3.png)
 
 为第二个元素设置右浮动时将移动到右边
 
@@ -86,7 +86,7 @@ div:last-of-type {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/4.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/4.png)
 
 ### 浮动边界
 
@@ -119,7 +119,7 @@ div:last-of-type {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/5.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/5.png)
 
 ### 浮动转块
 
@@ -177,7 +177,7 @@ CSS提供了 `clear` 规则用于清除元素浮动影响。
 <div class="blue"></div>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/6.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/6.png)
 
 在父元素内部最后面添加一个没有高度的子元素，并使用`clear:both` 📌
 
@@ -218,7 +218,7 @@ CSS提供了 `clear` 规则用于清除元素浮动影响。
 <div class="blue"></div>
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/7.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/7.png)
 
 ### AFTER
 
@@ -275,7 +275,7 @@ article {
 
 #### margin-box
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/8.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/8.png)
 
 ```html
 <style>
@@ -299,7 +299,7 @@ article {
 
 #### border-box
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/9.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/9.png)
 
 ```css
 span.shape {
@@ -315,7 +315,7 @@ span.shape {
 
 #### padding-box
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/10.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/10.png)
 
 ### clip-path
 
@@ -340,7 +340,7 @@ span.shape {
 circle( [ <shape-radius> ]? [ at <position> ]? )
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/11.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/11.png)
 
 ```css
 span.shape {
@@ -364,7 +364,7 @@ span.shape {
 ellipse( [ <shape-radius>{2} ]? [ at <position> ]? )
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/12.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/12.png)
 
 ```css
 span.shape {
@@ -386,7 +386,7 @@ span.shape {
 polygon( <fill-rule>? , [ <length-percentage> <length-percentage> ]# )
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/13.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/13.png)
 
 ```css
 span.shape {
@@ -416,7 +416,7 @@ span.shape {
 }
 ```
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/14.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/14.png)
 
 ### 环绕模式
 
@@ -429,7 +429,7 @@ span.shape {
 
 #### 圆形环绕
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/15.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/15.png)
 
 ```css
 img {
@@ -441,7 +441,7 @@ img {
 
 #### 椭圆环绕
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/16.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/16.png)
 
 ```css
 img {
@@ -453,7 +453,7 @@ img {
 
 #### 图片环绕
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/17.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/17.png)
 
 ```css
 img {
@@ -464,7 +464,7 @@ img {
 
 #### 多边环绕
 
-![](http://ra15bg9hk.hn-bkt.clouddn.com/css/float/18.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/float/18.png)
 
 ```css
 span.shape {

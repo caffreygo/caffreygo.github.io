@@ -2,7 +2,7 @@
 
 ## 数据驱动
 
-![](./img/new-vue.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/new-vue.png)
 
 1. Vue构造函数，在原型和实例中添加全局API，初始化各部分功能
 
@@ -283,7 +283,7 @@ methodsToPatch.forEach((method) => {
 
 ### 总结
 
-![](./img/initData.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/initData.png)
 
 ## props处理
 
@@ -380,7 +380,7 @@ function normalizeProps (options: Object, vm: ?Component) {
 
 ### props初始化
 
-![](./img/initProps.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/initProps.png)
 
 ::: tip props响应式
 
@@ -597,7 +597,7 @@ export function updateChildComponent () {
 
 ### 整体处理流程
 
-![](./img/props.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/props.png)
 
 ## methods处理
 

@@ -77,7 +77,7 @@ console.log(u);
   console.log(Object.getOwnPropertyNames(User.prototype)); // ["constructor", "getName"]
   ```
 
-  ![](./img/class/1.png)
+  ![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/1.png)
 
   所以下面定义的类：
 
@@ -122,7 +122,7 @@ class User {
 let u = new User("Jerry Chen")
 ```
 
-  ![](./img/class/2.png)
+  ![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/2.png)
 
 
 
@@ -154,7 +154,7 @@ for (const key in obj) {
 }
 ```
 
-![](./img/class/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/3.png)
 
 ## 严格模式
 
@@ -221,7 +221,7 @@ console.log(request)
 console.dir(Request)
 ```
 
-![](./img/class/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/4.png)
 
 ## 静态方法
 
@@ -288,7 +288,7 @@ console.log(lessons);
 console.log(Lesson.MaxPrice(lessons).name);   // mysql
 ```
 
-![](./img/class/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/5.png)
 
 ## 访问器
 
@@ -490,7 +490,7 @@ class Admin extends User {
 let a = new Admin();
 ```
 
-![](./img/class/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/6.png)
 
 ### 方法继承
 
@@ -830,7 +830,7 @@ class Admin extends User {}
 console.log(Admin.__proto__ == User)   // true
 ```
 
-![](./img/class/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/7.png)
 
 ## 对象检测
 
@@ -988,7 +988,7 @@ console.log(u.max("price"));
 
 ### 实例操作
 
-![](./img/class/slider.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/class/slider.gif)
 
 ```html
 <!DOCTYPE html>

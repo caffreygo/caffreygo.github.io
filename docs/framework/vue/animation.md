@@ -11,7 +11,7 @@ https://cn.vuejs.org/v2/guide/transitions.html
 
 通过 `@keyframes` 定义一个动画，然后使用css3的 **animations** 使用该动画
 
-![](./img/animation2.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation2.gif)
 
 ```css
 @keyframes leftToRight {
@@ -57,7 +57,7 @@ const vm = app.mount('#root');
 
 ### 过渡transition
 
-![](./img/animation1.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation1.gif)
 
 通过 **transition** 的css属性定义状态、时间和效果
 
@@ -108,7 +108,7 @@ const vm = app.mount('#root');
 
 :::
 
-![transition](./img/transition.jpg)
+![transition](http://ra15bg9hk.hn-bkt.clouddn.com/vue/transition.jpg)
 
 ### 入场出场过渡
 
@@ -118,7 +118,7 @@ const vm = app.mount('#root');
 
 :::
 
-![](./img/animation3.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation3.gif)
 
 ```css
 /* 单元素，单组件的入场出场 */
@@ -177,7 +177,7 @@ const vm = app.mount("#root");
   ```
 
 
-![](./img/animation4.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation4.gif)
 
 ```css
 @keyframes shake {
@@ -234,7 +234,7 @@ const vm = app.mount("#root");
 
 Animate.css: https://animate.style/ 
 
-![](./img/animation5.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation5.gif)
 
 1. Head头部引入animate.css
 
@@ -267,7 +267,7 @@ Animate.css: https://animate.style/
 
 :::
 
-![](./img/animation6.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation6.gif)
 
 ```css
 @keyframes shake {
@@ -305,7 +305,7 @@ Animate.css: https://animate.style/
 
 使用**生命周期钩子**实现js的动画效果
 
-![](./img/animation7.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation7.gif)
 
 ```js
 const app = Vue.createApp({
@@ -364,7 +364,7 @@ const vm = app.mount('#root');
 - mode="out-in"实现先隐藏再展示（避免出场入场动画同时显示）
 - appear属性实现初始加载时也有动画
 
-![](./img/animation8.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/animation8.gif)
 
 1. 过渡样式效果定义
 
@@ -426,7 +426,7 @@ const vm = app.mount('#root');
 
 ## 列表动画
 
-![](./img/listAnimation.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/listAnimation.gif)
 
 1. 定义**入场动画**（**v-enter**）和**移动过渡**效果的样式名（**v-move）**
 
@@ -480,7 +480,7 @@ const vm = app.mount('#root');
 
 状态动画实际上就是通过js的数据变化处理
 
-![](./img/stateAnimation.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/vue/stateAnimation.gif)
 
 ```js
 const app = Vue.createApp({

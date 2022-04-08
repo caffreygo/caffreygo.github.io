@@ -383,7 +383,7 @@ var reversePrint = function(head) {
 
 ### 重建二叉树
 
-![](./img/algorithm/rebuildBT.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/rebuildBT.png)
 
 ```javascript
 var buildTree = function(preorder, inorder) {
@@ -417,7 +417,7 @@ var buildTree = function(preorder, inorder) {
 - 它是一棵**完全二叉树**，表示树的每一层都有左侧和右侧子节点（除了最后一层的叶节点），并且最后一层的叶节点尽可能都是左侧子节点，这叫作结构特性。
 - 二叉堆不是**最小堆 MinHeap**就是**最大堆 MaxHeap**。最小堆允许你快速导出树的最小值，最大堆允许你快速导出树的最大值。所有的节点都大于等于（最大堆）或小于等于（最小堆）每个它的子节点。这叫作堆特性。
 
-![](./img/algorithm/minHeap.jpeg)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/minHeap.jpeg)
 
 ### 堆排序
 
@@ -509,7 +509,7 @@ preOrderTraverseNode(node, callback) {
 
 **2、遍历实现**
 
-![](./img/algorithm/DFS.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/DFS.png)
 
 ```java
 public static void dfsWithStack(Node root) {
@@ -540,7 +540,7 @@ public static void dfsWithStack(Node root) {
 
 ### 广度优先遍历
 
-![](./img/algorithm/BFS.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/BFS.png)
 
 ```java
 private static void bfs(Node root) {
@@ -716,7 +716,7 @@ function insertSort(array) {
 
 #### 实现
 
-![](./img/algorithm/mergeSort.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/mergeSort.png)
 
 首先，假设我们有两个已经是排序过的数组，实现一个将这两个数组合并成一个的`merge`方法:
 
@@ -897,7 +897,7 @@ function sequentSearch (array, value) {
 }
 ```
 
-![](./img/algorithm/sequentSearch.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/sequentSearch.png)
 
 ### 二分搜索
 
@@ -943,5 +943,5 @@ console.log(binarySearch([8, 7, 6, 5, 4, 3, 2, 1], 2))  // true
 
 以下是二分搜索算法的搜索示意图：
 
-![](./img/algorithm/binarySearch.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/algorithm/binarySearch.png)
 

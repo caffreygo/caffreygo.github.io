@@ -337,7 +337,7 @@ setTimeout(() => {
 
 ### 选课案例
 
-![](./img/map/map.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/map/map.gif)
 
 ```html
 <!DOCTYPE html>

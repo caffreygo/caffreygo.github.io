@@ -33,7 +33,7 @@
 
 下面是水平单元格合并
 
-![](./img/table/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/table/1.png)
 
 ```html
 <table border="1">
@@ -55,7 +55,7 @@
 
 下面是垂直单元格合并
 
-![](./img/table/2.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/table/2.png)
 
 ```html
 <table border="1">

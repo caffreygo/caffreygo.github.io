@@ -1,6 +1,6 @@
 # Promise核心
 
-![](./img/JPromise/index.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/JPromise/index.png)
 
 ## 起步构建
 

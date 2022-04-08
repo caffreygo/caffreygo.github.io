@@ -4,11 +4,11 @@
 
 redux（Reducer+Flux）实现了大型应用组件间数据传值的问题（数据层框架）
 
-![](./img/withRedux.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/withRedux.png)
 
 ### Redux的工作流程
 
-![](./img/reduxFlow.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/reduxFlow.png)
 
 - React Components(借阅者)
 - Action Creators(借书的这句话)
@@ -489,7 +489,7 @@ componentDidMount() {
 
 - Redux-thunk对dispatch这个方法做了升级，调用dispatch传递对象保持原样，而如果是传递函数，会先执行这个函数，在需要的时候再调用store(根据参数的不同执行不同的逻辑)
 
-![](./img/middleware.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/middleware.png)
 
 ### Redux-saga中间件
 

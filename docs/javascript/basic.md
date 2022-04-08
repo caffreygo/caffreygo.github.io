@@ -73,7 +73,7 @@ ECMA是欧洲计算机制造商协会由Sum、微软、NetScape公司的程序�
 
 JS请求处理步骤如下：
 
-![](./img/basic/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/basic/1.png)
 
 ### 脚本定义
 

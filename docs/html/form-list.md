@@ -150,7 +150,7 @@
 </script>
 ```
 
-![](./img/form/1.jpg)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/1.jpg)
 
 ### TEXTAREA
 
@@ -177,7 +177,7 @@
 | selected | 选中状态   |
 | option   | 选项值     |
 
-![](./img/form/2.jpg)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/2.jpg)
 
 ```html
 <form action="">
@@ -220,7 +220,7 @@ select支持多选，并且可以通过size调整数量。
 | ------- | -------- |
 | checked | 选中状态 |
 
-![](./img/form/3.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/3.png)
 
 ```html
 <input type="radio" name="sex" value="boy" id="boy">
@@ -234,7 +234,7 @@ select支持多选，并且可以通过size调整数量。
 
 复选框指允许选择多个值的表单。
 
-![](./img/form/4.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/4.png)
 
 ```html
 <fieldset>
@@ -256,7 +256,7 @@ select支持多选，并且可以通过size调整数量。
 | multiple | 支持多选                                          |
 | accept   | 允许上传类型 `.png,.psd` 或 `image/png,image/gif` |
 
-![](./img/form/5.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/5.png)
 
 ```html
 <form action="" method="POST" enctype="multipart/form-data">
@@ -457,7 +457,7 @@ Content-Type: text/html
 
 **日期选择**
 
-![](./img/form/6.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/6.png)
 
 ```html
 <input type="date" step="5" min="2020-09-22" max="2025-01-15" name="datetime">
@@ -465,7 +465,7 @@ Content-Type: text/html
 
 **周选择**
 
-![](./img/form/7.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/7.png)
 
 ```html
 <input type="week">
@@ -473,7 +473,7 @@ Content-Type: text/html
 
 **月份选择**
 
-![](./img/form/8.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/8.png)
 
 ```html
 <input type="month">
@@ -481,7 +481,7 @@ Content-Type: text/html
 
 **日期与时间**
 
-![](./img/form/9.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/9.png)
 
 ```html
 <input type="datetime-local" name="datetime">
@@ -491,7 +491,7 @@ Content-Type: text/html
 
 input表单的输入值选项列表
 
-![](./img/form/10.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/10.png)
 
 ```html
 <form action="" method="post">
@@ -523,7 +523,7 @@ input表单的输入值选项列表
 
 📗 有序列表是指有数字编号的列表项，可以使用`CSS`定义更多样式，具体请查看CSS章节。
 
-![](./img/form/12.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/12.png)
 
 ```html
 <ol>
@@ -537,7 +537,7 @@ input表单的输入值选项列表
 
 📗 没有数字编号的列表项，可以使用`CSS`定义更多样式。
 
-![](./img/form/11.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/11.png)
 
 ```html
 <ul>
@@ -551,7 +551,7 @@ input表单的输入值选项列表
 
 描述列表指每个列表项有单独的标题。
 
-![](./img/form/13.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/form/13.png)
 
 ```html
 <dl>

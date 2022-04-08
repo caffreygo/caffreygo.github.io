@@ -536,13 +536,13 @@ TodoItem.defaultProps = {
 
 - setState 作为异步函数提供了多个 state 更新（很短间隔时间内）只执行一次 setState，一次虚拟 DOM 的比对提升性能
 
-  ![](./img/diff.png)
+  ![](http://ra15bg9hk.hn-bkt.clouddn.com/react/diff.png)
 
 - 同级比较，两个虚拟 DOM 的比对首先是同级的比对，第一层、第二层......如果有一级不同则不再比较，直接替换后面的全部 DOM。（虽然可能会造成 DOM 渲染的浪费，但是大大减少了两个虚拟 DOM 之间对比算法的性能损耗）
 
 - 每个虚拟 DOM 节点的比较通过 key 值做关联（比较性能提升的前提，要保证前后虚拟 DOM 前后的 key 值一致，如果使用 index 作为 key 值就无法保证前后 key 值的一致，失去了 key 值存在的意义）
 
-  ![](./img/key.png)
+  ![](http://ra15bg9hk.hn-bkt.clouddn.com/react/key.png)
 
 ### React 中 ref 的使用
 
@@ -586,7 +586,7 @@ ref 参数等于一个函数(箭头函数传递 this)，如下我们构建了一
         }
   ```
 
-![](./img/ref.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/ref.png)
 
 - 如果希望在 setState 后获取到正确的 DOM，setState 接受第二个参数，是执行完的回调函数
 
@@ -612,7 +612,7 @@ ref 参数等于一个函数(箭头函数传递 this)，如下我们构建了一
 
 :::
 
-![](./img/lifeFunc.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/react/lifeFunc.png)
 
 - componentWillMount：在组件即将被挂载到页面的时刻自动执行
 

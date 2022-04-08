@@ -26,7 +26,7 @@
 </pre>
 ```
 
-![](./img/text/pre.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/pre.png)
 
 ### br
 
@@ -50,7 +50,7 @@ HTML 中的`small`元素將使文本的字体变小一号。(例如从大变成�
 <p><small>The content is licensed under a Creative Commons Attribution-ShareAlike 2.5 Generic License.</small></p>
 ```
 
-![](./img/text/small.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/small.png)
 
 ### time
 
@@ -70,7 +70,7 @@ HTML 中的`small`元素將使文本的字体变小一号。(例如从大变成�
 <p>You can use <abbr title="Cascading Style Sheets">CSS</abbr> to style your <abbr title="HyperText Markup Language">HTML</abbr>.</p>
 ```
 
-![](./img/text/abbr.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/abbr.png)
 
 ### sub
 
@@ -88,7 +88,7 @@ HTML 中的`small`元素將使文本的字体变小一号。(例如从大变成�
 请计算5<sup>2</sup>平方
 ```
 
-![](./img/text/subsup.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/subsup.png)
 
 ### del
 
@@ -98,7 +98,7 @@ HTML 中的`small`元素將使文本的字体变小一号。(例如从大变成�
 原价 <del>200元</del> 现价 <ins>100元</ins>
 ```
 
-![](./img/text/delins.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/delins.png)
 
 ### s
 
@@ -109,7 +109,7 @@ HTML 中的`small`元素將使文本的字体变小一号。(例如从大变成�
 B 地球是圆的
 ```
 
-![](./img/text/s.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/s.png)
 
 ### code
 
@@ -123,7 +123,7 @@ B 地球是圆的
 <progress value="60" max="100">完成60%</progress>
 ```
 
-![](./img/text/progress.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/progress.png)
 
 ## 强调文本
 
@@ -135,7 +135,7 @@ B 地球是圆的
 <strong>Jerry</strong>正在学习<em>HTML</em>
 ```
 
-![](./img/text/strongem.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/strongem.png)
 
 ### mark
 
@@ -145,7 +145,7 @@ B 地球是圆的
 请认真学习以下语言 <mark>PHP</mark>、<mark>JavaScript</mark>
 ```
 
-![](./img/text/mark.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/mark.png)
 
 ## 引用标签
 
@@ -159,7 +159,7 @@ B 地球是圆的
 这本小说是 <cite>毛姆</cite> 写的。
 ```
 
-![](./img/text/cite.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/cite.png)
 
 ### blockquote
 
@@ -172,7 +172,7 @@ B 地球是圆的
 </blockquote>
 ```
 
-![](./img/text/blockquote.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/blockquote.png)
 
 ### q
 
@@ -182,7 +182,7 @@ B 地球是圆的
 最新课程 <q>HTML开启WEB征途</q> 已经发布了
 ```
 
-![](./img/text/q.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/q.png)
 
 ## 联系信息
 
@@ -196,5 +196,5 @@ B 地球是圆的
 </address>
 ```
 
-![](./img/text/address.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/html/text/address.png)
 

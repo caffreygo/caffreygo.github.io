@@ -77,7 +77,7 @@ root.appendChild(img)
 |-- webpack.config.js
 ```
 
-![打包结果](./img/step-3-1.png)
+![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-1.png)
 
 ### 运用占位符
 
@@ -193,7 +193,7 @@ root.appendChild(img);
 
 ### **打包结果**
 
-![css打包结果](./img/step-3-2.png)
+![css打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-2.png)
 
 ### 打包Sass文件
 
@@ -261,7 +261,7 @@ root.appendChild(img);
 
 根据上面的配置和代码改写后，再次打包，打包的结果会是下面这个样子
 
-![打包结果](./img/step-3-3.png)
+![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-3.png)
 
 ### 自动添加CSS厂商前缀
 
@@ -329,7 +329,7 @@ module.exports = {
 
 根据上面的配置，我们再次打包运行，在浏览器中运行`index.html`，它的结果如下图所示
 
-![打包运行结果](./img/step-3-4.png)
+![打包运行结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-4.png)
 
 ### 模块化打包CSS文件
 
@@ -371,7 +371,7 @@ root.appendChild(img);
 
 **打包运行**
 
-![打包运行](./img/step-3-5.png)
+![打包运行](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-5.png)
 
 我们可以看到，在`createAvatar.js`中，我们写的`img`标签的样式，它受`index-sass.sass`样式文件的影响，如果要消除这种影响，需要我们开启对`css`样式文件的模块化打包。
 
@@ -428,7 +428,7 @@ root.appendChild(img);
 
 打包运行后，我们发现使用`createAvatar.js`创建出来的`img`没有受到样式文件的影响，证明我们的`css`模块化配置已经生效，下图是`css`模块化打包的结果：
 
-<img src="./img/step-3-6.png" alt="打包结果" style="zoom:50%;" />
+<img src="http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-3-6.png" alt="打包结果" style="zoom:50%;" />
 
 
 
@@ -826,7 +826,7 @@ module.exports = {
 
 在以上代码添加和配置完毕后，我们使用`npm run dev`进行打包，我们点击按钮后，它会出现如下的情况
 
-![打包结果](./img/1110.png)
+![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/1110.png)
 
 **理解**： 由于`item`是动态生成的，当我们要将`yellow`颜色改变成`red`时，模块热更新能帮我们在不刷新浏览器的情况下，替换掉样式的内容。直白来说：自动生成的`item`依然存在，只是颜色变了。
 
@@ -909,7 +909,7 @@ if(module.hot) {
 
 以下截图是我的测试结果，同时我们也可以在控制台`console`上，看到模块热更新第二次启动时，已经成功帮我们把`number.js`中的代码输出到了浏览器。
 
-![模块热更新结果](./img/1111.png)
+![模块热更新结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/1111.png)
 
 **小结**：在更改`CSS`样式文件时，我们不用书写`module.hot`，这是因为各种`CSS`的`loader`已经帮我们处理了，相同的道理还有`.vue`文件的`vue-loader`，它也帮我们处理了模块热更新，但在`.js`文件中，我们还是需要根据实际的业务来书写一点`module.hot`代码的。
 
@@ -1011,7 +1011,7 @@ module.exports = {
 
 本次打包，我们需要使用`npx webpack`，打包的结果如下图所示：
 
-![打包结果](./img/es6result.png)
+![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/es6result.png)
 
 在以上的打包中，我们可以发现：
 
@@ -1035,7 +1035,7 @@ module.exports = {
 
 在以上配置完毕后，我们再次使用`npx webpack`进行打包，如下图，可以看到此次打包后，`main.js`的大小明显变小了。
 
-![打包结果](./img/es6-2.png)
+![打包结果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/es6-2.png)
 
 ### targets配置目标浏览器
 

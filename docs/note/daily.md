@@ -230,7 +230,7 @@ type ObjKey = keyof typeof obj;
 </body>
 ```
 
-![](./img/daily/teleport.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/daily/teleport.png)
 
 ### $event
 

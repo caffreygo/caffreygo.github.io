@@ -306,7 +306,7 @@ setTimeout(() => {
 
 ### 案例操作
 
-![](./img/set/set.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/set/set.gif)
 
 ```html
 <!DOCTYPE html>

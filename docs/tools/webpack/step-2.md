@@ -144,13 +144,13 @@ $ npm run bundle
 
 打包成功后，我们需要在浏览器中运行`index.html`，它的运行结果如下图所示：
 
-![demo](./img/step-2-2.png)
+![demo](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-2-2.png)
 
 ## 理解webpack打包输出
 
 在上一节中，我们第一次运行了一个打包命令，它在控制台上有一些输出内容，这一节我们详细来介绍这些输出是什么意思：
 
-![第一次打包后的效果](./img/step-2-3.png)
+![第一次打包后的效果](http://ra15bg9hk.hn-bkt.clouddn.com/webpack/step-2-3.png)
 
 1. **Hash：** `hash`代表本次打包的唯一`hash`值，每一次打包此值都是不一样的
 2. **Version：** 详细展示了我们使用`webpack`的版本号
@@ -176,7 +176,7 @@ module.exports = {
 1. **Entrypoint main = bundle.js：** 代表我们打包的入口为`main`
 2. **warning in configuration：** 提示警告，意思是我们没有给`webpack.config.js`设置`mode`属性，`mode`属性有三个值：`development`代表开发环境、`production`代表生产环境、`none`代表既不是开发环境也不是生产环境。如果不写的话，默认是生产环境，可在配置文件中配置此项，配置后再次打包将不会再出现此警告。
 
-```../img/webpackjs
+```.http://ra15bg9hk.hn-bkt.clouddn.com/webpack/webpackjs
 // path为Node的核心模块
 const path = require('path');
 

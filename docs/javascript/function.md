@@ -386,7 +386,7 @@ function change(lessons, num, i = 0) {
 console.table(change(lessons, 100));
 ```
 
-![](./img/function/1.png)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/function/1.png)
 
 ### 回调函数
 
@@ -474,7 +474,7 @@ abc("Hello", "world", "Js");
 
 📌 调用函数时 `this` 会隐式传递给函数，指函数调用时的关联对象，也称之为函数的上下文。
 
-<img src="./img/function/this.png" style="zoom:60%;" />
+<img src="http://ra15bg9hk.hn-bkt.clouddn.com/javascript/function/this.png" style="zoom:60%;" />
 
 ### 函数调用
 
@@ -901,7 +901,7 @@ console.log(
 
 制作显示隐藏面板
 
-![](./img/function/call.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/function/call.gif)
 
 ```html
 <!DOCTYPE html>
@@ -1019,7 +1019,7 @@ console.log(newFunc(2));
 
 动态改变元素背景颜色，当然下面的例子也可以使用箭头函数处理
 
-![](./img/function/bind.gif)
+![](http://ra15bg9hk.hn-bkt.clouddn.com/javascript/function/bind.gif)
 
 ```html
 <!DOCTYPE html>

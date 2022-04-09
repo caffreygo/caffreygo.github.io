@@ -296,6 +296,10 @@ module.exports = [
     text: "工具 | 协议",
     children: [
       {
+        text: "tmux",
+        link: "/tools/tmux",
+      },
+      {
         text: "HTTP",
         link: "/tools/http",
       },

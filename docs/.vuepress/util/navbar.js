@@ -284,6 +284,15 @@ module.exports = [
     ],
   },
   {
+    text: "MYSQL",
+    children: [
+      {
+        text: "基本操作",
+        link: "/mysql/basic",
+      },
+    ],
+  },
+  {
     text: "工具 | 协议",
     children: [
       {
@@ -324,9 +333,5 @@ module.exports = [
   {
     text: "Github",
     link: "https://github.com/caffreygo",
-  },
-  {
-    text: "Vue源码课程",
-    link: "https://ustbhuangyi.github.io/vue-analysis/v2/prepare/",
   },
 ];

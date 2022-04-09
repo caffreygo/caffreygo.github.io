@@ -64,6 +64,12 @@ module.exports = {
       children: ["/note/daily.md", "/note/algorithm.md"],
     },
   ],
+  "/mysql/": [
+    {
+      text: "MYSQL",
+      children: ["/mysql/basic.md"],
+    },
+  ],
   "/typescript/": [
     {
       text: "语法基础",

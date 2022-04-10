@@ -1,6 +1,141 @@
 # Promise核心
 
-![](https://raw.githubusercontent.com/caffreygo/static/main/blog/javascript/JPromise/index.png)
+```js
+class JPromise {
+  static PENDING = "pending";
+  static FULFILLED = "fulfilled";
+  static REJECTED = "rejected";
+  
+  constructor(executor) {
+    this.status = JPromise.PENDING;
+    this.value = null;
+    this.callbacks = [];
+    try {
+      executor(this.resolve.bind(this), this.reject.bind(this));
+    } catch (error) {
+      this.reject(error);
+    }
+  }
+  
+  resolve(value) {
+    if (this.status == JPromise.PENDING) {
+      this.status = JPromise.FULFILLED;
+      this.value = value;
+      setTimeout(() => {
+        this.callbacks.map(callback => {
+          callback.onFulfilled(value);
+        });
+      });
+    }
+  }
+  
+  reject(reason) {
+    if (this.status == JPromise.PENDING) {
+      this.status = JPromise.REJECTED;
+      this.value = reason;
+      setTimeout(() => {
+        this.callbacks.map(callback => {
+          callback.onRejected(reason);
+        });
+      });
+    }
+  }
+  
+  then(onFulfilled, onRejected) {
+    if (typeof onFulfilled != "function") {
+      onFulfilled = () => this.value;
+    }
+    if (typeof onRejected != "function") {
+      onRejected = () => this.value;
+    }
+    let promise = new JPromise((resolve, reject) => {
+      if (this.status == JPromise.PENDING) {
+        this.callbacks.push({
+          onFulfilled: value => {
+            this.parse(promise, onFulfilled(value), resolve, reject);
+          },
+          onRejected: value => {
+            this.parse(promise, onRejected(value), resolve, reject);
+          }
+        });
+      }
+      if (this.status == JPromise.FULFILLED) {
+        setTimeout(() => {
+          this.parse(promise, onFulfilled(this.value), resolve, reject);
+        });
+      }
+      if (this.status == JPromise.REJECTED) {
+        setTimeout(() => {
+          this.parse(promise, onRejected(this.value), resolve, reject);
+        });
+      }
+    });
+    return promise;
+  }
+  
+  parse(promise, result, resolve, reject) {
+    if (promise == result) {
+      throw new TypeError("Chaining cycle detected");
+    }
+    try {
+      if (result instanceof JPromise) {
+        result.then(resolve, reject);
+      } else {
+        resolve(result);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  }
+  static resolve(value) {
+    return new JPromise((resolve, reject) => {
+      if (value instanceof JPromise) {
+        value.then(resolve, reject);
+      } else {
+        resolve(value);
+      }
+    });
+  }
+  static reject(value) {
+    return new JPromise((resolve, reject) => {
+      reject(value);
+    });
+  }
+  static all(promises) {
+    const values = [];
+    return new JPromise((resolve, reject) => {
+      promises.forEach(promise => {
+        promise.then(
+          value => {
+            values.push(value);
+            if (values.length == promises.length) {
+              resolve(values);
+            }
+          },
+          reason => {
+            reject(reason);
+          }
+        );
+      });
+    });
+  }
+  
+  static race(promises) {
+    return new JPromise((resolve, reject) => {
+      promises.map(promise => {
+        promise.then(
+          value => {
+            resolve(value);
+          },
+          reason => {
+            reject(reason);
+          }
+        );
+      });
+    });
+  }
+}
+```
 
 ## 起步构建
 

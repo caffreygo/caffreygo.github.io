@@ -67,7 +67,7 @@ module.exports = {
   "/mysql/": [
     {
       text: "MYSQL",
-      children: ["/mysql/basic.md"],
+      children: ["/mysql/basic.md", "/mysql/table.md", "/mysql/dataType.md"],
     },
   ],
   "/typescript/": [

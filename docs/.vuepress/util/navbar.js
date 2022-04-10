@@ -294,6 +294,14 @@ module.exports = [
         text: "基本操作",
         link: "/mysql/basic",
       },
+      {
+        text: "表操作",
+        link: "/mysql/table",
+      },
+      {
+        text: "数据类型",
+        link: "/mysql/dataType",
+      },
     ],
   },
   {

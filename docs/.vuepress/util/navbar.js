@@ -10,6 +10,10 @@ module.exports = [
         text: "JavaScript数据结构与算法",
         link: "/note/algorithm",
       },
+      {
+        text: "深入浅出模块化",
+        link: "/note/module",
+      },
     ],
   },
   {

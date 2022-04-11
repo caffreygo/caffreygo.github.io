@@ -184,10 +184,16 @@ SELECT *  FROM class WHERE cname LIKE '_h%';
 | int(m)        | 4个字节 范围(-2147483648~2147483647) | (0，4 294 967 295)              |
 | bigint(m)     | 8个字节 范围(+-9.22*10的18次方)      | (0，18 446 744 073 709 551 615) |
 
-- 取值范围如果加了unsigned，则最大值翻倍，如tinyint unsigned的取值范围为(0~256)。
-- m的含义不是允许字段的长度，而是显示长度，在为字段设置 `zerofill` 时有效。
+::: tip Tips
 
-**添加有前导零的字段**
+- 取值范围如果加了（无符号）`unsigned`，则最大值翻倍，如tinyint unsigned的取值范围为(0~256)。
+- m的含义不是允许字段的长度，而是**显示长度**，在为字段设置 `zerofill` 时有效。
+
+:::
+
+### 前导零
+
+添加有前导零的字段 `zerofill`
 
 ```sql
 ALTER TABLE class ADD stu_count smallint(6) ZEROFILL default null;
@@ -199,8 +205,8 @@ ALTER TABLE class ADD stu_count smallint(6) ZEROFILL default null;
 +----+-------+--------------------------------------------+-----------+
 | id | cname | description                                | stu_count |
 +----+-------+--------------------------------------------+-----------+
-|  4 | Mysql | 数据库                                     |    000001 |
-|  5 | PHP   | 后盾人教你使用PHP快速开发网站              |      NULL |
+|  4 | Mysql | 数据库                                      |    000001 |
+|  5 | NEST  | hello                                      |      NULL |
 +----+-------+--------------------------------------------+-----------+
 ```
 
@@ -216,12 +222,18 @@ ALTER TABLE class ADD stu_count smallint(6) ZEROFILL default null;
 
 ```sql
 alter table class add e FLOAT(10,2);
-update class set e = 12345678.66 where id=11;
+update class set e = 12345.66 where id=11;     // 12345.66
+update class set e = 992345.66 where id=11;    // 992346 近似值
+
+alter table class add b DECIAMAL(10,2);
+update class set e = 12345678.66 where id=11;    // 12345678.99
 ```
 
-::: tip 查看结果时会发布浮点数结果不精确
+> 查看结果时会发布浮点数结果不精确
 
-- float：2^23 = 8388608，一共七位，这意味着最多能有7位有效数字，但绝对能保证的为6位，即float的精度为6~7位有效数字
+::: tip 总结
+
+- float：2^23 = 8388608，一共七位，这意味着最多能有7位有效数字，但绝对能保证的为6位，即float的精度为6~7位有效数字。（可保存七位以内的数据）
 - double：2^52 = 4503599627370496，一共16位，double的精度为15~16位
 - 浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值
 - decimal(m,d) 参数m<65 是总个数，d<30且 d<m 是小数位
@@ -239,6 +251,8 @@ update class set e = 12345678.66 where id=11;
 ALTER TABLE stu ADD sex ENUM('男','女') DEFAULT NULL;
 ```
 
+> 1对应“男”； 2对应“女”
+
 可以使用索引或值添加enum数据
 
 ```sql
@@ -255,7 +269,9 @@ SELECT * from stu WHERE sex=2;
 
 ### SET
 
- 📗 SET 类型与 ENUM 类型相似但不相同。SET 类型可以从预定义的集合中取得任意数量的值。一个 SET 类型最多可以包含 64 项元素。
+📗 SET 类型与 ENUM 类型相似但不相同。SET 类型可以从**预定义的集合**中取得任意数量的值。
+
+> 一个 SET 类型最多可以包含 64 项元素。
 
 使用SET类型添加文章属性字段
 
@@ -266,8 +282,10 @@ ALTER TABLE article ADD flag SET('推荐','置顶','图文','热门');
 添加数据
 
 ```sql
-INSERT INTO article (title,status,flag)VALUES('后盾人',1,'图文,推荐,置顶');
+INSERT INTO article (title,status,flag) VALUES('标题',1,'图文,推荐,置顶');
 ```
+
+#### 查找
 
 使用 `find_in_set` 查找数据
 
@@ -283,7 +301,7 @@ SELECT * FROM article WHERE flag like '%置顶%'
 
 #### 二进制比较
 
-可以使用二进制方式对SET类型进行模糊筛选。
+可以使用二进制方式对SET类型进行**模糊筛选**。（二进制值相加转十进制）
 
 | SET成员 | 十进制值 | 二进制值 |
 | ------- | -------- | -------- |
@@ -292,8 +310,21 @@ SELECT * FROM article WHERE flag like '%置顶%'
 | 图文    | 4        | 0100     |
 | 热门    | 8        | 1000     |
 
-获取包含图文与推荐的文章
+获取包含推荐的文章
 
 ```sql
-SELECT * FROM article WHERE flag & 5;
+SELECT * FROM article WHERE flag & 1;
 ```
+
+获取包含推荐或者置顶的文章
+
+```sql
+SELECT * FROM article WHERE flag & 3;
+```
+
+获取包含推荐或者热门的文章
+
+```sql
+SELECT * FROM article WHERE flag & 9;
+```
+

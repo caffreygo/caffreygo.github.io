@@ -15,7 +15,7 @@ prefix ctrl+r
 
 ```sh
 # 新建会话
-tmux new -s hdcms
+tmux new -s windowName
 # 查看会话
 prefix s
 # 重命名会话

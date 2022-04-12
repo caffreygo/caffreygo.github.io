@@ -72,28 +72,28 @@ show databases;
 
 **创建新库**
 
-下面是创建数据库 `houdunren` 并设置字符集为 utf8。
+下面是创建数据库 `scaffold` 并设置字符集为 utf8。
 
 ```sql
-CREATE DATABASE houdunren CHARSET utf8;
+CREATE DATABASE scaffold CHARSET utf8;
 ```
 
 **查看数据库**
 
 ```sh
-show create database houdunren;
+show create database scaffold;
 ```
 
 **删除数据库**
 
 ```sql
-drop database houdunren;
+drop database scaffold;
 ```
 
 为了防止删除不存在的数据库报错
 
 ```sql
-drop database if exists houdunren;
+drop database if exists scaffold;
 ```
 
 **选择数据库**
@@ -101,7 +101,7 @@ drop database if exists houdunren;
 数据库主要是对表操作，选择数据库后可以省掉每次指定数据库的麻烦。
 
 ```sql
-use houdunren
+use scaffold
 ```
 
 ### 导入语句

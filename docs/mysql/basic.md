@@ -406,6 +406,8 @@ UPDATE stu SET age = null WHERE class_id=2 AND age<20;
 UPDATE stu SET age= age+20 WHERE age<20;
 ```
 
+
+
 ### 删除记录
 
 删除所有年龄小于20的同学

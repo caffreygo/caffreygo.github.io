@@ -131,10 +131,10 @@ update class set cname = 'hello' where id= 2;
 
 ## 常用函数
 
-下面是获取当前日期、时间的示例
+下面是获取当前日期、时间的示例 `CURRENT_DATE`  `CURRENT_TIME`
 
 ```sql
-select CURRENT_DATE,CURRENT_TIME,NOW();
+select now(), CURRENT_DATE(), CURRENT_TIME(), DAYOFWEEK(NOW()) ;
 ```
 
 获取时间部分值
@@ -188,11 +188,19 @@ MINUTE(birthday),SECOND(birthday) from stu;
 SELECT now(),CURDATE(),CURRENT_DATE(),CURRENT_TIME(),NOW();
 ```
 
+| now()               | CURDATE()  | CURRENT_DATE() | CURRENT_TIME() | NOW()               |
+| ------------------- | ---------- | -------------- | -------------- | ------------------- |
+| 2022-04-13 23:21:23 | 2022-04-13 | 2022-04-13     | 23:21:23       | 2022-04-13 23:21:23 |
+
 ### 时间计算
 
 ```sql
 SELECT DAYOFYEAR(now()),DAYOFMONTH(now()),DAYOFWEEK(now()),WEEKDAY(now());
 ```
+
+| DAYOFYEAR(now()) | DAYOFMONTH(now()) | DAYOFWEEK(now()) | WEEKDAY(now()) |
+| ---------------- | ----------------- | ---------------- | -------------- |
+| 103              | 13                | 4                | 2              |
 
 ### 秒转换
 
@@ -215,6 +223,10 @@ SELECT now(),UNIX_TIMESTAMP(birthday),FROM_UNIXTIME(UNIX_TIMESTAMP(birthday)) FR
 SELECT now(),TO_DAYS(birthday),FROM_DAYS(TO_DAYS(birthday)) FROM stu;
 ```
 
+| now()               | TO_DAYS(NOW()) | FROM_DAYS(TO_DAYS(NOW())) |
+| ------------------- | -------------- | ------------------------- |
+| 2022-04-13 23:30:32 | 738623         | 2022-04-13                |
+
 ### 差值计算
 
 计算天数差值，忽略时间部分
@@ -229,7 +241,7 @@ SELECT now(),DATEDIFF(now(),birthday) from stu;
 SELECT now(),TIMEDIFF(time(birthday),time(now())) from stu;
 ```
 
-### 指定单位差值
+### TIMESTAMPDIFF
 
 支持的单位有 YEAR/MONTH/WEEK/DAY/HOUR/MINUTE/SECOND等。下面是获取学生来到人生经历的天数。
 
@@ -239,7 +251,7 @@ select sname,TIMESTAMPDIFF(day,birthday,NOW()) from stu;
 
 ## 基本查询
 
-MYSQL内部将日期按数值进行处理，下面是查找'1990-02-22 09:00:00' 日期可以写成数值形式
+MYSQL内部**将日期按数值进行处理**，下面是查找'1990-02-22 09:00:00' 日期可以写成数值形式
 
 ```sql
 SELECT * FROM users WHERE birthday  = 19900222090000
@@ -270,7 +282,7 @@ SELECT * FROM stu WHERE class_id IN(1,2) AND year(birthday)=1999;
 
 ```sql
 SELECT count(id) as total,class_id from stu 
-WHERE LEFT(birthday,4) >= 1990 AND YEAR(birthday)<=2000 
+WHERE YEAR(birthday) >= 1990 AND YEAR(birthday)<=2000 
 GROUP BY class_id
 ORDER BY total DESC
 LIMIT 1; 
@@ -280,7 +292,8 @@ LIMIT 1;
 
 ```sql
 SELECT count(id),class_id FROM stu 
-WHERE TIMESTAMPDIFF(YEAR,birthday,now())>20 AND sex=2
+WHERE sex=2 
+AND TIMESTAMPDIFF(YEAR,now(),birthday)>20
 GROUP BY class_id
 ORDER BY count(id) DESC
 LIMIT 1;
@@ -299,13 +312,17 @@ LIMIT 1;
 七小时前的时间
 
 ```sql
-select ADDTIME(now(),'-7:00:00')
+# 2022-04-13 16:55:16  表示为当前时间减去7小时
+select ADDTIME(now(),'-7:00:00');
+# 2022-04-14 07:56:18 
+select timestamp(now(), '08:00:00');
 ```
 
-七天后的日期
+七天前/后的日期
 
 ```sql
 SELECT DATE_ADD(now(),INTERVAL 7 DAY);
+SELECT DATE_ADD(now(),INTERVAL -7 DAY);
 ```
 
 20小时10分钟后的日期

@@ -945,3 +945,40 @@ console.log(binarySearch([8, 7, 6, 5, 4, 3, 2, 1], 2))  // true
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/algorithm/binarySearch.png)
 
+### 内插搜索
+
+内插搜索（插值查找）是改良版的二分搜索。二分搜索总是基于中间位置上的值为参照物，而内插搜索会选择接近查找的值作为参照物。
+
+即通过一个计算后的比例值获得参照的下标，这个值相比二分搜索的中间值，一般会更接近我们要查找的值，从而减少了搜索的时间。
+
+::: tip 步骤如下：
+
+1. 选择期望比例 delta = (选择的值-最小值)/(最大值-最小值)
+2. 参考下标 position = 最小值 + Math.floort((最大值-最小值) * delta )
+
+::: 
+
+```js
+const interpolationSearch = (array,value) => {
+    const {length} =array
+    let low = 0
+    let high = length-1
+    let position = -1
+    let delta = -1
+    while(low<high) {
+        delta = (value-array[low])/(array[high]-array[low])
+        position = low + Math.floor((high - low) * delta);
+        if (array[position] === value) {
+            return position
+        }
+        if (array[position] < value) {
+            low = position +1
+        } else {
+            high = position -1
+        }
+    }
+}
+console.log(interpolationSearch([1,2,3,4,5,6,7,8,9],6));
+```
+
+内插搜索的高效性只针对均匀分布的数组，而对于分布不均匀的数组，插值查找便不再适用了

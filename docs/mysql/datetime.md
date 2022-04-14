@@ -2,7 +2,7 @@
 
 ## DBeaver
 
-如果使用DBeaver软件学习，需要在编辑连接设置正确时区。
+使用DBeaver，需要在编辑连接设置正确时区。
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/mysql/datetime/dbeaver.png)
 
@@ -346,6 +346,9 @@ SELECT LAST_DAY(now());
 获取本月的第一天日期
 
 ```sql
+# DATE_SUB() 日期减
+# DAYOFMONTH(now()) 表示几天是这个月的第几天
+# 2022-04-14 20:42:28  =>  2022-04-01 20:42:28
 SELECT DATE_SUB(now(),INTERVAL DAYOFMONTH(now())-1 DAY);
 ```
 
@@ -359,11 +362,18 @@ AND created_at <=LAST_DAY(now());
 
 > 因为使用大量函数会造成性能下降，所以推荐在后台程序中算出时间后再进行比对
 
+获取往前三个月的第一天
+
+```sql
+# 2022-04-14 => 2022-01-01
+SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 MONTH), '%Y-%m-01') 
+```
+
 获取三个月内发表的文章
 
 ```sql
 SELECT * FROM article 
-WHERE publish_time >=DATE_SUB(now(),INTERVAL -3 MONTH) ;
+WHERE publish_time >=DATE_SUB(now(),INTERVAL 3 MONTH) ;
 
 # 如果从前上个月的一号开始获取
 SELECT * from article 
@@ -373,6 +383,7 @@ WHERE publish_time >= DATE_FORMAT(DATE_SUB(now(),INTERVAL 3 MONTH),'%Y-%m-01');
 获取上个月的最后一天
 
 ```sql
+# 2022-03-31
 SELECT LAST_DAY(DATE_SUB(NOW(),INTERVAL 1 MONTH));
 # 或直接通过明确日期
 SELECT * FROM article WHERE publish_time>='2019-01-01' AND publish_time<CURDATE();
@@ -387,20 +398,27 @@ SELECT DATE_ADD(LAST_DAY(NOW()),INTERVAL 1 DAY);
 查看出生超过20年的同学
 
 ```sql
-SELECT * FROM stu WHERE birthday < DATE_SUB(NOW(),INTERVAL 20 YEAR);
+SELECT * FROM stu WHERE birthday <= DATE_SUB(NOW(),INTERVAL 20 YEAR);
 ```
 
 本周二的日期，使用DAYOFWEEK时周二为3
+
+> 3减去当前日期得到差值，再使用当前时间加上这个差值，即可从周差值里算出周二是几号
 
 ```sql
 SELECT now(),DATE_ADD(NOW(),INTERVAL 3-DAYOFWEEK(NOW()) DAY);
 ```
 
+| now()  周四         | DATE_ADD(NOW(),INTERVAL 3-DAYOFWEEK(NOW()) DAY) |
+| ------------------- | ----------------------------------------------- |
+| 2022-04-14 21:14:01 | 2022-04-12 21:14:01                             |
+
 本周星期日
 
 ```sql
+# weekday 0-6 周一是0  周二是1
 SELECT date_add(now(),INTERVAL 6-WEEKDAY(now()) DAY) 
-
+# dayofweek 1-7  周日是1 周一是2  周六为7     1+7=8 - DAYOFWEEK(now())
 SELECT date_add(now(),INTERVAL 1-DAYOFWEEK(now())+7 day) 
 ```
 
@@ -415,9 +433,10 @@ SELECT date_add(now(),INTERVAL 1-DAYOFWEEK(now()) day)
 ```sql
 SELECT now(),
 DATE_SUB(DATE_ADD(NOW(),INTERVAL 3-DAYOFWEEK(NOW()) DAY),INTERVAL 21 DAY);
-
 # 或
 SELECT date_add(now(),INTERVAL 3-DAYOFWEEK(now())-21 DAY )
+# 或
+select DATE_SUB(DATE_ADD(NOW(), INTERVAL 1-WEEKDAY(NOW()) day), INTERVAL 21 day) 
 ```
 
 上周一的日期
@@ -430,19 +449,27 @@ SELECT DATE_ADD(@week,INTERVAL 0-WEEKDAY(@week) day);
 SELECT date_add(now(),INTERVAL 2-DAYOFWEEK(now())-7 DAY )
 ```
 
+| DATE_ADD(@week,INTERVAL 0-WEEKDAY(@week) day) |
+| --------------------------------------------- |
+| 2022-04-04 21:43:06                           |
+
 获取本月迟到的同学
+
+| date(date_sub(NOW(),INTERVAL DAYOFMONTH(now())-1 DAY)) |
+| ------------------------------------------------------ |
+| 2022-04-01                                             |
 
 ```sql
 select * from attendance 
-WHERE created_at >= date_sub(NOW(),INTERVAL DAYOFMONTH(now())-1 DAY)
+WHERE date(created_at) >= date(date_sub(NOW(),INTERVAL DAYOFMONTH(now())-1 DAY))
 AND time(created_at)>'08:30:00';
 ```
 
 本月迟到超过2次的同学
 
 ```sql
-select stu_id from attendance 
-WHERE created_at >= date_sub(NOW(),INTERVAL DAYOFMONTH(now())-1 DAY)
+select stu_id, count(id) from attendance 
+WHERE date(created_at) >= date(date_sub(NOW(),INTERVAL DAYOFMONTH(now())-1 DAY))
 AND time(created_at)>'08:30:00'
 GROUP BY stu_id
 HAVING count(id)>=2;
@@ -457,9 +484,9 @@ SELECT DATE_ADD(now(),INTERVAL 0-WEEKDAY(now()) day);
 获取本周迟到的学生编号
 
 ```sql
-set @begin =DATE_FORMAT(date_add(now(),INTERVAL 0-WEEKDAY(now()) day),'%Y-%m-%d');
+set @begin =date(date_add(now(),INTERVAL 0-WEEKDAY(now()) day),'%Y-%m-%d');
 select stu_id from attendance 
-WHERE created_at >= @begin
+WHERE date(created_at) >= @begin
 AND time(created_at)>'08:00:00'
 GROUP BY stu_id;
 ```
@@ -469,14 +496,14 @@ GROUP BY stu_id;
 ```sql
 set @week = DATE_SUB(now(),INTERVAL 1 WEEK);
 SELECT stu_id FROM attendance
-WHERE created_at>=DATE_ADD(@week,interval 0-WEEKDAY(@week) day)
-AND created_at<=DATE_ADD(@week,interval 4-WEEKDAY(@week) day);
+WHERE date(created_at)>=date(DATE_ADD(@week,interval 0-WEEKDAY(@week) day))
+AND date(created_at)<=date(DATE_ADD(@week,interval 4-WEEKDAY(@week) day));
 ```
 
 获取本周发表的文章
 
 ```sql
-SELECT * FROM article WHERE created_at >=DATE_ADD(now(),INTERVAL 0-WEEKDAY(now()) day);
+SELECT * FROM article WHERE date(created_at) >=date(DATE_ADD(now(),INTERVAL 0-WEEKDAY(now()) day));
 ```
 
 周日来校学习的同学

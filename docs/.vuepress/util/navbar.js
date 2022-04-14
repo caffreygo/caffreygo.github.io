@@ -302,6 +302,10 @@ module.exports = [
         text: "数据类型",
         link: "/mysql/dataType",
       },
+      {
+        text: "日期时间",
+        link: "/mysql/datetime",
+      },
     ],
   },
   {

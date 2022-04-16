@@ -218,3 +218,18 @@ class Dog extends Animal {
 ```
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/class.png)
+
+## 数组去重
+
+ES5 利用indexOf方法返回寻第一个匹配下标的特性
+
+```js
+const unique2 = (arr) => arr.filter((item, index, array)=> array.indexOf(item) === index);
+```
+
+> 🌐 [ES6 Set (opens new window)](https://www.ijerrychen.com/javascript/set.html)
+
+```js
+const unique1 = (arr) => [...new Set(arr)];
+```
+

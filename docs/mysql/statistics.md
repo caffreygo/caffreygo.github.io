@@ -307,7 +307,7 @@ limit 1;
 SELECT date(created_at) FROM attendance 
 WHERE date(created_at)>date(DATE_ADD(NOW(),INTERVAL 0-WEEKDAY(NOW()) day))
 AND time(created_at)>'08:30:00'
-GROUP BY created_at
+GROUP BY date(create_at)
 ORDER BY COUNT(*) DESC
 LIMIT 1;
 ```

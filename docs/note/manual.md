@@ -94,7 +94,7 @@ const ll = new Lawyer("Michael")
 
 ::: 
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/constructor.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/constructor.png)
 
 ### 组合继承
 
@@ -126,7 +126,7 @@ let dog2 = new Dog('哈赤', 1);
 // { name: "哈赤", colors: ["black", "white"], age: 1 }
 ```
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/composition.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/composition.png)
 
 ### ✅ 寄生式组合继承
 
@@ -194,7 +194,7 @@ let dog1 = new Dog('奶昔', 2);
 dog1.colors.push('brown');
 ```
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/parasiticCombination.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/parasiticCombination.png)
 
 ### ✅ class 实现继承 
 
@@ -217,4 +217,4 @@ class Dog extends Animal {
 }
 ```
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/class.png)
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/class.png)

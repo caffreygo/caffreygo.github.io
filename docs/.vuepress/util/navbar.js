@@ -7,6 +7,10 @@ module.exports = [
         link: "/note/daily",
       },
       {
+        text: "实现常用方法",
+        link: "/note/manual",
+      },
+      {
         text: "JavaScript数据结构与算法",
         link: "/note/algorithm",
       },

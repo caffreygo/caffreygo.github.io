@@ -61,7 +61,12 @@ module.exports = {
   "/note/": [
     {
       text: "笔记",
-      children: ["/note/daily.md", "/note/algorithm.md", "/note/module.md"],
+      children: [
+        "/note/daily.md",
+        "/note/manual.md",
+        "/note/algorithm.md",
+        "/note/module.md",
+      ],
     },
   ],
   "/mysql/": [

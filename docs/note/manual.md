@@ -32,15 +32,16 @@ typeOf(new Date())  // 'Date'
 
 ## 继承
 
-> 🌐 [原型和原型链 (opens new window)](https://www.ijerrychen.com/javascript/prototype.html)
+> [原型和原型链 (opens new window)](https://www.ijerrychen.com/javascript/prototype.html)
 
 ### 原型链继承
 
-🔖 构造函数的prototype指向原型对象，实例能访问该原型对象。
+> 通过构造函数的prototype指向原型对象
 
 ```js
 function Person() {
-  this.colors s
+  this.colors = ['yellow', 'white']
+}
 Person.prototype.getColors = function() {
   return this.color;
 }
@@ -48,7 +49,7 @@ Person.prototype.getColors = function() {
 function Doctor() {};
 Doctor.prototype = new Person();
 
-// --------Testing--------
+// ----------Testing----------
 const doc = new Doctor();
 doc.colors.push('blue');
 const doc1 = new Doctor();
@@ -80,7 +81,7 @@ function Lawyer(name) {
 }
 Lawyer.prototype = new Person();
 
-// --------Testing--------
+// ----------Testing----------
 const ll = new Lawyer("Michael")
 ```
 
@@ -93,4 +94,36 @@ const ll = new Lawyer("Michael")
 
 ::: 
 
-![](/Users/chenjinrui/code/personal/static/blog/javascript/manual/1.png)
+![](/Users/chenjinrui/code/personal/static/blog/manual/contructorInherit.png)
+
+### 组合继承
+
+组合继承结合了原型链和盗用构造函数，将两者的优点集中了起来。基本的思路是使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。这样既可以把方法定义在原型上以实现重用，又可以让每个实例都有自己的属性。
+
+```js
+function Animal(name) {
+    this.name = name;
+    this.colors = ['black', 'white'];
+}
+Animal.prototype.getName = function() {
+    return this.name;
+}
+function Dog(name, age) {
+    // 子类实例上声明父类实例的属性
+    Animal.call(this, name);
+    this.age = age;
+}
+// 原型继承，获得父类原型对象方法的访问能力
+Dog.prototype = new Animal();
+Dog.prototype.constructor = Dog;
+
+// ----------Testing----------
+let dog1 = new Dog('奶昔', 2);
+dog1.colors.push('brown');
+// { name: "哈赤", colors: ["black", "white", "brown"], age: 1 }
+
+let dog2 = new Dog('哈赤', 1);
+// { name: "哈赤", colors: ["black", "white"], age: 1 }
+```
+
+![](/Users/chenjinrui/code/personal/static/blog/manual/inherit.png)

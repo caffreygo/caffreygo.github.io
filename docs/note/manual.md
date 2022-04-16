@@ -32,7 +32,7 @@ typeOf(new Date())  // 'Date'
 
 ## 继承
 
-> [原型和原型链 (opens new window)](https://www.ijerrychen.com/javascript/prototype.html)
+> 🌐 [原型和原型链 (opens new window)](https://www.ijerrychen.com/javascript/prototype.html)
 
 ### 原型链继承
 
@@ -94,11 +94,11 @@ const ll = new Lawyer("Michael")
 
 ::: 
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/contructorInherit.png)
+![](/Users/chenjinrui/code/personal/static/blog/manual/constructor.png)
 
 ### 组合继承
 
-组合继承结合了原型链和盗用构造函数，将两者的优点集中了起来。基本的思路是使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。这样既可以把方法定义在原型上以实现重用，又可以让每个实例都有自己的属性。
+🚀 组合继承结合了原型链和盗用构造函数，将两者的优点集中了起来。基本的思路是使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。这样既可以把方法定义在原型上以实现重用，又可以让每个实例都有自己的属性。
 
 ```js
 function Animal(name) {
@@ -126,4 +126,95 @@ let dog2 = new Dog('哈赤', 1);
 // { name: "哈赤", colors: ["black", "white"], age: 1 }
 ```
 
-![](/Users/chenjinrui/code/personal/static/blog/manual/inherit.png)
+![](/Users/chenjinrui/code/personal/static/blog/manual/composition.png)
+
+### ✅ 寄生式组合继承
+
+🔥 组合继承已经相对完善了，但还是存在问题，它的问题就是调用了 2 次父类构造函数，第一次是在 new Animal()，第二次是在 Animal.call() 这里。
+
+🚀 所以解决方案就是不直接调用父类构造函数给子类原型赋值，而是通过创建空函数 F 获取父类原型的副本，区别如下：
+
+```diff
+- Dog.prototype =  new Animal()
+- Dog.prototype.constructor = Dog
+
++ function F() {}
++ F.prototype = Animal.prototype
++ let f = new F()
++ f.constructor = Dog
++ Dog.prototype = f
+```
+
+稍微封装下上面添加的代码后：
+
+```js
+function object(o) {
+    function F() {}
+    F.prototype = o
+    return new F()
+}
+function inheritPrototype(child, parent) {
+    let prototype = object(parent.prototype)
+    prototype.constructor = child
+    child.prototype = prototype
+}
+inheritPrototype(Dog, Animal)
+```
+
+🎉 其实这就是`Object.create`方法的实现，可以基于组合继承的代码改成最简单的寄生式组合继承：
+
+```diff
+- Dog.prototype =  new Animal()
+- Dog.prototype.constructor = Dog
+
++ Dog.prototype =  Object.create(Animal.prototype)
++ Dog.prototype.constructor = Dog
+```
+
+最终代码
+
+```js
+function Animal(name) {
+    this.name = name;
+    this.colors = ['black', 'white'];
+}
+Animal.prototype.getName = function() {
+    return this.name;
+}
+function Dog(name, age) {
+    // 子类实例上声明父类实例的属性
+    Animal.call(this, name);
+    this.age = age;
+}
+// 原型继承，获得父类原型对象方法的访问能力
+Dog.prototype = Object.create(Animal.prototype)；
+Dog.prototype.constructor = Dog;
+
+let dog1 = new Dog('奶昔', 2);
+dog1.colors.push('brown');
+```
+
+![](/Users/chenjinrui/code/personal/static/blog/manual/parasiticCombination.png)
+
+### ✅ class 实现继承 
+
+> 🌐 [ES6 class的继承原理 (opens new window)](https://www.ijerrychen.com/javascript/class.html#%E5%B1%9E%E6%80%A7%E7%BB%A7%E6%89%BF)
+
+```js
+class Animal {
+    constructor(name) {
+        this.name = name
+    }
+    getName() {
+        return this.name
+    }
+}
+class Dog extends Animal {
+    constructor(name, age) {
+        super(name)
+        this.age = age
+    }
+}
+```
+
+![](/Users/chenjinrui/code/personal/static/blog/manual/class.png)

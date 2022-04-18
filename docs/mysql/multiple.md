@@ -193,125 +193,296 @@ HAVING total>=2;
 
 外链接包括`LEFT JOIN` 与 `RIGHT JOIN` ，可以简单理解为 `LEFT JOIN`会包含左侧所有表记录，`RIGHT JOIN` 会包含右侧表全部记录。
 
-获取没有设置QQ的用户
+### -----INNER JOIN------
+
+### 没设置QQ的用户
+
+🚨 使用`inner join`只能拿到对应规则匹配到的数据，也就是在信息表里有数据的学生列表：
 
 ```sql
-SELECT s.sname FROM stu AS s LEFT JOIN user_info as i
-ON s.id = i.stu_id
-WHERE i.qq is null;
+SELECT * FROM stu AS s
+INNER JOIN stu_info as i
+ON s.id = i.stu_id;
 ```
 
-查找所有没有发表文章的同学
+| id   | sname | class_id | birthday            | updated_at          | sex  | id   | email               | qq         | mobile     | stu_id |
+| ---- | ----- | -------- | ------------------- | ------------------- | ---- | ---- | ------------------- | ---------- | ---------- | ------ |
+| 1    | 李广  | 1        | 1998-02-12 08:22:13 | 2019-07-20 14:22:16 | 男   | 1    | 2300071698@qq.com   | 2300071698 | 999999999  | 1      |
+| 3    | 钱佳  | 3        | 1989-11-17 10:29:13 | 2019-07-17 20:54:14 | 男   | 2    | good@houdunren.com  | 9999999    | 188888888  | 3      |
+| 5    | 小明  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   | 3    | hello@houdunren.com | 2222       | 1988888888 | 5      |
+
+---
+
+✅ 使用`left join`来获取到所有学生，有信息的也包含在表结果中
 
 ```sql
-SELECT s.id,s.sname FROM stu as s LEFT JOIN article as a 
+SELECT * FROM stu AS s
+lEFT JOIN stu_info as i
+ON s.id = i.stu_id;
+```
+
+| id   | sname | class_id | birthday            | updated_at          | sex  | id   | email               | qq         | mobile     | stu_id |
+| ---- | ----- | -------- | ------------------- | ------------------- | ---- | ---- | ------------------- | ---------- | ---------- | ------ |
+| 1    | 李广  | 1        | 1998-02-12 08:22:13 | 2019-07-20 14:22:16 | 男   | 1    | 2300071698@qq.com   | 2300071698 | 999999999  | 1      |
+| 2    | 何青  | 1        | 1985-07-22 18:19:13 | 2019-07-17 21:50:38 | 女   |      |                     |            |            |        |
+| 3    | 钱佳  | 3        | 1989-11-17 10:29:13 | 2019-07-17 20:54:14 | 男   | 2    | good@houdunren.com  | 9999999    | 188888888  | 3      |
+| 4    | 刘玉  | 1        | 1999-07-03 19:46:13 | 2019-07-17 20:54:14 | 女   |      |                     |            |            |        |
+| 5    | 小明  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   | 3    | hello@houdunren.com | 2222       | 1988888888 | 5      |
+| ...  | ...   | ...      |                     |                     |      |      |                     |            |            |        |
+
+---
+
+🚀 最终，获取没有设置qq信息的用户结果如下：
+
+```sql
+SELECT s.sname FROM stu AS s
+lEFT JOIN stu_info as i
+ON s.id = i.stu_id
+WHERE i.qq IS NULL;
+```
+
+### 没发表文章的同学
+
+```sql
+SELECT s.id,s.sname FROM stu as s
+LEFT JOIN article as a 
 ON s.id = a.stu_id
 WHERE a.id IS NULL;
 ```
 
-哪个班级没有学生
+### ------RIGHT JOIN------
+
+### 哪个班级没有学生
+
+> 无论class有没有学生，都要获取到class信息
 
 ```sql
-SELECT sname,c.id,c.cname FROM stu AS s RIGHT JOIN class as c
+SELECT * FROM stu AS s
+RIGHT JOIN class as c
+ON s.class_id = c.id;
+```
+
+| id   | sname | class_id | birthday            | updated_at          | sex  | id   | cname  | description         |
+| ---- | ----- | -------- | ------------------- | ------------------- | ---- | ---- | ------ | ------------------- |
+| 9    | 李月  | 1        |                     | 2019-07-18 17:49:03 | 女   | 1    | 幼儿园 | 学习PHP 开发网站    |
+| 7    | 李风  | 1        | 2003-02-15 20:33:13 | 2019-07-20 14:30:02 | 男   | 1    | 幼儿园 | 学习PHP 开发网站    |
+| 4    | 刘玉  | 1        | 1999-07-03 19:46:13 | 2019-07-17 20:54:14 | 女   | 1    | 幼儿园 | 学习PHP 开发网站    |
+| 2    | 何青  | 1        | 1985-07-22 18:19:13 | 2019-07-17 21:50:38 | 女   | 1    | 幼儿园 | 学习PHP 开发网站    |
+| 1    | 李广  | 1        | 1998-02-12 08:22:13 | 2019-07-20 14:22:16 | 男   | 1    | 幼儿园 | 学习PHP 开发网站    |
+| 8    | 李兰  | 2        |                     | 2019-07-19 12:50:07 | 女   | 2    | 小学   | 前端工程师          |
+| 5    | 小明  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   | 2    | 小学   | 前端工程师          |
+| 6    | 张云  | 3        | 1996-09-01 20:33:13 | 2019-07-19 12:59:40 | 女   | 3    | 初中   | 服务器知识PHP好帮助 |
+| 3    | 钱佳  | 3        | 1989-11-17 10:29:13 | 2019-07-17 20:54:14 | 男   | 3    | 初中   | 服务器知识PHP好帮助 |
+|      |       |          |                     |                     |      | 4    | 高中   | 数据库学习          |
+|      |       |          |                     |                     |      | 5    | 大学   | 越努力越幸运        |
+
+---
+
+```sql
+SELECT * FROM stu AS s
+RIGHT JOIN class as c
 ON s.class_id = c.id
 WHERE s.id IS NULL;
 ```
 
-每个班级的平均年龄
+### 查找学生所在班级，没有班级的学生显示无
+
+> 偏心学生表
 
 ```sql
-SELECT c.cname,avg(timestampdiff(year,s.birthday,now())) as t 
-FROM stu as s INNER JOIN class as c
-ON s.class_id = c.id
-GROUP BY c.cname;
-```
-
-查找学生所在班级，没有班级的学生显示无
-
-```sql
-SELECT sname,ifnull(s.class_id,'无') FROM stu AS s LEFT JOIN class AS c
+SELECT sname,ifnull(s.class_id,'无') FROM stu AS s
+LEFT JOIN class AS c
 ON s.class_id = c.id;
+#或
+SELECT s.sname,if(s.class_id,c.cname,'无') as cname
+FROM class as c
+RIGHT JOIN stu as s
+ON c.id = s.class_id;
 ```
 
 ## SELF JOIN
 
-`SELF JOIN`为自连接即表与自身进行关联。虽然自连接的两张表都是同一张表，但也把它按两张表对待，这样理解就会容易些。
+🔖 `SELF JOIN`为自连接即表与自身进行关联。虽然自连接的两张表都是同一张表，但也把它**按两张表对待**，这样理解就会容易些。
 
-**查找后盾人的同班同学**
+> 子链接的性能比子查询要好
+
+### 查找小明的同班同学
 
 使用子查询操作
 
 ```sql
 SELECT * FROM stu WHERE class_id = 
-(SELECT class_id FROM stu WHERE sname = '后盾人')
-AND stu.sname !='后盾人';
+(SELECT class_id FROM stu WHERE sname = '小明')
+AND stu.sname !='小明';
 ```
 
 使用自连接查询
 
 ```sql
-SELECT s1.sname,s2.sname FROM stu as s1 
-INNER JOIN stu as s2
-ON s1.class_id = s2.class_id
-WHERE s1.sname = '后盾人' AND s2.sname !='后盾人';
-```
-
-**查找与后盾人同年出生的同学**
-
-```sql
-SELECT s2.* FROM stu as s1 INNER JOIN stu AS s2
-ON year(s1.birthday) = year(s2.birthday)
-WHERE s1.sname ='后盾人' AND s2.sname !='后盾人';
-```
-
-**查找比后盾人大的同学**
-
-```sql
-SELECT s2.sname,s2.birthday FROM stu AS s1
+SELECT s2.sname FROM stu AS s1
 INNER JOIN stu AS s2
-ON year(s1.birthday)>year(s2.birthday)
-WHERE s1.sname = '后盾人';
+ON s1.class_id = s2.class_id
+WHERE s1.sname = '李月'
+AND s2.sname != '李月';
+```
+
+```json
+{
+  "sname" : "李广"
+},
+{
+  "sname" : "何青"
+},
+{
+  "sname" : "刘玉"
+},
+{
+  "sname" : "李风"
+}
+```
+
+### 查找与刘雷同年出生的同学
+
+1. 首先在单表查内找出生日相同的所有匹配信息：
+
+```sql
+SELECT * FROM stu as s1
+INNER JOIN stu as s2
+ON YEAR(s1.birthday) = YEAR(s2.birthday)
+```
+
+| id   | sname | class_id | birthday            | updated_at          | sex  | id   | sname | class_id | birthday            | updated_at          | sex  |
+| ---- | ----- | -------- | ------------------- | ------------------- | ---- | ---- | ----- | -------- | ------------------- | ------------------- | ---- |
+| 1    | 李广  | 1        | 1998-02-12 08:22:13 | 2019-07-20 14:22:16 | 男   | 1    | 李广  | 1        | 1998-02-12 08:22:13 | 2019-07-20 14:22:16 | 男   |
+| 2    | 何青  | 1        | 1985-07-22 18:19:13 | 2019-07-17 21:50:38 | 女   | 2    | 何青  | 1        | 1985-07-22 18:19:13 | 2019-07-17 21:50:38 | 女   |
+| 3    | 钱佳  | 3        | 1989-11-17 10:29:13 | 2019-07-17 20:54:14 | 男   | 3    | 钱佳  | 3        | 1989-11-17 10:29:13 | 2019-07-17 20:54:14 | 男   |
+| 4    | 刘玉  | 1        | 1999-07-03 19:46:13 | 2019-07-17 20:54:14 | 女   | 4    | 刘玉  | 1        | 1999-07-03 19:46:13 | 2019-07-17 20:54:14 | 女   |
+| 7    | 李风  | 1        | 2003-02-15 20:33:13 | 2019-07-20 14:30:02 | 男   | 5    | 张云  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   |
+| 5    | 刘雷  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   | 5    | 张云  | 2        | 2003-09-01 20:33:13 | 2019-07-20 16:41:32 | 男   |
+| ...  | ...   | ...      | ...                 |                     |      |      |       |          |                     |                     |      |
+
+2. 然后过滤出需要的信息
+
+```sql
+SELECT s2.sname FROM stu as s1
+INNER JOIN stu as s2
+ON YEAR(s1.birthday) = YEAR(s2.birthday)
+WHERE s1.sname = '刘雷' AND s2.sname != '刘雷'
+```
+
+### 查找比刘雷大的同学
+
+```sql
+SELECT s2.sname FROM stu as s1
+INNER JOIN stu as s2
+ON YEAR(s1.birthday) > YEAR(s2.birthday)
+WHERE s1.sname = '刘雷';
 ```
 
 ## 多对多
 
-比如学生可以学习多个课程，一个课程也可以被多个学生学习，这种情况就是多对多的关系。需要创建一张中间表来把这种关系联系起来。
+🔖 比如学生可以学习多个课程，一个课程也可以被多个学生学习，这种情况就是多对多的关系。需要创建一张**中间表**来把这种关系联系起来。
 
-**查找后盾人学习的课程**
+### 查找小明学习的课程
+
+1. 先把三张表关联起来：stu =>  stu_lesson => lesson
 
 ```sql
-SELECT sname,l.name FROM stu AS s
-INNER JOIN user_lesson AS ul
-ON s.id = ul.stu_id
-INNER JOIN lesson AS l
-ON ul.lesson_id = l.id
-WHERE s.sname = '后盾人';
+SELECT * FROM stu as s
+INNER JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+INNER JOIN lesson as l
+ON l.id = sl.lesson_id;
 ```
 
-**哪个班级的同学最爱学习PHP**
+2. 然后添加过滤逻辑即可
 
 ```sql
-SELECT c.cname,count(*) AS total FROM stu AS s
-INNER JOIN user_lesson AS ul
-INNER JOIN lesson AS l
-ON s.id = ul.stu_id AND ul.lesson_id = l.id
-INNER JOIN class AS c
-ON c.id = s.class_id
-WHERE l.name='php'
-GROUP BY c.cname
-ORDER by total 
+SELECT s.sname, l.name FROM stu as s
+INNER JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+INNER JOIN lesson as l
+ON l.id = sl.lesson_id
+WHERE s.sname = '李广'
+
+# 大多数情况下，获取到lesson id即可,减少表的关联性能更好
+SELECT sl.lesson_id ,s.sname FROM stu as s
+INNER JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+WHERE s.sname = '李广'
+#|lesson_id|sname|
+#|---------|-----|
+#|2        |李广  |
+#|1        |李广  |
+```
+
+### 哪个班级的同学最爱学习MYSQL
+
+> 班级 + 学生 + 课程 ，为了获取课程的名称。除了学生课程关联表，还需要课程表的信息
+
+```sql
+SELECT * FROM class as c
+INNER JOIN stu as s
+ON c.id = s.class_id 
+INNER JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+INNER JOIN lesson as l
+ON l.id = sl.lesson_id;
+```
+
+然后添加过滤条件，最终进行分组排序
+
+```sql
+SELECT c.id, count(*) as total FROM class as c
+INNER JOIN stu as s
+ON c.id = s.class_id 
+INNER JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+INNER JOIN lesson as l
+ON l.id = sl.lesson_id
+WHERE l.name = 'MYSQL'
+GROUP BY c.id
+ORDER BY total DESC
 LIMIT 1;
+
+# |id |total|
+# |---|-----|
+# |1  |2    |
 ```
 
 ## UNION
 
-`UNION` 用于连接多个查询结果，要保证每个查询返回的列的数量与顺序要一样。
+::: tip `UNION` 用于**连接多个查询结果**，要保证每个查询返回的列的数量与顺序要一样。
 
-- UNION会过滤重复的结果
+- UNION会过滤重复的结果 
+
+  `SELECT * FROM stu UNION SELECT * FROM stu`与单表查询结果相同
+
 - UNION ALL 不过滤重复结果
-- 列表字段由是第一个查询的字段
 
-**查询年龄最大与最小的同学**
+  `SELECT * FROM stu UNION ALL SELECT * FROM stu`单表重复
+
+- 列表字段由是第一个查询的字段 `sname`
+
+::: 
+
+```sql
+(SELECT sname from stu WHERE sex = '男' limit 2)
+UNION ALL
+(SELECT cname from class limit 3)
+# ORDER by rand()
+# limit 2;
+
+|sname|
+|-----|
+|李广   |
+|何青   |
+|幼儿园  |
+|小学   |
+|初中   |
+```
+
+### 年龄最大与最小的同学
 
 ```sql
 (SELECT sname,birthday FROM stu ORDER BY birthday DESC LIMIT 1)
@@ -320,41 +491,69 @@ UNION
 ORDER BY birthday DESC;
 ```
 
-**最新发表的文章和学习的课程组成动态数据**
+| sname | birthday            |
+| ----- | ------------------- |
+| 小明  | 2003-09-01 20:33:13 |
+| 李兰  | 1996-09-01 20:33:13 |
+
+### 组成动态数据
+
+最新发表的文章和学习的课程
 
 ```sql
-(SELECT CONCAT(s.sname,'发表了文章：',a.title) from article as a
+(SELECT CONCAT(s.sname,'发表了文章：',a.title) as title from article as a
 INNER JOIN stu as s
 ON s.id = a.stu_id
 LIMIT 2)
 UNION
 (SELECT CONCAT(s.sname,'正在学习：',l.name) FROM stu AS s 
-INNER JOIN user_lesson as ul
+INNER JOIN stu_lesson as sl
 INNER JOIN lesson as l
-ON s.id = ul.stu_id AND ul.lesson_id = l.id 
+ON s.id = sl.stu_id AND sl.lesson_id = l.id 
 LIMIT 2);
+# ORDER by rand()
 ```
+
+| title                                 |
+| ------------------------------------- |
+| 李广发表了文章：PHP很好学习，功能强大 |
+| 钱佳发表了文章：Mysql系统课程正在更新 |
+| 李广正在学习：MYSQL                   |
+| 李广正在学习：PHP                     |
 
 ## 多表删除
 
-删除所有没有学习任何课程的同学
+### 删除所有没有学习任何课程的同学
+
+🔖 要先查询到学生与课程的集合，因为没有课程的学生也要拿到，偏心向学生表；再删除
 
 ```sql
-DELETE s FROM stu as s 
-LEFT JOIN user_lesson as ul
-ON s.id = ul.stu_id
-WHERE ul.lesson_id IS NULL;
+# 备份：create table stu2 SELECT * from stu;
+SELECT * from stu2 as s
+LEFT JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+WHERE sl.lesson_id IS NULL;
 ```
 
-使用子查询操作
+1. 使用子查询删除
 
 ```sql
-DELETE FROM stu WHERE id IN(
-  SELECT id FROM
-    (SELECT s.id FROM stu as s
-    LEFT JOIN user_lesson as ul
-    ON s.id = ul.stu_id
-    WHERE ul.lesson_id IS NULL) 
-  AS s
+DELETE FROM stu2 WHERE id IN(
+  SELECT * FROM(
+    SELECT s.id from stu2 as s
+    LEFT JOIN stu_lesson as sl
+    ON s.id = sl.stu_id
+    WHERE sl.lesson_id IS NULL
+  )AS s
 );
 ```
+
+2. 使用多表删除：`DELETE table from ~`
+
+```sql
+DELETE s from stu2 as s
+LEFT JOIN stu_lesson as sl
+ON s.id = sl.stu_id
+WHERE sl.lesson_id IS NULL
+```
+

@@ -77,6 +77,7 @@ module.exports = {
         "/mysql/table.md",
         "/mysql/dataType.md",
         "/mysql/datetime.md",
+        "/mysql/multiple.md",
       ],
     },
   ],

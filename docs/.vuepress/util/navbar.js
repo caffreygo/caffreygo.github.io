@@ -310,6 +310,10 @@ module.exports = [
         text: "日期时间",
         link: "/mysql/datetime",
       },
+      {
+        text: "多表操作",
+        link: "/mysql/multiple",
+      },
     ],
   },
   {

@@ -278,8 +278,11 @@ flatten([1,2,[3,4, [5]]])  // [1, 2, 3, 4, 5]
 
 ### 浅拷贝
 
+> 只处理第一层数据，对对象类型数据进行拷贝
+>
+> 🌐 [hasOwnProperty (opens new window)](https://www.ijerrychen.com/javascript/object.html#%E6%A3%80%E6%B5%8B%E5%B1%9E%E6%80%A7)
+
 ```js
-// 只考虑对象类型
 function shallowCopy(obj) {
     if (typeof obj !== 'object') return
     
@@ -295,13 +298,13 @@ function shallowCopy(obj) {
 
 ### 深拷贝
 
-基础版：只考虑普通对象属性，不考虑内置对象和函数。
+基础版：只考虑普通对象属性，不考虑内置对象和函数。(递归浅拷贝)
 
 ```js
 function deepClone(obj) {
     if (typeof obj !== 'object') return;
-    var newObj = obj instanceof Array ? [] : {};
-    for (var key in obj) {
+    const newObj = obj instanceof Array ? [] : {};
+    for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
             newObj[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
         }
@@ -340,3 +343,84 @@ function deepClone(target, map = new WeakMap()) {
     }
 }
 ```
+
+## 事件总线(发布订阅模式)
+
+```js
+class EventEmitter {
+  constructor() {
+    this.cache = {}
+  }
+  on(name, fn) {
+    if (this.cache[name]) {
+      this.cache[name].push(fn)
+    } else {
+      this.cache[name] = [fn]
+    }
+  }
+  off(name, fn) {
+    let tasks = this.cache[name]
+    if (tasks) {
+      const index = tasks.findIndex(f => f === fn || f.callback === fn)
+      if (index >= 0) {
+        tasks.splice(index, 1)
+      }
+    }
+  }
+  emit(name, once = false, ...args) {
+    if (this.cache[name]) {
+      // 创建副本，如果回调函数内继续注册相同事件，会造成死循环
+      let tasks = this.cache[name].slice()
+      for (let fn of tasks) {
+        fn(...args)
+      }
+      if (once) {
+        delete this.cache[name]
+      }
+    }
+  }
+}
+
+// 测试
+let eventBus = new EventEmitter()
+let fn1 = function(name, age) {
+  console.log(`${name} ${age}`)
+}
+let fn2 = function(name, age) {
+  console.log(`hello, ${name} ${age}`)
+}
+eventBus.on('aaa', fn1)
+eventBus.on('aaa', fn2)
+eventBus.emit('aaa', false, '布兰', 12)
+// '布兰 12'
+// 'hello, 布兰 12'
+```
+
+## 解析 URL 参数为对象
+
+```js
+function parseParam(url) {
+  const paramsStr = /.+\?(.+)$/.exec(url)[1]; // 将 ? 后面的字符串取出来
+  const paramsArr = paramsStr.split('&'); // 将字符串以 & 分割后存到数组中
+  let paramsObj = {};
+  // 将 params 存到对象中
+  paramsArr.forEach(param => {
+    if (/=/.test(param)) { // 处理有 value 的参数
+      let [key, val] = param.split('='); // 分割 key 和 value
+      val = decodeURIComponent(val); // 解码
+      val = /^\d+$/.test(val) ? parseFloat(val) : val; // 判断是否转为数字
+
+      if (paramsObj.hasOwnProperty(key)) { // 如果对象有 key，则添加一个值
+        paramsObj[key] = [].concat(paramsObj[key], val);
+      } else { // 如果对象没有这个 key，创建 key 并设置值
+        paramsObj[key] = val;
+      }
+    } else { // 处理没有 value 的参数
+      paramsObj[param] = true;
+    }
+  })
+
+  return paramsObj;
+}
+```
+

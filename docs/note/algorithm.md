@@ -777,25 +777,30 @@ console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 ::: 
 
-#### 基本实现
+#### 递归实现
 
 ```js
 function quickSort(arr) {
-    if (arr.length <= 1) { return arr; }
-    var pivotIndex = Math.floor(arr.length / 2);
-    var pivot = arr.splice(pivotIndex, 1)[0];
-    var left = [];
-    var right = [];
-    for (var i = 0; i < arr.length; i++){
-        if (arr[i] < pivot) {
-            left.push(arr[i]);
-        } else {
-            right.push(arr[i]);
-        }
+  if(arr.length <= 1) return arr;
+  const mid = arr.splice(Math.floor(arr.length/2),1)[0];
+  const left = [];
+  const right = [];
+  for(let i = 0; i < arr.length; i ++) {
+    if(arr[i] < mid) {
+      left.push(arr[i])
+    }else {
+      right.push(arr[i])
     }
-    return quickSort(left).concat([pivot], quickSort(right));
-};
+  }
+  return quickSort(left).concat([mid], quickSort(right))
+}
 ```
+
+> 🐛 需在原数组当中移除中值，否则递归会栈溢出
+>
+> [6, 3, 5] 如果不移除中值3，会全push在right，造成死循环
+>
+> [3, 5] 如果不移除中值5，会全push在left，造成死循环
 
 #### 双指针
 

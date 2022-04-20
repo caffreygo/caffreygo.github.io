@@ -767,7 +767,9 @@ console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 ### 快速排序
 
-📗 快速排序也许是最常用的排序算法了。它的复杂度为O(nlog(n))，且性能通常比其他复杂度为O(nlog(n))的排序算法要好。和归并排序一样，快速排序也使用**分而治之**的方法，将原始数组分为较小的数组（但它没有像归并排序那样将它们分割开）。
+📗 快速排序也许是最常用的排序算法了。它的复杂度为O(nlog(n))，且性能通常比其他复杂度为O(nlog(n))的排序算法要好。
+
+和归并排序一样，快速排序也使用**分而治之**的方法，将原始数组分为较小的数组（但它没有像归并排序那样将它们分割开）。
 
 ::: tip 快速排序的思想很简单，整个排序过程只需要三步：
 
@@ -777,7 +779,7 @@ console.log(result) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 ::: 
 
-#### 递归实现
+#### 基本实现
 
 ```js
 function quickSort(arr) {
@@ -804,44 +806,36 @@ function quickSort(arr) {
 
 #### 双指针
 
+使用数组首项作为基准，左指针寻找比基准大的，右指针寻找比基准小的，交换位置
+
+当左右指针重合，即一次遍历完，交换基准
+
 ```js
-function quickSort(array, left, right) {
-    let index;
-    if (array.length > 1) {
-        index = partition(array, left, right);
-        if (left < index - 1) {
-            quickSort(array, left, index - 1);
-        }
-        if (index < right) {
-            quickSort(array, index, right);
-        }
-    }
-    return array;
-};
+function quickSort(arr, begin, end) {
+  if (begin >= end) {
+      return
+  }
+  let temp = arr[begin];
+  let left = begin;
+  let right = end;
+  while(right > left) {
+      while(right > left && arr[right] >= temp) {
+          right--;
+      }
+      while(right > left && arr[left] <= temp) {
+          left++;
+      }
+      [arr[left], arr[right]] = [arr[right], arr[left]];
+  }
 
-function partition(array, left, right) {
-    const pivot = array[Math.floor((right + left) / 2)];
-    let i = left;
-    let j = right;
-
-    while (i <= j) {
-        while (array[i] < pivot) {
-            i++;
-        }
-        while (array[j] > pivot) {
-            j--;
-        }
-        if (i <= j) {
-            toggleItem(array, i, j)
-            i++;
-            j--;
-        }
-    }
-    return i;
+  [arr[begin], arr[right]] = [arr[right], arr[begin]];
+  quickSort(arr, begin, right - 1);
+  quickSort(arr, right + 1, end);
+  return arr;
 }
-
-const array = [9, 6, 7, 8, 2, 3, 5, 1]
-console.table(quickSort(array, 0, array.length - 1))
+const arr = [3, 6, 1, 2, 5, 4];
+const result = quickSort(arr, 0, arr.length - 1);
+console.log(result);
 ```
 
 ### 计数排序

@@ -424,3 +424,216 @@ function parseParam(url) {
 }
 ```
 
+## 字符串模板
+
+```js
+function render(template, data) {
+    const reg = /\{\{(\w+)\}\}/; // 模板字符串正则
+    if (reg.test(template)) { // 判断模板里是否有模板字符串
+        const name = reg.exec(template)[1]; // 查找当前模板里第一个模板字符串的字段
+        template = template.replace(reg, data[name]); // 将第一个模板字符串渲染
+        return render(template, data); // 递归的渲染并返回渲染后的结构
+    }
+    return template; // 如果模板没有模板字符串直接返回
+}
+```
+
+测试：
+
+```js
+let template = '我是{{name}}，年龄{{age}}，性别{{sex}}';
+let person = {
+    name: '布兰',
+    age: 12
+}
+render(template, person); // 我是布兰，年龄12，性别undefined
+```
+
+## 图片懒加载
+
+与普通的图片懒加载不同，如下这个多做了 2 个精心处理：
+
+- 图片全部加载完成后移除事件监听；
+- 加载完的图片，从 imgList 移除；
+
+```diff
+let imgList = [...document.querySelectorAll('img')]
+let length = imgList.length
+
+// 修正错误，需要加上自执行
+- const imgLazyLoad = function() {
++ const imgLazyLoad = (function() {
+    let count = 0
+    
+   return function() {
+        let deleteIndexList = []
+        imgList.forEach((img, index) => {
+            let rect = img.getBoundingClientRect()
+            if (rect.top < window.innerHeight) {
+                img.src = img.dataset.src
+                deleteIndexList.push(index)
+                count++
+                if (count === length) {
+                    document.removeEventListener('scroll', imgLazyLoad)
+                }
+            }
+        })
+        imgList = imgList.filter((img, index) => !deleteIndexList.includes(index))
+   }
+- }
++ })()
+
+// 这里最好加上防抖处理
+document.addEventListener('scroll', imgLazyLoad)；
+```
+
+参考：[图片懒加载](https://juejin.cn/post/6844903856489365518#heading-19)
+
+## 函数防抖
+
+触发高频事件 N 秒后只会执行一次，如果 N 秒内事件再次触发，则会重新计时。
+
+简单版：函数内部支持使用 this 和 event 对象；
+
+```js
+function debounce(func, wait) {
+    var timeout;
+    return function () {
+        var context = this;
+        var args = arguments;
+        clearTimeout(timeout)
+        timeout = setTimeout(function(){
+            func.apply(context, args)
+        }, wait);
+    }
+}
+```
+
+使用：
+
+```js
+var node = document.getElementById('layout')
+function getUserAction(e) {
+    console.log(this, e)  // 分别打印：node 这个节点 和 MouseEvent
+    node.innerHTML = count++;
+};
+node.onmousemove = debounce(getUserAction, 1000)
+```
+
+最终版：除了支持 this 和 event 外，还支持以下功能：
+
+- 支持立即执行；
+- 函数可能有返回值；
+- 支持取消功能；
+
+```js
+function debounce(func, wait, immediate) {
+    var timeout, result;
+    
+    var debounced = function () {
+        var context = this;
+        var args = arguments;
+        
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+            // 如果已经执行过，不再执行
+            var callNow = !timeout;
+            timeout = setTimeout(function(){
+                timeout = null;
+            }, wait)
+            if (callNow) result = func.apply(context, args)
+        } else {
+            timeout = setTimeout(function(){
+                func.apply(context, args)
+            }, wait);
+        }
+        return result;
+    };
+
+    debounced.cancel = function() {
+        clearTimeout(timeout);
+        timeout = null;
+    };
+
+    return debounced;
+}
+```
+
+使用：
+
+```js
+var setUseAction = debounce(getUserAction, 10000, true);
+// 使用防抖
+node.onmousemove = setUseAction
+
+// 取消防抖
+setUseAction.cancel()
+```
+
+参考：[JavaScript专题之跟着underscore学防抖](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fmqyqingfeng%2FBlog%2Fissues%2F22)
+
+## 函数节流
+
+触发高频事件，且 N 秒内只执行一次。
+
+简单版：使用时间戳来实现，立即执行一次，然后每 N 秒执行一次。
+
+```js
+function throttle(func, wait) {
+    var context, args;
+    var previous = 0;
+
+    return function() {
+        var now = +new Date();
+        context = this;
+        args = arguments;
+        if (now - previous > wait) {
+            func.apply(context, args);
+            previous = now;
+        }
+    }
+}
+```
+
+最终版：支持取消节流；另外通过传入第三个参数，options.leading 来表示是否可以立即执行一次，opitons.trailing 表示结束调用的时候是否还要执行一次，默认都是 true。 注意设置的时候不能同时将 leading 或 trailing 设置为 false。
+
+```js
+function throttle(func, wait, options) {
+    var timeout, context, args, result;
+    var previous = 0;
+    if (!options) options = {};
+
+    var later = function() {
+        previous = options.leading === false ? 0 : new Date().getTime();
+        timeout = null;
+        func.apply(context, args);
+        if (!timeout) context = args = null;
+    };
+
+    var throttled = function() {
+        var now = new Date().getTime();
+        if (!previous && options.leading === false) previous = now;
+        var remaining = wait - (now - previous);
+        context = this;
+        args = arguments;
+        if (remaining <= 0 || remaining > wait) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            previous = now;
+            func.apply(context, args);
+            if (!timeout) context = args = null;
+        } else if (!timeout && options.trailing !== false) {
+            timeout = setTimeout(later, remaining);
+        }
+    };
+    
+    throttled.cancel = function() {
+        clearTimeout(timeout);
+        previous = 0;
+        timeout = null;
+    }
+    return throttled;
+}
+```

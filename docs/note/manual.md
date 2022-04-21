@@ -241,37 +241,41 @@ const unique1 = (arr) => [...new Set(arr)];
 [1, [2, [3]]].flat(2);  // [1, 2, 3] 参数2表示铺平的层级
 ```
 
-ES5 实现：递归
+ES5 实现：递归即可
 
 ```js
-function flatten(arr) {
-    var result = [];
-    for (var i = 0, len = arr.length; i < len; i++) {
-        if (Array.isArray(arr[i])) {
-            result = result.concat(flatten(arr[i]))
-        } else {
-            result.push(arr[i])
+function flat(arr) {
+    let result = []
+    for(let i = 0; i<arr.length; i++) {
+        const item = arr[i]
+        if(Array.isArray(item)) {
+            result = result.concat(flat(item))
+        }else {
+            result.push(item)
         }
     }
-    return result;
+    return result
 }
 
 // ----------Testing----------
-flatten([1,2,[3,4, [5]]])  // [1, 2, 3, 4, 5]
+flat([1,2,[3,4, [5]]])  // [1, 2, 3, 4, 5]
 ```
 
-ES6 实现：
+ES6 实现
 
 ```js
-function flatten(arr) {
-    while (arr.some(item => Array.isArray(item))) {
-        arr = [].concat(...arr);
+// [].concat(1,2,3,[4,5])   [1, 2, 3, 4, 5]
+// concat的参数是以逗号分分隔的任何数据类型，一维数组会直接被解构推入到新数组当中
+function flat(arr) {
+    while(arr.some(i=> Array.isArray(i))) {
+        arr = [].concat(...arr)
     }
-    return arr;
+    return arr
+}
 }
 
 // ----------Testing----------
-flatten([1,2,[3,4, [5]]])  // [1, 2, 3, 4, 5]
+flat([1,2,[3,4, [5]]])  // [1, 2, 3, 4, 5]
 ```
 
 ## 深浅拷贝

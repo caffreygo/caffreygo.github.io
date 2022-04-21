@@ -314,6 +314,14 @@ module.exports = [
         text: "多表操作",
         link: "/mysql/multiple",
       },
+      {
+        text: "事务处理",
+        link: "/mysql/transaction",
+      },
+      {
+        text: "锁机制",
+        link: "/mysql/lock",
+      },
     ],
   },
   {

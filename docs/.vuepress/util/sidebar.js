@@ -78,6 +78,8 @@ module.exports = {
         "/mysql/dataType.md",
         "/mysql/datetime.md",
         "/mysql/multiple.md",
+        "/mysql/transaction.md",
+        "/mysql/lock.md",
       ],
     },
   ],

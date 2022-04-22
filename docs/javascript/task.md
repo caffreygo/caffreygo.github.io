@@ -1,5 +1,45 @@
 # 任务管理
 
+🌐 [事件循环详解 (opens new window)](http://www.inode.club/node/event_loop.html#%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3)
+
+```js
+async function async1() {
+  console.log('async1 start')     // 2
+  await async2()    // async函数执行时遇到await先返回，await异步完成后再执行，也就是后面的执行相当于在async2 resolve当中执行
+  console.log('async1 end')   // 7 微任务
+}
+
+async function async2() {
+  console.log('async2')     // 3  async2执行完成后把 async1 await后面的执行推入微任务队列: ['async1 end']
+}
+
+console.log('script start')     // 1
+
+setTimeout(function() {
+  console.log('setTimeout0')   // 9 次轮循环  宏任务
+}, 0)
+
+setTimeout(function() {
+  console.log('setTimeout3')   // 11 次轮循环  宏任务
+}, 3)
+
+setImmediate(() => console.log('setImmediate'))   // 10 次轮循环  宏任务
+
+process.nextTick(() => console.log('nextTick'))   // 6  微任务  ['nextTick', 'async1 end']
+
+async1()     // 2
+
+new Promise(function(resolve) {
+  console.log('promise1')   // 4  Promise是一个立即执行函数
+  resolve()                 // microTaskQueue: ['nextTick', 'async1 end', 'promise3']
+  console.log('promise2')   // 5  resolve后不会终结promise的参数函数的执行
+}).then(function() {
+  console.log('promise3')   // 8 异步微任务
+})
+
+console.log('script end')   // 6
+```
+
 ## 任务队列
 
 📗 JavaScript 语言的一大特点就是**单线程**，也就是说同一个时间只能处理一个任务。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，防止主线程的不阻塞，（事件循环）Event Loop的方案应用而生。
@@ -68,7 +108,7 @@ promise2
 
 8. 主线程任务执行完毕
 
-9. 现次事件循环遍历微任务队列，读取到promise2微任务放入主线程执行，然后输出 ❓❓ (需要清空掉微任务队列才能执行宏任务)
+9. 现次事件循环遍历微任务队列，读取到promise2微任务放入主线程执行，然后输出 
 
    ```js
    promise2
@@ -81,6 +121,8 @@ promise2
     ```js
     setTimeout
     ```
+
+> 宏任务实际上就是次轮事件循环。当前事件循环的微任务清空，结束本轮循环，下次事件循环开始才会执行。
 
 ### 脚本加载
 

@@ -1,5 +1,12 @@
 # 任务管理
 
+::: tip 异步任务可以分成两种
+
+1. 追加在本轮循环的异步任务
+2. 追加在次轮循环的异步任务
+
+::: 
+
 🌐 [事件循环详解 (opens new window)](http://www.inode.club/node/event_loop.html#%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3)
 
 ```js
@@ -40,6 +47,32 @@ new Promise(function(resolve) {
 console.log('script end')   // 6
 ```
 
+🔥 执行完async2之后为什么没有马上输出async1 end？
+
+```js
+await async2()
+console.log('async1 end')
+
+// 相当于以下函数
+// 立即执行async2函数，然后将await后面的内容放到微任务队列中
+async2().then(()=> {
+    console.log('async1 end')
+})
+```
+
+🔥 为何nextTick的回调函数先于async1 end输出?
+
+- Promise 对象的回调函数，会进入异步任务microTask队列， `process.nextTick`的回调函数会追加在nextTick队列当中
+- microTask队列追加在nextTick队列后，所以nextTick的回调函数先执行输出
+
+```js
+process.nextTick(() => console.log(1))
+Promise.resolve().then(() => console.log(2))
+process.nextTick(() => console.log(3))
+Promise.resolve().then(() => console.log(4))
+// 1, 3, 2, 4
+```
+
 ## 任务队列
 
 📗 JavaScript 语言的一大特点就是**单线程**，也就是说同一个时间只能处理一个任务。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，防止主线程的不阻塞，（事件循环）Event Loop的方案应用而生。
@@ -63,11 +96,9 @@ console.log("Jerry");
 setTimeout(function() {
     console.log("定时器");
 }, 0);
-Promise.resolve()
-    .then(function() {
+Promise.resolve().then(function() {
     console.log("promise1");
-})
-    .then(function() {
+}).then(function() {
     console.log("promise2");
 });
 console.log("Hello");
@@ -122,13 +153,13 @@ promise2
     setTimeout
     ```
 
-> 宏任务实际上就是次轮事件循环。当前事件循环的微任务清空，结束本轮循环，下次事件循环开始才会执行。
+> 🔖 宏任务实际上就是次轮事件循环。当前事件循环的微任务清空，结束本轮循环，下次事件循环开始才会执行。
 
 ### 脚本加载
 
-📗 引擎在执行任务时不会进行DOM渲染（同步的），所以如果把`script` 定义在前面
+🚨 引擎在执行任务时不会进行DOM渲染（同步的），所以如果把`script` 定义在前面，要先执行完任务后再渲染DOM
 
-📌 要先执行完任务后再渲染DOM，建议将`script` 放在 BODY 结束标签前。
+✅ 所以建议将`script` 放在 BODY 结束标签前
 
 ### 定时器
 

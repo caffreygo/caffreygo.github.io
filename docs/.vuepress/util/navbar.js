@@ -322,6 +322,10 @@ module.exports = [
         text: "锁机制",
         link: "/mysql/lock",
       },
+      {
+        text: "外键关联",
+        link: "/mysql/foreignKey",
+      },
     ],
   },
   {

@@ -80,6 +80,7 @@ module.exports = {
         "/mysql/multiple.md",
         "/mysql/transaction.md",
         "/mysql/lock.md",
+        "/mysql/foreignKey.md",
       ],
     },
   ],

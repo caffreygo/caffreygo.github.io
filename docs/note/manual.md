@@ -221,17 +221,58 @@ class Dog extends Animal {
 
 ## 数组去重
 
+### 双层for循环
+
+```js
+function distinct(arr) {
+  for (let i = 0, len = arr.length; i < len; i++) {
+    for (let j = i + 1; j < len; j++) {
+      if (arr[i] == arr[j]) {
+        arr.splice(j, 1)
+        // splice 会改变数组长度，所以要将数组长度 len 和下标 j 减一
+        len--
+        j--
+      }
+    }
+  }
+  return arr
+}
+```
+
+分析：双重 for 循环是比较笨拙的方法，它实现的原理很简单：先定义一个包含原始数组第一个元素的数组，然后遍历原始数组，将原始数组中的每个元素与新数组中的每个元素进行比对，如果不重复则添加到新数组中，最后返回新数组；因为它的时间复杂度是`O(n^2)`，如果数组长度很大，`效率会很低`
+
+### Array.filter() 加 indexOf
+
 ES5 利用indexOf方法返回寻第一个匹配下标的特性
 
 ```js
 const unique2 = (arr) => arr.filter((item, index, array)=> array.indexOf(item) === index);
 ```
 
+### ES6 中的 Set 去重
+
 > 🌐 [ES6 Set (opens new window)](https://www.ijerrychen.com/javascript/set.html)
 
 ```js
 const unique1 = (arr) => [...new Set(arr)];
 ```
+
+### Object 键值对
+
+> 时间复杂度最小，但是空间复杂度较大
+
+```javascript
+function distinct(array) {
+  var obj = {}
+  return array.filter(function(item, index, array) {
+    return obj.hasOwnProperty(typeof item + item)
+      ? false
+      : (obj[typeof item + item] = true)
+  })
+}
+```
+
+这种方法是利用一个空的 Object 对象，我们把数组的值存成 Object 的 key 值，比如 `Object[value1] = true`，在判断另一个值的时候，如果 Object[value2]存在的话，就说明该值是重复的,但是最后请注意这里`obj[typeof item + item] = true`没有直接使用`obj[item]`,是因为 因为 123 和 '123' 是不同的，直接使用前面的方法会判断为同一个值，因为`对象的键值只能是字符串`，所以我们可以使用 `typeof item + item` 拼成字符串作为 key 值来避免这个问题。
 
 ## 数组扁平化
 

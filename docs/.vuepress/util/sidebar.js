@@ -62,6 +62,7 @@ module.exports = {
     {
       text: "笔记",
       children: [
+        "/note/vueJs.md",
         "/note/daily.md",
         "/note/manual.md",
         "/note/algorithm.md",

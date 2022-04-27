@@ -996,3 +996,89 @@ function shuffle(array) {
 }
 ```
 
+## 日常记录
+
+### 树的路径
+
+```js
+let list1 = [
+  {
+    "id": "ab",
+    "children": [
+      {
+        "id": "cd",
+        "children": [
+          {
+            "id": "ef",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ce",
+        "children": [
+          {
+            "id": "eg",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
+
+const test = function(data) {
+    const initPath = function(node, parentNestPId) {
+        if(!parentNestPId) {
+            node.nestPId = node.id
+        }else {
+            node.nestPId = `${parentNestPId}>${node.id}`
+        }
+        if(node.children && node.children.length) {
+            node.children.forEach(i=> initPath(i, node.nestPId))
+        }
+    }
+    data.forEach(m=> {
+        initPath(m)
+    })
+    return data
+}
+
+const result = test(list1)
+```
+
+结果：
+
+```js
+// [
+//     {
+//       "id": "ab",
+//       "children": [
+//         {
+//           "id": "cd",
+//           "nestPId": "ab>cd",
+//           "children": [
+//             {
+//               "id": "ef",
+//               "children": [],
+//               "nestPId": "ab>cd>ef"
+//             }
+//           ],
+//         },
+//         {
+//           "id": "ce",
+//           "nestPId": "ab>ce",
+//           "children": [
+//             {
+//               "id": "eg",
+//               "children": [],
+//               "nestPId": "ab>ce>eg"
+//             }
+//           ],
+//         }
+//       ],
+//       "nestPId": "ab"
+//     }
+//   ]
+```
+

@@ -62,11 +62,21 @@ module.exports = {
     {
       text: "笔记",
       children: [
-        "/note/vueJs.md",
         "/note/daily.md",
         "/note/manual.md",
         "/note/algorithm.md",
         "/note/module.md",
+      ],
+    },
+  ],
+  "/VueJs3/": [
+    {
+      text: "Vue.js的设计与实现",
+      children: [
+        "/VueJs3/chapter1.md",
+        "/VueJs3/chapter2.md",
+        "/VueJs3/chapter3.md",
+        "/VueJs3/chapter4.md",
       ],
     },
   ],

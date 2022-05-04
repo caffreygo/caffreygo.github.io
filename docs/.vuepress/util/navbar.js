@@ -1,11 +1,28 @@
 module.exports = [
   {
-    text: '笔记',
+    text: 'Vue.js的设计与实现',
     children: [
       {
-        text: 'Vue.js设计与实现',
-        link: '/note/vueJs'
+        text: '权衡的艺术',
+        link: '/VueJs3/chapter1'
       },
+      {
+        text: '框架设计的核心要素',
+        link: '/VueJs3/chapter2'
+      },
+      {
+        text: 'Vue.js3的设计思路',
+        link: '/VueJs3/chapter3'
+      },
+      {
+        text: '响应系统的作用与实现',
+        link: '/VueJs3/chapter4'
+      }
+    ]
+  },
+  {
+    text: '笔记',
+    children: [
       {
         text: '日常随记',
         link: '/note/daily'

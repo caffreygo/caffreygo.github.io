@@ -17,6 +17,10 @@ module.exports = [
       {
         text: '响应系统的作用与实现',
         link: '/VueJs3/chapter4'
+      },
+      {
+        text: '非原始值的响应式方案',
+        link: '/VueJs3/chapter5'
       }
     ]
   },

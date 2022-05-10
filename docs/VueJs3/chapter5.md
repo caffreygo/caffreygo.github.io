@@ -572,11 +572,11 @@ function createReactive(obj, isShallow = false, isReadonly = false) {
 }
 
 // =================================================================
-const obj = shallowReadonly({ foo: { bar: 1 } })
+const obj = readonly({ foo: { bar: 1 } })  // 深只读，无法修改删除，不会建立响应联系
 effect(() => {
   console.log(obj.foo.bar)  // 1
 })
 
-obj.foo.bar = 2 // warn
+obj.foo.bar = 2 // warn：属性 bar 是只读的，此时 obj.foo.bar 还是1
 ```
 

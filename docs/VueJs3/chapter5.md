@@ -439,3 +439,144 @@ child.bar = 3  // 触发一次 child 的依赖更新
 obj.bar = 3  // 不是操作响应式对象，不会触发 set
 ```
 
+## 浅响应与深响应
+
+目前实现的reactive 只是浅响应，也就是对象的第一层属性是响应的，第二层及更深层次的属性则不是响应式的。
+
+```js
+const obj = reactive({ foo: {bar: 1 }})
+effect(() => {console.log(obj.foo.bar)})
+
+obj.foo.bar = 2  // 修改未触发响应
+```
+
+这里首先使用 Reflect.get 读取 obj.foo 的值，获取到的是普通对象 { bar: 1 }，因为这不是响应式对象，所以在副作用函数当中访问 obj.foo.bar 不会建立响应式联系。要解决这个问题，需要进行一层包装：
+
+```js
+function createReactive(obj, isShallow = false) {
+  return new Proxy(obj, {
+    get(target, key, receiver) {
+      if (key === 'raw') {
+        return target
+      }
+      track(target, key)
+			// 浅响应直接返回原始值
+      if (isShallow) {
+        return res
+      }
+      // 深响应： 先得到原始值结果
+      const res = Reflect.get(target, key, receiver)
+      if (typeof res === 'object' && res !== null) {
+        // 调用 reactive 将结果包装成响应式数据并返回
+        return reactive(res)
+      }
+      return res
+    },
+  }
+```
+
+当然，也有需要浅响应效果的需求：
+
+```js
+const obj = shallowReactive({ foo: {bar: 1 }})
+effect(() => {console.log(obj.foo.bar)})
+// obj.foo 是响应的，可以触发副作用函数执行
+obj.foo = { bar: 2 }
+// obj.foo.bar 不是响应的，不能触发副作用函数重新执行
+obj.foo.bar = 3
+```
+
+## 只读与浅只读
+
+当用户尝试修改只读数据时，会收到一条警告信息。例如 props 对象就应该是一个只读数据。
+
+- 只读的数据，既不能设置 set，也不能删除 deleteProperty
+- 只读数据无法修改，所以也不需要为只读数据建立响应联系
+
+```js
+const bucket = new WeakMap()
+const ITERATE_KEY = Symbol()
+// 深响应
+function reactive(obj) {
+  return createReactive(obj)
+}
+// 浅响应
+function shallowReactive(obj) {
+  return createReactive(obj, true)
+}
+// 深只读
+function readonly(obj) {
+  return createReactive(obj, false, true)
+}
+// 浅只读
+function shallowReadonly(obj) {
+  return createReactive(obj, true, true)
+}
+
+function createReactive(obj, isShallow = false, isReadonly = false) {
+  return new Proxy(obj, {
+    get(target, key, receiver) {
+      if (key === 'raw') {
+        return target
+      }
+      // 只读不需要建立响应联系，因为不会被修改
+      if (!isReadonly) {
+        track(target, key)
+      }
+      
+      const res = Reflect.get(target, key, receiver)
+      if (isShallow) {
+        return res
+      }
+      if (typeof res === 'object' && res !== null) {
+        // 深只读/响应
+        return isReadonly ? readonly(res) : reactive(res)
+      }
+
+      return res
+    },
+    set(target, key, newVal, receiver) {
+      // 只读时对 set 操作拦截并警告
+      if (isReadonly) {
+        console.warn(`属性 ${key} 是只读的`)
+        return true
+      }
+      const oldVal = target[key]
+      const type = Object.prototype.hasOwnProperty.call(target, key) ? 'SET' : 'ADD'
+      const res = Reflect.set(target, key, newVal, receiver)
+      if (target === receiver.raw) {
+        if (oldVal !== newVal && (oldVal === oldVal || newVal === newVal)) {
+          trigger(target, key, type)
+        }
+      }
+
+      return res
+    },
+    has(target, key) { /*...*/ },
+    ownKeys(target) { /*...*/ },
+    deleteProperty(target, key) {
+      // 只读属性不能删除，抛出警告
+      if (isReadonly) {
+        console.warn(`属性 ${key} 是只读的`)
+        return true
+      }
+      const hadKey = Object.prototype.hasOwnProperty.call(target, key)
+      const res = Reflect.deleteProperty(target, key)
+      if (res && hadKey) {
+        trigger(target, key, 'DELETE')
+      }
+
+      return res
+    }
+  })
+}
+
+// =================================================================
+const obj = shallowReadonly({ foo: { bar: 1 } })
+effect(() => {
+  console.log(obj.foo.bar)  // 1
+})
+
+obj.foo.bar = 2 // warn
+```
+

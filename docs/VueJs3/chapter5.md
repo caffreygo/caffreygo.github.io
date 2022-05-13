@@ -837,7 +837,7 @@ arr.length = 0;  // 能够触发响应
 console.log(Array.prototype.values === Array.prototype[Symbol.iterator])  // true
 ```
 
-🔐 最后，无论是使用 values 方法函数使用 for...of 直接循环数组，都会访问数组的 Symbolic.iterator 属性。为了避免发生意外的错误，以及性能上的考虑，我们不应该在副作用函数与 Symbol.iterator 这类 symbol 值之间建立响应联系，因此修改修改一下 get 拦截函数：
+🔐 最后，无论是使用 values 方法函数，或者使用 for...of 直接循环数组，都会访问数组的 Symbolic.iterator 属性。为了避免发生意外的错误，以及性能上的考虑，我们不应该在副作用函数与 Symbol.iterator 这类 symbol 值之间建立响应联系，因此修改修改一下 get 拦截函数：
 
 ```js
 get(target, key, receiver) {
@@ -854,10 +854,130 @@ get(target, key, receiver) {
       if (isShallow) {
         return res
       }
+      // 如果元素值是可以被代理的，返回代理对象
       if (typeof res === 'object' && res !== null) {
         return isReadonly ? readonly(res) : reactive(res)
       }
       return res
     },
 ```
+
+### 数组的查找方法
+
+> includes / indexOf / lastIndexOf
+
+```js
+const arr = reactive([1, 2])
+effect(() => {
+    console.log(arr.incluides(1))  // 与 length/所有索引 建立响应联系
+})
+arr[0] = 3  // 触发副作用函数重新执行
+```
+
+数组的方法其实都依赖了对象的基本语义，比如 includes 方法会访问数组的 length 和索引进行查找，因此当我们修改某个索引下的值都能正确触发响应。
+
+```js
+const obj = {}
+const arr = reactive([obj])
+
+console.log(arr.includes(arr[0]))  // false 代理对象直接的比较
+console.log(arr.includes(obj))  // false 代理对象与原始值的比较
+```
+
+::: tip 数组查找方法的分析
+
+- includes 方法在查询值的时候，this 指向代理对象 arr；
+- arr[0] 访问代理对象的元素值，这个值 obj 仍然是可以被代理的，这里返回一个代理对象而非原始对象；
+- includes 方法内部也会取到 arr 代理对象下的元素值，从而得到一个新的代理对象；
+
+1. 所以，我们需要把代理过的对象缓存起来保证多次代理后得到的对象是相同的；
+2. 同时，对于与原始值比较的情况，要重写如 includes 这些根据给定值查找结果的方法。
+
+::: 
+
+```js
+const arrayInstrumentations = {}
+
+;['includes', 'indexOf', 'lastIndexOf'].forEach(method => {
+  const originMethod = Array.prototype[method]
+  arrayInstrumentations[method] = function(...args) {
+    // this 是代理对象，先在代理对象中查找，将结果存储到 res 中
+    let res = originMethod.apply(this, args)
+
+    if (res === false) {
+      // res 为 false 说明没找到，在通过 this.raw 拿到原始数组，再去原始数组中查找，并更新 res 值
+      res = originMethod.apply(this.raw, args)
+    }
+    // 返回最终的结果
+    return res
+  }
+})
+
+function createReactive(obj, isShallow = false, isReadonly = false) {
+  return new Proxy(obj, {
+    // 拦截读取操作
+    get(target, key, receiver) {
+      /*...*/
+      // 使用重写后的数组方法
+      if (Array.isArray(target) && arrayInstrumentations.hasOwnProperty(key)) {
+        return Reflect.get(arrayInstrumentations, key, receiver)
+      }
+      /*...*/
+      return res
+    }
+  })
+}
+```
+
+### 隐私修改数组长度的原型方法
+
+> 栈方法：push / pop / shift / unshift + splice
+
+push 方法在执行过程中，会读取数组的 length 属性值，也会设置 length。我们虽然处理了 set 不会触发当前激活的副作用函数重新执行导致的栈溢出问题，但是以下这个情况仍然会出现栈溢出：
+
+```js
+const arr = reactive([])
+
+effect(() => arr.push(0))
+effect(() => arr.push(1))
+```
+
+- 第一个副作用函数执行，执行完毕之后数组的 length 数组会与 副作用函数建立响应联系
+
+- 第二个副作用函数执行，同样建立了响应式联系，但是 push 还会设置 length
+
+- 第二个函数的 length 设置触发响应，把两个副作用函数都取出重新执行。
+
+  此时第二个副作用函数还没执行完，就要再执行第一个副作用函数了。
+
+- 同样第一个副作用函数还在设置 length 的时候，又开始了依赖触发更新
+
+- 如此循环往复，最终导致调动栈溢出
+
+因为 push 内对 length 的读取操作是这个问题的原因，所以我们应该屏蔽这个过程对 length 建立响应式联系。push 的语义是修改操作，而不是读取操作。因此我们需要重写 push 方法：
+
+```js
+let shouldTrack = true
+;['push', 'pop', 'shift', 'unshift', 'splice'].forEach(method => {
+  const originMethod = Array.prototype[method]
+  arrayInstrumentations[method] = function(...args) {
+    shouldTrack = false
+    // 取得原始方法
+    let res = originMethod.apply(this, args)
+    // 调用后恢复原来的行为，即允许追踪
+    shouldTrack = true
+    return res
+  }
+})
+
+/*...*/
+
+function track(target, key) {
+  // 当标记变量不允许追踪时，return
+  if (!activeEffect || !shouldTrack) return
+  /*...*/
+}
+```
+
+
 

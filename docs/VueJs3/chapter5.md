@@ -333,7 +333,7 @@ console.log(bucket.get(obj))
 
 ### 值变化判断
 
-首先是值如果为真正发生变化的情况，这个还需要考虑NaN不等于自身的问题
+首先是值如果为真正发生变化的情况，这个还需要考虑 NaN 不等于自身的问题
 
 ```js
 NaN === NaN  // false
@@ -884,7 +884,7 @@ console.log(arr.includes(arr[0]))  // false 代理对象直接的比较
 console.log(arr.includes(obj))  // false 代理对象与原始值的比较
 ```
 
-::: tip 数组查找方法的分析
+::: tip 🚀 数组查找方法的分析
 
 - includes 方法在查询值的时候，this 指向代理对象 arr；
 - arr[0] 访问代理对象的元素值，这个值 obj 仍然是可以被代理的，这里返回一个代理对象而非原始对象；
@@ -929,11 +929,11 @@ function createReactive(obj, isShallow = false, isReadonly = false) {
 }
 ```
 
-### 隐私修改数组长度的原型方法
+### 隐式修改数组长度的原型方法
 
 > 栈方法：push / pop / shift / unshift + splice
 
-push 方法在执行过程中，会读取数组的 length 属性值，也会设置 length。我们虽然处理了 set 不会触发当前激活的副作用函数重新执行导致的栈溢出问题，但是以下这个情况仍然会出现栈溢出：
+🔖  push 方法在执行过程中，会读取数组的 length 属性值，也会设置 length。我们虽然处理了 set 不会触发当前激活的副作用函数重新执行导致的栈溢出问题，但是以下这个情况仍然会出现栈溢出：
 
 ```js
 const arr = reactive([])
@@ -954,7 +954,7 @@ effect(() => arr.push(1))
 
 - 如此循环往复，最终导致调动栈溢出
 
-因为 push 内对 length 的读取操作是这个问题的原因，所以我们应该屏蔽这个过程对 length 建立响应式联系。push 的语义是修改操作，而不是读取操作。因此我们需要重写 push 方法：
+🚀 因为 push 内对 length 的读取操作是这个问题的原因，所以我们应该屏蔽这个过程对 length 建立响应式联系。push 的语义是修改操作，而不是读取操作。因此我们需要重写 push 方法：
 
 ```js
 let shouldTrack = true
@@ -979,5 +979,350 @@ function track(target, key) {
 }
 ```
 
+## 代理 Set 和 Map
 
+> 集合类型数据：Map / Set, WeakSet / WeakMap
+
+🔥 Map 和 Set 两个数据类型的操作方法类似。它们之间最大的不同体现在，Set 数据类型使用 add(value) 方法添加元素，而 Map 类似使用 set(key, value) 方法设置键值对，并且 Map 类似可以使用 get(key) 方法读取响应的值。
+
+### 如何代理 Set 和 Map
+
+::: tip Set 数据类型的代理
+
+- 虽然操作方法和普通对象不一致，但是整体的思路是不变的，即在读取操作发生时调用 track 函数建立响应式联系；当设置操作发生时，调用 trigger 函数触发响应；
+- Set.prototype.size 是一个**访问器属性**，内部通过 this 的抽象方法 RequireInternalSlot(s, [[SetData]]) 来检查 s 是否存在内部槽 [[SetData]]，这是代理之后的对象没有的，需要通过 Reflect 指定；
+- 使用 delete **方法**时，先访问 p.delete ，再执行 p.delete(val) 方法。无论怎么修改 receicer，delete 方法执行时的 this 都会指向代理对象 p，而不会指向 Set 对象，因此需要把 delete 方法与原始数据对象绑定；
+
+::: 
+
+```js
+const s = new Set([1, 2, 3])
+const p = new Proxy(s, {
+    get(target, key, receiver) {
+      if (key === 'size') {
+        // 属性访问器的上下文绑定，获取到正确的抽象方法
+        return Reflect.get(target, key, target)
+      }
+			// 将方法与原始数据对象 target 对象绑定后返回
+      return target[key].bind(target)
+    }
+  }
+)
+
+console.log(p.size)
+p.delete(1)
+```
+
+### 建立响应联系
+
+- add / delete 方法会间接修改 size 属性，需要触发对应的副作用函数执行
+- add 方法添加的元素如果已经存在于 Set 集合当中，就不再需要触发响应了
+
+```js
+const mutableInstrumentations = {
+  add(key) {
+    const target = this.raw
+    const hadKey = target.has(key)
+    const res = target.add(key)
+    // 值是否已经存在的判断，提升性能
+    if (!hadKey) {
+      trigger(target, key, 'ADD')
+    }
+    return res
+  },
+  delete(key) {
+    const target = this.raw
+    const hadKey = target.has(key)
+    const res = target.delete(key)
+    if (hadKey) {
+      trigger(target, key, 'DELETE')
+    }
+    return res
+  }
+}
+
+function createReactive(obj, isShallow = false, isReadonly = false) {
+  return new Proxy(obj, {
+    get(target, key, receiver) {
+      if (key === 'raw') return target
+      if (key === 'size') {
+        // 读取 size 的副作用函数被收集到 ITERATE_KEY 的关联桶中
+        track(target, ITERATE_KEY)
+        return Reflect.get(target, key, target)
+      }
+      return mutableInstrumentations[key]
+    }
+  })
+}
+
+function trigger(target, key, type, newVal) {
+  // 添加、删除这些影响 size 的方法都会触发对应的副作用函数执行
+  if (type === 'ADD' || type === 'DELETE') {
+    const iterateEffects = depsMap.get(ITERATE_KEY)
+    iterateEffects && iterateEffects.forEach(effectFn => {
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn)
+      }
+    })
+  }
+	/*...*/
+}
+
+/*...*/
+```
+
+### 避免污染原始数据
+
+🚀 要保证原始数据不具有响应式数据的能力，否则就意味着用户可以同时操作两种数据，这样代码就乱套了
+
+```js
+const m = new Map()
+const p1 = reactive(m)
+const p2 = reactive(new Set())
+p1.set('p2', p2)
+
+effect(()=> {
+  // 这里通过原始数据 m 访问 p2
+	console.log(m.get('p2').size)
+})
+// 这里使用原始数据 m 调用 set 方法，这里会触发副作用函数重新执行，不符合期望
+m.get('p2').set('foo', 1)
+```
+
+🔖 原来的 set 方法内，把 value 原样设置到了原始数据 target 上。如果 value 是响应式数据，就意味着设置到原始对象上的也是响应式数据，我们把**响应式数据设置到原始数据上的行为称为数据污染**。
+
+```js
+set(key, value) {
+  const target = this.raw
+  const had = target.has(key)
+
+  const oldValue = target.get(key)
+  // target.set(key, value) 
+  // 获取原始数据，由于 value 本身可能已经上响应式数据，所以此时 value.raw 不存在，则直接使用 value
+  const rawValue = value.raw || value
+  target.set(key, rawValue)
+
+  if (!had) {
+    trigger(target, key, 'ADD')
+  } else if (oldValue !== value || (oldValue === oldValue && value === value)) {
+    trigger(target, key, 'SET')
+  }
+}
+```
+
+*使用 raw 访问可能与用户自定义的 raw 属性冲突，可以考虑使用 Symbol 类型来代替*
+
+### 处理 forEach
+
+```js
+const m = new Map([[{key: 1}, {value: 1}]])
+
+effect(() => {
+  m.forEach(function (value, key, m) {
+  	console.log(key)  // {key: 1}
+    console.log(value)  // {value: 1}
+  })
+})
+```
+
+::: tip 集合类型的 forEach 代理
+
+- 遍历操作只与键值对的数量有关，因此任何会修改 Map 对象键值对数量(size)的操作都应该触发副作用函数重新执行。
+
+- forEach 回调函数内的数据也要是响应式的，才能正常收集依赖
+- forEach 回调函数能够接受 thisArg 作为执行时的 this 值
+- forEach 与 for...in 的响应式联系都建立在 ITERATE_KEY 与副作用函数之间
+- 使用 for...in 遍历集合类型，它只关心对象的键，只有增减对象的 key 才需要触发副作用函数重新执行；Map 类型 forEach 遍历时，回调函数能够取到**键和值**，所以即使是 SET 操作，也要能触发响应
+
+:::
+
+```js
+function trigger(target, key, type, newVal) {
+  /*...*/
+  if (
+    type === 'ADD' ||
+    type === 'DELETE' ||
+    // 如果操作类型是 SET，并且目标对象是 Map 类型的数据
+    // 也应该触发那些与 ITERATE_KEY 相关联的副作用函数重新执行
+    (
+      type === 'SET' &&
+      Object.prototype.toString.call(target) === '[object Map]'
+    )
+  ) {
+    const iterateEffects = depsMap.get(ITERATE_KEY)
+    iterateEffects && iterateEffects.forEach(effectFn => {
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn)
+      }
+    })
+  }
+  /*...*/
+}
+
+const mutableInstrumentations = {
+  /*...*/
+  forEach(callback, thisArg) {
+    const wrap = (val) => typeof val === 'object' ? reactive(val) : val
+    const target = this.raw
+    track(target, ITERATE_KEY)
+    // 传递给回调函数的参数也要是响应式的，才能收集依赖
+    target.forEach((v, k) => {
+      // forEach 方法能够指定执行时的 this
+      callback.call(thisArg, wrap(v), wrap(k), this)
+    })
+  }
+}
+
+/*...*/
+```
+
+### 迭代器方法
+
+```js
+const m = new Map([
+	['key1', 'value1'],
+	['key2', 'value2']
+])
+
+for (const [key, value] of m.entries()) { console.log(key, value) }
+for (const [key, value] of m) { console.log(key, value) }
+
+const itr = m[Symbol.iterator]()
+console.log(itr.next())  // { value: ['key1', 'value1'], done: false}
+console.log(itr.next())  // { value: ['key2', 'value2'], done: false}
+console.log(itr.next())  // { value: undefined, done: true}
+```
+
+::: tip 集合类型的迭代器方法代理
+
+- 集合类型有三个迭代器**方法**：entries、keys、value
+- Map 或 Set 类型本身部署了 Symbol.iterator 方法，可以使用 for...of 进行迭代，也可以直接调用该方法生成迭代器
+- 为了使用代理对象能够正常迭代，要拦截 Symbol.iterator 属性返回原迭代器方法（满足迭代协议才能迭代）
+- 迭代产生的值如果是可代理的，也要将其封装成响应式数据
+- 为了追踪 for...of 对数据的迭代操作，需要调用 track 函数，让副作用函数也 ITERATE_KEY 建立联系
+- 因为 p.entries 与 p[Symbol.iterator] 等价，可以使用一样的方式处理
+- 可迭代指的是一个对象实现了 Symbol.iterator 方法，而迭代器协议指的是一个对象实现了 next 方法。一个对象可以同时实现可迭代协议和迭代器协议
+
+:::
+
+```js
+const mutableInstrumentations = {
+  [Symbol.iterator]: iterationMethod,
+  entries: iterationMethod,
+}
+
+function iterationMethod() {
+  // 获取原始数据对象 target
+  const target = this.raw
+  // 获取到原始迭代器方法
+  const itr = target[Symbol.iterator]()
+
+  const wrap = (val) => typeof val === 'object' ? reactive(val) : val
+	// 对于迭代操作的依赖收集
+  track(target, ITERATE_KEY)
+
+  // 将其返回
+  return {
+    // 迭代器协议：对象实现 next 方法
+    next() {
+      const { value, done } = itr.next()
+      return {
+        // callback 参数响应处理
+        value: value ? [wrap(value[0]), wrap(value[1])] : value,
+        done
+      }
+    },
+    // 可迭代协议：对象实现了 Symbol.iterator 方法
+    [Symbol.iterator]() {
+      return this
+    }
+  }
+}
+```
+
+### values 与 keys 方法
+
+::: tip 集合类型 values、keys 迭代器方法代理
+
+-  values 和 keys 方法是类似的，不同在于处理的是键还是值
+- Map数据类型下，SET 操作会触发与 ITERATE_KEY 关联的副作用函数。对于 values 或 entries 方法是必需的，但是对于  keys 方法来说是没有必要的。 SET 操作不会使 keys 方法有任何副作用发生。（使用 MAP_KEY_ITERATE_KEY 建立 keys 的响应式关联）
+
+:::
+
+```js
+const bucket = new WeakMap()
+const ITERATE_KEY = Symbol()
+const MAP_KEY_ITERATE_KEY = Symbol()
+
+function trigger(target, key, type, newVal) {
+  // ...
+  
+  if ((
+    // 操作类型为 ADD 或 DELETE
+    type === 'ADD' || type === 'DELETE') &&
+      // 并且是 Map 类型的数据
+    Object.prototype.toString.call(target) === '[object Map]'
+  ) {
+    // 取出那些与 MAP_KEY_ITERATE_KEY 相关联的副作用函数并执行
+    const iterateEffects = depsMap.get(MAP_KEY_ITERATE_KEY)
+    iterateEffects && iterateEffects.forEach(effectFn => {
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn)
+      }
+    })
+  }
+  
+  // ...
+}
+
+const mutableInstrumentations = {
+  // ...
+  keys: keysIterationMethod,
+  values: valuesIterationMethod,
+}
+
+function valuesIterationMethod() {
+  const target = this.raw
+  // 获取原始的 values 方法返回的迭代器
+  const itr = target.values()
+  const wrap = (val) => typeof val === 'object' ? reactive(val) : val
+  // entries、values 方法依旧与 ITERATE_KEY 建立响应联系
+  track(target, ITERATE_KEY)
+  return {
+    next() {
+      const { value, done } = itr.next()
+      return {
+        value: wrap(value),
+        done
+      }
+    },
+    [Symbol.iterator]() {
+      return this
+    }
+  }
+}
+
+function keysIterationMethod() {
+  const target = this.raw
+  // 获取原始的 keys 方法返回的迭代器
+  const itr = target.keys()
+  const wrap = (val) => typeof val === 'object' ? reactive(val) : val
+  // keys 方法与 MAP_KEY_ITERATE_KEY 建立响应联系
+  track(target, MAP_KEY_ITERATE_KEY)
+  return {
+    next() {
+      const { value, done } = itr.next()
+      return {
+        value: wrap(value),
+        done
+      }
+    },
+    [Symbol.iterator]() {
+      return this
+    }
+  }
+}
+
+/*...*/
+```
 

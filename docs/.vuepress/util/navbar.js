@@ -21,6 +21,10 @@ module.exports = [
       {
         text: '非原始值的响应式方案',
         link: '/VueJs3/chapter5'
+      },
+      {
+        text: '原始值的响应式方案',
+        link: '/VueJs3/chapter6'
       }
     ]
   },

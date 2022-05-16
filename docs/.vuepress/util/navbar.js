@@ -3,28 +3,38 @@ module.exports = [
     text: 'Vue.js的设计与实现',
     children: [
       {
-        text: '权衡的艺术',
-        link: '/VueJs3/chapter1'
+        text: '框架设计概览',
+        children: [
+          {
+            text: '权衡的艺术',
+            link: '/VueJs3/section1/chapter1'
+          },
+          {
+            text: '框架设计的核心要素',
+            link: '/VueJs3/section1/chapter2'
+          },
+          {
+            text: 'Vue.js3的设计思路',
+            link: '/VueJs3/section1/chapter3'
+          }
+        ]
       },
       {
-        text: '框架设计的核心要素',
-        link: '/VueJs3/chapter2'
-      },
-      {
-        text: 'Vue.js3的设计思路',
-        link: '/VueJs3/chapter3'
-      },
-      {
-        text: '响应系统的作用与实现',
-        link: '/VueJs3/chapter4'
-      },
-      {
-        text: '非原始值的响应式方案',
-        link: '/VueJs3/chapter5'
-      },
-      {
-        text: '原始值的响应式方案',
-        link: '/VueJs3/chapter6'
+        text: '响应系统',
+        children: [
+          {
+            text: '响应系统的作用与实现',
+            link: '/VueJs3/section2/chapter4'
+          },
+          {
+            text: '非原始值的响应式方案',
+            link: '/VueJs3/section2/chapter5'
+          },
+          {
+            text: '原始值的响应式方案',
+            link: '/VueJs3/section2/chapter6'
+          }
+        ]
       }
     ]
   },

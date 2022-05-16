@@ -1,160 +1,167 @@
 module.exports = {
-  "/javascript/": [
+  '/javascript/': [
     {
-      text: "JavaScript",
+      text: 'JavaScript',
       children: [
-        "/javascript/basic.md",
-        "/javascript/valueType.md",
-        "/javascript/array.md",
-        "/javascript/symbol.md",
-        "/javascript/set.md",
-        "/javascript/map.md",
-        "/javascript/function.md",
-        "/javascript/closure.md",
-        "/javascript/object.md",
-        "/javascript/prototype.md",
-        "/javascript/class.md",
-        "/javascript/module.md",
-        "/javascript/regexp.md",
-        "/javascript/promise.md",
-        "/javascript/task.md",
-        "/javascript/JPromise.md",
-        "/javascript/dom.md",
-        "/javascript/canvas.md",
-      ],
-    },
+        '/javascript/basic.md',
+        '/javascript/valueType.md',
+        '/javascript/array.md',
+        '/javascript/symbol.md',
+        '/javascript/set.md',
+        '/javascript/map.md',
+        '/javascript/function.md',
+        '/javascript/closure.md',
+        '/javascript/object.md',
+        '/javascript/prototype.md',
+        '/javascript/class.md',
+        '/javascript/module.md',
+        '/javascript/regexp.md',
+        '/javascript/promise.md',
+        '/javascript/task.md',
+        '/javascript/JPromise.md',
+        '/javascript/dom.md',
+        '/javascript/canvas.md'
+      ]
+    }
   ],
-  "/html/": [
+  '/html/': [
     {
-      text: "HTML",
+      text: 'HTML',
       children: [
-        "/html/structure.md",
-        "/html/text.md",
-        "/html/link-img.md",
-        "/html/form-list.md",
-        "/html/table-media.md",
-      ],
-    },
+        '/html/structure.md',
+        '/html/text.md',
+        '/html/link-img.md',
+        '/html/form-list.md',
+        '/html/table-media.md'
+      ]
+    }
   ],
-  "/css/": [
+  '/css/': [
     {
-      text: "CSS",
+      text: 'CSS',
       children: [
-        "/css/basic.md",
-        "/css/selector.md",
-        "/css/priority.md",
-        "/css/text.md",
-        "/css/box-model.md",
-        "/css/background.md",
-        "/css/data.md",
-        "/css/float.md",
-        "/css/position.md",
-        "/css/flex.md",
-        "/css/grid.md",
-        "/css/transform.md",
-        "/css/transition.md",
-        "/css/keyframes.md",
-        "/css/media.md",
-      ],
-    },
+        '/css/basic.md',
+        '/css/selector.md',
+        '/css/priority.md',
+        '/css/text.md',
+        '/css/box-model.md',
+        '/css/background.md',
+        '/css/data.md',
+        '/css/float.md',
+        '/css/position.md',
+        '/css/flex.md',
+        '/css/grid.md',
+        '/css/transform.md',
+        '/css/transition.md',
+        '/css/keyframes.md',
+        '/css/media.md'
+      ]
+    }
   ],
-  "/note/": [
+  '/note/': [
     {
-      text: "笔记",
+      text: '笔记',
       children: [
-        "/note/daily.md",
-        "/note/manual.md",
-        "/note/algorithm.md",
-        "/note/module.md",
-      ],
-    },
+        '/note/daily.md',
+        '/note/manual.md',
+        '/note/algorithm.md',
+        '/note/module.md'
+      ]
+    }
   ],
-  "/VueJs3/": [
+  '/VueJs3/section1/': [
     {
-      text: "Vue.js的设计与实现",
+      text: '框架设计概览',
       children: [
-        "/VueJs3/chapter1.md",
-        "/VueJs3/chapter2.md",
-        "/VueJs3/chapter3.md",
-        "/VueJs3/chapter4.md",
-        "/VueJs3/chapter5.md",
-        "/VueJs3/chapter6.md",
-      ],
-    },
+        '/VueJs3/section1/chapter1.md',
+        '/VueJs3/section1/chapter2.md',
+        '/VueJs3/section1/chapter3.md'
+      ]
+    }
   ],
-  "/mysql/": [
+  '/VueJs3/section2/': [
     {
-      text: "MYSQL",
+      text: '响应系统',
       children: [
-        "/mysql/basic.md",
-        "/mysql/table.md",
-        "/mysql/dataType.md",
-        "/mysql/datetime.md",
-        "/mysql/multiple.md",
-        "/mysql/transaction.md",
-        "/mysql/lock.md",
-        "/mysql/foreignKey.md",
-      ],
-    },
+        '/VueJs3/section2/chapter4.md',
+        '/VueJs3/section2/chapter5.md',
+        '/VueJs3/section2/chapter6.md'
+      ]
+    }
   ],
-  "/typescript/": [
+  '/mysql/': [
     {
-      text: "语法基础",
+      text: 'MYSQL',
       children: [
-        "/typescript/grammar/note",
-        "/typescript/grammar/basic",
-        "/typescript/grammar/advanced",
-        "/typescript/grammar/final",
-      ],
-    },
+        '/mysql/basic.md',
+        '/mysql/table.md',
+        '/mysql/dataType.md',
+        '/mysql/datetime.md',
+        '/mysql/multiple.md',
+        '/mysql/transaction.md',
+        '/mysql/lock.md',
+        '/mysql/foreignKey.md'
+      ]
+    }
+  ],
+  '/typescript/': [
     {
-      text: "爬虫实现",
+      text: '语法基础',
       children: [
-        "/typescript/crawler/basic",
-        "/typescript/crawler/express",
-        "/typescript/crawler/final",
-      ],
+        '/typescript/grammar/note',
+        '/typescript/grammar/basic',
+        '/typescript/grammar/advanced',
+        '/typescript/grammar/final'
+      ]
     },
-  ],
-  "/framework/vue/": [
     {
-      text: "Vue.js",
+      text: '爬虫实现',
       children: [
-        "/framework/vue/compositionApi",
-        "/framework/vue/basic",
-        "/framework/vue/animation",
-        "/framework/vue/advanced",
-        "/framework/vue/vue",
-        "/framework/vue/book",
-      ],
-    },
+        '/typescript/crawler/basic',
+        '/typescript/crawler/express',
+        '/typescript/crawler/final'
+      ]
+    }
   ],
-  "/framework/react/": [
+  '/framework/vue/': [
     {
-      text: "React.js",
+      text: 'Vue.js',
       children: [
-        "/framework/react/basic",
-        "/framework/react/redux",
-        "/framework/react/note",
-      ],
-    },
+        '/framework/vue/compositionApi',
+        '/framework/vue/basic',
+        '/framework/vue/animation',
+        '/framework/vue/advanced',
+        '/framework/vue/vue',
+        '/framework/vue/book'
+      ]
+    }
   ],
-  "/tools/webpack/": [
+  '/framework/react/': [
     {
-      text: "Webpack",
+      text: 'React.js',
       children: [
-        "/tools/webpack/basic",
-        "/tools/webpack/step-2",
-        "/tools/webpack/step-3",
-        "/tools/webpack/step-4",
-        "/tools/webpack/step-5",
-      ],
-    },
+        '/framework/react/basic',
+        '/framework/react/redux',
+        '/framework/react/note'
+      ]
+    }
   ],
-  "/tools/": [
+  '/tools/webpack/': [
     {
-      text: "工具协议",
-      children: ["/tools/tmux", "/tools/git", "/tools/http"],
-    },
+      text: 'Webpack',
+      children: [
+        '/tools/webpack/basic',
+        '/tools/webpack/step-2',
+        '/tools/webpack/step-3',
+        '/tools/webpack/step-4',
+        '/tools/webpack/step-5'
+      ]
+    }
   ],
-};
+  '/tools/': [
+    {
+      text: '工具协议',
+      children: ['/tools/tmux', '/tools/git', '/tools/http']
+    }
+  ]
+}

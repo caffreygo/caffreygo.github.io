@@ -135,15 +135,56 @@ function toRef(obj, key) {
 
 ```js
 function toRefs(obj) {
-  const ret = {}
+  const res = {}
   for (const key in obj) {
     ret[key] = toRef(obj, key)
   }
-  return ret
+  return res
 }
 
 // const obj = reactive({ foo: 1, bar: 2 })
 // const newObj = { ...toRefs(obj) }
 // console.log(newObj.foo.value)
+```
+
+## 自动脱 ref
+
+🔖 目前的 ref 数据需要通过 value 属性访问，增加了用户的心智负担。
+
+所谓自动脱 ref ，指的是属性的访问行为，即如果读取的属性是一个 ref，则直接将该 ref 对应的 value 属性值返回。同样的，设置属性的值也应该有自动为 ref 设置值的能力。
+
+🚀 要实现这个功能，需要使用 Proxy 为 newObj 创建一个代理对象，通过代理来实现最终目标：
+
+```js
+function proxyRefs(target) {
+  return new Proxy(target, {
+    get(target, key, receiver) {
+      const value = Reflect.get(target, key, receiver)
+      // 自动脱 ref 的实现：如果读取的值是 ref，则返回它的 value 属性值
+      return value.__v_isRef ? value.value : value
+    },
+    set(target, key, newValue, receiver) {
+      // 通过 target 读取真实值
+      const value = target[key]
+      // 如果值是 Ref，则设置对应的 value 属性值
+      if (value.__v_isRef) {
+        value.value = newValue
+        return true
+      }
+      return Reflect.set(target, key, newValue, receiver)
+    }
+  })
+}
+
+const newObj = proxyRefs({ ...toRefs(obj) })
+```
+
+在 Vue.js 中，reactive 也同样实现了 脱 ref 的能力：
+
+```js
+const count = ref(0)
+const obj = reactive({ count })
+
+obj.count // 0
 ```
 

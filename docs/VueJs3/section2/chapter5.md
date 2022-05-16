@@ -837,7 +837,7 @@ arr.length = 0;  // 能够触发响应
 console.log(Array.prototype.values === Array.prototype[Symbol.iterator])  // true
 ```
 
-🔐 最后，无论是使用 values 方法函数，或者使用 for...of 直接循环数组，都会访问数组的 Symbolic.iterator 属性。为了避免发生意外的错误，以及性能上的考虑，我们不应该在副作用函数与 Symbol.iterator 这类 symbol 值之间建立响应联系，因此修改修改一下 get 拦截函数：
+🔐 最后，无论是使用 values 方法函数，或者使用 for...of 直接循环数组，都会访问数组的 Symbol.iterator 属性。为了避免发生意外的错误，以及性能上的考虑，我们不应该在副作用函数与 Symbol.iterator 这类 symbol 值之间建立响应联系，因此修改修改一下 get 拦截函数：
 
 ```js
 get(target, key, receiver) {

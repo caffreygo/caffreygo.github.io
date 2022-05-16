@@ -89,6 +89,12 @@ module.exports = {
       ]
     }
   ],
+  '/VueJs3/section3/': [
+    {
+      text: '渲染器',
+      children: ['/VueJs3/section3/chapter7.md', '/VueJs3/section3/chapter8.md']
+    }
+  ],
   '/mysql/': [
     {
       text: 'MYSQL',

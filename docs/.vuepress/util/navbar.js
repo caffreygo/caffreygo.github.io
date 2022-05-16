@@ -35,6 +35,19 @@ module.exports = [
             link: '/VueJs3/section2/chapter6'
           }
         ]
+      },
+      {
+        text: '渲染器',
+        children: [
+          {
+            text: '渲染器的设计',
+            link: '/VueJs3/section3/chapter7'
+          },
+          {
+            text: '挂载与更新',
+            link: '/VueJs3/section3/chapter8'
+          }
+        ]
       }
     ]
   },

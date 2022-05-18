@@ -2,9 +2,9 @@
 
 ## 渲染器与响应系统结合
 
-📝 渲染器是用来执行**渲染任务**的。在浏览器平台上，用它来渲染其中的真是 DOM 元素。渲染器不仅能够渲染真实 DOM 元素，它还是框架跨平台能力的关键。
+📝 渲染器是用来执行**渲染任务**的。在浏览器平台上，用它来渲染真实 DOM 元素。
 
-在限定的 DOM 平台，渲染器能够渲染一个真实 DOM，那么下面这个 renderer 函数就是一个合格的渲染器。同时，@vue/reactivity 提供了 IIFE 模块格式，我们可以直接引用：
+渲染器不仅能够渲染真实 DOM 元素，它还是框架跨平台能力的关键。在限定的 DOM 平台，渲染器能够渲染一个真实 DOM，那么下面这个 renderer 函数就是一个合格的渲染器。@vue/reactivity 提供了 IIFE 模块格式，我们可以直接引用：
 
 ```html
 <div id="app"></div>
@@ -30,6 +30,8 @@
 
 ## 渲染器的基本概念
 
+::: details 关键词
+
 - 渲染器（renderer）：把虚拟 DOM 渲染为特定平台上的真实元素
 - 渲染（render）：动词，渲染
 - 虚拟 DOM（virtual DOM，vdom）：与真实 DOM 结构一样的，由节点组成的树形结构
@@ -37,14 +39,14 @@
 - 挂载（mount）：渲染器把虚拟 DOM 节点渲染为真实 DOM 节点的过程
 - 挂载点（container）：指定渲染器挂载的具体位置，渲染器会把该 DOM 元素作为容器元素
 
-```js
-// 这里通过 createRenderer 函数创建一个渲染器，这里没有直接定义 render 函数的原因是：
-// 渲染器不同于渲染，它的概念更加宽泛，它不仅可以用来渲染（mount），还可以用来激活已有元素(hydrate)等等
-function createRenderer() {
-    // 打补丁：根据 n1 存在与否，走初始挂载或更新
-    function patch(n1, n2, container) {
+::: 
 
-    }
+```js
+// 这里通过 createRenderer 函数创建一个渲染器，没有直接定义 render 函数的原因是：
+// 🔥 渲染器不同于渲染，它的概念更加宽泛s它不仅可以用来渲染(mount),也可以激活已有元素(hydrate)...
+function createRenderer() {
+    // 打补丁：根据 n1 旧节点存在与否，内部挂载或更新
+    function patch(n1, n2, container) { /*...*/ }
 
     function render(vnode, container) {
         if (vnode) {
@@ -53,7 +55,6 @@ function createRenderer() {
         } else {
             if (container._vnode) {
                 // 旧 vnode 存在，且新 vnode 不存在，说明是卸载(unmount)操作
-                // 只需要将 container 内的 DOM 清空即可
                 container.innerHTML = ''
             }
         }
@@ -82,7 +83,7 @@ renderer.render(null, document.querySelector('#app'))
 
 > patch 函数是整个渲染器的核心入口，它承载了最重要的渲染逻辑；
 >
-> patch 函数不仅可以用来完成打补丁，也可以用来执行挂载。
+> patch 函数不仅可以用来挂载，也可以用来更新；
 
 ## 自定义渲染器
 
@@ -111,7 +112,7 @@ function createRenderer(options) {
 
     function patch(n1, n2, container) {
         if (!n1) {
-            // 挂载
+            // 初始挂载
             mountElement(n2, container)
         } else {
             // 更新

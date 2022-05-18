@@ -1,5 +1,7 @@
 # 挂载与更新
 
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/patch.png)
+
 ## 挂载子节点和元素的属性
 
 - 子节点：vnode 的子节点有可能是文本字符串，当然也会是标签，并且子节点可以是很多个。为了描述元素的子节点，可以使用**数组**来表示
@@ -263,7 +265,7 @@ const renderer = createRenderer({
 })
 ```
 
-而这 mountElement 函数中，只需要调用 patchProps 函数，并传递相关参数即可：
+而在 mountElement 函数中，只需要调用 patchProps 函数，并传递相关参数即可：
 
 ```js{13}
 function mountElement(vnode, container) {
@@ -286,3 +288,189 @@ function mountElement(vnode, container) {
 }
 ```
 
+## class 的处理
+
+### class 值处理
+
+Vue.js 允许通过多种方式设置元素类名：
+
+```html
+<template>
+  <p class="foo bar"></p>
+  <p :class="{ foo: true, bar:false}"></p>
+  <p :class="arr"></p>
+</template>
+
+<script>
+const arr = [
+  'foo bar',
+  {
+    baz: true
+  }
+]
+</script>
+```
+
+第三个 p 标签对应的 vnode 如下，我们可以封装一个 normalizeClass 函数将其处理为正常的字符串：
+
+:::: code-group
+::: code-group-item 原始 vnode
+
+```js
+const vnode = {
+  type: 'p',
+  props: {
+    class: [
+      'bar foo',
+      { baz: true }
+    ]
+  }
+}
+```
+:::
+::: code-group-item normalizeClass
+
+```js
+const vnode = {
+  type: 'p',
+  props: {
+    class: normalizeClass([
+      'bar foo',
+      { baz: true }
+    ])
+  }
+}
+```
+:::
+
+::: code-group-item 结果
+
+```js
+const vnode = {
+  type: 'p',
+  props: {
+    // 序列化后的结果
+    class: 'foo bar baz'
+  }
+}
+```
+
+:::
+
+::::
+
+### 元素设置 class
+
+在将 vnode 的 class 值正常化之后，还要通过高效的方式把 class 设置到元素上：
+
+| Text name    | Execution per second |
+| ------------ | -------------------- |
+| el.className | 9637.7 Ops/sec       |
+| el.classList | 5969.5 Ops/sec       |
+| setAttribute | 4761.1 Ops/sec       |
+
+🔥 可以发现，className 每秒设置的做多次，性能最优。因此我们需要调整 patchProps 函数的实现：
+
+```js
+
+const renderer = createRenderer({
+  // 省略其他平台操作 API
+  
+  patchProps(el, key, preValue, nextValue) {
+    if (key === 'class') {
+      el.className = nextValue || ''
+    } else if (shouldSetAsProps(el, key, nextValue)) {
+      const type = typeof el[key]
+      if (type === 'boolean' && nextValue === '') {
+        el[key] = true
+      } else {
+        el[key] = nextValue
+      }
+    } else {
+      el.setAttribute(key, nextValue)
+    }
+  }
+})
+```
+
+📝 可见， vnode.props 对象中定义的属性值类型并不总是与 DOM 元素属性的数据结构保持一致，这取决于上层设计。Vue.js 允许对象类型的值作为 class 是为了方便开发者，在底层实现上，必然需要对值进行正常化后再使用。另外，正常化值的过程是有代价的，如果需要大量的正常化操作，则会消耗更多的性能。
+
+## 卸载操作
+
+::: warning 操作表示判断 newVNode 为空，需要把之前渲染的内容卸载，目前 render 函数直接把 innerHTML 清空。这么做是不严谨的：
+
+- 容器的内容可能是由某个或多个组件渲染的，当卸载操作发生时，应该正确地调用这些组件的 beforeUnmount、unmounted 等声明周期函数
+- 即使内容不是由组件渲染的，有的元素存在自定义指令，我们应该在卸载操作发生时正确执行对应的值令钩子函数
+- 使用 innerHTML 清空容器元素内容的另外一个缺陷是，它不会移除绑定在 DOM 元素上的事件处理函数
+
+:::
+
+正确的卸载方式是，根据 vnode 对象获取与其相关的真实 DOM 元素，然后使用原生 DOM 操作方法将该 DOM 元素移除。为此，我们需要在 vnode 与真实 DOM 元素之间建立联系，修改 mountElement 函数：
+
+:::: code-group
+::: code-group-item mountElement 处理
+
+```js{3}
+function mountElement(vnode, container) {
+  // 让 vnode.el 引用真实 DOM 元素
+  const el = vnode.el = createElement(vnode.type)
+  if (typeof vnode.children === 'string') {
+    setElementText(el, vnode.children)
+  } else if (Array.isArray(vnode.children)) {
+    vnode.children.forEach(child => {
+      patch(null, child, el)
+    })
+  }
+
+  if (vnode.props) {
+    for (const key in vnode.props) {
+      patchProps(el, key, null, vnode.props[key])
+    }
+  }
+
+  insert(el, container)
+}
+```
+
+:::
+::: code-group-item unmount 封装
+
+```js
+function unmount(vnode) {
+  const parent = vnode.el.parentNode
+  if (parent) {
+    parent.removeChild(vnode.el)
+  }
+}
+```
+
+:::
+
+::: code-group-item render 调用
+
+```js{6-9}
+function render(vnode, container) {
+  if (vnode) {
+    // 新 vnode 存在，将其与旧 vnode 一起传递给 patch 函数进行打补丁
+    patch(container._vnode, vnode, container)
+  } else {
+    if (container._vnode) {
+      // 调用 unmount 函数卸载 
+      unmount(container._vnode)
+    }
+  }
+  // 把 vnode 存储到 container._vnode
+  container._vnode = vnode
+}
+```
+
+:::
+
+::::
+
+::: tip 将卸载操作封装到 unmount 中，还能够带来两点额外的好处：
+
+- 在 unmount 函数内，我们有机会调用绑定在 DOM 元素上的指令钩子函数，例如 beforeUnmount、unmounted 等
+- 当 unmount 函数执行时，我们有机会检测虚拟节点 vnode 的类型。如果该虚拟节点描述的是组件，则我们有机会调用组件相关的生命周期函数
+
+:::

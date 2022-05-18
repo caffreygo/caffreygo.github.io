@@ -474,3 +474,111 @@ function render(vnode, container) {
 - 当 unmount 函数执行时，我们有机会检测虚拟节点 vnode 的类型。如果该虚拟节点描述的是组件，则我们有机会调用组件相关的生命周期函数
 
 :::
+
+## 区分 vode 的类型
+
+目前，patch 函数在判断到旧 vnode 不存在时，会走 mountElement 进行挂载，否则就执行 DOM 更新逻辑。
+
+```js
+function patch(n1, n2, container) {
+  if (!n1) {
+    mountElement(n2, container)
+  } else {
+    // 更新
+  }
+}
+```
+
+::: tip vnode 的区分处理
+
+1. 首先要判断新旧 vnode 所描述的内容相同，因为就不同元素来说，每个元素都有特有的属性，
+
+   否则这就是一个单纯的卸载再挂载的操作，是不需要走 patch的。
+
+2. 另外，vnode 可以描述普通标签、组件、Fragment等等，
+
+   所以不同类型的 vnode 我们要使用不同的挂载或者打补丁的处理方式；
+
+::: 
+
+```js{3-6,10,16}
+function patch(n1, n2, container) {
+  // 在真正执行更新操作之前，我们优先检查新旧 vnode 所描述的内容是否相同
+  if (n1 && n1.type !== n2.type) {  // p\input\div...
+    unmount(n1)
+    n1 = null
+  }
+
+  const { type } = n2
+
+  if (typeof type === 'string') {
+    if (!n1) {
+      mountElement(n2, container)
+    } else {
+      patchElement(n1, n2)
+    }
+  } else if (typeof type === 'object') {
+    // 组件
+  }
+}
+```
+
+## 事件的处理
+
+::: tip 事件的处理与优化
+
+- 事件可以视作一种特殊的属性，我们可以约定，在 vnode.props 对象中，凡是以字符 on 开头的属性都视作事件。
+
+- 事件的添加可以调用 addEventListener 函数来绑定。
+
+  一个元素可以绑定多种类型的事件，对于同一类型事件而言，还可以绑定多个事件处理函数。
+
+- 事件的更新按一般的思路就是先移除之前添加的事件处理函数，再绑定新的到 DOM 元素上。
+
+  这么做代码能够按照预期工作，但是有**性能更优的处理**办法。我们可以伪装一个事件处理函数 invoker，把真正的事件处理函数设置为 invoker.value 的值。这样在更新事件的时候，我们将不再需要调用 removeEventListener 函数来移除上一次绑定的事件，只需要更新 invoker.value 的值即可。
+
+:::
+
+```js{5-6,12,19-20,23}
+patchProps(el, key, prevValue, nextValue) {
+  if (/^on/.test(key)) {
+    // invokers 对象保存着各种事件的处理函数
+    // invoker 的属性 value 属性，保存着一个或多个事件处理函数
+    const invokers = el._vei || (el._vei = {})
+    let invoker = invokers[key]
+    const name = key.slice(2).toLowerCase()
+    if (nextValue) {
+      // 事件函数初始声明与绑定
+      if (!invoker) {
+        // invoker 声明为一个函数，触发其 value 属性保存的事件
+        invoker = el._vei[key] = (e) => {
+          if (Array.isArray(invoker.value)) {
+            invoker.value.forEach(fn => fn(e))
+          } else {
+            invoker.value(e)
+          }
+        }
+        invoker.value = nextValue
+        el.addEventListener(name, invoker)
+      } else {
+      	// 绑定事件后续的更新，避免了一次 removeEventListener 的调用
+        invoker.value = nextValue
+      }
+    } else if (invoker) {
+      el.removeEventListener(name, invoker)
+    }
+  } else if (key === 'class') {
+    el.className = nextValue || ''
+  } else if (shouldSetAsProps(el, key, nextValue)) {
+    const type = typeof el[key]
+    if (type === 'boolean' && nextValue === '') {
+      el[key] = true
+    } else {
+      el[key] = nextValue
+    }
+  } else {
+    el.setAttribute(key, nextValue)
+  }
+}
+```
+

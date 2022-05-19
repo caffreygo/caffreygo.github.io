@@ -586,6 +586,8 @@ patchProps(el, key, prevValue, nextValue) {
 
 目前的基本事件处理代码，在事件冒泡与更新时机相结合会导致的问题。
 
+### 问题分析
+
 ```js
 const { effect, ref } = VueReactivity
 
@@ -620,10 +622,355 @@ effect(() => {
 - div 元素：它的 props 对象的值是由一个三元表达式决定的。在首次渲染时，由于 bol.value 的值为 false，所以它的 props 值是一个空对象
 - p 元素：它具有 click 点击事件，并且点击它时，事件处理函数会将 bol.value 的值设置为 true
 
-那么，当首此渲染之后，鼠标点击 p 标签， 会触发父元素div 标签的 click 事件处理函数执行吗？
+🧐 那么，当首此渲染之后，鼠标点击 p 标签， 会触发父元素div 标签的 click 事件处理函数执行吗？
 
-预期是，当 p 点击时，此时的 div 标签没有绑定事件处理函数，应该什么都不会发生；但是，它竟然执行了！
+⬆️ 预期是，当 p 点击时，此时的 div 标签没有绑定事件处理函数，应该什么都不会发生；但是，它竟然执行了！
 
-实际上：当 p 点击时，更改了响应式数据 bol 的值，然后当前副作用函数立即重新执行，也就是更新渲染会发生，这时候由于 bol.value 的值已经是 true，会给 div 元素绑定对应的事件处理函数。当更新动作完成之后，点击事件才从 p 元素冒泡到父级 div 元素，此时的 div 在更新后已经绑定了事件处理函数，触发执行。
+⬇️ 实际上：当 p 点击时，更改了响应式数据 bol 的值，然后当前**副作用函数立即重新执行**，也就是更新渲染会执行，这时候由于 bol.value 的值已经是 true，会给 div 元素绑定对应的事件处理函数。当更新动作完成之后，点击事件才从 p 元素冒泡到父级 div 元素，此时的 div 在更新后已经绑定了事件处理函数，触发执行。
 
-所以：div 元素绑定事件处理函数发生在事件冒泡之前。我们需要把事件的绑定动作挪到事件冒泡之后，但是这个想法是不可靠的
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/eventBinding.png)
+
+
+
+所以：**div 元素绑定事件处理函数发生在事件冒泡之前**。
+
+### 处理
+
+🐛 我们可以考虑把事件的绑定动作挪到事件冒泡之后，但是这个想法是不可靠的，因为我们无法判断事件冒泡是否完成，已经完成到什么程度。
+
+🐛 另外，虽然 Vue.js 的更新是在一个异步任务队列当中进行的，但是微任务会**穿插**在由事件冒泡触发的多个事件处理函数之间被执行。因此，即使把绑定事件的动作放到微任务中，也无法避免这个问题。
+
+📝 事件触发的时间是早于事件处理函数被绑定的时间的。也就是说，这个事件触发的时候，目标元素（div）上还没有绑定相关的事件处理函数。
+
+🚀 因此，我们可以：**屏蔽所以绑定时间晚于事件触发时间的事件处理函数的执行**。
+
+```js{10,19}
+patchProps(el, key, prevValue, nextValue) {
+  if (/^on/.test(key)) {
+    const invokers = el._vei || (el._vei = {})
+    let invoker = invokers[key]
+    const name = key.slice(2).toLowerCase()
+    if (nextValue) {
+      if (!invoker) {
+        invoker = el._vei[key] = (e) => {
+          // 如果事件触发的时间早于事件绑定的时间，return
+          if (e.timeStamp < invoker.attached) return
+          if (Array.isArray(invoker.value)) {
+            invoker.value.forEach(fn => fn(e))
+          } else {
+            invoker.value(e)
+          }
+        }
+        invoker.value = nextValue
+        // 添加 invoker.attached 属性，存储事件处理函数被绑定的时间
+        invoker.attached = performance.now()
+        el.addEventListener(name, invoker)
+      } else {
+        invoker.value = nextValue
+      }
+    } else if (invoker) {
+      el.removeEventListener(name, invoker)
+    }
+  } else if (key === 'class') {
+    el.className = nextValue || ''
+  } else if (shouldSetAsProps(el, key, nextValue)) {
+    const type = typeof el[key]
+    if (type === 'boolean' && nextValue === '') {
+      el[key] = true
+    } else {
+      el[key] = nextValue
+    }
+  } else {
+    el.setAttribute(key, nextValue)
+  }
+}
+```
+
+我们只需要为伪造的事件处理函数添加一个 attached 属性，用来存储当前事件处理函数被绑定的时间。因为 event 对象的 timestamp 可以获取到事件发生的时间，那么就可以拦截到早于事件绑定时间触发的事件。
+
+*根据浏览器的不同，e.timestamp 可能是 performance.now（高精时间），也可能不是。这里应该要做兼容处理。在 Chrome 49、Firefox 54、Opera 36 之后的版本中，e.timestamp 都是高精时间。*
+
+## 更新子节点
+
+::: tip 子节点类型
+
+1. 没有子节点，此时 vnode.children 的值为 null
+2. 具有文本子节点，此时 vnode.children 的值为字符串，代表文本内容
+3. 其他情况，无论是单个子节点，还是多个子节点（可能是文本和元素的混合），都可以用数组表示
+
+:::
+
+:::: code-group
+::: code-group-item Null
+
+```js
+const vnode = {
+  type: 'div',
+  children: null
+}
+```
+
+:::
+::: code-group-item String
+
+```js
+const vnode = {
+  type: 'div',
+  children: 'Jerry Chen'
+}
+```
+
+:::
+
+::: code-group-item Array
+
+```js
+const vnode = {
+  type: 'div',
+  children: [
+    { type: 'p' },
+    'Hello World'
+  ]
+}
+```
+
+:::
+
+::::
+
+当渲染器执行更新时，就会出现九种可能：
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/patchChildren.png)
+
+:::: code-group
+::: code-group-item patchElement
+
+```js{17}
+function patchElement(n1, n2) {
+  const el = n2.el = n1.el
+  const oldProps = n1.props
+  const newProps = n2.props
+  // 第一步：更新 props，属性打补丁+属性卸载
+  for (const key in newProps) {
+    if (newProps[key] !== oldProps[key]) {
+      patchProps(el, key, oldProps[key], newProps[key])
+    }
+  }
+  for (const key in oldProps) {
+    if (!(key in newProps)) {
+      patchProps(el, key, oldProps[key], null)
+    }
+  }
+  // 第二步：更新 children
+  patchChildren(n1, n2, el)
+}
+```
+
+:::
+::: code-group-item patchChildren
+
+```js
+function patchChildren(n1, n2, container) {
+  if (typeof n2.children === 'string') {
+    if (Array.isArray(n1.children)) {
+      n1.children.forEach((c) => unmount(c))
+    }
+    setElementText(container, n2.children)
+  } else if (Array.isArray(n2.children)) {
+    if (Array.isArray(n1.children)) {
+      n1.children.forEach(c => unmount(c))
+      n2.children.forEach(c => patch(null, c, container))
+    } else {
+      setElementText(container, '')
+      n2.children.forEach(c => patch(null, c, container))
+    }
+  } else {
+    if (Array.isArray(n1.children)) {
+      n1.children.forEach(c => unmount(c))
+    } else if (typeof n1.children === 'string') {
+      setElementText(container, '')
+    }
+  }
+}
+```
+
+:::
+
+::::
+
+## 文本节点和注释节点
+
+虚拟 DOM 可以描述更多的真实 DOM，以下是文本节点的表示：
+
+```js
+const Text = Symbol()
+const newVnode = {
+  type: Text,
+  children: 'Some Text'
+}
+renderer.render(newVnode, document.querySelector('#app'))
+```
+
+那么在 patch 函数中，我们就可以增加一个判断分支来处理 vnode.type 为文本的情况：
+
+:::: code-group
+::: code-group-item patch
+
+```js{15}
+function patch(n1, n2, container) {
+  if (n1 && n1.type !== n2.type) {
+    unmount(n1)
+    n1 = null
+  }
+
+  const { type } = n2
+
+  if (typeof type === 'string') {
+    if (!n1) {
+      mountElement(n2, container)
+    } else {
+      patchElement(n1, n2)
+    }
+  } else if (type === Text) {
+    // 如果没有旧节点，则进行挂载
+    if (!n1) {
+      // 文本创建与插入
+      const el = n2.el = createText(n2.children)
+      insert(el, container)
+    } else {
+      // 如果旧 vnode 存在，直接更新其文本内容即可
+      const el = n2.el = n1.el
+      if (n2.children !== n1.children) {
+        setText(el, n2.children)
+      }
+    }
+  }
+}
+```
+
+:::
+::: code-group-item API 抽象
+
+```js
+const renderer = createRenderer({
+  createElement(tag) {
+    return document.createElement(tag)
+  },
+  setElementText(el, text) {
+    el.textContent = text
+  },
+  insert(el, parent, anchor = null) {
+    parent.insertBefore(el, anchor)
+  },
+  // 创建一个文本节点并返回
+  createText(text) {
+    return document.createTextNode(text)
+  },
+  // 更新 DOM 文本内容
+  setText(el, text) {
+    el.nodeValue = text
+  },
+  patchProps(el, key, prevValue, nextValue) { /*...*/ }
+})
+```
+
+:::
+
+::::
+
+## Fragment
+
+Fragment（片段）是Vue.js 3 中新增的一个 vnode 类型，可以通过它描述多根节点模板。对于Fragment 类型的 vnode 来说，它的 children 存储的内容就是模板中所有根节点：
+
+:::: code-group
+::: code-group-item 多根节点模板
+
+```html
+<template>
+	<li>1</li>
+  <li>2</li>
+  <li>3</li>
+</template>
+```
+
+:::
+::: code-group-item vnode 表示
+
+```js
+const Fragment = Symbol()
+const vnode = {
+  type: Fragment,
+  children: [
+    { type: 'li', children: '1' },
+    { type: 'li', children: '2' },
+    { type: 'li', children: '3' }
+  ]
+}
+```
+
+:::
+
+::: code-group-item patch 函数处理
+
+```js{25-32}
+function patch(n1, n2, container) {
+  if (n1 && n1.type !== n2.type) {
+    unmount(n1)
+    n1 = null
+  }
+
+  const { type } = n2
+
+  if (typeof type === 'string') {
+    if (!n1) {
+      mountElement(n2, container)
+    } else {
+      patchElement(n1, n2)
+    }
+  } else if (type === Text) {
+    if (!n1) {
+      const el = n2.el = createText(n2.children)
+      insert(el, container)
+    } else {
+      const el = n2.el = n1.el
+      if (n2.children !== n1.children) {
+        setText(el, n2.children)
+      }
+    }
+  } else if (type === Fragment) {
+    if (!n1) {
+      // 旧 vnode 不存在，将 Fragment 的 children 逐个挂载
+      n2.children.forEach(c => patch(null, c, container))
+    } else {
+      // 旧 vnode 存在，更新 Fragment 的 children
+      patchChildren(n1, n2, container)
+    }
+  }
+}
+```
+
+:::
+
+::: code-group-item unmount 支持
+
+```js
+function unmount(vnode) {
+  // Fragment 的处理
+  if (vnode.type === Fragment) {
+    vnode.children.forEach(c => unmount(c))
+    return
+  }
+  const parent = vnode.el.parentNode
+  if (parent) {
+    parent.removeChild(vnode.el)
+  }
+}
+```
+
+当卸载 Fragment 类型的虚拟节点时，由于 Fragment 本身并不会渲染任何真实 DOM，所以只需要遍历它的 children 数组逐一卸载即可
+
+:::
+
+::::
+
+ 

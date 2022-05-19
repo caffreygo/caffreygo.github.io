@@ -582,3 +582,48 @@ patchProps(el, key, prevValue, nextValue) {
 }
 ```
 
+## 时间冒泡与更新时机
+
+目前的基本事件处理代码，在事件冒泡与更新时机相结合会导致的问题。
+
+```js
+const { effect, ref } = VueReactivity
+
+const bol = ref(false)
+
+effect(() => {
+    // 创建 vnode
+    const vnode = {
+        type: 'div',
+        props: bol.value ? {
+            onClick: () => {
+                alert('父元素 clicked')
+            }
+        }:{},
+        children: [
+            {
+                type: 'p',
+                props: {
+                    onClick: () => {
+                        bol.value = true
+                    }
+                },
+                children: 'text'
+            }
+        ]
+    }
+    // 渲染 vnode
+    renderer.render(vnode, document.querySelector('#app'))
+}
+```
+
+- div 元素：它的 props 对象的值是由一个三元表达式决定的。在首次渲染时，由于 bol.value 的值为 false，所以它的 props 值是一个空对象
+- p 元素：它具有 click 点击事件，并且点击它时，事件处理函数会将 bol.value 的值设置为 true
+
+那么，当首此渲染之后，鼠标点击 p 标签， 会触发父元素div 标签的 click 事件处理函数执行吗？
+
+预期是，当 p 点击时，此时的 div 标签没有绑定事件处理函数，应该什么都不会发生；但是，它竟然执行了！
+
+实际上：当 p 点击时，更改了响应式数据 bol 的值，然后当前副作用函数立即重新执行，也就是更新渲染会发生，这时候由于 bol.value 的值已经是 true，会给 div 元素绑定对应的事件处理函数。当更新动作完成之后，点击事件才从 p 元素冒泡到父级 div 元素，此时的 div 在更新后已经绑定了事件处理函数，触发执行。
+
+所以：div 元素绑定事件处理函数发生在事件冒泡之前。我们需要把事件的绑定动作挪到事件冒泡之后，但是这个想法是不可靠的

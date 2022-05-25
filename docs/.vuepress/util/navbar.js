@@ -51,6 +51,10 @@ module.exports = [
             text: "简单 Diff 算法",
             link: "/VueJs3/section3/chapter9",
           },
+          {
+            text: "双端 Diff 算法",
+            link: "/VueJs3/section3/chapter10",
+          },
         ],
       },
     ],

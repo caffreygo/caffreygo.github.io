@@ -253,10 +253,16 @@ function patchKeyedChildren(n1, n2, container) {
             newStartVNode = newChildren[++newStartIdx]
         }
     }
-	 // 如果新子节点列表有处理遗漏的节点，则添加
+	
     if (oldEndIdx < oldStartIdx && newStartIdx <= newEndIdx) {
+        // 如果新子节点列表有处理遗漏的节点，则添加
         for (let i = newStartIdx; i <= newEndIdx; i++) {
             patch(null, newChildren[i], container, oldStartVNode.el)
+        }
+    } else if (newEndIdx < newStartIdx && oldStartIdx <= oldEndIdx) {
+        // 如果旧子节点列表有处理遗漏的节点，则卸载
+        for (let i = oldStartIdx; i <= oldEndIdx; i++) {
+            unmount(oldChildren[i])
         }
     }
 
@@ -266,3 +272,29 @@ function patchKeyedChildren(n1, n2, container) {
 :::
 
 ::::
+
+## 移除不存在的元素
+
+在双端 Diff 处理过程中，未被复用的旧子节点就是需要卸载的节点。
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.5.1.png)
+
+🚀 如上图所示，当 diff 多轮处理完毕之后，p-2 这个节点处在 [oldStartIdx, oldEndIdx] 区间内，说明这个节点未被复用到，应该被卸载。
+
+```js
+if (oldEndIdx < oldStartIdx && newStartIdx <= newEndIdx) {
+    // 添加新节点
+    for (let i = newStartIdx; i <= newEndIdx; i++) {
+        patch(null, newChildren[i], container, oldStartVNode.el)
+    }
+} else if (newEndIdx < newStartIdx && oldStartIdx <= oldEndIdx) {
+    // 移除旧节点
+    for (let i = oldStartIdx; i <= oldEndIdx; i++) {
+        unmount(oldChildren[i])
+    }
+}
+```
+
+## 总结
+
+双端 Diff 指的是，在新旧两组子节点的四个端点之间分别进行比较，并试图找到可以复用的节点。相比简单 Diff 算法，双端 Diff 算法的优势在于，对于同样的更新场景，执行的 **DOM 移动操作次数更少**。

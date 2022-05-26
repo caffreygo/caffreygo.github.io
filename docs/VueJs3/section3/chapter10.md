@@ -140,3 +140,129 @@ function patchKeyedChildren(n1, n2, container) {
 最后，对于目前的这个例子，后续的处理步骤如下：
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.3.3.png)
+
+## 添加新元素
+
+### 一轮未匹配
+
+在之前的处理中，如果在**一轮比较**中，代码不会命中四个步骤的任何一步。这时，我们会拿新子节点的第一个节点去旧子节点列表中寻找可复用节点，然而并非总是能找到：p-4、p-1、p-3、p-2
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.4.1.png)
+
+首先，我们尝试一轮比较，发现在四个步骤的比较中都找不打可复用的节点。于是我们尝试拿新的一组子节点的第一个节点 p-4 去旧的一组子节点当中寻找可复用节点，但是在旧的一组子节点当中并没有匹配到 key 相同的节点。
+
+🚀 说明这个节点是新子节点，并且是新子节点的头部节点，我们只需要把这个节点**挂载到当前的头部节点**即可。
+
+### 遍历被遗漏
+
+除了在一轮比较当中未匹配步骤的情况，我们更改之前的例子为：p-4、p-1、p-2、p-3
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.4.2.png)
+
+当双端 Diff 多轮处理完毕之后，剩下了一个 p-4节点，这个节点在整个更新过程中被遗漏了，没有得到任何处理，说明目前的算法还有缺陷需要额外处理。
+
+🚀 遗漏的新子节点都是要新增的新子节点，按序遍历挂载到头部即可。
+
+:::: code-group
+::: code-group-item 一轮未匹配
+```js
+const idxInOld = oldChildren.findIndex(
+    node => node.key === newStartVNode.key
+)
+if (idxInOld > 0) {
+    const vnodeToMove = oldChildren[idxInOld]
+    patch(vnodeToMove, newStartVNode, container)
+    insert(vnodeToMove.el, container, oldStartVNode.el)
+    oldChildren[idxInOld] = undefined
+} else {
+    // 如果未找到可复用节点，将当前节点挂载在头部即可
+    patch(null, newStartVNode, container, oldStartVNode.el)
+}
+
+newStartVNode = newChildren[++newStartIdx]
+```
+:::
+::: code-group-item 遍历被遗漏
+
+```js
+if (oldEndIdx < oldStartIdx && newStartIdx <= newEndIdx) {
+    // 如果新子节点列表有处理遗漏的节点，则添加
+    for (let i = newStartIdx; i <= newEndIdx; i++) {
+        patch(null, newChildren[i], container, oldStartVNode.el)
+    }
+}
+```
+:::
+
+::: code-group-item 完整代码
+
+```js
+function patchKeyedChildren(n1, n2, container) {
+    const oldChildren = n1.children
+    const newChildren = n2.children
+    let oldStartIdx = 0
+    let oldEndIdx = oldChildren.length - 1
+    let newStartIdx = 0
+    let newEndIdx = newChildren.length - 1
+
+    let oldStartVNode = oldChildren[oldStartIdx]
+    let oldEndVNode = oldChildren[oldEndIdx]
+    let newStartVNode = newChildren[newStartIdx]
+    let newEndVNode = newChildren[newEndIdx]
+
+    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+        if (!oldStartVNode) {
+            oldStartVNode = oldChildren[++oldStartIdx]
+        } else if (!oldEndVNode) {
+            oldEndVNode = newChildren[--oldEndIdx]
+        } else if (oldStartVNode.key === newStartVNode.key) {
+            patch(oldStartVNode, newStartVNode, container)
+            oldStartVNode = oldChildren[++oldStartIdx]
+            newStartVNode = newChildren[++newStartIdx]
+        } else if (oldEndVNode.key === newEndVNode.key) {
+            patch(oldEndVNode, newEndVNode, container)
+            oldEndVNode = oldChildren[--oldEndIdx]
+            newEndVNode = newChildren[--newEndIdx]
+        } else if (oldStartVNode.key === newEndVNode.key) {
+            patch(oldStartVNode, newEndVNode, container)
+            insert(oldStartVNode.el, container, oldEndVNode.el.nextSibling)
+
+            oldStartVNode = oldChildren[++oldStartIdx]
+            newEndVNode = newChildren[--newEndIdx]
+        } else if (oldEndVNode.key === newStartVNode.key) {
+            patch(oldEndVNode, newStartVNode, container)
+            insert(oldEndVNode.el, container, oldStartVNode.el)
+            
+            oldEndVNode = oldChildren[--oldEndIdx]
+            newStartVNode = newChildren[++newStartIdx]
+        } else {
+            const idxInOld = oldChildren.findIndex(
+                node => node.key === newStartVNode.key
+            )
+            if (idxInOld > 0) {
+                // 找到可复用的头部节点，patch & 移动到头部
+                const vnodeToMove = oldChildren[idxInOld]
+                patch(vnodeToMove, newStartVNode, container)
+                insert(vnodeToMove.el, container, oldStartVNode.el)
+                oldChildren[idxInOld] = undefined
+            } else {
+                // 如果未找到可复用节点，将当前节点挂载在头部即可
+                patch(null, newStartVNode, container, oldStartVNode.el)
+            }
+
+            newStartVNode = newChildren[++newStartIdx]
+        }
+    }
+	 // 如果新子节点列表有处理遗漏的节点，则添加
+    if (oldEndIdx < oldStartIdx && newStartIdx <= newEndIdx) {
+        for (let i = newStartIdx; i <= newEndIdx; i++) {
+            patch(null, newChildren[i], container, oldStartVNode.el)
+        }
+    }
+
+}
+```
+
+:::
+
+::::

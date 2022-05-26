@@ -17,14 +17,14 @@
 
 ### 双端 Diff
 
-双端 Diff 算法，顾名思义就是使用四个指针，分别指向新旧子节点数组的头尾，然后按照一定的顺序从头尾向中间就行遍历处理：
-
-![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/diff.png)
+::: tip 双端 Diff 算法，顾名思义就是使用四个指针，分别指向新旧子节点数组的头尾，然后按照一定的顺序从头尾向中间进行遍历处理：
 
 - 路线 1 匹配，自增 newStartIdx 和 oldStartIdx
-- 路线 2 匹配，自减 newStartIdx 和 oldStartIdx
+- 路线 2 匹配，自减 newEndIdx 和 oldEndIdx
 - 路线 3 匹配，表示原本在头部的节点现在要移动到尾部，那么移动真实 DOM 的 oldStartIdx 对应节点到 oldEndIdx 节点之后
 - 路线 4 匹配，表示原本在尾部的节点现在要移动到头部，那么移动真实 DOM 的 oldEndIdx 对应节点到 oldStartIdx 节点之前
+
+::: 
 
 ```js
 function patchKeyedChildren(n1, n2, container) {
@@ -65,6 +65,8 @@ function patchKeyedChildren(n1, n2, container) {
 }
 ```
 
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/diff.png)
+
 此时，真实 DOM 节点的顺序与新的一组子节点的顺序相同了：p-4、p-2、p-1、p-3。
 
-另外，在这一轮更新完成之后，所以 newStartIdx 和所以 oldStartIdx 的值都小于 newEndIdx 和 oldEndIdx，所以循环终止，双端 Diff 算法执行完毕。
+另外，在这一轮更新完成之后，所有 newStartIdx 和所有 oldStartIdx 的值都小于 newEndIdx 和 oldEndIdx。循环终止，双端 Diff 执行完毕。

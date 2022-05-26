@@ -123,7 +123,7 @@ function patchKeyedChildren(n1, n2, container) {
             const idxInOld = oldChildren.findIndex(
                 node => node.key === newStartVNode.key
             )
-            // 移动该 DOM 节点
+            // 移动该节点到子节点头部，并标记为 undefined
             if (idxInOld > 0) {
                 const vnodeToMove = oldChildren[idxInOld]
                 patch(vnodeToMove, newStartVNode, container)
@@ -137,3 +137,6 @@ function patchKeyedChildren(n1, n2, container) {
 }
 ```
 
+最后，对于目前的这个例子，后续的处理步骤如下：
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.3.3.png)

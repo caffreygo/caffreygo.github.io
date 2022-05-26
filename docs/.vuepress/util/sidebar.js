@@ -97,6 +97,7 @@ module.exports = {
         "/VueJs3/section3/chapter8.md",
         "/VueJs3/section3/chapter9.md",
         "/VueJs3/section3/chapter10.md",
+        "/VueJs3/section3/chapter11.md",
       ],
     },
   ],

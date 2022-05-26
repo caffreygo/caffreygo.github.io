@@ -2,18 +2,16 @@
 
 ## 双端比较原理
 
-### 快速 Diff 
+### 简单 Diff 
 
-简单 Diff 算法的问题在于，它对 DOM 的移动操作并不是最优的。
+简单 Diff 算法的问题在于，它对 DOM 的移动操作并不是最优的。以下面这个子节点列表更新为例：
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/simpleDiff.png)
 
 如图可见，使用简单 diff 算法在本次比较过程中需要两次 DOM 移动操作，分别是将 p-1 和 p-2 移动到 p-3 之后。
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.1.1.png)
 
-然而，上述更新过程并非最优解。以当前为例，我们只需要一次 DOM 移动操作即可完成更新，即只需要把真是 DOM 节点 p-3 移动到真实 DOM 节点 p-1 前面。
-
-![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.1.2.png)
+然而，上述更新过程并非**最优解**。实际上，我们只要一次 DOM 移动操作即可完成更新，即将真实 DOM 节点 p-3 移动到真实 DOM 节点 p-1 前面。
 
 ### 双端 Diff
 
@@ -25,6 +23,8 @@
 - 路线 4 匹配，表示原本在尾部的节点现在要移动到头部，那么移动真实 DOM 的 oldEndIdx 对应节点到 oldStartIdx 节点之前
 
 ::: 
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.1.2.png)
 
 ```js
 function patchKeyedChildren(n1, n2, container) {

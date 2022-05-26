@@ -70,3 +70,70 @@ function patchKeyedChildren(n1, n2, container) {
 此时，真实 DOM 节点的顺序与新的一组子节点的顺序相同了：p-4、p-2、p-1、p-3。
 
 另外，在这一轮更新完成之后，所有 newStartIdx 和所有 oldStartIdx 的值都小于 newEndIdx 和 oldEndIdx。循环终止，双端 Diff 执行完毕。
+
+## 双端比较的优势
+
+经过分析双端 Diff 算法，现在我们只需要**一次** DOM 移动操作，而之前的简单 Diff 算法需要两次移动操作。
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.1.1.png)
+
+## 非理性状况的处理方式
+
+在之前的例子当中，我们使用的是比较理性的例子。Diff 过程中总会命中四个步骤中的一个，这是非常理想的情况。但实际上，并非所有情况都这么理想：
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.3.1.png)
+
+使用目前的双端 Diff 算法进行处理，会发现无法命中四个步骤的任何一步。针对这种情况，我们只能增加额外的步骤来处理这种情况
+
+🚀 具体的做法是，拿新的一组子节点中的头部节点去旧的一组子节点中寻找。如果找到了可复用的旧节点，把这个节点移动到头部，并把这个旧节点标记为 undefined，后续执行如果遇到 undefined 旧节点直接跳过即可。
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/10.3.2.png)
+
+代码需要新增一个分支来处理为命中的情况，另外需要跳过旧子节点为 undefined 的情况：
+
+```js
+function patchKeyedChildren(n1, n2, container) {
+    // ...
+    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+        // 如果旧节点为 undefined，跳过
+        if (!oldStartVNode) {
+            oldStartVNode = oldChildren[++oldStartIdx]
+        } else if (!oldEndVNode) {
+            oldEndVNode = newChildren[--oldEndIdx]
+        } else if (oldStartVNode.key === newStartVNode.key) {
+            patch(oldStartVNode, newStartVNode, container)
+            oldStartVNode = oldChildren[++oldStartIdx]
+            newStartVNode = newChildren[++newStartIdx]
+        } else if (oldEndVNode.key === newEndVNode.key) {
+            patch(oldEndVNode, newEndVNode, container)
+            oldEndVNode = oldChildren[--oldEndIdx]
+            newEndVNode = newChildren[--newEndIdx]
+        } else if (oldStartVNode.key === newEndVNode.key) {
+            patch(oldStartVNode, newEndVNode, container)
+            insert(oldStartVNode.el, container, newEndVNode.el.nextSibling)
+            oldStartVNode = oldChildren[++oldStartIdx]
+            newEndVNode = newChildren[--newEndIdx]
+        } else if (oldEndVNode.key === newStartVNode.key) {
+            patch(oldEndVNode, newStartVNode, container)
+            insert(oldEndVNode.el, container, oldStartVNode.el)
+            oldEndVNode = oldChildren[--oldEndIdx]
+            newStartVNode = newChildren[++newStartIdx]
+        } else {
+            // 遍历旧 children，试图寻找与 newStartVNode 拥有相同 key 值的元素
+            const idxInOld = oldChildren.findIndex(
+                node => node.key === newStartVNode.key
+            )
+            // 移动该 DOM 节点
+            if (idxInOld > 0) {
+                const vnodeToMove = oldChildren[idxInOld]
+                patch(vnodeToMove, newStartVNode, container)
+                insert(vnodeToMove.el, container, oldStartVNode.el)
+                oldChildren[idxInOld] = undefined
+                newStartVNode = newChildren[++newStartIdx]
+            }
+
+        }
+    }
+}
+```
+

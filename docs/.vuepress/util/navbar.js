@@ -61,6 +61,15 @@ module.exports = [
           },
         ],
       },
+      {
+        text: "组件化",
+        children: [
+          {
+            text: "组件的实现原理",
+            link: "/VueJs3/section4/chapter12",
+          },
+        ],
+      },
     ],
   },
   {

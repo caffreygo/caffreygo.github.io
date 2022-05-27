@@ -101,6 +101,14 @@ module.exports = {
       ],
     },
   ],
+  "/VueJs3/section4/": [
+    {
+      text: "组件化",
+      children: [
+        "/VueJs3/section4/chapter12.md",
+      ],
+    },
+  ],
   "/mysql/": [
     {
       text: "MYSQL",

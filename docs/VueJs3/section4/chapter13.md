@@ -221,7 +221,7 @@ function defineAsyncComponent(options) {
 
 :::
 
-::: code-group-item 用户接口
+::: code-group-item 代码优化
 
 ```js{17,23,29-30,39-42}
 function defineAsyncComponent(options) {
@@ -278,3 +278,4 @@ function defineAsyncComponent(options) {
 :::
 
 ::::
+

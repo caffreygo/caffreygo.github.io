@@ -39,7 +39,7 @@ const vnode = {
 
 **渲染器**会使用虚拟节点的 type 属性来区分其类型。对于不同的节点，就需要采用不同的处理方法来完成挂载和更新。
 
-```js{16-23}
+```js{16-22}
 function patch(n1, n2, container, anchor) {
     if (n1 && n1.type !== n2.type) {
         unmount(n1)

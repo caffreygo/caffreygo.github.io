@@ -68,6 +68,10 @@ module.exports = [
             text: "组件的实现原理",
             link: "/VueJs3/section4/chapter12",
           },
+          {
+            text: "异步组件与函数式组件",
+            link: "/VueJs3/section4/chapter13",
+          },
         ],
       },
     ],

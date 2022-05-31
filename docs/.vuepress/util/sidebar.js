@@ -106,6 +106,7 @@ module.exports = {
       text: "组件化",
       children: [
         "/VueJs3/section4/chapter12.md",
+        "/VueJs3/section4/chapter13.md",
       ],
     },
   ],

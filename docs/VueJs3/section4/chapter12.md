@@ -1073,3 +1073,166 @@ function mountComponent(vnode, container, anchor) {
 ::::
 
 > 对于除 mounted 以外的生命周期钩子函数，其原理同上。
+
+## 总结
+
+:::: code-group
+::: code-group-item mountComponent
+
+```js
+function mountComponent(vnode, container, anchor) {
+  const isFunctional = typeof vnode.type === 'function'
+  let componentOptions = vnode.type
+  if (isFunctional) {
+    componentOptions = {
+      render: vnode.type,
+      props: vnode.type.props
+    }
+  }
+  let { render, data, setup, beforeCreate, created, beforeMount, mounted, beforeUpdate, updated, props: propsOption } = componentOptions
+
+  beforeCreate && beforeCreate()
+
+  const state = data ? reactive(data()) : null
+  const [props, attrs] = resolveProps(propsOption, vnode.props)
+
+  const slots = vnode.children || {}
+
+  const instance = {
+    state,
+    props: shallowReactive(props),
+    isMounted: false,
+    subTree: null,
+    slots,
+    mounted: []
+  }
+
+  function emit(event, ...payload) {
+    const eventName = `on${event[0].toUpperCase() + event.slice(1)}`
+    const handler = instance.props[eventName]
+    if (handler) {
+      handler(...payload)
+    } else {
+      console.error('事件不存在')
+    }
+  }
+
+  // setup
+  let setupState = null
+  if (setup) {
+    const setupContext = { attrs, emit, slots }
+    const prevInstance = setCurrentInstance(instance)
+    const setupResult = setup(shallowReadonly(instance.props), setupContext)
+    setCurrentInstance(prevInstance)
+    if (typeof setupResult === 'function') {
+      if (render) console.error('setup 函数返回渲染函数，render 选项将被忽略')
+      render = setupResult
+    } else {
+      setupState = setupContext
+    }
+  }
+
+  vnode.component = instance
+
+  const renderContext = new Proxy(instance, {
+    get(t, k, r) {
+      const { state, props, slots } = t
+
+      if (k === '$slots') return slots
+
+      if (state && k in state) {
+        return state[k]
+      } else if (k in props) {
+        return props[k]
+      } else if (setupState && k in setupState) {
+        return setupState[k]
+      } else {
+        console.error('不存在')
+      }
+    },
+    set (t, k, v, r) {
+      const { state, props } = t
+      if (state && k in state) {
+        state[k] = v
+      } else if (k in props) {
+        props[k] = v
+      } else if (setupState && k in setupState) {
+        setupState[k] = v
+      } else {
+        console.error('不存在')
+      }
+    }
+  })
+
+  // created
+  created && created.call(renderContext)
+
+
+  effect(() => {
+    const subTree = render.call(renderContext, renderContext)
+    if (!instance.isMounted) {
+      beforeMount && beforeMount.call(renderContext)
+      patch(null, subTree, container, anchor)
+      instance.isMounted = true
+      mounted && mounted.call(renderContext)
+      instance.mounted && instance.mounted.forEach(hook => hook.call(renderContext))
+    } else {
+      beforeUpdate && beforeUpdate.call(renderContext)
+      patch(instance.subTree, subTree, container, anchor)
+      updated && updated.call(renderContext)
+    }
+    instance.subTree = subTree
+  }, {
+    scheduler: queueJob
+  })
+}
+```
+
+:::
+
+::: code-group-item resolveProps
+
+```js
+function resolveProps(options, propsData) {
+  const props = {}
+  const attrs = {}
+  for (const key in propsData) {
+    if ((options && key in options) || key.startsWith('on')) {
+      props[key] = propsData[key]
+    } else {
+      attrs[key] = propsData[key]
+    }
+  }
+
+  return [ props, attrs ]
+}
+```
+
+:::
+
+::: code-group-item setCurrentInstance
+
+```js
+let currentInstance = null
+function setCurrentInstance(instance) {
+  const prev = currentInstance
+  currentInstance = instance
+  return prev
+}
+```
+
+:::
+
+::: code-group-item onMounted
+
+```js
+function onMounted(fn) {
+  if (currentInstance) {
+    currentInstance.mounted.push(fn)
+  }
+}
+```
+
+:::
+
+::::

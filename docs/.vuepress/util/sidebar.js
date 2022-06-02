@@ -107,6 +107,7 @@ module.exports = {
       children: [
         "/VueJs3/section4/chapter12.md",
         "/VueJs3/section4/chapter13.md",
+        "/VueJs3/section4/chapter14.md",
       ],
     },
   ],

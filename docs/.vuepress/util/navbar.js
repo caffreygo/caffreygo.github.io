@@ -72,6 +72,10 @@ module.exports = [
             text: "异步组件与函数式组件",
             link: "/VueJs3/section4/chapter13",
           },
+          {
+            text: "内建组件和模块",
+            link: "/VueJs3/section4/chapter14",
+          },
         ],
       },
     ],

@@ -312,3 +312,84 @@ const KeepAlive = {
 但是无论如何，其原理都是不变的。
 
 ### 缓存管理
+
+目前的缓存处理：
+
+```js
+const KeepAlive = {
+    __isKeepAlive: true,
+    setup(props, { slots }) {
+        const cahche = new Map()
+        return () => {
+            const cachedVNode = cache.get(rawVNode.type)
+            if (cachedVNode) {
+                // 有缓存组件，不是挂载，走激活逻辑
+                rawVNode.component = cachedVNode.component
+                rawVNode.keptAlive = true
+            } else {
+                cache.set(rawVNode.type, rawVNode)
+            }
+			// ...
+        }
+    }
+}
+```
+
+::: tip 缓存管理
+
+- 这里的问题在于，当缓存不在时，总是会设置新的缓存。我们需要一个**阈值**防止缓存无限增加，当缓存数量超过指定阈值时对缓存进行修剪。
+
+- Vue.js 当前所采用的修剪策略叫做“**最新一次访问**”，把当前访问（或渲染）的组件作为最新一次渲染的组价，并且该组件在缓存修剪过程中始终是安全的，即不会被修剪的。
+
+  Tips: 可以维护一个缓存队列，访问或渲染时把组件位置放到队尾，超过阈值移除队首缓存
+
+- 我们的关注点是缓存策略能否改变？甚至运行用户自定义缓存策略？为此，Vue.js 在用户接口层面新增了 `cache` 接口，运行用户**指定缓存策略**。
+
+:::
+
+:::: code-group
+::: code-group-item 缓存阈值接口
+
+```html
+<KeepAlive :max="2">
+    <component :is="dynamicComp" />
+</KeepAlive>
+```
+
+:::
+
+::: code-group-item 自定义缓存策略接口
+
+```html
+<KeepAlive :cache="cache">
+    <Comp />
+</KeepAlive>
+```
+
+:::
+
+::: code-group-item 缓存实例
+
+```js
+const _cache = new Map()
+const cache: KeepAliveCache = {
+	get(key) {
+        _cache.get(key)
+    },
+    set(key, value) {
+        _cache.set(key, value)
+    },
+    delete(key) {
+        _cache.delete(key)
+    },
+    forEach(fn) {
+        _cache.forEach(fn)
+    }
+}
+```
+
+:::
+
+::::
+
+在 KeepAlive 组件的内部实现中，如果用户提供了自定义的缓存实例，则直接使用该缓存实例来管理缓存。从本质上来说，这等价于将缓存的管理权限从 KeepAlive 组件转交给用户了。

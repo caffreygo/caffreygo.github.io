@@ -238,3 +238,77 @@ function mountComponent(vnode, container, anchor) {
 :::
 
 ### include 和 exclude
+
+默认情况下，KeepAlive 组件会对所有“内部组件”进行缓存。但有时候用户期望只缓存特定组件，因此其支持了两个 props，分别是 `include` 和 `exclude`。
+
+> `include`：显式配置应该被缓存的组件
+>
+> `exclude`：显式配置不应该被缓存的组件
+
+:::: code-group
+::: code-group-item props 定义
+
+```js{4-5}
+const KeepAlive = {
+    __isKeepAlive: true,
+    props: {
+        include: RegExp,
+        exclude: RegExp
+    },
+    setup(props, { slots }) {
+        // ...
+    }
+}
+```
+
+这里为了简化问题，只允许为 `include` 和 `exclude` 设置正则类型的值。在 KeepAlive 组件被挂载时，它会根据“内部组件”的名称（即 name 选项）进行匹配。
+
+:::
+
+::: code-group-item 正则匹配
+
+```js{14-28}
+const KeepAlive = {
+    __isKeepAlive: true,
+    props: {
+        include: RegExp,
+        exclude: RegExp
+    },
+    setup(props, { slots }) {
+        // ...
+        return () => {
+            let rawVNode = slots.default()
+            if (typeof rawVNode.type !== 'object') {
+                return rawVNode
+            }
+            // 获取内部组件的 name
+            const name = rawVNode.type.name
+            // 对 name 进行匹配
+            if (
+                name &&
+                (
+                    // 如果 name 无法被 include 匹配
+                    (props.include && !props.include.test(name)) ||
+                    // 或者被 exclude 匹配
+                    (props.exclude && props.exclude.test(name))
+                )
+            ) {
+                // 则直接渲染“内部组件”，不对其进行后续的缓存操作
+                return rawVNode
+            }
+
+            // ,,,
+        }
+    }
+}
+```
+
+:::
+
+::::
+
+目前通过正则匹配结果判断是否要对“内部组件”进行缓存。在此基础上，我们可以任意扩充匹配能力。例如，将 include 和 exclude 设计成多种类型值，允许用户指定字符串或函数，从而提供更加灵活的匹配机制。另外，在做匹配时，也可以不限于“内部组件”的名称，我们甚至可以让用户自行指定匹配要素。
+
+但是无论如何，其原理都是不变的。
+
+### 缓存管理

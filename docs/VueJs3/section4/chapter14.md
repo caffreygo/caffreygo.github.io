@@ -471,7 +471,7 @@ function patch(n1, n2, container, anchor) {
 }
 ```
 
-首先要把 Teleport 组件的渲染逻辑从渲染器中分离出来：
+🚀 首先要把 Teleport 组件的渲染逻辑从渲染器中分离出来：
 
 - 可以避免渲染器逻辑代码“膨胀”；
 - 当用户没有使用 Teleport 组件时，由于 Teleport 的渲染逻辑被分离，因此可以利用 Tree-Shaking 机制在最终的 bundle 中删除 Teleport 相关的代码，使得最终构建包的体积变小。
@@ -588,3 +588,334 @@ if (typeof type === 'object' && type.__isTeleport) {
 
 :::
 
+## Transition 组件的实现原理
+
+::: tip Transition 组件的核心原理
+
+- 当 DOM 元素被挂载时，将动效附加到该 DOM 元素上；
+- 当 DOM 元素被卸载时，不要立即卸载 DOM 元素，而是等到附加到该 DOM 元素上的动效执行完成后再卸载它。
+
+:::
+
+### 原生 DOM 的过渡
+
+过渡效果的本质是一个 DOM 元素再两种状态间的切换，浏览器会根据过渡效果自行完成 DOM 元素的过渡。这里的过渡效果指的是持续时长、运动曲线、要过渡的属性等。
+
+:::: code-group
+::: code-group-item 样式
+
+```css
+.box {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}
+.enter-active, .leave-active {
+    transition: transform 1s ease-in-out;
+}
+.enter-from, .leave-to {
+    transform: translateX(200px);
+}
+.enter-to, .leave-from {
+    transform: translateX(0);
+}
+```
+
+:::
+
+::: code-group-item 模板和脚本
+
+```html
+<body>
+    <div id="app"></div>
+    <script>
+        // 元素创建
+        const container = document.querySelector('#app')
+        const el = document.createElement('div')
+        el.classList.add('box')
+
+        // before enter 在元素被添加到页面之前，把初始状态和运动过程定义到元素上
+        el.classList.add('enter-from')
+        el.classList.add('enter-active')
+        // 添加元素
+        container.appendChild(el)
+        
+        // enter 在下一帧切换元素状态
+        nextFrame(() => {
+            el.classList.remove('enter-from')
+            el.classList.add('enter-to')
+			// 监听 transitionend 事件完成收尾工作
+            el.addEventListener('transitionend', () => {
+                el.classList.remove('enter-to')
+                el.classList.remove('enter-active')
+            })
+        })
+
+        // requesetAnimationFrame 浏览器 bug
+        // 其注册的函数回调会在当前帧执行，除非其他代码以及调用了一次该函数
+        // requesetAnimationFrame(() => { requesetAnimationFrame(() => { /*...*/ }) })
+        function nextFrame(cb) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(cb)
+            })
+        }
+
+        el.addEventListener('click', () => {
+            // 将卸载动作封装到 performRemove 函数中
+            const performRemove = () => el.parentNode.removeChild(el)
+            // remove 动作的初始状态
+            el.classList.add('leave-from')
+            el.classList.add('leave-active')
+
+            // 强制 reflow，使初始状态生效
+            // document.body.offsetHeight 
+
+            // 在初始状态的下一帧切换状态
+            nextFrame(() => {
+                // 切换到结束状态
+                el.classList.remove('leave-from')
+                el.classList.add('leave-to')
+                // 监听 transitionend 事件完成收尾工作
+                el.addEventListener('transitionend', () => {
+                    el.classList.remove('leave-to')
+                    el.classList.remove('leave-active')
+                    // 过渡完成之后移除 DOM 元素
+                    performRemove()
+                })
+            })
+        })
+
+    </script>
+</body>
+```
+
+:::
+
+::::
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/transition.gif)
+
+::: tip 过渡状态过程
+
+1. 初始状态 from + active
+2. 下一帧切换到 active + to
+3. 监听动画结束后收尾 ""
+
+:::
+
+### 实现 Transition 组件
+
+Transition 组件的实现原理与原生是一致的，只不过它是基于虚拟 DOM 实现。
+
+✅ 整个过渡过程可以抽象为几个阶段，这些阶段可以抽象为特定的回调函数：`beforeEnter`、`enter`、`leave`等。基于虚拟 DOM 的实现也需要将 DOM 元素的生命周期分割为这样几个阶段，并在特定阶段执行对应的回调函数。 
+
+:::: code-group
+::: code-group-item 组件模板
+
+```html
+<template>
+    <Transition>
+        <div>我是需要过渡的元素</div>
+    </Transition>
+</template>
+```
+
+:::
+
+::: code-group-item 编译后的虚拟 DOM
+
+```js
+function render() {
+    return {
+        type: Transition,
+        children: {
+            default() {
+                return { type: 'div', children: '我是需要过渡的元素' }
+            }
+        }
+    }
+}
+```
+
+Transition 组件的子节点被编译为**默认插槽**，与普通组件的行为一致。
+
+:::
+
+::: code-group-item Transition 组件
+
+```js
+const Transition = {
+    name: 'Transition',
+    setup(props, { slots }) {
+        return () => {
+            // 通过默认插槽取得需要过渡的元素
+            const innerVNode = slots.default()
+			// 在过渡元素的 VNode 对象上添加 transtion 响应的钩子函数
+            innerVNode.transition = {
+                beforeEnter(el) {
+					// ...
+                },
+                enter(el) {
+					// ...
+                },
+                leave(el, performRemove) {
+                    // ...
+                }
+            }
+			// 渲染需要过渡的元素
+            return innerVNode
+        }
+    }
+}
+```
+
+经过 Transition 组件的包装之后，内部需要过渡的虚拟节点对象会被添加一个 vnode.transition 对象。其下存在一些与 DOM 元素过渡相关的钩子函数。
+
+✅  渲染器在渲染需要过渡的虚拟节点时，会在合适的时机调用附加到该虚拟节点上的过渡相关的生命周期钩子函数，具体体现在 `mountElement` 函数以及 `unmount` 函数中
+
+:::
+
+::: code-group-item mountElement
+
+```js
+function mountElement(vnode, container, anchor) {
+    const el = vnode.el = createElement(vnode.type)
+
+    if (typeof vnode.children === 'string') {
+        setElementText(el, vnode.children)
+    } else if (Array.isArray(vnode.children)) {
+        vnode.children.forEach(child => {
+            patch(null, child, el)
+        })
+    }
+
+    if (vnode.props) {
+        for (const key in vnode.props) {
+            patchProps(el, key, null, vnode.props[key])
+        }
+    }
+    // 判断一个 VNode 是否需要过渡
+    const needTransition = vnode.transition
+    if (needTransition) {
+        vnode.transition.beforeEnter(el)
+    }
+
+    insert(el, container, anchor)
+    if (needTransition) {
+        // 调用 transition.enter 钩子，并将 DOM 元素作为参数传递
+        vnode.transition.enter(el)
+    }
+}
+```
+
+1. 在挂载元素之前，会调用 `transition.beforeEnter` 钩子
+2. 在挂载元素之后，会调用`transition.enter`钩子
+
+:::
+
+::: code-group-item unmount
+
+```js
+function unmount(vnode) {
+    // 判断 VNode 是否需要过渡
+    const needTransition = vnode.transition
+    if (vnode.type === Fragment) {
+        vnode.children.forEach(c => unmount(c))
+        return
+    } else if (typeof vnode.type === 'object') {
+        if (vnode.shouldKeepAlive) {
+            vnode.keepAliveInstance._deActivate(vnode)
+        } else {
+            unmount(vnode.component.subTree)
+        }
+        return
+    }
+    const parent = vnode.el.parentNode
+    if (parent) {
+        // 将卸载动作封装到 performRemove 函数中
+        const performRemove = () => parent.removeChild(vnode.el)
+        if (needTransition) {
+            // 如果需要过渡处理，则调用 transition.leave 钩子
+            // 同时将 DOM 元素和 performRemove 函数作为参数传递
+            vnode.transition.leave(vnode.el, performRemove)
+        } else {
+            // 如果不需要过渡，则直接卸载元素
+            performRemove()
+        }
+    }
+}
+```
+
+在卸载元素时，如果是需要过渡的元素，则调用`transition.leave`，并且把元素 `el` 和 `performRemove` 函数作为参数传递。
+
+:::
+
+::: code-group-item Transition 组件实现
+
+```js
+const Transition = {
+    name: 'Transition',
+    setup(props, { slots }) {
+        return () => {
+            const innerVNode = slots.default()
+
+            innerVNode.transition = {
+                // 设置初始状态：enter-from + enter-active
+                beforeEnter(el) {
+                    el.classList.add('enter-from')
+                    el.classList.add('enter-active')
+                },
+                enter(el) {
+                    // 在下一帧切换到结束状态 enter-active + enter-to
+                    nextFrame(() => {
+                        el.classList.remove('enter-from')
+                        el.classList.add('enter-to')
+                        // 监听 transitionend 事件完成收尾工作
+                        el.addEventListener('transitionend', () => {
+                            el.classList.remove('enter-to')
+                            el.classList.remove('enter-active')
+                        })
+                    })
+                },
+                leave(el, performRemove) {
+                    // 设置初始状态：leave-from + leave-active
+                    el.classList.add('leave-from')
+                    el.classList.add('leave-active')
+
+                    // document.body.offsetHeight
+
+                    nextFrame(() => {
+                        // 在下一帧切换到结束状态 leave-active + leave-to
+                        el.classList.remove('leave-from')
+                        el.classList.add('leave-to')
+                        // 监听 transitionend 事件完成收尾工作
+                        el.addEventListener('transitionend', () => {
+                            el.classList.remove('leave-to')
+                            el.classList.remove('leave-active')
+                            // 
+                            performRemove()
+                        })
+                    })
+                }
+            }
+			// 渲染需要过渡的元素
+            return innerVNode
+        }
+    }
+}
+```
+
+:::
+
+::::
+
+::: tip Transition 组件
+
+- Transition 组件本身不会渲染任何额外的内容，它只是通过默认插槽读取过渡元素，并渲染需要过渡的元素；
+- Transition 组件的作用，就是在过渡元素的虚拟节点上添加 transition 相关的钩子函数。
+
+:::
+
+目前，代码硬编码了过渡状态的类名，例如`enter-from`、`enter-active`、`enter-to`等。实际上，我们可以轻松通过 props 来实现允许用户自定义类名的能力，从而实现一个更加灵活的 Transition 组件。
+
+另外，我们没有实现“模式”的概念，即先进后出（in-out）和后进先出（out-in）。模式的概念实际上只是增加了对节点过渡时机的控制，原理上与将卸载动作封装到 `performRemove` 函数中一样，只需要在具体的时机以回调的形式将控制权交接出去即可。

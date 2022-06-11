@@ -78,6 +78,15 @@ module.exports = [
           },
         ],
       },
+      {
+        text: "编译器",
+        children: [
+          {
+            text: "编译器核心技术概览",
+            link: "/VueJs3/section5/chapter15",
+          },
+        ],
+      },
     ],
   },
   {

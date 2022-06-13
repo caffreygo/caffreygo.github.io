@@ -504,6 +504,10 @@ AST 的转换，指的是对 AST 进行一系列操作，将其转换为新的 A
 
 ### 节点的访问
 
+>- AST 是树形数据结构，为了访问 AST 中的节点，我们采用深度优先的方式对 AST 进行遍历；
+>- 在遍历过程中，我们可以对 AST 节点进行各种操作，从而实现对 AST 的转换；
+>- 为了解耦节点的访问和操作，我们设计了插件化架构，将节点的操作封装到独立的转换函数中。
+
 为了对 AST进行转换，我们需要能**访问** AST 的每一个节点，这样才有机会对特定节点进行修改、替换、删除等操作。
 
 :::: code-group
@@ -1922,3 +1926,562 @@ console.log(ast)
 ::::
 
 至此，模板 AST 将转换为对应的 JavaScript AST，并且可以通过根节点的`node.jsNode`来访问转换后的 JavaScript AST。后续就是根据目前的 JavaScript AST 生成渲染函数。
+
+## 代码生成
+
+代码生成的本质上是**字符串拼接**的艺术。我们需要访问 JavaScript AST 中的节点，为每一种类型的节点生成相符的 JavaScript 代码。
+
+我们将实现`generate`函数来完成代码生成的任务。代码生成也是编译器的最后一步。
+
+```js
+function compile(template) {
+  const ast = parse(template)  // 模板 AST
+  transform(ast)  // 模板 AST 转换为 JavaSript AST
+  const code = generate(ast.jsNode)  // 代码生成
+  return code
+}
+```
+
+实现：
+
+:::: code-group
+::: code-group-item generate
+
+```js
+function generate(node) {
+  // 上下文对象 context
+  const context = {
+    // 存储最终生成的渲染函数代码
+    code: '',
+    // 生成代码时，通过调用 push 函数完成代码的拼接
+    push(code) {
+      context.code += code
+    },
+    // 当前缩进级别，初始为0，即没有缩进
+    currentIndent: 0,
+    // 带缩进换行
+    newline() {
+      context.code += '\n' + `  `.repeat(context.currentIndent)
+    },
+    // 增加缩进
+    indent() {
+      context.currentIndent++
+      context.newline()
+    },
+    // 减少缩进
+    deIndent() {
+      context.currentIndent--
+      context.newline()
+    }
+  }
+	// 调用 genNode 函数完成代码生成的工作
+  genNode(node, context)
+		
+  // 返回渲染函数代码
+  return context.code
+}
+```
+
+:::
+::: code-group-item genNode
+
+```js
+function genNode(node, context) {
+  switch (node.type) {
+    case 'FunctionDecl':
+      genFunctionDecl(node, context)
+      break
+    case 'ReturnStatement':
+      genReturnStatement(node, context)
+      break
+    case 'CallExpression':
+      genCallExpression(node, context)
+      break
+    case 'StringLiteral':
+      genStringLiteral(node, context)
+      break
+    case 'ArrayExpression':
+      genArrayExpression(node, context)
+      break
+  }
+}
+```
+
+:::
+::: code-group-item 节点生成函数
+
+```js
+// 函数声明
+function genFunctionDecl(node, context) {
+  const { push, indent, deIndent } = context
+
+  push(`function ${node.id.name} `)
+  push(`(`)
+  genNodeList(node.params, context)  // ('node1', 'node2', 'node3')
+  push(`) `)
+  push(`{`)
+  indent()
+  // 为函数体生成代码，这里递归地调用了 genNode 函数 ✅
+  node.body.forEach(n => genNode(n, context))
+
+  deIndent()
+  push(`}`)
+}
+
+// return
+function genReturnStatement(node, context) {
+  const { push } = context
+  push(`return `)
+  genNode(node.return, context)
+}
+
+// helloWorld()
+function genCallExpression(node, context) {
+  const { push } = context
+  const { callee, arguments: args } = node
+  push(`${callee.name}(`)
+  genNodeList(args, context)
+  push(`)`)
+}
+
+// text
+function genStringLiteral(node, context) {
+  const { push } = context
+  push(`'${node.value}'`)
+}
+
+// [node1, node2, node3] => ['node1', 'node2', 'node3']
+function genArrayExpression(node, context) {
+  const { push } = context
+  push('[')
+  genNodeList(node.elements, context)
+  push(']')
+}
+```
+
+:::
+::: code-group-item genNodeList
+
+```js
+function genNodeList(nodes, context) {
+  const { push } = context
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
+    genNode(node, context)
+    // 每处理完一个节点，需要在生成代码的后面拼接逗号字符(,)
+    if (i < nodes.length - 1) {
+      push(', ')
+    }
+  }
+}
+```
+
+:::
+::: code-group-item 完整代码
+
+```js
+const State = {
+  initial: 1,
+  tagOpen: 2,
+  tagName: 3,
+  text: 4,
+  tagEnd: 5,
+  tagEndName: 6
+}
+
+function isAlpha(char) {
+  return char >= 'a' && char <= 'z' || char >= 'A' && char <= 'Z'
+}
+
+function tokenize(str) {
+  let currentState = State.initial
+  const chars = []
+  const tokens = []
+  while(str) {
+    const char = str[0]
+    switch (currentState) {
+      case State.initial:
+        if (char === '<') {
+          currentState = State.tagOpen
+          str = str.slice(1)
+        } else if (isAlpha(char)) {
+          currentState = State.text
+          chars.push(char)
+          str = str.slice(1)
+        }
+        break
+      case State.tagOpen:
+        if (isAlpha(char)) {
+          currentState = State.tagName
+          chars.push(char)
+          str = str.slice(1)
+        } else if (char === '/') {
+          currentState = State.tagEnd
+          str = str.slice(1)
+        }
+        break
+      case State.tagName:
+        if (isAlpha(char)) {
+          chars.push(char)
+          str = str.slice(1)
+        } else if (char === '>') {
+          currentState = State.initial
+          tokens.push({
+            type: 'tag',
+            name: chars.join('')
+          })
+          chars.length = 0
+          str = str.slice(1)
+        }
+        break
+      case State.text:
+        if (isAlpha(char)) {
+          chars.push(char)
+          str = str.slice(1)
+        } else if (char === '<') {
+          currentState = State.tagOpen
+          tokens.push({
+            type: 'text',
+            content: chars.join('')
+          })
+          chars.length = 0
+          str = str.slice(1)
+        }
+        break
+      case State.tagEnd:
+        if (isAlpha(char)) {
+          currentState = State.tagEndName
+          chars.push(char)
+          str = str.slice(1)
+        }
+        break
+      case State.tagEndName:
+        if (isAlpha(char)) {
+          chars.push(char)
+          str = str.slice(1)
+        } else if (char === '>') {
+          currentState = State.initial
+          tokens.push({
+            type: 'tagEnd',
+            name: chars.join('')
+          })
+          chars.length = 0
+          str = str.slice(1)
+        }
+        break
+    }
+  }
+
+  return tokens
+}
+
+function parse(str) {
+  const tokens = tokenize(str)
+
+  const root = {
+    type: 'Root',
+    children: []
+  }
+  const elementStack = [root]
+
+  while (tokens.length) {
+    const parent = elementStack[elementStack.length - 1]
+    const t = tokens[0]
+    switch (t.type) {
+      case 'tag':
+        const elementNode = {
+          type: 'Element',
+          tag: t.name,
+          children: []
+        }
+        parent.children.push(elementNode)
+        elementStack.push(elementNode)
+        break
+      case 'text':
+        const textNode = {
+          type: 'Text',
+          content: t.content
+        }
+        parent.children.push(textNode)
+        break
+      case 'tagEnd':
+        elementStack.pop()
+        break
+    }
+    tokens.shift()
+  }
+
+  return root
+}
+
+function traverseNode(ast, context) {
+  context.currentNode = ast
+
+  const exitFns = []
+  const transforms = context.nodeTransforms
+  for (let i = 0; i < transforms.length; i++) {
+    const onExit = transforms[i](context.currentNode, context)
+    if (onExit) {
+      exitFns.push(onExit)
+    }
+    if (!context.currentNode) return
+  }
+
+  const children = context.currentNode.children
+  if (children) {
+    for (let i = 0; i < children.length; i++) {
+      context.parent = context.currentNode
+      context.childIndex = i
+      traverseNode(children[i], context)
+    }
+  }
+
+  let i = exitFns.length
+  while (i--) {
+    exitFns[i]()
+  }
+}
+
+
+function transform(ast) {
+  const context = {
+    currentNode: null,
+    parent: null,
+    replaceNode(node) {
+      context.currentNode = node
+      context.parent.children[context.childIndex] = node
+    },
+    removeNode() {
+      if (context.parent) {
+        context.parent.children.splice(context.childIndex, 1)
+        context.currentNode = null
+      }
+    },
+    nodeTransforms: [
+      transformRoot,
+      transformElement,
+      transformText
+    ]
+  }
+  // 调用 traverseNode 完成转换
+  traverseNode(ast, context)
+}
+
+
+
+
+
+// =============================== AST 工具函数 ===============================
+
+function createStringLiteral(value) {
+  return {
+    type: 'StringLiteral',
+    value
+  }
+}
+
+function createIdentifier(name) {
+  return {
+    type: 'Identifier',
+    name
+  }
+}
+
+function createArrayExpression(elements) {
+  return {
+    type: 'ArrayExpression',
+    elements
+  }
+}
+
+function createCallExpression(callee, arguments) {
+  return {
+    type: 'CallExpression',
+    callee: createIdentifier(callee),
+    arguments
+  }
+}
+
+// =============================== AST 工具函数 ===============================
+
+function transformText(node) {
+  if (node.type !== 'Text') {
+    return
+  }
+
+  node.jsNode = createStringLiteral(node.content)
+}
+
+
+function transformElement(node) {
+
+  return () => {
+    if (node.type !== 'Element') {
+      return
+    }
+
+    const callExp = createCallExpression('h', [
+      createStringLiteral(node.tag)
+    ])
+    node.children.length === 1
+      ? callExp.arguments.push(node.children[0].jsNode)
+    : callExp.arguments.push(
+      createArrayExpression(node.children.map(c => c.jsNode))
+    )
+
+    node.jsNode = callExp
+  }
+}
+
+function transformRoot(node) {
+  return () => {
+    if (node.type !== 'Root') {
+      return
+    }
+
+    const vnodeJSAST = node.children[0].jsNode
+
+    node.jsNode = {
+      type: 'FunctionDecl',
+      id: { type: 'Identifier', name: 'render' },
+      params: [],
+      body: [
+        {
+          type: 'ReturnStatement',
+          return: vnodeJSAST
+        }
+      ]
+    }
+  }
+}
+
+const ast = parse(`<div><p>Vue</p><p>Template</p></div>`)
+transform(ast)
+
+console.log(ast)
+
+console.log(generate(ast.jsNode))
+
+// ============================ code generate ============================
+
+function generate(node) {
+  const context = {
+    code: '',
+    push(code) {
+      context.code += code
+    },
+    currentIndent: 0,
+    newline() {
+      context.code += '\n' + `  `.repeat(context.currentIndent)
+    },
+    indent() {
+      context.currentIndent++
+      context.newline()
+    },
+    deIndent() {
+      context.currentIndent--
+      context.newline()
+    }
+  }
+
+  genNode(node, context)
+
+  return context.code
+}
+
+function genNode(node, context) {
+  switch (node.type) {
+    case 'FunctionDecl':
+      genFunctionDecl(node, context)
+      break
+    case 'ReturnStatement':
+      genReturnStatement(node, context)
+      break
+    case 'CallExpression':
+      genCallExpression(node, context)
+      break
+    case 'StringLiteral':
+      genStringLiteral(node, context)
+      break
+    case 'ArrayExpression':
+      genArrayExpression(node, context)
+      break
+  }
+}
+
+function genFunctionDecl(node, context) {
+  const { push, indent, deIndent } = context
+
+  push(`function ${node.id.name} `)
+  push(`(`)
+  genNodeList(node.params, context)
+  push(`) `)
+  push(`{`)
+  indent()
+
+  node.body.forEach(n => genNode(n, context))
+
+  deIndent()
+  push(`}`)
+}
+
+function genNodeList(nodes, context) {
+  const { push } = context
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
+    genNode(node, context)
+    if (i < nodes.length - 1) {
+      push(', ')
+    }
+  }
+}
+
+function genReturnStatement(node, context) {
+  const { push } = context
+
+  push(`return `)
+  genNode(node.return, context)
+}
+
+function genCallExpression(node, context) {
+  const { push } = context
+  const { callee, arguments: args } = node
+  push(`${callee.name}(`)
+  genNodeList(args, context)
+  push(`)`)
+}
+
+function genStringLiteral(node, context) {
+  const { push } = context
+
+  push(`'${node.value}'`)
+}
+
+function genArrayExpression(node, context) {
+  const { push } = context
+  push('[')
+  genNodeList(node.elements, context)
+  push(']')
+}
+```
+
+:::
+
+::::
+
+测试用例：
+
+```js
+const ast = parse(`<div><p>Vue</p><p>Template</p></div>`)
+transform(ast)
+const code = generate(ast.jsNode)
+```
+
+最终得到的代码字符串如下：
+
+```js
+function render() {
+	return h('div', [h('p', 'Vue'), h('p', 'Template')])
+}
+```
+

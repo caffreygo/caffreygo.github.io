@@ -781,6 +781,8 @@ const ast = {
 
 ### 解码命名字符的引用
 
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/decodeHtml.png)
+
 ::: details HTML 实体
 
 HTML 实体是一段以字符&开始的文本内容。实体用来描述 HTML 中的保留字符和一些难以通过普通键盘输人的字符，以及一些不可见的宇符。例如，在 HTML 中，字符＜具有特殊含义，如果希望以普通文本的方式来显示宇符＜，需要通过实体来表达：

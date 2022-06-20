@@ -114,8 +114,10 @@ module.exports = {
   "/VueJs3/section5/": [
     {
       text: "编译器",
-      children: ["/VueJs3/section5/chapter15.md"],
-      children: ["/VueJs3/section5/chapter16.md"],
+      children: [
+        "/VueJs3/section5/chapter15.md",
+        "/VueJs3/section5/chapter16.md",
+      ],
     },
   ],
   "/mysql/": [

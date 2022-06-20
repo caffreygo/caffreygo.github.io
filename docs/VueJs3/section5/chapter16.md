@@ -713,7 +713,7 @@ const templaye = 'Text</div>'
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/parseText.png)
 
-解析会在模板中寻找下一个`<`字符或插值定界符的位置索引，记为索引 I 。然后，解析器会从模板头部到索引 I 的位置截取内容，这段截取出来的字符串将作为文本节点的内容。
+解析器会在模板中寻找下一个`<`字符或插值定界符的位置索引，记为索引 I 。然后，解析器会从模板头部到索引 I 的位置截取内容，这段截取出来的字符串将作为文本节点的内容。
 
 ```js
 const template = 'Text</div>'  // Text  <
@@ -844,7 +844,7 @@ const namedCharacterReferences = {
 :::
 ::: code-group-item decodeHtml
 
-```js
+```js{59-60}
 function decodeHtml(rawText, asAttr = false) {
   let offset = 0
   const end = rawText.length
@@ -873,9 +873,9 @@ function decodeHtml(rawText, asAttr = false) {
       // 命名字符引用，否则为数字字符引用
       let name = ''
       let value
-      // 字符 & 的下一个字符必须是 ASCII字母或数字，这才是合法的命名字符引用
+      // 字符 & 的下一个字符必须是 ASCII 字母或数字，这才是合法的命名字符引用
       if (/[0-9a-z]/i.test(rawText[1])) {
-        // 根据音乐表计算实体名称的最大长度
+        // 根据引用表计算实体名称的最大长度
         if (!maxCRNameLength) {
           maxCRNameLength = Object.keys(namedCharacterReferences).reduce(
             (max, name) => Math.max(max, name.length),

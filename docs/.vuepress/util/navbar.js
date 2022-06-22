@@ -89,6 +89,10 @@ module.exports = [
             text: "解析器",
             link: "/VueJs3/section5/chapter16",
           },
+          {
+            text: "编译优化",
+            link: "/VueJs3/section5/chapter17",
+          },
         ],
       },
     ],

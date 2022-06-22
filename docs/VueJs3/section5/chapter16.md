@@ -4,32 +4,52 @@
 
 ## 文本模式及其对解析器的影响
 
-文本模式指的是解析器在工作时所进入的一些特殊状态，在不同的特殊状态下，解析器对文本的解析行为会有所不同。
+✅ 文本模式指的是解析器在工作时所进入的一些特殊状态，如 RCDATA 模式、CDATA 模式、RAWTEXT 模式，以及初始的 DATA 模式等。在不同模式下，解析器对文本的解析行为会有所不同。
 
 ::: tip 文本模式
 
 当解析器遇到一些特殊标签时，会切换模式，从而影响其对文本的解析行为：
 
 - `<title>`标签、`<textarea>`标签，当解析器遇到这两个标签时，会切换到 RCDATA 模式；
-- `<title> `、`<xmp>`、`<iframe>`、`<noembed>`、`<noframes>`、`<noscript>`等标签，当解析器遇到这些标签时，会切到 RAWDARA 模式；
+- `<title> `、`<xmp>`、`<iframe>`、`<noembed>`、`<noframes>`、`<noscript>`等标签，当解析器遇到这些标签时，会切到 RAWTEXT 模式；
 - 当解析器遇到`<![CDATA[`字符串时，会进入 CDATA 模式。
-
-解析器的初始状态是 CDATA 模式。对于 Vue.js 的模板 DSL 来说，模板中不允许出`<script>`标签，因此 Vue.js 模板解析器在遇到`<script>`标签时也会切换到 RAWDATA 模式。
 
 :::
 
-🌐 [HTML parsing tokenization 文档 (opens new window)](https://whatwg-cn.github.io/html/multipage/parsing.html#tokenization)
+::: details 文本解析模式
 
-在默认的 DATA 模式下，解析器在遇到 `<`时，会切换到标签开始状态（tag open state）。也就是说，在该模式下，解析器能够解析标签元素。当解析器遇到字符 `&` 时，会切换到**字符引用状态**（character reference state），也称 HTML 字符实体状态。也就是说，在  DATA 模式下，解析器能够处理 HTML 字符实体。
+🌐 [HTML parsing tokenization 文档 (opens new window)](https://whatwg-cn.github.io/html/multipage/parsing.html#tokenization)
 
 | 模式    | 能否解析标签 | 是否支持 HTML 实体 |
 | ------- | ------------ | ------------------ |
 | DATA    | 能           | 是                 |
 | RCDATA  | 否           | 是                 |
-| RAWDATA | 否           | 否                 |
-| CDATA   | 否           | 否                 |
+| RAWTEXT | 否           | 否                 |
+| CDATA   | 否           |                    |
 
-> 不同的模式还会影响解析器对于终止解析的判断。
+- 在默认的 **DATA 模式**下，解析器在遇到`<`时，会切换到标签开始状态（tag open state）。即在该模式下，解析器能够解析标签元素。当解析器遇到字符 `&` 时，会切换到**字符引用状态**（character reference state），也称 HTML 字符实体状态。也就是说，在  DATA 模式下，解析器能够处理 HTML 字符实体。
+
+- 在 **RCDATA 模式**时，解析器遇到`<`标签不会再切换到标签开始状态，而会切换到 RCDATA less-then sign state。在该状态下，解析器遇到字符`\`会切换到 RCDATA 的结束标签状态，即 RCDATA end tag open state；否则会将当前字符`<`作为普通字符处理，然后继续处理其他字符。
+
+  由此可知，在 RCDATA 状态下，解析器不能识别标签元素。这其实间接说明了在`<textarea>`内可以将字符`<`作为普通文本，解析器不会认为字符`<`是标签开始的标志。
+
+  ```html
+  <!-- textarea 内部的标签将作为普通文本 -->
+  <textarea>
+    <div>abc</div>hello
+  </textarea>
+  
+  <!-- textarea 能解析 HTML 实体 -->
+  <textarea>&copy;</textarea>
+  ```
+
+- 在 RAWTEXT 模式下的工作方式与在 RCDATA 模式下类似。唯一不同的是，在 RAWTEXT 模式下，解析器将不再支持 HTML 实体。
+
+  对于 Vue.js 的模板 DSL 来说，模板中不允许出`<script>`标签，因此 Vue.js 模板解析器在遇到`<script>`标签时会进入 RAWTEXT 模式，这时它会把`<script>`标签内的内容全部作为普通文本处理。
+
+> 不同的模式还会影响解析器对于终止解析的判断。WHATWG 中还定义了 PLAINTEXT 模式，该模式与 RAWTEXT 类似。不同的是，该模式一旦进入便不会再退出。Vue.js 的模板解析用不到该模式。
+
+:::
 
 ```js
 const TextMode = {
@@ -263,13 +283,22 @@ const template =`+`
 
 ### 递归与下降
 
-`parseChildren`解析函数是整个状态机的核心，状态迁移操作都在该函数内完成。在`parseChildren` 函数运行过程中，为了处理标签节点，会调用`parseElement` 解析函数，这会间接地调用 `parseChildren`函数，并产生一个新的状态机。
+✅ `parseChildren`解析函数是整个状态机的核心，状态迁移操作都在该函数内完成。在`parseChildren` 函数运行过程中，为了处理标签节点，会调用`parseElement` 解析函数，这会间接地调用 `parseChildren`函数，并产生一个新的状态机。
 
 **递归**：随着标签嵌套层次的增加，新的状态机会随着`parseChildren`函数递归地调用而不断创建，这就是“递归下降”中“递归”二字的含义。
 
 **下降**：而上级`parseChildren`函数的调用用于构造上级模板 AST，被递归调用的下级 `parseChildren` 函数则用于构造下级模板 AST 节点。最终，会构造出一棵树型结构的模板 AST，这就是“递归下降”中“下降”二字的含义。
 
 ## 状态机的开启和停止
+
+::: tip ✅ 概览
+
+在解析模板 AST的过程中，parseChildren是核心。每次调用都意味着新状态机的开启。状态机的结束时机有两个：
+
+- 第一个停止时机是当模板内容被解析完毕时。
+- 第二个停止时机是遇到结束标签时，这时解析器会取得父级节点栈栈顶的节点作为父节点，检查该节点结束标签是否与父节点的标签同名，如果相同，则状态机停止运行。
+
+:::
 
 `parseChildren`函数本质上是一个状态机，它会开启一个 while 循环使得状态机自动运行。
 
@@ -289,7 +318,7 @@ function parseChildren(context, ancestors) {
 
 ### isEnd.v1
 
-当解析器遇到开始标签时，会将该标签压入父级节点栈，同时开启新的状态机。当解折器遇到结束标签，井且父级节点栈中存在与该标签同名的开始标签节点时，会停止当前正在运行的状态机。根据上述规则，我们可以给出`isEnd`函数的逻辑，如下面的代码所示：
+当解析器遇到开始标签时，会将该标签压入父级节点栈，同时开启新的状态机。当解析器遇到结束标签，井且父级节点栈中存在与该标签同名的开始标签节点时，会停止当前正在运行的状态机。根据上述规则，我们可以给出`isEnd`函数的逻辑，如下面的代码所示：
 
 ```js
 function isEnd(context, ancestors) {
@@ -699,6 +728,17 @@ const ast = {
 
 ## 解析文本与解析 HTML 实体
 
+::: tip ✅ 概览
+
+解析文本节点并不复杂，它的复杂点在于，我们需要对解析后的文本内容进行 HTML 实体的解码工作。WHATWG 规范中也定义了解码 HTML 实体过程中的状态迁移过程。HTML 实体类型有两种，分别是命名字符引用和数字字符引用。命名字符引用的解码方式可以总结为两种。
+
+- 当存在分号时：执行完整匹配。
+- 当省略分号时：执行最短匹配。
+
+对于数字字符引用，则按照 WHATWG 规范中定义的规则逐步实现。
+
+:::
+
 ### 解析文本
 
 当解析下面这个模板时：
@@ -1092,3 +1132,122 @@ function decodeHtml(rawText, asAttr = false) {
 
 :::
 ::::
+
+## 解析插值与注释
+
+### 解析插值
+
+文本插值是 Vue.js 模板中用来渲染动态数据的常用方法。
+
+```html
+<p>{{ count }}</p>
+<p>{{ obj.foo }}</p>
+<p>{{ obj.fn() }}</p>
+```
+
+我们通常将其两边的特殊字符串称为定界符，定界符中间的内容可以是任意合法的 JavaScript 表达式。
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/parseInterpolation.png)
+
+解析器在解析插值时，只需要把定界符中间的内容提取出来作为 JavaScript 表达式即可：
+
+```js
+function parseInterpolation(context) {
+  // 消费开始定界符
+  context.advanceBy('{{'.length)
+  // 找到结束定界符的位置索引
+  closeIndex = context.source.indexOf('}}')
+  // 截取中间内容作为插值表达式
+  const content = context.source.slice(0, closeIndex)
+  // 消费表达式和结束定界符
+  context.advanceBy(content.length)
+  context.advanceBy('}}'.length)
+
+  return {
+    type: 'Interpolation',
+    content: {
+      type: 'Expression',  // 表达式类型
+      content: decodeHtml(content)
+    }
+  }
+}
+```
+
+配合上面的 `parseInterpolation` 函数，解析如下模板内容：
+
+```js
+const ast = parse(`<div>foo {{ bar }} baz</div>`)
+```
+
+最终将得到如下 AST：
+
+```js
+const ast = {
+  type: 'Root',
+  chidlren: [
+    {
+      type: 'Element',
+      tag: 'div',
+      isSelfClosing: false,
+      props: [],
+      children: [
+        { type: 'Text', content: 'foo ' },
+        // 插值节点
+        { 
+          type: 'Interpolation',
+          content: [
+            type: 'Expression',
+            content: ' bar'
+          ]
+        },
+        { type: 'Text', content: ' baz' },
+      ]
+    }
+  ]
+}
+```
+
+### 解析注释
+
+解析注释的思路与解析插值非常相似：
+
+```js
+function parseComment(context) {
+  context.advanceBy('<!--'.length)
+  closeIndex = context.source.indexOf('-->')
+  const content = context.source.slice(0, closeIndex)
+  context.advanceBy(content.length)
+  context.advanceBy('-->'.length)
+
+  return {
+    type: 'Comment',
+    content
+  }
+}
+```
+
+配合上面的 `parseComment` 函数，解析如下模板内容：
+
+```js
+const ast = parse(`<div><!-- comments --></div>`)
+```
+
+最终得到如下 AST：
+
+```js
+const ast = {
+  type: 'Root',
+  chidlren: [
+    {
+      type: 'Element',
+      tag: 'div',
+      isSelfClosing: false,
+      props: [],
+      children: [
+        { type: 'Comment', content: ' comments ' },
+      ]
+    }
+  ]
+}
+```
+

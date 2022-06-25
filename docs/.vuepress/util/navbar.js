@@ -95,6 +95,15 @@ module.exports = [
           },
         ],
       },
+      {
+        text: "服务端渲染",
+        children: [
+          {
+            text: "同构渲染",
+            link: "/VueJs3/section6/chapter18",
+          },
+        ],
+      },
     ],
   },
   {

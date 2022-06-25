@@ -121,6 +121,12 @@ module.exports = {
       ],
     },
   ],
+  "/VueJs3/section5/": [
+    {
+      text: "服务端渲染",
+      children: ["/VueJs3/section5/chapter18.md"],
+    },
+  ],
   "/mysql/": [
     {
       text: "MYSQL",

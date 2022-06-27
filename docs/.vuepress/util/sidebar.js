@@ -121,10 +121,10 @@ module.exports = {
       ],
     },
   ],
-  "/VueJs3/section5/": [
+  "/VueJs3/section6/": [
     {
       text: "服务端渲染",
-      children: ["/VueJs3/section5/chapter18.md"],
+      children: ["/VueJs3/section6/chapter18.md"],
     },
   ],
   "/mysql/": [

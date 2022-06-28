@@ -110,6 +110,10 @@ module.exports = [
     text: "笔记",
     children: [
       {
+        text: "前端面试",
+        link: "/note/questions",
+      },
+      {
         text: "日常随记",
         link: "/note/daily",
       },

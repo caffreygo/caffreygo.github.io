@@ -29,7 +29,7 @@ const a = {
     },
 };
 
-console.log(a == 1 && a == 2 && a == 3);
+console.log(a == 1 && a == 2 && a == 3);  // true
 ```
 
 ## Vue
@@ -83,10 +83,38 @@ read num
 ```
 
 :::
-::: code-group-item 目标代码
+::: code-group-item 实现双向绑定
 
-```
+```html
+<div id="app">
+    <p>
+        <label>请输入内容：</label>
+        <input type="text" id="input" />
+    </p>
+    <p>
+        <label>显示的内容：</label>
+        <span id="content"></span>
+    </p>
+</div>
+<script>
+    const data = { text: "" };
 
+    Object.defineProperty(data, "text", {
+        get: function () {
+            return data;
+        },
+        set: function (newVal) {
+            document.getElementById("input").value = newVal;
+            document.getElementById("content").innerText = newVal;
+        },
+    });
+
+    document.addEventListener("keyup", function (e) {
+        data.text = e.target.value;
+    });
+
+    data.text = "hello";
+</script>
 ```
 
 :::

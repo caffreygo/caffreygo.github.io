@@ -83,7 +83,7 @@ read num
 ```
 
 :::
-::: code-group-item 实现双向绑定
+::: code-group-item 双向绑定
 
 ```html
 <div id="app">
@@ -114,6 +114,87 @@ read num
     });
 
     data.text = "hello";
+</script>
+```
+
+:::: code-group
+::: code-group-item Proxy
+
+```html
+<script>
+    const data = { text: "hello" };
+
+    function reactive(obj) {
+        return new Proxy(obj, {
+            get: function (target, key) {
+                console.log(`read ${key}`);
+                return target[key];
+            },
+            set: function (target, key, val) {
+                console.log(`write ${key}: ${val}`);
+                target[key] = val;
+                return val;
+            },
+        });
+    }
+
+    const reactiveData = reactive(data);
+    console.log(reactiveData.text);
+    reactiveData.text = "world";
+    console.log(reactiveData.text);
+    console.log(data)
+</script>
+```
+
+控制台打印结果：
+
+```shell
+read text
+hello
+write text: world
+read text
+world
+{text: 'world'}
+```
+
+:::
+
+::: code-group-item 双向绑定
+
+```html
+<div id="app">
+    <p>
+        <label>请输入内容：</label>
+        <input type="text" id="input" />
+    </p>
+    <p>
+        <label>显示的内容：</label>
+        <span id="content"></span>
+    </p>
+</div>
+<script>
+    const data = { text: "" };
+
+    function reactive(obj) {
+        return new Proxy(obj, {
+            get: function (target, key) {
+                return target[key];
+            },
+            set: function (target, key, val) {
+                document.getElementById("input").value = val;
+                document.getElementById("content").innerText = val;
+                target[key] = val;
+                return val;
+            },
+        });
+    }
+
+    const reactiveData = reactive(data);
+    reactiveData.text = "hello";
+
+    document.addEventListener("keyup", function (e) {
+        reactiveData.text = e.target.value;
+    });
 </script>
 ```
 

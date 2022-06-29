@@ -2,6 +2,34 @@
 
 ## JavaScript
 
+### 执行时上下文
+
+::: tip 建立执行上下文
+
+1. 确定形参（a, b, c）
+2. 确定函数声明 （c 同名覆盖）
+3. 内部声明的变量，记录为 undefined (同名忽略不覆盖)
+
+:::
+
+```js
+function method(a, b, c) {
+    console.log(a, b, c);  // 1 2 [Function: c]
+    var a = "a";
+    var b = function b() {};
+    (function a() {});
+    (function b() {});
+    function c() {}
+    console.log(a, b, c);  // a [Function: b] [Function: c]
+}
+
+method(1, 2, 3);
+```
+
+> `var a = "a"` 的 `var` 如果改成 `let` 会抛出已声明报错
+>
+> `( )` 把函数 a/b 的声明变成了函数表达式 🌐 [函数声明与函数表达式(opens new window)](https://www.ijerrychen.com/note/daily.html#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+
 ### == 的隐式转换
 
 ```js
@@ -117,7 +145,7 @@ read num
 </script>
 ```
 
-:::: code-group
+:::
 ::: code-group-item Proxy
 
 ```html
@@ -200,3 +228,4 @@ world
 
 :::
 ::::
+

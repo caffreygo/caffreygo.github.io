@@ -682,3 +682,52 @@ function throttle(func, wait, options) {
     return throttled;
 }
 ```
+
+## 手写 new 方法
+
+::: tip new 操作符
+
+1. 首先创建了一个新对象 设置原型
+2. 将对象的原型设置为函数的prototype对象（继承父类原型上的方法）
+3. 让函数的this指向这个对象，执行构造函数的代码（添加父类的属性到新的对象上并初始化）
+4. 判断函数的返回值类型，如果是值类型，返回创建的对象。如果是对象（函数也是对象），就返回这个对象
+
+:::
+
+```js
+function myNew(constructor, ...args) {
+  if (typeof constructor !== "function") {
+      throw "myNew方法的第一个参数必须是一个方法";
+  }
+
+  // 基于constructor的原型创建一个全新的对象
+  let newObj = Object.create(constructor.prototype);
+
+  // 获取传入的参数
+  // let args = Array.from(arguments).slice(1);
+
+  // 添加属性到新创建的newObj上, 并获取obj函数执行的结果
+  let result = constructor.apply(newObj, args);
+
+  // 判断result类型，如果是object或者function类型，则直接返回结果
+  let resultType = Object.prototype.toString.call(result);
+  if (resultType === '[object Object]' || resultType === '[object Function]') {
+      return result;
+  }
+  return newObj;
+}
+
+function Person(firtName, lastName) {
+  this.firtName = firtName;
+  this.lastName = lastName;
+}
+
+Person.prototype.getFullName = function () {
+  return `${this.firtName} ${this.lastName}`;
+};
+
+const a = myNew(Person, 'Chen', 'Jinrui')
+
+console.log(a.getFullName())  // Chen Jinrui
+```
+

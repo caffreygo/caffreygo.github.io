@@ -2,6 +2,8 @@
 
 快速 Diff 算法最早应用于 ivi 和 inferno 这两个框架，在 DOM 操作的各个方面，这个算法性能都要稍优于 Vue.js 2 所采用的双端 Diff 算法。
 
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/quickDiff.png)
+
 ## 相同的前置元素和后置元素
 
 ### 纯文本 Diff 算法
@@ -375,8 +377,6 @@ if (moved) {
   }
 }
 ```
-
-![](https://raw.githubusercontent.com/caffreygo/static/main/blog/Vuejs3/quickDiff.png)
 
 ::: details 旧 [1, 2, 3, 4, 6, 5] => 新 [1, 3, 4, 2, 7, 5]
 

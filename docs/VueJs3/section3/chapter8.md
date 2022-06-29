@@ -887,7 +887,7 @@ Fragment（片段）是Vue.js 3 中新增的一个 vnode 类型，可以通过�
 
 ```html
 <template>
-	<li>1</li>
+  <li>1</li>
   <li>2</li>
   <li>3</li>
 </template>

@@ -64,6 +64,8 @@ console.log(a == 1 && a == 2 && a == 3);  // true
 
 ### 双向绑定的原理
 
+🌐 [响应式数据基本实现(opens new window)](https://www.ijerrychen.com/VueJs3/section2/chapter4.html#%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0)
+
 Vue.js 数据双向绑定原理是通过**数据劫持**结合**发布订阅模式**的方式来实现的，首先是对数据进行监听，然后当监听的属性（响应式数据）发生变化时则告诉订阅者（副作用函数：render、computed）是否要更新，若更新就会执行对应的更新函数从而更新视图。
 
 :::: code-group

@@ -1,5 +1,14 @@
 # 响应系统的作用与实现
 
+::: tip 概述
+
+- 分支切换：预清空依赖集合 `effectFn.deps.forEach(dep => dep.delete(effectFn))`
+- Set 死循环：拷贝后再遍历
+- `effect`嵌套：副作用函数栈
+- 同时读写死循环：`effectFn !== activeEffect`
+
+:::
+
 Vue.js 3 采用 Proxy 实现响应式数据
 
 ## 响应式数据与副作用函数

@@ -389,7 +389,60 @@ function deepClone(target, map = new WeakMap()) {
 }
 ```
 
-## 事件总线(发布订阅模式)
+## 事件总线(发布订阅)
+
+### 观察者模式
+
+一个对象（观察者）订阅另一个对象（主题），当主题被激活的时候，触发观察者里面的事件。（观察者自身维护着事件）
+
+> 大白话解释：当去你去医院打吊瓶（某些地方叫打点滴，就是这么严谨）的时候，医生要观察吊瓶的改变，当快打完的时候，就要通知医生来取针。这里医生就是观察者（Obeserver），吊瓶就是被观察者/主题。
+
+```js
+class Subject {  // 被观察者
+  constructor(name){
+    this.state = 100;
+    this.name = name;
+    this.obs = []  // 会有多个观察者
+  }
+  addObs(ob){
+    this.obs.push(ob)
+  }
+  setState(state){  // 改变状态的方法
+    this.state = state
+    // 通知观察者执行动作
+    this.obs.forEach((ob)=>{
+      ob.update(this)  // 让观察者自身去做更新
+    })
+  }
+}
+
+class Obeserver{  // 观察者
+  constructor(name){
+    this.name = name;
+  }
+  update(subject){
+    // 这里观察者也有可能观察多个
+    if (!subject.state) {
+      console.log(`${this.name} 收到通知 :${subject.name} 的 带瓶打完啦！`)
+    }else {
+      console.log(` ${this.name} 收到通知 :${subject.name} 的 带瓶量: ${subject.state}！`)
+    }
+
+  }
+
+}
+var zhiliao = new Subject();
+var hushi = new Obeserver("护士");
+var yisheng = new Obeserver("医生")
+
+zhiliao.addObs(hushi)  // 把观察者放到被观察这的里面去
+zhiliao.addObs(yisheng)
+zhiliao.setState(50) 
+```
+
+### 发布订阅
+
+订阅者把自己想要订阅的事件注册到**调度中心**，当发布者发布事件到调度中心（就是该事件被触发），再由调度中心统一调度订阅者注册到调度中心的处理代码。
 
 ```js
 class EventEmitter {
@@ -501,32 +554,30 @@ render(template, person); // 我是布兰，年龄12，性别undefined
 - 图片全部加载完成后移除事件监听；
 - 加载完的图片，从 imgList 移除；
 
-```diff
+```js
 let imgList = [...document.querySelectorAll('img')]
 let length = imgList.length
 
 // 修正错误，需要加上自执行
-- const imgLazyLoad = function() {
-+ const imgLazyLoad = (function() {
-    let count = 0
-    
-   return function() {
-        let deleteIndexList = []
-        imgList.forEach((img, index) => {
-            let rect = img.getBoundingClientRect()
-            if (rect.top < window.innerHeight) {
-                img.src = img.dataset.src
-                deleteIndexList.push(index)
-                count++
-                if (count === length) {
-                    document.removeEventListener('scroll', imgLazyLoad)
-                }
-            }
-        })
-        imgList = imgList.filter((img, index) => !deleteIndexList.includes(index))
-   }
-- }
-+ })()
+const imgLazyLoad = (function() {
+  let count = 0
+
+  return function() {
+    let deleteIndexList = []
+    imgList.forEach((img, index) => {
+      let rect = img.getBoundingClientRect()
+      if (rect.top < window.innerHeight) {
+        img.src = img.dataset.src
+        deleteIndexList.push(index)
+        count++
+        if (count === length) {
+          document.removeEventListener('scroll', imgLazyLoad)
+        }
+      }
+    })
+    imgList = imgList.filter((img, index) => !deleteIndexList.includes(index))
+  }
+})()
 
 // 这里最好加上防抖处理
 document.addEventListener('scroll', imgLazyLoad)；
@@ -536,83 +587,156 @@ document.addEventListener('scroll', imgLazyLoad)；
 
 ## 函数防抖
 
+> 防抖，debounce，后执行
+
 触发高频事件 N 秒后只会执行一次，如果 N 秒内事件再次触发，则会重新计时。
 
-简单版：函数内部支持使用 this 和 event 对象；
+### 简单版
+
+函数内部支持使用 this 和传递参数；
 
 ```js
-function debounce(func, wait) {
-    var timeout;
-    return function () {
-        var context = this;
-        var args = arguments;
-        clearTimeout(timeout)
-        timeout = setTimeout(function(){
-            func.apply(context, args)
-        }, wait);
-    }
+function debounce(fn, timeout = 1000) {
+  let timer = null;
+
+  return function (...args) {
+    const context = this;
+    if (timer) clearTimeout(timer);
+
+    timer = setTimeout(fn.bind(context, ...args), timeout);
+  };
 }
 ```
 
 使用：
 
 ```js
-var node = document.getElementById('layout')
-function getUserAction(e) {
-    console.log(this, e)  // 分别打印：node 这个节点 和 MouseEvent
-    node.innerHTML = count++;
+function fn1(...args) {
+  console.log(this);
+  console.log(args);
+}
+
+const obj = {
+  name: "hello",
+  action: debounce(fn1, 3000),
 };
-node.onmousemove = debounce(getUserAction, 1000)
+
+obj.action(1);
+obj.action(2);
+obj.action(3);
+obj.action(4);
+// { name: 'hello', action: [Function (anonymous)] }
+// [ 4 ]
+// [Done] exited with code=0 in 3.056 seconds
 ```
 
-最终版：除了支持 this 和 event 外，还支持以下功能：
+### 最终版
+
+除了支持 this 和参数外，还支持以下功能：
 
 - 支持立即执行；
-- 函数可能有返回值；
-- 支持取消功能；
+- 函数可能有返回值；（只有立即执行才能拿到返回值）
+- 支持取消；
 
 ```js
-function debounce(func, wait, immediate) {
-    var timeout, result;
+function debounce(fn, timeout, immediate = false) {
+  let timer, result;
+
+  const debouncedFn = function (...args) {
+    const context = this;
+    if (timer) clearTimeout(timer);
+
+    if (immediate) {
+      immediate = false;
+      result = fn.apply(context, args);
+    }
+
+    timer = setTimeout(fn.bind(context, ...args), timeout);
     
-    var debounced = function () {
-        var context = this;
-        var args = arguments;
-        
-        if (timeout) clearTimeout(timeout);
-        if (immediate) {
-            // 如果已经执行过，不再执行
-            var callNow = !timeout;
-            timeout = setTimeout(function(){
-                timeout = null;
-            }, wait)
-            if (callNow) result = func.apply(context, args)
-        } else {
-            timeout = setTimeout(function(){
-                func.apply(context, args)
-            }, wait);
-        }
-        return result;
-    };
+    return result;
+  };
 
-    debounced.cancel = function() {
-        clearTimeout(timeout);
-        timeout = null;
-    };
+  debouncedFn.cancel = function () {
+    clearTimeout(timer);
+    timer = null;
+  };
 
-    return debounced;
+  return debouncedFn;
 }
 ```
 
 使用：
 
-```js
-var setUseAction = debounce(getUserAction, 10000, true);
-// 使用防抖
-node.onmousemove = setUseAction
+```html
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1" />
+    <title>debounce</title>
+    <style>
+      #container {
+        width: 100%;
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        color: #fff;
+        background-color: #444;
+        font-size: 30px;
+      }
+    </style>
+  </head>
 
-// 取消防抖
-setUseAction.cancel()
+  <body>
+    <div id="container"></div>
+    <button id="button">点击取消debounce</button>
+    <script>
+      function debounce(fn, timeout, immediate = false) {
+        let timer, result;
+
+        const debouncedFn = function (...args) {
+          const context = this;
+          if (timer) clearTimeout(timer);
+
+          if (immediate) {
+            immediate = false;
+            result = fn.apply(context, args);
+          }
+
+          timer = setTimeout(fn.bind(context, ...args), timeout);
+
+          return result;
+        };
+
+        debouncedFn.cancel = function () {
+          clearTimeout(timer);
+          timer = null;
+        };
+
+        return debouncedFn;
+      }
+
+      let count = 1;
+      let container = document.getElementById("container");
+
+      function addCount() {
+        container.innerHTML = count++;
+        return count;
+      }
+
+      let debounceFn = debounce(addCount, 1000, true);
+
+      container.onmousemove = function () {
+        var res = debounceFn();
+        console.log(res);
+      };
+
+      document.getElementById("button").addEventListener("click", function () {
+        debounceFn.cancel();
+      });
+    </script>
+  </body>
+</html>
 ```
 
 参考：[JavaScript专题之跟着underscore学防抖](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fmqyqingfeng%2FBlog%2Fissues%2F22)
@@ -625,18 +749,18 @@ setUseAction.cancel()
 
 ```js
 function throttle(func, wait) {
-    var context, args;
-    var previous = 0;
+  var context, args;
+  var previous = 0;
 
-    return function() {
-        var now = +new Date();
-        context = this;
-        args = arguments;
-        if (now - previous > wait) {
-            func.apply(context, args);
-            previous = now;
-        }
+  return function() {
+    var now = +new Date();
+    context = this;
+    args = arguments;
+    if (now - previous > wait) {
+      func.apply(context, args);
+      previous = now;
     }
+  }
 }
 ```
 
@@ -644,42 +768,42 @@ function throttle(func, wait) {
 
 ```js
 function throttle(func, wait, options) {
-    var timeout, context, args, result;
-    var previous = 0;
-    if (!options) options = {};
+  var timeout, context, args, result;
+  var previous = 0;
+  if (!options) options = {};
 
-    var later = function() {
-        previous = options.leading === false ? 0 : new Date().getTime();
-        timeout = null;
-        func.apply(context, args);
-        if (!timeout) context = args = null;
-    };
+  var later = function() {
+    previous = options.leading === false ? 0 : new Date().getTime();
+    timeout = null;
+    func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
 
-    var throttled = function() {
-        var now = new Date().getTime();
-        if (!previous && options.leading === false) previous = now;
-        var remaining = wait - (now - previous);
-        context = this;
-        args = arguments;
-        if (remaining <= 0 || remaining > wait) {
-            if (timeout) {
-                clearTimeout(timeout);
-                timeout = null;
-            }
-            previous = now;
-            func.apply(context, args);
-            if (!timeout) context = args = null;
-        } else if (!timeout && options.trailing !== false) {
-            timeout = setTimeout(later, remaining);
-        }
-    };
-    
-    throttled.cancel = function() {
+  var throttled = function() {
+    var now = new Date().getTime();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
         clearTimeout(timeout);
-        previous = 0;
         timeout = null;
+      }
+      previous = now;
+      func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
     }
-    return throttled;
+  };
+
+  throttled.cancel = function() {
+    clearTimeout(timeout);
+    previous = 0;
+    timeout = null;
+  }
+  return throttled;
 }
 ```
 

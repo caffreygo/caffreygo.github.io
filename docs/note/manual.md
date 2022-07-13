@@ -739,8 +739,6 @@ function debounce(fn, timeout, immediate = false) {
 </html>
 ```
 
-参考：[JavaScript专题之跟着underscore学防抖](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fmqyqingfeng%2FBlog%2Fissues%2F22)
-
 ## 函数节流
 
 触发高频事件，且 N 秒内只执行一次。

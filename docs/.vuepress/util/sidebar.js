@@ -66,6 +66,7 @@ module.exports = {
         "/note/daily.md",
         "/note/manual.md",
         "/note/algorithm.md",
+        "/note/designPatterns.md",
         "/note/module.md",
       ],
     },

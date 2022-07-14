@@ -126,6 +126,10 @@ module.exports = [
         link: "/note/algorithm",
       },
       {
+        text: "JavaScript设计模式",
+        link: "/note/designPatterns",
+      },
+      {
         text: "深入浅出模块化",
         link: "/note/module",
       },

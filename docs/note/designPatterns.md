@@ -97,9 +97,9 @@ console.log(a === b);
 
 :::
 
-::: code-group-item 引入代理类
+::: code-group-item ✅ 引入代理类
 
-```js
+```js{12-20}
 const CreateDiv = function (html) {
     this.html = html;
     this.init();
@@ -157,7 +157,7 @@ var namespace1 = {
 };
 ```
 
-也可以动态地创建命名空间：
+也可以动态地创建**命名空间**：
 
 ```js
 var MyApp = {};
@@ -203,6 +203,79 @@ var user = (function(){
     }
 
 })();
+```
+
+:::
+::::
+
+### 惰性单例
+
+惰性单例指的是在需要的时候才创建对象实例。
+
+:::: code-group
+::: code-group-item 基于类的惰性单例
+
+```js
+Singleton.getInstance = (function(){
+    var instance = null;
+    return function( name ){
+        if ( ! instance ){
+            instance = new Singleton( name );
+        }
+        return instance;
+    }
+})();
+```
+
+:::
+::: code-group-item JS 惰性单例
+
+```js
+var createLoginLayer = (function(){
+    var div;
+    return function(){
+        if ( ! div ){
+            div = document.createElement( 'div' );
+            div.innerHTML = ’我是登录浮窗’;
+            div.style.display = 'none';
+            document.body.appendChild( div );
+        }
+
+        return div;
+    }
+})();
+
+document.getElementById( 'loginBtn' ).onclick = function(){
+    var loginLayer = createLoginLayer();
+    loginLayer.style.display = 'block';
+};
+```
+
+:::
+::: code-group-item ✅ 单一职责惰性单例
+
+```js{1-6}
+var getSingle = function( fn ){
+    var result;
+    return function(){
+        return result || ( result = fn .apply(this, arguments ) );
+    }
+};
+
+var createLoginLayer = function(){
+    var div = document.createElement( 'div' );
+    div.innerHTML = ’我是登录浮窗’;
+    div.style.display = 'none';
+    document.body.appendChild( div );
+    return div;
+};
+
+var createSingleLoginLayer = getSingle( createLoginLayer );
+
+document.getElementById( 'loginBtn' ).onclick = function(){
+    var loginLayer = createSingleLoginLayer();
+    loginLayer.style.display = 'block';
+};
 ```
 
 :::

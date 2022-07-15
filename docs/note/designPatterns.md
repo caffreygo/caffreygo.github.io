@@ -280,3 +280,218 @@ document.getElementById( 'loginBtn' ).onclick = function(){
 
 :::
 ::::
+
+## 发布订阅模式
+
+::: tip 发布订阅
+
+- 发布—订阅模式可以广泛应用于**异步编程**中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成之后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完成之后发布这个事件。在异步编程中使用发布—订阅模式，我们就无需过多关注对象在异步运行期间的内部状态，而只需要订阅感兴趣的事件发生点。
+- 发布—订阅模式可以取代对象之间硬编码的通知机制，一个对象不用再显式地调用另外一个对象的某个接口。发布—订阅模式让两个对象**松耦合**地联系在一起，虽然不太清楚彼此的细节，但这不影响它们之间相互通信。当有新的订阅者出现时，发布者的代码不需要任何修改；同样发布者需要改变时，也不会影响到之前的订阅者。只要之前约定的事件名没有变化，就可以自由地改变它们。
+
+:::
+
+::: details 发布订阅与观察者模式的区别
+
+1. 发布订阅模式里有三个角色，事件订阅和事件发布都需要消息中心来处理，这种消息范式适合于消息发布者与订阅者允许事件暴露给第三方，两者关系是松耦合的；
+2. 而观察者模式里，事件的观察者自身维护着 `update` 事件处理程序，当被观察者触发更新时，会触发所有关联的观察者的事件处理程序。
+
+:::
+
+### DOM 事件
+
+在这里需要监控用户点击 `document.body` 的动作，但是我们没办法预知用户将在什么时候点击。所以我们订阅 `document.body`上的 click 事件，当 body 节点被点击时，body 节点便会向订阅者发布这个消息。
+
+```js
+document.body.addEventListener( 'click', function(){
+    alert(2);
+}, false );
+
+document.body.addEventListener( 'click', function(){
+    alert(3);
+}, false );
+
+document.body.addEventListener( 'click', function(){
+    alert(4);
+}, false );
+
+document.body.click();    // 模拟用户点击
+```
+
+> 注意，手动触发事件更好的做法是IE下用 fireEvent，标准浏览器下用 dispatchEvent 实现
+
+### 通用实现
+
+::: tip 实现
+
+1. 事件订阅
+2. 事件发布
+3. 取消订阅
+
+:::
+
+:::: code-group
+::: code-group-item 功能提取
+
+```js
+var event = {
+    clientList: [],
+    listen: function( key, fn ){
+        if ( ! this.clientList[ key ] ){
+            this.clientList[ key ] = [];
+        }
+        this.clientList[ key ].push( fn );  // 订阅的消息添加进缓存列表
+    },
+    trigger: function(){
+        var key = Array.prototype.shift.call( arguments ),
+            fns = this.clientList[ key ];
+
+        if ( ! fns || fns.length === 0 ){  // 如果没有绑定对应的消息
+            return false;
+        }
+
+        for( var i = 0, fn; fn = fns[ i++ ]; ){
+            fn.apply( this, arguments );  // arguments是trigger时带上的参数
+        }
+    },
+    remove: function( key, fn ){
+        var fns = this.clientList[ key ];
+
+        if ( ! fns ){    // 如果key对应的消息没有被人订阅，则直接返回
+            return false;
+        }
+        if ( ! fn ){    // 如果没有传入具体的回调函数，表示需要取消key对应消息的所有订阅
+            fns && ( fns.length = 0 );
+        } else {
+            for ( var l = fns.length -1; l >=0; l-- ){    // 反向遍历订阅的回调函数列表
+                var _fn = fns[ l ];
+                if ( _fn === fn ){
+                    fns.splice( l, 1 );    // 删除订阅者的回调函数
+                }
+            }
+        }
+    };
+};
+```
+
+:::
+::: code-group-item 注册发布订阅功能
+
+```js
+var installEvent = function( obj ){
+    for ( var i in event ){
+        obj[ i ] = event[ i ];
+    }
+};
+```
+
+:::
+::: code-group-item 使用
+
+```js
+var salesOffices = {};
+installEvent( salesOffices );
+
+salesOffices.listen( 'squareMeter88', fn1 = function( price ){
+    console.log( ’价格= ' + price );
+});
+
+salesOffices.listen( 'squareMeter88', fn2 = function( price ){
+    console.log( ’价格= ' + price );
+});
+
+salesOffices.listen( 'squareMeter100', fn3 = function( price ){
+    console.log( ’价格= ' + price );
+});
+
+salesOffices.trigger( 'squareMeter100', 3000000 );  // 输出：3000000
+salesOffices.remove( 'squareMeter88', fn1 );  // 删除 fn1 的订阅
+salesOffices.trigger( 'squareMeter88', 2000000 );   // 输出一次：2000000
+```
+
+:::
+::::
+
+### 全局的发布-订阅对象
+
+::: warning
+
+❏ 我们给每个发布者对象都添加了 listen 和 trigger 方法，以及一个缓存列表 clientList，这其实是一种资源浪费。
+
+❏ 小明跟售楼处对象还是存在一定的耦合性，小明至少要知道售楼处对象的名字是 salesOffices，才能顺利的订阅到事件。
+
+:::
+
+```js
+var Event = (function(){
+
+    var clientList = {},
+        listen,
+        trigger,
+        remove;
+
+    listen = function( key, fn ){
+        if ( ! clientList[ key ] ){
+            clientList[ key ] = [];
+        }
+        clientList[ key ].push( fn );
+    };
+
+    trigger = function(){
+        var key = Array.prototype.shift.call( arguments ),
+            fns = clientList[ key ];
+        if ( ! fns || fns.length === 0 ){
+            return false;
+        }
+        for( var i = 0, fn; fn = fns[ i++ ]; ){
+            fn.apply( this, arguments );
+        }
+
+    };
+
+    remove = function( key, fn ){
+        var fns = clientList[ key ];
+        if ( ! fns ){
+            return false;
+        }
+        if ( ! fn ){
+            fns && ( fns.length = 0 );
+        }else{
+            for ( var l = fns.length -1; l >=0; l-- ){
+                var _fn = fns[ l ];
+                if ( _fn === fn ){
+                    fns.splice( l, 1 );
+                }
+            }
+        }
+    };
+
+    return {
+        listen: listen,
+        trigger: trigger,
+        remove: remove
+    }
+
+})();
+
+Event.listen( 'squareMeter88', function( price ){     // 小红订阅消息
+    console.log( ’价格= ' + price );       // 输出：’价格=2000000'
+});
+
+Event.trigger( 'squareMeter88', 2000000 );    // 售楼处发布消息
+```
+
+### 先发布后订阅
+
+::: details 关于发布-订阅模式的思考
+
+我们所了解到的发布—订阅模式，都是订阅者必须先订阅一个消息，随后才能接收到发布者发布的消息。如果把顺序反过来，发布者先发布一条消息，而在此之前并没有对象来订阅它，这条消息无疑将消失在宇宙中。在某些情况下，我们需要先将这条消息保存下来，等到有对象来订阅它的时候，再重新把消息发布给订阅者。就如同QQ中的离线消息一样，离线消息被保存在服务器中，接收人下次登录上线之后，可以重新收到这条消息。
+
+这种需求在实际项目中是存在的，比如在之前的商城网站中，获取到用户信息之后才能渲染用户导航模块，而获取用户信息的操作是一个ajax异步请求。当ajax请求成功返回之后会发布一个事件，在此之前订阅了此事件的用户导航模块可以接收到这些用户信息。但是这只是理想的状况，因为异步的原因，我们不能保证ajax请求返回的时间，有时候它返回得比较快，而此时用户导航模块的代码还没有加载好（还没有订阅相应事件），特别是在用了一些模块化惰性加载的技术后，这是很可能发生的事情。
+
+也许我们还需要一个方案，使得我们的发布—订阅对象拥有先发布后订阅的能力。为了满足这个需求，我们要建立一个**存放离线事件的堆栈**，当事件发布的时候，如果此时还没有订阅者来订阅这个事件，我们暂时把发布事件的动作包裹在一个函数里，这些包装函数将被存入堆栈中，等到终于有对象来订阅此事件的时候，我们将遍历堆栈并且依次执行这些包装函数，也就是重新发布里面的事件。当然**离线事件的生命周期只有一次**，就像QQ的未读消息只会被重新阅读一次，所以刚才的操作我们只能进行一次。
+
+:::
+
+### 事件命名冲突处理
+
+可以增加命名空间。

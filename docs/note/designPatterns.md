@@ -1,5 +1,19 @@
 # JavaScript 设计模式
 
+设计模式大致可以分成三类：
+
+> 创建型模式 （ Creational Patterns ）
+
+这类设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式， 而不是使用 new 运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活， 典型的有工厂模式（Factory Pattern）、单例模式。
+
+> 结构型模式（Structural Patterns）
+
+这类设计模式关注类和对象的组合。继承的概念被用来组合接口和定义组合对象获得新功能的方式。 比如 装饰器模式（Decorator Pattern） 和 代理模式（Proxy Pattern）。
+
+> 行为型模式（Behavioral Patterns）
+
+这类设计模式特别关注对象之间的通信。 比如 观察者模式（Observer Pattern）。
+
 ## 单例模式
 
 ::: tip 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
@@ -667,7 +681,10 @@ registerForm.onsubmit = function(){
 
 ## 工厂模式
 
-参考：[工厂模式](https://juejin.cn/post/6844903653774458888)
+参考：
+
+- [工厂模式](https://juejin.cn/post/6844903653774458888)
+- [工厂模式](https://juejin.cn/post/7023573813199634469)
 
 ### 简单工厂模式
 

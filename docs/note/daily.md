@@ -233,6 +233,56 @@ class Stack {
 }
 ```
 
+### Symbol.iterator
+
+- `forEach`无法中断
+- `for...in`：遍历可枚举属性。（由于遍历顺序的不一致性，不建议用来遍历数组）
+- `for...of`：遍历迭代器，可中断，`break`、`throw`、`return`
+
+可迭代协议：对象上实现了 `[Symbol.iterator]` 方法，该函数返回一个迭代器。
+
+> 当一个__可迭代对象__需要被迭代的时候，它的 `Symbol.iterator` 方法被无参调用，然后返回一个用于在迭代中获得值的**迭代器**。 换句话说，一个对象（或其原型）上有符合标准的 `Symbol.iterator` 接口，那他就是 `可迭代的(Iterator)` ，调用这个接口返回的对象就是一个 `迭代器`。
+
+::: tip 有如下情况会使用可迭代对象的迭代行为：
+
+- `for...of`
+- 扩展运算符(Spread syntax)
+- `yield*`
+- 解构赋值( Destructuring assignment )
+- 一些可接受可迭代对象的内置API（本质是这些接口在接收一个数组作为参数的时候会调用数组的迭代行为）
+  1. `Array.from()`
+  2. `Map()`,  `Set()`,  `WeakMap()`, `WeakSet()`
+  3. `Promise.all()` / `Promise.race()` 等
+
+:::
+
+```js
+const myArr = [1, 2, 3];
+myArr[Symbol.iterator] = function () {
+    const that = this;
+    let index = that.length;
+    return {
+        next: function () {
+            if (index > 0) {
+                index--;
+                return {
+                    value: that[index],
+                    done: false
+                };
+            } else {
+                return {
+                    done: true
+                };
+            }
+        },
+    };
+};
+
+console.log([...myArr])  // [3, 2, 1]
+```
+
+
+
 ## 零散
 
 ### 命名规范

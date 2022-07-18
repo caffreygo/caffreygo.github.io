@@ -281,7 +281,9 @@ myArr[Symbol.iterator] = function () {
 console.log([...myArr])  // [3, 2, 1]
 ```
 
-
+- 本质上： `for` 是个关键字，属于特殊语法，`forEach` 是个函数，两者就不是一个东西，如果我要 `Array.prototype.forEach=console.log` 也可以啊，`forEach` 只是一个包装出来的工具；
+- 语法上（常规功能使用上）：都可用于遍历，`Array.prototype.forEach` 本质上就是遍历的包装（注意，只是Array），因为 `Array.prototype.forEach` 是ES5的产物，迭代器“iterator”是ES6的产物，很明显，前期版本forEach跟迭代器没啥关系（后期Array改不改，咱也不清楚啦，详情看[![img](https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/3f843e8626a3844c624fb596dddd9674.svg)developer.mozilla.org](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FReference%2FGlobal_Objects%2FArray%2FforEach)）；Map和Set的forEach它们倒是跟迭代器相关；
+- 又一题外话：`for in` 是键值的遍历，属于特殊语法，`for of` 是ES6的产物，它是迭代器的遍历方式，也属于特殊语法，不同的是 `for of` 需要对遍历对象进行一次判定，即存不存在 `Symbol.iterator` 属性，所以遍历空对象会报错，而 `for in` 不会；它们很像，但是原理不一样。
 
 ## 零散
 

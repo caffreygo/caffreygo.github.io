@@ -679,6 +679,192 @@ registerForm.onsubmit = function(){
 
 只要这些业务规则指向的目标一致，并且可以被替换使用，我们就可以用策略模式来封装它们。
 
+## 迭代器模式
+
+迭代器模式是指提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。
+
+迭代器模式可以把迭代的过程从业务逻辑中分离出来，在使用迭代器模式之后，即使不关心对象的内部构造，也可以按顺序访问其中的每个元素。
+
+### 内部迭代器
+
+内部迭代器在内部已经定义好了迭代规则，它完全接手整个迭代过程，外部只需要一次初始调用。
+
+:::: code-group
+::: code-group-item 内部迭代器
+
+```js
+var each = function( ary, callback ){
+    for ( var i = 0, l = ary.length; i < l; i++ ){
+        callback.call( ary[i], i, ary[ i ] );  // 把下标和元素当作参数传给callback函数
+    }
+};
+
+each( [ 1, 2, 3 ], function( i, n ){
+    alert ( [ i, n ] );
+});
+```
+
+:::
+::: code-group-item compare
+
+```js
+var compare = function( ary1, ary2 ){
+    if ( ary1.length ! == ary2.length ){
+        throw new Error ( 'ary1和ary2不相等’ );
+    }
+    each( ary1, function( i, n ){
+        if ( n ! == ary2[ i ] ){
+        	throw new Error ( 'ary1和ary2不相等’ );
+        }
+    });
+    alert ( 'ary1和ary2相等’ );
+};
+
+compare( [ 1, 2, 3 ], [ 1, 2, 4 ] );   // throw new Error ( 'ary1和ary2不相等’ );
+```
+
+我们目前能够顺利完成需求，还要感谢在JavaScript里可以把函数当作参数传递的特性，但在其他语言中未必就能如此幸运。
+
+在一些没有闭包的语言中，内部迭代器本身的实现也相当复杂。比如C语言中的内部迭代器是用函数指针来实现的，循环处理所需要的数据都要以参数的形式明确地从外面传递进去。
+
+:::
+
+::::
+
+### 外部迭代器
+
+外部迭代器必须显式地请求迭代下一个元素。外部迭代器增加了一些调用的复杂度，但相对也增强了迭代器的灵活性，我们可以手工控制迭代的过程或者顺序。
+
+:::: code-group
+::: code-group-item 内部迭代器
+
+```js
+var Iterator = function( obj ){
+    var current = 0;
+
+    var next = function(){
+        current += 1;
+    };
+
+    var isDone = function(){
+        return current >= obj.length;
+    };
+
+    var getCurrItem = function(){
+        return obj[ current ];
+    };
+
+    return {
+        next: next,
+        isDone: isDone,
+        getCurrItem: getCurrItem
+        length: obj.length
+    }
+};
+```
+
+:::
+::: code-group-item compare
+
+```js
+var compare = function( iterator1, iterator2 ){
+    if(iterator1.length ! == iterator2.length){
+        alert('iterator1和iterator2不相等’);
+    }
+    while( ! iterator1.isDone() && ! iterator2.isDone() ){
+    	if ( iterator1.getCurrItem() ! == iterator2.getCurrItem() ){
+        	throw new Error ( 'iterator1和iterator2不相等’ );
+        }
+        iterator1.next();
+        iterator2.next();
+	}
+
+    alert ( 'iterator1和iterator2相等’ );
+}
+```
+
+外部迭代器虽然**调用方式相对复杂**，但它的适用面更广，也能满足更多变的需求。内部迭代器和外部迭代器在实际生产中没有优劣之分，究竟使用哪个要根据需求场景而定。
+
+:::
+
+::::
+
+### 迭代类数组对象和字面量对象
+
+::: tip 可迭代
+
+迭代器模式不仅可以迭代数组，还可以迭代一些**类数组**的对象。
+
+比如 `arguments` 、`{"0":'a', "1":'b'}` 等。
+
+> 通过上面的代码可以观察到，无论是内部迭代器还是外部迭代器，只要被迭代的聚合对象**拥有 length 属性**而且**可以用下标访问**，那它就可以被迭代。
+
+:::
+
+在 `JavaScript` 中，`for in` 语句可以用来迭代普通字面量对象的属性。jQuery中提供了$.each`函数来封装各种迭代行为：
+
+```js
+$.each = function( obj, callback ) {
+    var value,
+        i = 0,
+        length = obj.length,
+        isArray = isArraylike( obj );
+
+    if ( isArray ) {    // 迭代类数组
+        for ( ; i < length; i++ ) {
+            value = callback.call( obj[ i ], i, obj[ i ] );
+            if ( value === false ) {
+                break;
+            }
+        }
+    } else {
+        for ( i in obj ) {    // 迭代object对象
+            value = callback.call( obj[ i ], i, obj[ i ] );
+            if ( value === false ) {
+                break;
+            }
+        }
+    }
+    return obj;
+};
+```
+
+### 倒序迭代器
+
+```js
+var reverseEach = function( ary, callback ){
+    for ( var l = ary.length -1; l >= 0; l-- ){
+        callback( l, ary[ l ] );
+    }
+};
+
+reverseEach( [ 0, 1, 2 ], function( i, n ){
+    console.log( n );  // 分别输出：2, 1 ,0
+});
+```
+
+### 中止迭代器
+
+```js
+var each = function( ary, callback ){
+    for ( var i = 0, l = ary.length; i < l; i++ ){
+        // callback的执行结果返回false，提前终止迭代
+        if ( callback( i, ary[ i ] ) === false ){
+            break;
+        }
+    }
+};
+
+each( [ 1, 2, 3, 4, 5 ], function( i, n ){
+    if ( n > 3 ){         // n大于3的时候终止循环
+        return false;
+    }
+    console.log( n );    // 分别输出：1, 2, 3
+});
+```
+
+
+
 ## 工厂模式
 
 参考：

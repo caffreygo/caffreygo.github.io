@@ -863,6 +863,134 @@ each( [ 1, 2, 3, 4, 5 ], function( i, n ){
 });
 ```
 
+## 代理模式
+
+代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。
+
+代理模式是一种非常有意义的模式，在生活中可以找到很多代理模式的场景。比如，明星都有经纪人作为代理。如果想请明星来办一场商业演出，只能联系他的经纪人。经纪人会把商业演出的细节和报酬都谈好之后，再把合同交给明星签。
+
+代理模式的关键是，当客户不方便直接访问一个对象或者不满足需要的时候，提供一个替身对象来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转交给本体对象。
+
+### 保护代理与虚拟代理
+
+- 虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行
+- 安全代理：控制真实对象的访问权限
+- 远程代理（一个对象将不同空间的对象进行局部代理）
+- 智能代理（调用对象代理处理另外一些事情如垃圾回收机制增加额外的服务）
+
+### 虚拟代理实现图片预加载
+
+在Web开发中，图片预加载是一种常用的技术，如果直接给某个 `img` 标签节点设置 `src` 属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。
+
+常见的做法是先用一张 loading 图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到 `img` 节点里，这种场景就很适合使用虚拟代理。
+
+```js
+var myImage = (function(){
+    var imgNode = document.createElement( 'img' );
+    document.body.appendChild( imgNode );
+
+    return {
+        setSrc: function( src ){
+            imgNode.src = src;
+        }
+    }
+})();
+
+var proxyImage = (function(){
+    var img = new Image;
+    // 当所需图片加载完毕之后，替换当前的占位图片
+    img.onload = function(){
+        myImage.setSrc( this.src );
+    }
+    return {
+        setSrc: function( src ){
+            myImage.setSrc( 'file:// /C:/Users/svenzeng/Desktop/loading.gif' );
+            img.src = src;
+        }
+    }
+})();
+
+proxyImage.setSrc( 'http://imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+```
+
+现在我们通过 `proxyImage` 间接地访问 MyImage。`proxyImage` 控制了客户对 MyImage 的访问，并且在此过程中加入一些额外的操作，比如在真正的图片加载好之前，先把 `img` 节点的 `src` 设置为一张本地的loading图片。
+
+### 代理的意义
+
+不用代理的预加载图片函数实现如下：
+
+```js
+var MyImage = (function(){
+    var imgNode = document.createElement( 'img' );
+    document.body.appendChild( imgNode );
+    var img = new Image;
+
+    img.onload = function(){
+        imgNode.src = img.src;
+    };
+
+    return {
+        setSrc: function( src ){
+            imgNode.src = 'file:// /C:/Users/svenzeng/Desktop/loading.gif';
+            img.src = src;
+        }
+    }
+})();
+
+MyImage.setSrc( 'http://imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+```
+
+> 单一职责原则指的是，就一个类（通常也包括对象和函数等）而言，应该仅有一个引起它变化的原因。如果一个对象承担了多项职责，就意味着这个对象将变得巨大，引起它变化的原因可能会有多个。面向对象设计鼓励将行为分布到细粒度的对象之中，如果一个对象承担的职责过多，等于把这些职责耦合到了一起，这种耦合会导致脆弱和低内聚的设计。当变化发生时，设计可能会遭到意外的破坏。
+
+::: warning
+
+- 职责被定义为“引起变化的原因”。上段代码中的 MyImage 对象除了负责给 img 节点设置 src 外，还要负责预加载图片。我们在处理其中一个职责时，有可能因为其强耦合性影响另外一个职责的实现。
+- 另外，在面向对象的程序设计中，大多数情况下，若违反其他任何原则，同时将违反开放—封闭原则。如果我们只是从网络上获取一些体积很小的图片，或者5年后的网速快到根本不再需要预加载，我们可能希望把预加载图片的这段代码从 MyImage 对象里删掉。这时候就不得不改动 MyImage 对象了。
+
+:::
+
+实际上，我们需要的只是给 img 节点设置 src，预加载图片只是一个锦上添花的功能。如果能把这个操作放在另一个对象里面，自然是一个非常好的方法。于是代理的作用在这里就体现出来了，代理负责预加载图片，预加载的操作完成之后，把请求重新交给本体MyImage。
+
+纵观整个程序，我们并**没有改变或者增加 MyImage 的接口**，但是通过代理对象，实际上给系统添加了新的行为。这是符合**开放—封闭原则**的。给 img 节点设置 src 和图片预加载这两个功能，被隔离在两个对象里，它们可以各自变化而不影响对方。何况就算有一天我们不再需要预加载，那么只需要改成请求本体而不是请求代理对象即可。
+
+### 代理和本体接口的一致性
+
+::: tip 代理接口一致的好处
+
+❏ 用户可以放心地请求代理，他只关心是否能得到想要的结果。
+
+❏ 在任何使用本体的地方都可以替换成使用代理。
+
+:::
+
+如果代理对象和本体对象都为一个函数（函数也是对象），函数必然都能被执行，则可以认为它们也具有一致的“接口”。
+
+```js
+var myImage = (function(){
+    var imgNode = document.createElement( 'img' );
+    document.body.appendChild( imgNode );
+
+    return function( src ){
+        imgNode.src = src;
+    }
+})();
+
+var proxyImage = (function(){
+    var img = new Image;
+
+    img.onload = function(){
+        myImage( this.src );
+    }
+
+    return function( src ){
+        myImage( 'file:// /C:/Users/svenzeng/Desktop/loading.gif' );
+        img.src = src;
+    }
+})();
+
+proxyImage( 'http://imgcache.qq.com/music// N/k/000GGDys0yA0Nk.jpg' );
+```
+
 
 
 ## 工厂模式

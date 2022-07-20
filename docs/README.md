@@ -5,7 +5,7 @@ heroText: Jerry Chen
 tagline: 在线文档
 actions:
   - text: Get Started
-    link: /VueJs3/section5/chapter15
+    link: /VueJs3/section3/chapter11
     type: primary
 features:
   - title: W. Somerset Maugham

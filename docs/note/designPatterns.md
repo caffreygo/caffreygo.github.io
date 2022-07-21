@@ -873,6 +873,10 @@ each( [ 1, 2, 3, 4, 5 ], function( i, n ){
 
 ### 保护代理与虚拟代理
 
+代理模式包括许多小分类，在 JavaScript 开发中最常用的是**虚拟代理**和**缓存代理**。
+
+虽然代理模式非常有用，但我们在编写业务代码的时候，往往不需要去预先猜测是否需要使用代理模式。当真正发现不方便直接访问某个对象的时候，再编写代理也不迟。
+
 - 虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行
 - 安全代理：控制真实对象的访问权限
 - 远程代理（一个对象将不同空间的对象进行局部代理）
@@ -989,6 +993,134 @@ var proxyImage = (function(){
 })();
 
 proxyImage( 'http://imgcache.qq.com/music// N/k/000GGDys0yA0Nk.jpg' );
+```
+
+### 虚拟代理合并 HTTP 请求
+
+代理函数 `proxySynchronousFile` 收集一段时间之内的请求，最后一次性发送给服务器。
+
+比如我们等待2秒之后才把这2秒之内需要同步的文件ID打包发给服务器，如果不是对实时性要求非常高的系统，2秒的延迟不会带来太大副作用，却能大大减轻服务器的压力。代码如下：
+
+```js
+var synchronousFile = function( id ){
+    console.log( ’开始同步文件，id为： ' + id );
+                };
+
+var proxySynchronousFile = (function(){
+    var cache = [],    // 保存一段时间内需要同步的ID
+        timer;    // 定时器
+
+    return function( id ){
+        cache.push( id );
+        if ( timer ){    // 保证不会覆盖已经启动的定时器
+            return;
+        }
+
+        timer = setTimeout(function(){
+            synchronousFile( cache.join( ', ' ) );    // 2秒后向本体发送需要同步的ID集合
+            clearTimeout( timer );    // 清空定时器
+            timer = null;
+            cache.length = 0; // 清空ID集合
+        }, 2000 );
+    }
+})();
+
+var checkbox = document.getElementsByTagName( 'input' );
+
+for ( var i = 0, c; c = checkbox[ i++ ]; ){
+    c.onclick = function(){
+        if ( this.checked === true ){
+            proxySynchronousFile( this.id );
+        }
+    }
+};
+```
+
+### 缓存代理
+
+缓存代理可以为一些开销大的运算结果提供暂时的存储，在下次运算时，如果传递进来的参数跟之前一致，则可以直接返回前面存储的运算结果。
+
+:::: code-group
+::: code-group-item 计算乘机
+
+```js
+var mult = function(){
+    console.log( ’开始计算乘积’ );
+    var a = 1;
+    for ( var i = 0, l = arguments.length; i < l; i++ ){
+        a = a * arguments[i];
+    }
+    return a;
+};
+
+mult( 2, 3 );    // 输出：6
+mult( 2, 3, 4 );    // 输出：24
+```
+
+:::
+::: code-group-item 缓存代理函数
+
+```js
+var proxyMult = (function(){
+    var cache = {};
+    return function(){
+        var args = Array.prototype.join.call( arguments, ', ' );
+        if ( args in cache ){
+            return cache[ args ];
+        }
+        return cache[ args ] = mult.apply( this, arguments );
+    }
+})();
+
+proxyMult( 1, 2, 3, 4 );    // 输出：24
+proxyMult( 1, 2, 3, 4 );    // 输出：24
+```
+
+:::
+::::
+
+### 高阶函数动态创建代理
+
+>  代理函数作为函数返回值返回
+
+```js
+/**************** 计算乘积 *****************/
+var mult = function(){
+    var a = 1;
+    for ( var i = 0, l = arguments.length; i < l; i++ ){
+        a = a * arguments[i];
+    }
+    return a;
+};
+
+/**************** 计算加和 *****************/
+var plus = function(){
+    var a = 0;
+    for ( var i = 0, l = arguments.length; i < l; i++ ){
+        a = a + arguments[i];
+    }
+    return a;
+};
+
+/**************** 创建缓存代理的工厂 *****************/
+var createProxyFactory = function( fn ){
+    var cache = {};
+    return function(){
+        var args = Array.prototype.join.call( arguments, ', ' );
+        if ( args in cache ){
+            return cache[ args ];
+        }
+        return  cache[ args ] = fn.apply( this, arguments );
+    }
+};
+
+var proxyMult = createProxyFactory( mult ),
+    proxyPlus = createProxyFactory( plus );
+
+alert ( proxyMult( 1, 2, 3, 4 ) );    // 输出：24
+alert ( proxyMult( 1, 2, 3, 4 ) );    // 输出：24
+alert ( proxyPlus( 1, 2, 3, 4 ) );    // 输出：10
+alert ( proxyPlus( 1, 2, 3, 4 ) );    // 输出：10
 ```
 
 

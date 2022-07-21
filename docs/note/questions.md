@@ -2,6 +2,24 @@
 
 ## JavaScript
 
+### 打印结果
+
+```js
+let a = 0,
+    b = 0;
+function fn(a) {
+    fn = function fn2(b) {
+        console.log(++a + b);
+    };
+    console.log(a++);
+}
+fn(1);  // 1
+fn(2);  // 5
+```
+
+>- 第一次执行，fn 接收参数 a = 1，打印当前 a 为数值 1。同时 fn 内部声明了 fn 的新引用函数，除了参数 b 的接收，它还使用了闭包变量 a，在 fn 第一次执行后，`a++` 后 a 为 2。
+>- 第二次执行，fn 接收参数 b = 2，a 当前值为 2，`++a + b` 结果即为 5。
+
 ### typeof 类型判断
 
 ```js
@@ -18,6 +36,8 @@ console.log(typeof {});  // object
 ```
 
 🌐 [JS 类型判断 (opens new window)](https://juejin.cn/post/6947812516122591246)
+
+> `Object.prototype.toString` 方法可以使用 `Symbol.toStringTag` 这个特殊的对象属性进行自定义输出。
 
 ### 执行时上下文
 

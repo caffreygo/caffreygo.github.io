@@ -853,3 +853,32 @@ const a = myNew(Person, 'Chen', 'Jinrui')
 console.log(a.getFullName())  // Chen Jinrui
 ```
 
+## instanceof
+
+```js
+function Person(name) {
+    this.name = name;
+}
+
+const jc = new Person("Hello");
+
+console.log(jc instanceof Person);  // true
+console.log(jc instanceof Object);  // true
+console.log(jc instanceof Array);  // false
+
+function myInstanceOf(obj, origin) {
+    if (typeof obj !== 'object' || obj === null) return false;
+    while (obj.__proto__ !== null) {
+        if (obj.__proto__ === origin.prototype) {
+            return true;
+        }
+        obj = obj.__proto__;
+    }
+    return false;
+}
+
+console.log(myInstanceOf(jc, Person));  // true
+console.log(myInstanceOf(jc, Object));  // true
+console.log(myInstanceOf(jc, Array));  // false
+```
+

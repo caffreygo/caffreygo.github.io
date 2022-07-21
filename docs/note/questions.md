@@ -2,6 +2,23 @@
 
 ## JavaScript
 
+### typeof 类型判断
+
+```js
+console.log(typeof 0);  // number
+console.log(typeof "");  // string
+console.log(typeof true);  // boolean
+console.log(typeof Symbol());  // symbol
+console.log(typeof BigInt(9007199254740991));  // bigint
+console.log(typeof undefined);  // undefined
+console.log(typeof null);  // object
+
+console.log(typeof (() => 1));  // function
+console.log(typeof {});  // object
+```
+
+🌐 [JS 类型判断 (opens new window)](https://juejin.cn/post/6947812516122591246)
+
 ### 执行时上下文
 
 ::: tip 建立执行上下文

@@ -2,7 +2,7 @@
 
 ## JavaScript
 
-### 打印结果
+### 闭包相关
 
 ```js
 let a = 0,
@@ -19,6 +19,32 @@ fn(2);  // 5
 
 >- 第一次执行，fn 接收参数 a = 1，打印当前 a 为数值 1。同时 fn 内部声明了 fn 的新引用函数，除了参数 b 的接收，它还使用了闭包变量 a，在 fn 第一次执行后，`a++` 后 a 为 2。
 >- 第二次执行，fn 接收参数 b = 2，a 当前值为 2，`++a + b` 结果即为 5。
+
+### 微任务
+
+🌐 [JS 类型判断 (opens new window)](https://www.ijerrychen.com/javascript/task.html#%E9%A2%98%E7%9B%AE%E8%A7%A3%E6%9E%90)
+
+```js
+async function async1() {
+    console.log("async1 start");
+    await new Promise((resolve) => {
+        console.log("promise1");
+    });
+    console.log("async1 success");
+    return "async1 end";
+}
+
+console.log("srcipt start");
+async1().then((res) => console.log(res));
+console.log("srcipt end");
+
+// srcipt start
+// async1 start
+// promise1
+// srcipt end
+// async1 success（没有resolve，后面两步不打印）
+// sync1 end
+```
 
 ### typeof 类型判断
 

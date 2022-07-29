@@ -128,7 +128,7 @@ let dog2 = new Dog('哈赤', 1);
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/composition.png)
 
-### ✅ 寄生式组合继承
+### 寄生式组合继承 ✅
 
 🔥 组合继承已经相对完善了，但还是存在问题，它的问题就是调用了 2 次父类构造函数，第一次是在 new Animal()，第二次是在 Animal.call() 这里。
 
@@ -196,7 +196,7 @@ dog1.colors.push('brown');
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/parasiticCombination.png)
 
-### ✅ class 实现继承 
+### class 实现继承 
 
 > 🌐 [ES6 class的继承原理 (opens new window)](https://www.ijerrychen.com/javascript/class.html#%E5%B1%9E%E6%80%A7%E7%BB%A7%E6%89%BF)
 
@@ -853,7 +853,7 @@ const a = myNew(Person, 'Chen', 'Jinrui')
 console.log(a.getFullName())  // Chen Jinrui
 ```
 
-## instanceof
+## 手写 instanceof
 
 ```js
 function Person(name) {
@@ -882,3 +882,167 @@ console.log(myInstanceOf(jc, Object));  // true
 console.log(myInstanceOf(jc, Array));  // false
 ```
 
+## 手写 call 方法
+
+> 不得使用 apply、bind 函数辅助
+
+```js
+Function.prototype.myCall = function (ctx, ...args) {
+  ctx = ctx == null ? globalThis : Object(ctx);
+  var key = Symbol("fn");
+  Object.defineProperty(ctx, key, {
+    enumerable: false,
+    value: this,  // method.myCall 时 this 即为 method 函数
+  });
+  var result = ctx[key](...args);
+  delete ctx.key;
+  return result;
+};
+
+function method(a, b) {
+  console.log(this, a, b);
+  return a + b;
+}
+
+console.log(method.myCall(null, 1, 2));  // Object [global] 1 2;  3;
+console.log(method.myCall({}, 2, 2));  // {} 2 2;  4
+console.log(method.myCall(1, 2, 2));  // [Number: 1] 2 2; 4
+```
+
+## 手写 bind 方法
+
+:::: code-group
+::: code-group-item 简单版
+
+```js
+Function.prototype.myBind = function (ctx) {
+  var fn = this;
+  return function (...args) {
+    return fn.apply(ctx, args);
+  };
+};
+
+function fn(a, b) {
+  console.log(this, a, b);
+  return a + b;
+}
+
+const newFn = fn.myBind({});
+
+console.log(newFn(2, 2));  // {} 2 2;  4;
+```
+
+:::
+::: code-group-item ✅ 可以预传参数
+
+```js
+Function.prototype.myBind = function (ctx, ...args) {
+  var fn = this;
+  return function (...args1) {
+    return fn.call(ctx, ...args, ...args1);
+  };
+};
+
+function fn(a, b) {
+  console.log(this, a, b);
+  return a + b;
+}
+
+const newFn = fn.myBind({}, 1);
+
+console.log(newFn(2));  // {} 1 2;  3;
+```
+
+:::
+::: code-group-item 兼容写法
+
+```js
+var slice = Array.prototype.splice
+
+Function.prototype.myBind = function (ctx) {
+    var fn = this;
+    // 因为arguments 不是数组，没有slice方法，所以用slice.call(arguments)
+    var args = slice.call(arguments, 1); // 获取除了第0个参数this,之外的所有其他参数
+    if (typeof fn !== "function") {
+        throw new Error("bind必须调用在函数上");
+    }
+
+    return function () {
+        var args2 = slice.call(arguments, 0); // 获取所有参数
+        // 用apply传数组，合并两次的参数数组，用apply传
+        return fn.apply(ctx, args.concat(args2));
+    };
+};
+
+function fn(a, b) {
+    console.log(this, a, b);
+    return a + b;
+}
+
+const newFn = fn.myBind({}, 1);
+
+console.log(newFn(2)); // {} 1 2;  3;
+```
+
+:::
+::: code-group-item ✅ 支持 new
+
+```js
+Function.prototype.myBind = function (ctx, ...args) {
+    // this 就是函数
+    var fn = this;
+    function resultFn(...args2) {
+        // 也可以用这句话判断是否用了 new
+        // resultFn.prototype.isPrototypeOf(this); 
+        // 判断是否用了 new, 对 this 做不同处理
+        return fn.call(this instanceof resultFn ? this : ctx, ...args, ...args2);
+    }
+    // 重新绑定原型
+    resultFn.prototype = fn.prototype;
+    return resultFn;
+};
+
+function fn(a, b) {
+    this.a = a;
+    this.b = b;
+}
+
+const newFn = fn.myBind({}, 1);
+console.log(new newFn(2));  // fn { a: 1, b: 2 }
+```
+
+:::
+::: code-group-item 更兼容的写法
+
+```js
+var slice = Array.prototype.slice;
+
+Function.prototype.myBind = function (ctx) {
+    var args = slice.call(arguments, 1);
+    var fn = this;
+    if (typeof fn !== "function") {
+        throw new Error("bind 必须调用在函数身上");
+    }
+    function resultFn() {
+        var args2 = slice.call(arguments, 0);
+        return fn.apply(
+            resultFn.prototype.isPrototypeOf(this) ? this : ctx,
+            args.concat(args2)
+        );
+    }
+    resultFn.prototype = fn.prototype;
+    return resultFn;
+};
+
+function fn(a, b) {
+    this.a = a;
+    this.b = b;
+}
+
+const newFn = fn.myBind({}, 3);
+
+console.log(new newFn(4));  // fn { a: 3, b: 4 }
+```
+
+:::
+::::

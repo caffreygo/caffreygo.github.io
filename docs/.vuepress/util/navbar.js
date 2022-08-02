@@ -133,6 +133,10 @@ module.exports = [
         text: "深入浅出模块化",
         link: "/note/module",
       },
+      {
+        text: "工程化相关",
+        link: "/note/engineering",
+      },
     ],
   },
   {

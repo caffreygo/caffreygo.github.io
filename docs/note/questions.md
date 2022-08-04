@@ -293,3 +293,79 @@ world
 
 :::
 ::::
+
+## CSS
+
+### 垂直水平居中，高度为宽度一半
+
+::: tip 概述
+
+- padding-top/bottom 和 margin-top/bottom 都是相对于**父元素的宽度**来计算的；
+- `width:100%`不管是 content-box 还是 border-box 其width 都是相对于父元素的 content 部分的 100%；
+- 子元素的 position 是 absolute 绝对定位，则 `width:100%`是相对于一个 padding-box 的概念（此时并不是父元素 content 的 100%，而是 content+padding 部分的 100%）。
+
+:::
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/test/1.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        background: #95a5a6;
+      }
+
+      .outer {
+        width: 50vw;
+        height: 100%;
+        margin: 0 auto;
+        background: #34495e;
+        display: flex;
+        align-items: center;
+      }
+
+      .inner {
+        /* 高度以 padding-bottom 撑开，对照父元素宽度 */
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 50%;
+        background: #27ae60;
+      }
+
+      .box {
+        /* 高度以 height: 100%，对照父元素 content + padding */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="inner">
+        <div class="box">HELLO WORLD</div>
+      </div>
+    </div>
+  </body>
+</html>
+```

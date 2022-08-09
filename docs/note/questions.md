@@ -301,7 +301,7 @@ world
 ::: tip 概述
 
 - padding-top/bottom 和 margin-top/bottom 都是相对于**父元素的宽度**来计算的；
-- `width:100%`不管是 content-box 还是 border-box 其width 都是相对于父元素的 content 部分的 100%；
+- `width:100%`：不管是 content-box 还是 border-box 其 width 都是相对于父元素的 content 部分的 100%；
 - 子元素的 position 是 absolute 绝对定位，则 `width:100%`是相对于一个 padding-box 的概念（此时并不是父元素 content 的 100%，而是 content+padding 部分的 100%）。
 
 :::

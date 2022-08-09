@@ -311,61 +311,106 @@ world
 ```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
 
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-      }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+            }
 
-      body {
-        background: #95a5a6;
-      }
+            body {
+                background: #95a5a6;
+            }
 
-      .outer {
-        width: 50vw;
-        height: 100%;
-        margin: 0 auto;
-        background: #34495e;
-        display: flex;
-        align-items: center;
-      }
+            .outer {
+                width: 50vw;
+                height: 100%;
+                margin: 0 auto;
+                background: #34495e;
+                display: flex;
+                align-items: center;
+            }
 
-      .inner {
-        /* 高度以 padding-bottom 撑开，对照父元素宽度 */
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 50%;
-        background: #27ae60;
-      }
+            .inner {
+                /* 高度以 padding-bottom 撑开，对照父元素宽度 */
+                position: relative;
+                width: 100%;
+                height: 0;
+                padding-bottom: 50%;
+                background: #27ae60;
+            }
 
-      .box {
-        /* 高度以 height: 100%，对照父元素 content + padding */
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="outer">
-      <div class="inner">
-        <div class="box">HELLO WORLD</div>
-      </div>
-    </div>
-  </body>
+            .box {
+                /* 高度以 height: 100%，对照父元素 content + padding */
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer">
+            <div class="inner">
+                <div class="box">HELLO WORLD</div>
+            </div>
+        </div>
+    </body>
 </html>
 ```
+
+### 大小为父元素宽度一半的正方形
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            html,body {
+                width: 100%;
+                height: 100%;
+            }
+            .outer {
+                width: 50vw;
+                height: 100%;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: darkcyan;
+            }
+
+            .inner {
+                /* 高度以 padding-bottom 撑开，参照父元素 content 宽度 */
+                width: 50%;
+                padding-bottom: 50%;
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer">
+            <div class="inner"></div>
+        </div>
+    </body>
+</html>
+```
+

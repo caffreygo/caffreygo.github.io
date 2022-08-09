@@ -372,6 +372,12 @@ world
 
 ### 大小为父元素宽度一半的正方形
 
+> padding-top/bottom 和 margin-top/bottom 都是相对于**父元素的宽度**来计算的；
+
+
+
+![](https://raw.githubusercontent.com/caffreygo/static/main/blog/css/test/2.png)
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -414,3 +420,123 @@ world
 </html>
 ```
 
+### 自适应正方形、等宽高比矩形
+
+:::: code-group
+::: code-group-item padding 撑高
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+            .outer {
+                background-color: aqua;
+                position: relative;
+                margin: 0 auto;
+                height: 0;
+                width: 30%;
+                padding-top: 30%;
+            }
+            .inner {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: cadetblue;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer">
+            <div class="inner"></div>
+        </div>
+    </body>
+</html>
+```
+
+:::
+::: code-group-item 伪元素
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+             /* 利用子元素将父元素撑起来，利用margin-top，但是要注意margin塌陷的问题  */
+            .box {
+                width: 100px;
+                margin: 0 auto;
+                overflow: hidden;
+                background-color: aqua;
+            }
+			/* 块级元素 block 才可以有垂直方向上的 margin */
+            .box::after {
+                content: "";
+                margin-top: 100%;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box"></div>
+    </body>
+</html>
+```
+
+- 块级元素 block 才可以有垂直方向上的 margin
+- 子元素将父元素撑起来，利用margin-top，但是要注意margin塌陷的问题
+- margin-top 的百分比参考父元素的 width
+
+:::
+::: code-group-item 相对视口 vw/vh
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+            .outer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .inner {
+                width: 5vw;
+                height: 5vw;
+                background-color: cadetblue;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer">
+            <div class="inner"></div>
+        </div>
+    </body>
+</html>
+```
+
+:::
+::::

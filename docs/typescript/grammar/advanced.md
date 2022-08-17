@@ -81,11 +81,9 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
-### unknow any never
+### unknow any
 
 unknow与any类型是有区别的，any是没有类型，unknown是有类型，但是不知道；
-
-never是永远没有返回类型，比如执行一半报错的函数；
 
 ```typescript
 let abc: unknown = "hello"；
@@ -95,6 +93,26 @@ let b: string = abc as string;
 
 let str = "string";
 let a: number = str as unknown as number;
+```
+
+### never
+
+never是永远没有返回类型，比如执行一半报错的函数。所以当函数体产生异常或者无限循环就是 never
+
+✅ never 是所有类型的子类型：
+
+```typescript
+function test(): never {
+  throw new Error("出错了")
+}
+
+let jc: string = 'Jerry Chen'
+jc = test()
+
+// type HELLO = string
+type HELLO = never extends string ? string : boolean
+// type WORLD = string | number
+type WORLD = never | string | number
 ```
 
 ## 类型保护
@@ -388,7 +406,7 @@ join<number, string>(1,'1')
 join(1,'1')
 ```
 
-## 类中的泛型以及泛型类型、
+## 类中的泛型以及泛型类型
 
 ### 类中的泛型
 

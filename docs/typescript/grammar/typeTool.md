@@ -170,7 +170,7 @@ extends 用于条件判断来决定返回什么类型，`A extends B ? true:fals
 type GOLDENJADE = { name: string, age: number }
 
 type AMADA = { name: string }
-
+// 窄类型的限制更多，更细。false
 type HEYTEA = AMADA extends GOLDENJADE ? true : false
 
 const hello: HEYTEA = false
@@ -184,7 +184,7 @@ type GOLDENJADE = string
 type AMADA = string | number
 
 const hello: AMADA extends GOLDENJADE ? string : boolean = false  // boolean
-
+// 联合类型比单一类型更宽泛，可以被 extendss
 const jc: GOLDENJADE extends AMADA ? string : boolean = 'jerry'  // string
 ```
 
@@ -227,7 +227,7 @@ type HEYTEA<T> = T extends GOLDENJADE ? string : boolean
 const hello: HEYTEA<string> = 'jerry' //string
 ```
 
-如果 extends 是泛型类型，并且传入的类型是联合类型。则分别进行判断，最后得到联合类型。
+如果 extends 是泛型类型，并且传入的类型是联合类型。则**分别进行判断**，最后得到联合类型。
 
 ```typescript
 type GOLDENJADE = string
@@ -251,7 +251,7 @@ type HEYTEA<T> =
 const hello: HEYTEA<string | number> = 'jerry'
 ```
 
-使用 **[ ]** 包裹类型，表示使用泛型的整体进行比较
+✅ 使用 **[ ]** 包裹类型，表示使用泛型的整体进行比较
 
 ```typescript
 type GOLDENJADE = string | number
@@ -268,7 +268,7 @@ const hello: HEYTEA<string | number> = 'jerry'  // string
 我们利用上面的泛型类型的条件分配，可以创建一个类型用于进行类型的过滤。
 
 - 从 T 泛型类型 中过滤掉 U 的类型
-- never 是任何类型的子类型，可以赋值给任何类型，没有类型是 never 的子类型或可以赋值给 never 类型(never 本身除外)
+- **never 是任何类型的子类型**，可以赋值给任何类型，没有类型是 never 的子类型或可以赋值给 never 类型(never 本身除外)
 
 ```typescript
 type EXCLUDE<T, U> = T extends U ? never : T

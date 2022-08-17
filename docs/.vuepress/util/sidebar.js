@@ -149,6 +149,7 @@ module.exports = {
     {
       text: "语法基础",
       children: [
+        "/typescript/grammar/typeTool",
         "/typescript/grammar/note",
         "/typescript/grammar/basic",
         "/typescript/grammar/advanced",

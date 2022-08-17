@@ -323,6 +323,10 @@ module.exports = [
         text: "语法基础",
         children: [
           {
+            text: "类型工具",
+            link: "/typescript/grammar/typeTool",
+          },
+          {
             text: "日常笔记",
             link: "/typescript/grammar/note",
           },

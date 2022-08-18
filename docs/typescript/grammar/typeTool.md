@@ -451,6 +451,58 @@ let jc = HELLO = {
 type ABC = keyof any
 ```
 
+## 交叉类型
+
+```typescript
+interface A { name: string }
+type B = { age: number }
+let c: A & B = { name: 'Jerry', age: 25 }
+
+// 类型不一致无法交叉，结果就是没有类型：never
+type JC = string & number  // never
+type JC = 'a' & 'b'  // never
+```
+
+类型不一致报错：
+
+```typescript
+type A = { name: string }
+type B = { age: number, name: boolean }
+
+// type AB = A & B
+// name 报错，不能将类型“string”分配给类型“never”
+type AB = A & Pick<B, 'age'>
+let hi: AB = { age: 25, name: 'Jerry'}
+```
+
+交叉类型的实际应用：（类型拓展）
+
+```typescript
+type User = { name: string, age: number }
+type Member = { avatar: string} & User
+```
+
+### merge 方法
+
+```typescript
+function merge<T, U>(a: T & U, b: U): T & U {
+  for(const key in b) {
+    // a[key as Extract<keyof U, 'string'>] = b[key] as any
+    a[key] = b[key] as any
+  }
+  return a
+}
+```
+
+### 联合类型
+
+```typescript
+tyoe HK = ('a' | 'b') & ('a') // a | never => a
+
+// 'b'是单个字符串类型，是字符串的子类， 'b' & string => 'b'
+tyoe HK = ('a' | 'b') & ('a' | string) // a | b
+```
+
 ## infer
 
 ::: tip infer
@@ -460,11 +512,12 @@ type ABC = keyof any
 
 :::
 
-下面使用 infer 推断属性值类型
+下面使用 infer 推断**属性值类型**
 
 ```typescript
 type HK = { name: string, age: number }
 
+// type AttrType<T> = T extends { name: infer M, age: infer N } ? [M, N] : T
 type AttrType<T> = T extends { name: infer M, age: infer M } ? M : T
 
 type valueType = AttrType<HK>  // string | number
@@ -482,13 +535,16 @@ type GetType<T> = {
 type valueType = GetType<USER>;
 ```
 
-下面是获取函数返回值类型
+下面是获取**函数返回值**类型
 
 ```typescript
 type HK = (n: string) => number[]
 
 type GetFunctionReturnValue<T> = T extends ((...args: any) => (infer U)[]) ? U : T
 
-
+// number
 type valueType = GetFunctionReturnValue<HK>;
+
+// number[]
+// type GetFunctionReturnValue<T> = T extends ((...args: any) => (infer U)) ? U : T
 ```

@@ -1,5 +1,14 @@
 # 类型工具
 
+::: tip TypeScript
+
+- JS 也有类型，但是类型数量比较少（number、string...）
+- TS 可以随意自定义类型，比如联合类型。TS 的类型是严格类型，可以对类型进行校验
+- TS 无限集合类型 `type JC = string | number`
+- TS 有限集合类型 `type JC = 'hello' | 'world'`
+
+:::
+
 ## is
 
 `is` 用于定义变量属于某个类型，下面判断时将出现类型错误提示：
@@ -37,13 +46,14 @@ hello(a)
 
 ## keyof
 
-获取类、接口索引组成的联合类型
+获取类、接口索引组成的**联合类型**
 
 > `keyof` 可用于基本数据类型、any、class、interface、enum 等
 
 任何类型都可以使用 `keyof`
 
 ```typescript
+// keyof 基本数据类型 => 类型的属性方法
 type AMADA = keyof string
 
 let jc: AMADA = 'match'
@@ -52,12 +62,13 @@ let jc: AMADA = 'match'
 索引类型使用 `keyof` 时，获取索引名
 
 ```typescript
+// type AMADA = 'name' | 'age'
 type AMADA = keyof { name: string, age: number }
 
 let jc: AMADA = 'name'
 ```
 
-下面是获取对象的属性的函数类型定义
+下面是获取**对象的属性**的函数类型定义
 
 ```typescript
 function getAttribute<T>(obj: T, key: keyof T): T[keyof T] {
@@ -66,9 +77,10 @@ function getAttribute<T>(obj: T, key: keyof T): T[keyof T] {
 
 const user = { name: 'jerry', age: 18 }
 getAttribute(user, 'name')
+// getAttribute('abc', 'includes')
 ```
 
-我们也可以用泛型定义索引类型
+我们也可以用**泛型**定义索引类型
 
 ```typescript
 function getAttribute<T, D extends keyof T>(obj: T, key: D): T[D] {
@@ -79,9 +91,9 @@ const user = { name: 'jerry', age: 18 }
 getAttribute(user, 'name')
 ```
 
-### typeof
+## typeof
 
-使用 typeof 可获取变量的类型，下面是获取字符串变量的类型
+使用 typeof 可**获取变量的类型**，下面是获取字符串变量的类型
 
 ```typescript
 let hello = 'jerry'
@@ -90,7 +102,7 @@ let hello = 'jerry'
 type AMADA = typeof hello
 ```
 
-下面使用 typeof 获取对象的
+下面使用 typeof 获取对象的 （在 JS 当中 `typeof {} === 'object'`）
 
 ```typescript
 let hello = { name: 'jerry', age: 18 }
@@ -106,6 +118,8 @@ type AMADA = typeof hello
 keyof 与 typeof 结合定义获取对象属性的函数
 
 ```typescript
+// typeof obj => { name: string; age: number }
+// keyof => 'name' | 'age'
 function getAttribute(obj: object, key: string) {
     return obj[key as keyof typeof obj]
 }
@@ -292,7 +306,7 @@ const hello: Exclude<AMADA, GOLDENJADE> = 100;
 
 ## Extract
 
-Extract 与 Exclude 相反，用于获取相交的类型。
+Extract 与 Exclude 相反，用于获取相交的类型。(v. 提炼)
 
 ```typescript
 type EXTRACT<T, U> = T extends U ? T : never;
@@ -318,10 +332,12 @@ pick 可以用于从属性中挑选出一组属性，组成新的类型。
 
 ```typescript
 type AMADA = { name: string, age: number, skill: string }
+// keyof T: name | age | skill
 type PICK<T, U extends keyof T> = {
     [P in U]: T[P]
 }
 
+// type HK = { name: string; age: number; }
 type HK = PICK<AMADA, 'name' | 'age'>
 const jc: HK = { name: 'jerry', age: 33 }
 ```
@@ -378,7 +394,7 @@ type PARTIAL<T> = {
     [P in keyof T]?: T[P]
 }
 
-const hello: PARTIAL<GOLDENJADE> = { name: '向军' } // {name?:string,age?:number}
+const hello: PARTIAL<GOLDENJADE> = { name: '小强' } // {name?:string,age?:number}
 ```
 
 Typescript 原生提供了 Partial 的支持，所以我们不用自己定义了
@@ -386,7 +402,7 @@ Typescript 原生提供了 Partial 的支持，所以我们不用自己定义了
 ```typescript
 type GOLDENJADE = { name: string, age: number }
 
-const hello: Partial<GOLDENJADE> = { name: '向军' }
+const hello: Partial<GOLDENJADE> = { name: '小强' }
 ```
 
 ## Record
@@ -400,7 +416,10 @@ type RECORD<K extends string | number | symbol, V> = {
   [P in K]: V
 }
 
+// type HK = { name: string | number; age: string | number }
 type HK = RECORD<'name' | 'age', string | number>
+
+type MN = Record<string, string | number>
 
 const jc: HK = { name: "jerry", age: 18 }
 ```
@@ -411,6 +430,25 @@ typescript 原生已经提供了 Record 类型，下面定义 MEMBER 类型，�
 type HK = Record<'name' | 'age', any>
 
 const jc: HK = { name: "jerry", age: 18 }
+```
+
+### 索引签名
+
+```typescript
+type HELLO = {
+  [x: `${string}Jc`]: string | number;
+  city: string;
+  age: number;
+}
+
+let jc = HELLO = {
+  nameJc: 'Jerry',
+  city: 'XIAMEN',
+  age: 25
+}
+
+// type ABC = string | number | symbol
+type ABC = keyof any
 ```
 
 ## infer

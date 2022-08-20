@@ -202,17 +202,24 @@ const hello: AMADA extends GOLDENJADE ? string : boolean = false  // boolean
 const jc: GOLDENJADE extends AMADA ? string : boolean = 'jerry'  // string
 ```
 
+### ✅ 根据索引名称过滤
+
 根据联合类型过滤掉指定索引
 
 ```typescript
 type User = { name: string, age: number, get(): void };
 
+// type K = 'name' | 'age' |  'get'
+// Exclude<K, 'name'> => never | 'age' | 'get' => 'age' | 'get'
+// as never => neve, never 作为 key 会被过滤掉
 type FilterObjectProperty<T, U> = {
     [K in keyof T as Exclude<K, U>]: T[K]
 }
 
 type HK = FilterObjectProperty<User, 'name' | 'age'>
 ```
+
+### ✅ 根据值类型过滤
 
 过滤掉指定的类型，以下代码含有下面几个含义
 
@@ -226,7 +233,19 @@ type FilterProperty<T, U> = {
     [K in keyof T]: T[K] extends U ? never : K
 }[keyof T]
 
+// [keyof T] 获取到 key 的联合类型
+// type ABC = FilterProperty<USER, number>;  'name' | 'get'
+// type UserType = { name: string }
 type UserType = Pick<USER, FilterProperty<USER, Function | number>>
+```
+
+💡 `[keyof T] `解析：
+
+```typescript
+// 在 JavaScript 当中，let a = { name: '33'}，a['name']可以取值
+
+type UU = { name: 'name'; age: never; get: 'get' };
+type AB = UU[keyof UU];  // 'name' | 'get' | never => 'name' | 'age'
 ```
 
 ### 泛型条件分配
@@ -353,7 +372,7 @@ const jc: HK = { name: 'jerry', age: 33 }
 
 ## Omit
 
-从类型中过滤掉指定属性，这与 Pick 类型工具功能相反
+从类型中**过滤掉指定属性**，这与 Pick 类型工具功能相反
 
 ```typescript
 type HK = { name: string, age: number, city: string }
@@ -362,6 +381,10 @@ type MyOmit<T, U> = Pick<T, {
     [K in keyof T]: K extends U ? never : K
 }[keyof T]>
 
+// { [K in keyof T]: K extends U ? never : K }
+// { name: never ; age: never; city: 'city' }
+// 最后通过 [keyof T] 提取出值的联合类型：never | never | 'city' => 'city'
+// 结果为：Pick<HK, 'city'>
 type XJ = MyOmit<HK, 'name' | 'age'>  // {city:string}
 ```
 
@@ -407,7 +430,7 @@ const hello: Partial<GOLDENJADE> = { name: '小强' }
 
 ## Record
 
-Record 常用于快速定义对象类型使用
+✅ Record 常用于**快速定义对象类型**使用
 
 下面我们来手动实现一个 Record，RECORD 类型的第一个参数为索引，第二个为类型
 
@@ -508,11 +531,11 @@ tyoe HK = ('a' | 'b') & ('a' | string) // a | b
 ::: tip infer
 
 - infer 只能在 extends 中使用
-- infer 的类型变量，只能在 extends 条件的 true 中使用
+- infer 的类型变量，**只能在 extends 条件的 true 中使用** 🚨
 
-:::
+ :::
 
-下面使用 infer 推断**属性值类型**
+下面使用 infer **推断**属性值类型
 
 ```typescript
 type HK = { name: string, age: number }
@@ -529,9 +552,11 @@ type valueType = AttrType<HK>  // string | number
 type USER = { name: string, age: number, get(a: string): void }
 
 type GetType<T> = {
+  	// infer 会动态改变：string -> number -> ((a: string) => void)
     [K in keyof T]: T[K] extends (infer U) ? U : K
 }[keyof T]
 
+// 最后通过 [keyof T] 获取到值联合类型：string | number | ((a: string) => void)
 type valueType = GetType<USER>;
 ```
 

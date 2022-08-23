@@ -66,7 +66,7 @@ SSL (Secure Sockets Layer 安全套接字协议)，及其继任者 TLS（Transpo
 
 ## TCP 的三次握手
 
-::: tip TCP
+::: details TCP 与 UDP
 
 - TCP 是**面向连接**的协议，建立连接3次握手、断开连接四次挥手，UDP是面向无连接，数据传输前后不连接连接，发送端只负责将数据发送到网络，接收端从消息队列读取。
 - TCP 提供**可靠的**服务，传输过程采用流量控制、编号与确认、计时器等手段确保数据无差错，不丢失。UDP 则尽可能传递数据，但不保证传递交付给对方。
@@ -75,39 +75,54 @@ SSL (Secure Sockets Layer 安全套接字协议)，及其继任者 TLS（Transpo
 
 :::
 
-所谓的“三次握手”：为了对每次发送的数据量进行跟踪与协商，确保数据段的发送和接收同步，根据所接收到的数据量而确认数据发送、接收完毕后何时撤消联系，并建立虚连接。 [1]
+::: tip ✅ 三次握手
 
-为了提供可靠的传送，TCP 在发送新的数之前，以特定的顺序将数据包的序号，并需要这些包传送给目标机之后的确认消息。TCP 总是用来发送大批量的数据。当应用程序在收到数据后要做出确认时也要用到 TCP
+主要作用就是为了确认双方的接收能力和发送能力是否正常、指定自己的初始化序列号为后面的可靠性传送做准备
+
+1. 第一次握手：客户端给服务端发一个 SYN 报文，并指明客户端的初始化序列号 ISN(c)，此时客户端处于 **SYN_SENT** 状态
+
+   `[SYN] Seq=0 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM=1` （Seq = X）
+
+2. 第二次握手：服务器收到客户端的 SYN 报文之后，会以自己的 SYN 报文作为应答，为了确认客户端的 SYN，将客户端的 ISN+1作为ACK的值，此时服务器处于 **SYN_RCVD** 的状态
+
+   `[SYN ACK] Seq=0 Ack=1 Win=14600 Len=0 MSS=1412 SACK_PERM=1 WS=128` （**ACK=X+1** Seq=Y）
+
+3. 第三次握手：客户端收到 SYN 报文之后，会发送一个 ACK 报文，值为服务器的ISN+1。此时客户端处于 ESTABLISHED 状态。服务器收到 ACK 报文之后，也处于 **ESTABLISHED** 状态，此时，双方已建立起了连接。
+
+   `[ACK] Seq=1 Ack=1 Win=66304 Len=0`（**ACK=Y+1** Seq=Z）
+
+:::
 
 <img src="https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img2.jpg" alt="三次握手" style="zoom:80%;" />
 
-## URI URL-URN
+## URI、URL、URN
 
-1. #### URI = Universal Resource Identifier 统一资源标志符
+- URI：`Universal Resource Identifier` 统一资源标志符。用来标识互联网上的信息资源，包括了 URL 和 URN
 
-    它包含 URL 和 URN
+- URL：`Universal Resource Locator` 统一资源定位器，唯一地标识一个资源在 Internet 上的位置。不管用什么方法表示，只要能定位一个资源，就叫 URL。（
 
-2. #### URL = Universal Resource Locator 统一资源定位符
+  `<方案>:<方案描述部分>`
 
-    URL 唯一地标识一个资源在 Internet 上的位置。不管用什么方法表示，只要能定位一个资源，就叫 URL。
+  `http://user:pass@host.com:80/path?query=string#hash`
 
-3. #### URN = Universal Resource Name 统一资源名称
+  `<方案>://<用户名>:<密码>@<主机>:<端口>/<url路径>`
 
-    URN 它命名资源但不指定如何定位资源，比如：只告诉你一个人的姓名，不告诉你这个人在哪。例如：telnet、mailto、news 和 isbn URI 等都是 URN。
+- URN：`Universal Resource Name` 永久统一资源定位符。它命名资源但不指定如何定位资源，比如：只告诉你一个人的姓名，不告诉你这个人在哪。例如：telnet、mailto、news 和 isbn URI 等都是 URN。
 
-4. URI、URL 和 URN 区别
+>URI 指的是一个资源，URL 用**地址**定位一个资源，URN 用**名称**定位一个资源
 
-   - URI 指的是一个资源
-   - URL 用地址定位一个资源
-   - URN 用名称定位一个资源
-
-## HTTP 报文格式
+## HTTP 报文
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img3.jpg)
 
- http 方法：用来定义对资源的操作（GET、POST...）
+- 请求的起始行：method + path + version
 
- http code：定义服务器对请求的处理结果
+- 响应的起始行：version + status code + status text
+
+
+> http 方法：用来定义对资源的操作；http code：定义服务器对请求的**处理结果**
+>
+> header 与 body 之间有一个空行
 
 ## curl 指令的简单应用
 
@@ -115,27 +130,25 @@ SSL (Secure Sockets Layer 安全套接字协议)，及其继任者 TLS（Transpo
 
 ![1574690272753](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/curlV.png)
 
-- 不带有任何参数时，curl 就是发出 GET 请求。
+不带有任何参数时，curl 就是发出 GET 请求。
 
-> ```shell
-> $ curl https://www.example.com
-> ```
+```shell
+$ curl https://www.example.com
+```
 
 上面命令向`www.example.com`发出 GET 请求，服务器返回的内容会在命令行输出。
 
-- **-v**
+`-v` 参数输出通信的整个过程，用于调试。
 
-`-v`参数输出通信的整个过程，用于调试。
-
-> ```shell
-> $ curl -v https://www.example.com
-> ```
+```shell
+$ curl -v https://www.example.com>
+```
 
 `--trace`参数也可以用于调试，还会输出原始的二进制数据。
 
-> ```shell
-> $ curl --trace - https://www.example.com
-> ```
+```shell
+$ curl --trace - https://www.example.com
+```
 
 ## 跨域
 
@@ -145,7 +158,7 @@ SSL (Secure Sockets Layer 安全套接字协议)，及其继任者 TLS（Transpo
 
 在 8888 端口下返回 test.html 文件，在 test 中访问 8887 端口
 
-**跨域会导致浏览器拦截 response：**Access to XMLHttpRequest at 'http://localhost:8887/' from origin 'http://localhost:8888' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+跨域会导致浏览器拦截 response：`Access to XMLHttpRequest at 'http://localhost:8887/' from origin 'http://localhost:8888' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.`
 
 ```js
 response.writeHead(200, {
@@ -153,7 +166,7 @@ response.writeHead(200, {
 });
 ```
 
-\*： 表示允许任何服务都接受，可以设置特地域名
+`*` 表示允许任何服务都接受，可以设置特地域名
 
 ```js
 response.writeHead(200, {

@@ -377,21 +377,21 @@ cookie 不等于 session，session 的实现方式有很多种，cookie 只是�
 
 ## HTTP 长连接
 
-http 的创建过程中需要创建一个 TCP 连接，长连接可以保持 TCP 的连接不关闭，减少三次握手导致的开销
+http 的创建过程中需要创建一个 TCP 连接，长连接可以保持 TCP 的连接不关闭，减少三次握手导致的开销。
 
-chrome 下可以最多保持 6 个 TCP 的并发，那么 http 长连接可以在此 6 个 TCP 连接内传输
+> chrome 下可以最多保持 6 个 TCP 的并发，那么 http 长连接可以在此 6 个 TCP 连接内传输
 
-现代浏览器下和框架下一般都是长连接 Connection: keep-alive (close)
+现代浏览器下和框架下一般都是长连接 `Connection: keep-alive`  (close)
 
 ```js
 response.writeHeader(200, {
-    'Content-Type': '......',
-    Connection: 'close',
+  'Content-Type': '......',
+  Connection: 'close',
 });
 // 每个http请求都要创建一个TCP连接
 ```
 
-HTTP2：信道复用，tcp 内可以并发 http 请求
+> HTTP2：信道复用，tcp 内可以并发 http 请求，不再是1.1里面的串行请求。
 
 ## 数据协商
 

@@ -180,17 +180,17 @@ response.writeHead(200, {
 
 ![JSONP](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/img5.png)
 
-## CORS 跨域限制以及请求校验
+## CORS 跨域限制及预请求校验
 
-### 限制
+::: tip 限制
 
- 保持 Access-Control-Allow-Origin 允许之下，仍然是有限制的（返回 200 但是浏览器不允许）
+保持 Access-Control-Allow-Origin 允许之下，仍然是有限制的（返回 200 但是浏览器不允许）
 
 - 允许方法: GET、HEAD、POST
-- 允许的 Content-Type: text/plain、multipart/form-data、application/x-www-form-urlencoded
-- 其他限制：请求头限制、XMLHttpRequestUpload 对象均没有注册任何事件监听器、请求中没有使用 ReadableStream 对象
+- 允许的`Content-Type`：text/plain、multipart/form-data、application/x-www-form-urlencoded
+- 其他限制：**请求头限制**、XMLHttpRequestUpload 对象均没有注册任何事件监听器、请求中没有使用 ReadableStream 对象
 
-method 限制：
+:::
 
 ```js
 fetch('http://localhost:8887/', {
@@ -199,25 +199,24 @@ fetch('http://localhost:8887/', {
         'X-Test-Cors': '123',
     },
 });
+// X-Test-Cor 自定义的请求头默认不允许
 ```
 
-### 浏览器跨域预请求
+### 预请求 OPTIONS
 
 ```js
 response.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'X-Test-Cors',
     'Access-Control-Allow-Methods': 'POST,PUT,Delete',
-    'Access-Control-Max-Age': '1000',
+    'Access-Control-Max-Age': '1000',  // 1000s 之内不再需要发送 OPTIONS 预请求
 });
 ```
 
- 通过服务端设置允许的请求头来保证这个跨域请求的进行，在查看 Network 时会看到有两条请求记录吗，先是 OPTIONS 请求验证服务端是否允许此请求头的跨域，通过之后才是 POST 请求：
+通过服务端设置允许的请求头来保证这个跨域请求的进行，在查看 Network 时会看到有两条请求记录：
 
-1. OPTIONS
+1. OPTIONS：验证服务端是否允许此请求头的跨域
 2. POST
-
-   保证跨域操作的安全性，对跨域方法和请求头的限制
 
 ### Access-Control-Max-Age
 
@@ -225,9 +224,13 @@ response.writeHead(200, {
 
 ## Cache-Control 缓存
 
-这个请求头只是一个希望你按照的这个规则来，你可以不遵守
+> 这个请求头只是一个希望你按照的这个规则来，你可以不遵守
+
+![跨域实例](https://raw.githubusercontent.com/caffreygo/static/main/blog/http/cache.png)
 
 ### 可缓存性
+
+`'Cache-Control': 'max-age=200, public'`
 
 - public: 代表 http 经过的任何地方，客户端、浏览器、包括代理的中间服务器都可以进行缓存
 - private: 只有发起请求的浏览器可以进行和缓存
@@ -241,8 +244,9 @@ response.writeHead(200, {
 
 ```js
 response.writeHeader(200, {
-    'Content-Type': 'text/javascript',
-    'Cache-Control': 'max-age=200', // 请求后的200s内再请求可使用缓存数据
+  'Content-Type': 'text/javascript',
+  // 请求后的200s内再请求可使用缓存数据
+  'Cache-Control': 'max-age=200',
 });
 ```
 
@@ -252,9 +256,7 @@ response.writeHeader(200, {
 
 #### max-stale(s)
 
- 发起请求的一方主动带的一个请求头，即使 max-age 已经过期，超出 max-age 时间的响应消息如果还在 max-stale 有效期之内，还能读取缓存的内容，而不需要重新发起请求。
-
- 此时 max-age 和 max-stale 和
+发起请求的一方主动带的一个请求头，即使 max-age 已经过期，超出 max-age 时间的响应消息如果还在 max-stale 有效期之内，还能读取缓存的内容，而不需要重新发起请求。
 
 ### 重新验证\*
 
@@ -270,7 +272,9 @@ response.writeHeader(200, {
 
 #### no-store
 
- 客户端和代理服务器都不可以使用缓存数据，必须重新发送请求
+`'Cache-Control': 'max-age=200000, no-store'`
+
+ 客户端和代理服务器都不可以使用缓存数据，必须重新发送请求。
 
 #### no-transform
 
@@ -278,63 +282,84 @@ response.writeHeader(200, {
 
 ## no-cache 资源验证
 
+如果只是设置 `'Cache-Control': 'max-age=200000'`，浏览器不需要通过服务端的验证即可读取缓存（Size：from memory）
+
 ### Last-Modified
 
- 上次修改的时间，配合**If-Modified-Since**或者**If-Unmodifiled-Since**使用
+对比上次修改的时间，验证资源是否需要更新。配合 `If-Modified-Since` 或者 `If-Unmodifiled-Since` 使用。
 
- 服务端设置 Last-Modified，下次请求会带上 If-Modified-Since，以此判断资源是否修改过，然后确认要不要读取缓存的数据还是重新发起请求
+服务端设置 Last-Modified，下次浏览器请求会带上 If-Modified-Since，以此判断资源是否修改过，然后确认要不要读取缓存的数据还是重新发起请求。
 
 ### Etag
 
- 数据签名，资源修改后就更新 Etag，配合例如对内容进行一个 hash 计算，判断两者是否一样，配合 If-Match 和 If-Non-Match 使用
+数据签名，对比资源的签名判断是否使用缓存。
+
+资源修改后就更新 Etag，配合例如对内容进行一个 hash 计算，判断两者是否一样，配合 `If-Match` 和 `If-None-Match` 使用。
+
+> 这里的 `max-age` 的时间虽然很长，浏览器可以缓存。但设置了 `no-cache`，浏览器还是需要通过服务端的验证才能使用缓存
 
 ```js
 response.writeHeader(200, {
-    'Content-Type': 'text/javascript',
-    'Cache-Control': 'max-age=200000，no-cache', // no-cache
-    'Last-Modified': 'data1',
-    Etag: 'data2',
+  'Content-Type': 'text/javascript',
+  'Cache-Control': 'max-age=200000，no-cache', // no-cache
+  'Last-Modified': '123',  // updated
+  'Etag': '777',
 });
 
-// request  head
-// If-Modified-Since: data1
-// If-Non-Match：data2
-
-if (etag === data2) {
-    response.writeHeader(304, {
-        'Content-Type': 'text/javascript',
-        'Cache-Control': 'max-age=200000，no-cache', // no-cache
-        'Last-Modified': 'data1',
-        Etag: 'data2',
-    });
+// Request Headers：
+// If-Modified-Since: 123
+// If-None-Match：777
+const etag = request.headers['If-None-Match']
+if (etag === '777') {
+  // 304 Not Modified 读取缓存数据
+  response.writeHeader(304, {
+    'Content-Type': 'text/javascript',
+    'Cache-Control': 'max-age=200000，no-cache', // no-cache
+    'Last-Modified': '123',
+    Etag: '777',
+  });
+  response.end('')
 }
 ```
 
-- 当请求返回 304（Not-Modified）时，此时使用本地缓存的数据，在 respond 里面的内容是不会返回的
+> 当请求返回 304（Not-Modified）时，此时使用本地缓存的数据，在 respond 里面的内容实际上是缓存的数据
+>
+> Chrome 可以 Disable cache，浏览器就不会发送缓存相关的请求头
 
 ## cookie 和 session
 
 ### cookie
 
-- node 里面通过 Set-Cookie 设置
-- 下次请求的 head 里面会自动带上这个数据
-- 可以设置多个 key=value
+::: tip cookie
 
-#### 属性
+- node 里面通过 Set-Cookie 设置
+- 下次同域请求的 head 里面会自动带上这个数据
+- 键值对，可以设置多个 key=value
+
+ `'Set-Cookie':'id=123'`
+
+`'Set-Cookie':['id=123','abc=456]`
+
+:::
 
 - max-age 和 expires 设置过期时间
 - Secure 只在 https 的时候发送
 - HttpOnly 无法通过 document.cookie 访问
 
+> 所以当 Response Headers 里有 `Set-Cookie` 字段(一个或多个)的时候，浏览器就会把 cookie 写入到浏览器
+>
+> 下次请求的时候 Requeset Headers 会有 `Cookie` 字段带上浏览器的 cookie 到服务端
+
 _cookie 的过期时间是在浏览器关闭之后失效，在没有设置过期时间的情况下_
 
 1. 过期之后下次请求 Request Headers 的 Cookie 便不会带上这个 key=value
-2. max-age 值有效时间是多长，expires 指到这个时间点过期
+2. max-age 指有效时间是多长，expires 指到这个时间点过期
 
 ```js
+// cookie 如果过期，浏览器请求就不会带上这个 cookie
 response.writeHeader(200, {
-    'Content-Type': 'text/javascript',
-    'Set-Cookie': ['id=123;max-age=10', 'abc=456；HttpOnly'],
+  'Content-Type': 'text/javascript',
+  'Set-Cookie': ['id=123;max-age=10','abc=456;HttpOnly'],
 });
 ```
 

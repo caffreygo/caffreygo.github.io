@@ -290,7 +290,7 @@ response.writeHeader(200, {
 
 服务端设置 Last-Modified，下次浏览器请求会带上 If-Modified-Since，以此判断资源是否修改过，然后确认要不要读取缓存的数据还是重新发起请求。
 
-### Etag
+### ETag / If-None-Match
 
 数据签名，对比资源的签名判断是否使用缓存。
 
@@ -303,7 +303,7 @@ response.writeHeader(200, {
   'Content-Type': 'text/javascript',
   'Cache-Control': 'max-age=200000，no-cache', // no-cache
   'Last-Modified': '123',  // updated
-  'Etag': '777',
+  'ETag': '777',
 });
 
 // Request Headers：
@@ -316,7 +316,7 @@ if (etag === '777') {
     'Content-Type': 'text/javascript',
     'Cache-Control': 'max-age=200000，no-cache', // no-cache
     'Last-Modified': '123',
-    Etag: '777',
+    'ETag': '777',
   });
   response.end('')
 }
@@ -325,6 +325,8 @@ if (etag === '777') {
 > 当请求返回 304（Not-Modified）时，此时使用本地缓存的数据，在 respond 里面的内容实际上是缓存的数据
 >
 > Chrome 可以 Disable cache，浏览器就不会发送缓存相关的请求头
+>
+> Response Headers => ETag；Request Headers => If-None-Match
 
 ## cookie 和 session
 
@@ -353,7 +355,7 @@ if (etag === '777') {
 _cookie 的过期时间是在浏览器关闭之后失效，在没有设置过期时间的情况下_
 
 1. 过期之后下次请求 Request Headers 的 Cookie 便不会带上这个 key=value
-2. max-age 指有效时间是多长，expires 指到这个时间点过期
+2. max-age 指有效时间是多长，expires 指到这个时间点过期。max-age 会方便一些。
 
 ```js
 // cookie 如果过期，浏览器请求就不会带上这个 cookie
@@ -367,96 +369,134 @@ response.writeHeader(200, {
 
 cookie 在当前域下写入在其他域是无法访问的
 
-但是如果在 test.com 里面设置了 cookie,二级域名下 a.test.com/b.test.com 都可以访问
+但是如果在 test.com 里面设置了 cookie ，二级域名下 a.test.com/b.test.com 都可以访问。
+
+> Response Headers: `'Set-Cookie': ['abc=456;domain=text.com', 'id=123']`
 
 ### session
 
-cookie 不等于 session，session 的实现方式有很多种，cookie 只是其中一种
+cookie 不等于 session，session 的实现方式有很多种，cookie 只是其中一种。
 
-例如通过对不同用户设置不同的唯一的 cookie 的 key=value 值，来**定位用户的数据**
+> 例如通过对不同用户设置不同的唯一的 cookie 的 key=value 值，来**定位用户的数据**
+
+🚀 只要能保证定位到用户的信息数据，那么它就是一种 session 的实现方案。那么通过请求头携带能够解析到用户信息的字段也算是 session 的一种实现。
 
 ## HTTP 长连接
 
 http 的创建过程中需要创建一个 TCP 连接，长连接可以保持 TCP 的连接不关闭，减少三次握手导致的开销。
 
 > chrome 下可以最多保持 6 个 TCP 的并发，那么 http 长连接可以在此 6 个 TCP 连接内传输
+>
+> http 连接是否复用 tcp 连接由 Connection 声明。当然，在请求地址是同域的前提下
 
 现代浏览器下和框架下一般都是长连接 `Connection: keep-alive`  (close)
 
 ```js
 response.writeHeader(200, {
   'Content-Type': '......',
+  // 每个http请求都要创建一个TCP连接
   Connection: 'close',
 });
-// 每个http请求都要创建一个TCP连接
 ```
 
-> HTTP2：信道复用，tcp 内可以并发 http 请求，不再是1.1里面的串行请求。
+> HTTP2：信道复用，tcp 内可以并发 http 请求，不再是1.1里面可能阻塞的串行请求。
 
 ## 数据协商
 
-### Accept(客户端)
+### Accept (客户端)
 
-- Accept：想要的数据类型
-- Accept-Encoding：数据的编码方式，限制服务端的数据压缩方法（gzip deflate br...）
-- Accept-Language：判断返回的语言(zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7... q 越大表示权重越大 )
-- User-Agent:：表示浏览器一些相关的信息，移动端、PC 端(Mozilla/5.0(windows NT 10.0; win64; ×64)...)
+- `Accept`：想要的数据类型 `Accept: */*`
 
-### Content（服务端）
+- `Accept-Encoding`：客户端接受的数据编码方式，限制服务端的数据压缩方法 `Accept-Encoding: gzip, deflate, br`
 
-- Content-Type：服务端返回的数据格式 (type/suntype)
+  服务端使用 gzip 文件可以减少传输的网络带宽消耗，浏览器接收到后再进行解压缩。
+
+- `Accept-Language`：判断返回的语言 `Accept-Language: en,zh;q=0.9,zh-CN;q=0.8` （q 越大表示权重越大 )
+
+- `User-Agent`：表示**系统和浏览器**的一些相关的信息
+
+   `User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36`
+
+### Content (服务端)
+
+#### Content-Type
+
+`Content-Type`：服务端返回的数据格式 (type/subtype)
 
 ```js
+// Response Headers，让浏览器不预测返回的数据类型
 'X-Content-Type-Options': 'nosniff'
-// 让浏览器不预测返回的数据类型
 ```
 
-**发送请求也可以带 Content-Type**
+> 旧版本 IE 浏览器在响应数据未返回 Content-Type 的时候，会预测返回的数据类型进行处理，例如把文本当脚本处理，这可能导致安全信息被泄露。
+>
+> 现代浏览器基本上没这个问题了。
+
+✅ 发送请求也可以带 `Content-Type`，有时候客户端需要告诉服务端发送的数据类型，让服务端进行处理。
+
+#### ✅ enctype
+
+form 的 `enctype` 只能接受三种：`application/x-www-form-urlencoded`、`multipart/form-data` 和 `text/plain`
+
+:::: code-group
+
+::: code-group-item application/x-www-form-urlencoded
+
+```html
+<form action="/form" method="POST" enctype="application/x-www-form-urlencoded">
+  <input name="name" type="text" />
+  <input name="password" type="password" />
+  <input type="submit" />
+</form>
+```
+
+:::
+
+::: code-group-item multipart/form-data
 
 ```html
 <form action="/form" method="POST" enctype="multipart/form-data">
-    <input name="name" type="text" />
-    <input name="password" type="password" />
-    <input type="file" name="file" />
-    <input type="submit" />
-</form>
-
-<form action="/form" method="POST" enctype="application/x-www-form-urlencoded">
-    <input name="name" type="text" />
-    <input name="password" type="password" />
-    <input type="submit" />
+  <input name="name" type="text" />
+  <input name="password" type="password" />
+  <input type="file" name="file" />
+  <input type="submit" />
 </form>
 ```
 
-- Content-Encoding: 返回的数据编码方式
-- Content-Language: 声明返回的语言
+:::
 
-### 表单中的 enctype
+::::
 
-#### 表单中的三种 entype
+::: tip 
 
-- application/x-www-urlencoded
-- multipart/form-data
-- text-plain
+> GET 请求只支持 ASCII 字符集，因此，如果我们要发送更大**字符集的内容**，我们应使用 **POST** 请求。
 
- GET 请求只支持 ASCII 字符集，因此，如果我们要发送更大**字符集的内容**，我们应使用 **POST** 请求。
+✅ 默认情况下是 `application/x-www-urlencoded`，当表单使用 POST 请求时，数据会被以 `x-www-urlencoded` 方式编码到 Body 中来传送
 
- 默认情况下是 `application/x-www-urlencoded`，当表单使用 POST 请求时，数据会被以 x-www-urlencoded 方式编码到 Body 中来传送， 而如果 GET 请求，则是附在 url 链接后面来发送(query)。
+✅ 而如果 GET 请求，则是附在 url 链接后面来发送（query）
 
- 如果要发送大量的二进制数据（non-ASCII），`"application/x-www-form-urlencoded"` 显然是低效的，因为它需要用 3 个字符来表示一个 non-ASCII 的字符。因此，这种情况下，应该使用 `"multipart/form-data"` 格式。
+✅ 如果要发送大量的二进制数据（non-ASCII），`"application/x-www-form-urlencoded"` 显然是低效的，因为它需要用 3 个字符来表示一个 `non-ASCII` 的字符。因此，这种情况下，应该使用 `"multipart/form-data"` 格式。
+
+:::
 
 #### application/x-www-urlencoded
 
- 我们在通过 HTTP 向服务器发送 POST 请求提交数据，都是通过 form 表单形式提交的，代码如下：
+ 我们在通过 HTTP 向服务器发送 POST 请求提交数据，都是通过 form 表单形式提交的
+
+ `application/x-www-form-urlencoded`，意味着消息内容会经过 **URL 格式编码**，就像在 GET 请 求时 URL 里的 QueryString 那样，`txt1=hello&txt2=world`
+
+:::: code-group
+::: code-group-item Form
 
 ```html
 <form method="post" action="http://w.sohu.com">
-    <input type="text" name="txt1" />
-    <input type="text" name="txt2" />
+  <input type="text" name="txt1" />
+  <input type="text" name="txt2" />
 </form>
 ```
 
- 提交时会向服务器端发出这样的数据（已经去除部分不相关的头信息），数据如下：
+:::
+::: code-group-item Request Body
 
 ```shell
 POST / HTTP/1.1
@@ -470,29 +510,48 @@ Cache-Control: no-cache
 txt1=hello&txt2=world
 ```
 
- 对于普通的 HTML Form POST 请求，它会在头信息里使用 `Content-Length` 注明内容长度。
-​ 请求头信息每行一条，空行之后便是 Body，即“内容”（entity）。内容的格式是在头信息中的 Content-Type 指定的，如上是 `application/x-www-form-urlencoded`，这意味着消息内容会经过 URL 格式编码，就像在 GET 请 求时 URL 里的 QueryString 那样。`txt1=hello&txt2=world`
+:::
+::::
+
+对于普通的 HTML Form POST 请求，它会在头信息里使用 `Content-Length` 注明内容长度。
+​请求头信息每行一条，空行之后便是 Body，即“内容”（entity）。内容的格式是在头信息中的 Content-Type 指定的
 
 #### multipart/form-data
 
- `multipart/form-data` 定义在 [rfc2388](https://tools.ietf.org/html/rfc2388) 中，最早的 HTTP POST 是不支持文件上传的，给编程开发带来很多问题。但是在 1995 年，ietf 出台了 rfc1867，也就是《RFC 1867 -Form-based File Upload in HTML》，用以支持文件上传。所以 Content-Type 的类型扩充了 multipart/form-data 用以支持向服务器发送二进制数据。因此，发送 POST 请求时候，表单` <form> `属性 enctype 共有二个值可选，这个属性管理的是表单的 MIME 编码：
+::: tip multipart/form-data
 
- ① application/x-www-form-urlencoded (默认值)
-​ ② multipart/form-data
+文件不能作为字符串进行传输，应该以二进制进行传输。如果还是使用`application/x-www-form-urlencoded`拼接字符串的形式就无法把文件正常发送给服务端。
 
-注：form 表单中 enctype 的默认值是 `enctype="application/x- www-form-urlencoded"`.
+`boundary` 用来分割提交表单每项的每一个部分
 
-通过 form 表单提交文件操作如下：
+:::
+
+:::: code-group
+::: code-group-item Form
 
 ```html
-<FORM method="POST" action="http://w.sohu.com/t2/upload.do" enctype="multipart/form-data">
+<FORM method="POST" id="form" action="/form" enctype="multipart/form-data">
     <INPUT type="text" name="city" value="Santa colo" />
     <INPUT type="text" name="desc" />
     <INPUT type="file" name="pic" />
 </FORM>
 ```
+:::
+::: code-group-item fetch 请求
 
-浏览器将会发送以下数据：
+```js
+var form = document.getElementById("form")
+form.addEventListener('submit', function(e){
+  e.preventDefault()
+  var formData = new FormData(form)
+  fetch('/form', {
+    method: 'POST',
+    body: formData
+  })
+})
+```
+:::
+::: code-group-item Request Body
 
 ```shell
 POST /t2/upload.do HTTP/1.1
@@ -523,85 +582,51 @@ Content-Transfer-Encoding: binary
 --ZnGpDtePMx0KrHh_G0X99Yef9r8JZsRJSXC--
 ```
 
- 从上面的 `multipart/form-data` 格式发送的请求的样式来看，它包含了多个 **Parts**，每个 **Part** 都包含头信息部分，**Part** 头信息中必须包含一个 `Content-Disposition` 头，其他的头信息则为可选项， 比如 `Content-Type` 等。
+:::
+::::
 
- **Content-Disposition** 包含了 type 和 一个名字为 name 的 parameter，type 是 form-data，name 参数的值则为表单控件（也即 field）的名字，如果是文件，那么还有一个 filename 参数，值就是文件名。
-
-比如：
-
-```shell
-Content-Disposition: form-data; name="user"; filename="hello.txt"
-```
-
- 上面的 "user" 就是表单中的控件的名字，后面的参数 filename 则是点选的文件名。
-对于可选的 Content-Type（如果没有的话），默认就是 `text/plain`。
-
-##### 注意：
-
- 如果文件内容是通过填充表单来获得，那么上传的时候，Content-Type 会被自动设置（识别）成相应的格式，如果没法识别，那么就会被设置成 `"application/octet-stream"`
-​ 如果多个文件被填充成单个表单项，那么它们的请求格式则会是 multipart/mixed。
-
- 如果 Part 的内容跟默认的 encoding 方式不同，那么会有一个 `"content-transfer-encoding"` 头信息来指定。
-
- 下面，我们填充两个文件到一个表单项中，行程的请求信息如下：
-
-```sh
-Content-Type: multipart/form-data; boundary=AaB03x
-
---AaB03x
-Content-Disposition: form-data; name="submit-name"
-
-Larry
---AaB03x
-Content-Disposition: form-data; name="files"
-Content-Type: multipart/mixed; boundary=BbC04y
-
---BbC04y
-Content-Disposition: file; filename="file1.txt"
-Content-Type: text/plain
-
-... contents of file1.txt ...
---BbC04y
-Content-Disposition: file; filename="file2.gif"
-Content-Type: image/gif
-Content-Transfer-Encoding: binary
-
-...contents of file2.gif...
---BbC04y--
---AaB03x--
-```
-
-#### Boundary 分隔符
-
- 每个部分使用 `--boundary` 分割开来，最后一行使用 `--boundary--` 结尾。
+> - 从上面的 `multipart/form-data` 格式发送的请求的样式来看，它包含了多个 Parts，每个 Part 都包含头信息部分，Part 头信息中必须包含一个 `Content-Disposition` 头，其他的头信息则为可选项， 比如 `Content-Type` 等。
+> - 当为文件类型的时候，会有 filename 等补充内容。
+> - 每个部分使用 `--boundary` 分割开来，最后一行使用 `--boundary--` 结尾。
 
 ## Redirect 重定向
 
- **临时跳转 302**：将请求重定向到新的地址，必须要设置代表需要进行跳转。
+-  临时跳转 302：将请求重定向到新的地址，指定`Location ` 字段表示临时的新地址。
 
- **永久跳转 301**：永久定向到一个新的路由。from disk cache，可能会一直访问缓存数据，无法控制缓存。（302 需要先到旧地址再到新地址，301 则在下次让浏览器直接访问新地址）
+-  永久跳转 301：永久定向到一个新的路由。
+
+> 302 需要先到旧地址再到新地址，301 则让浏览器下次直接访问新地址
+>
+> 注意：301 会导致浏览器后续一直访问缓存数据，无法控制缓存
 
 ```javascript
 if (resquest.url === '/') {
-    response.writeHead(302, {
-        Location: '/new',
-    });
-    response.end();
+  response.writeHead(302, {
+    Location: '/new',
+  });
+  // redirect 就不需要返回内容了
+  response.end();
 }
+
 if (resquest.url === '/new') {
-    response.writeHead(200, {
-        'Content-Type': 'text/html',
-    });
-    response.end('<div>this is content</div>');
+  response.writeHead(200, {
+    'Content-Type': 'text/html',
+  });
+  response.end('<div>this is content</div>');
 }
 ```
 
-## CSP
+## CSP 
 
 ### Content-security-Policy
 
-- 限制资源获取
-- 报告资源获取越权
+::: tip 内容安全策略：限制资源获取；报告资源获取越权
+
+- 当网页中可能出现一些不安全的引用的时候，可以主动把这些不安全的东西屏蔽掉。
+- 可以通过服务端响应头限制，也可以使用 meta 标签在前端进行限制。
+- report-uri 只能通过响应头设置，meta 设置无效
+
+:::
 
 ### 限制方式
 
@@ -609,64 +634,75 @@ default-src 限制全局、connect-src、img-src、manifest-src、style-src、sc
 
 ```javascript
 response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': 'default-src http:https',
-    //只能通过https的方式加载，此时inline script无法加载
+  'Content-Type': 'text/html',
+  // 只能通过 http 的方式加载，此时 inline script 无法加载
+  'Content-Srcurity-Policy': 'default-src http: https:',
 });
 
 response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': "default-src 'self'",
-    //不能引入外链的JavaScript
+  'Content-Type': 'text/html',
+  // 不能引入外链的脚本，只能使用本域下的 script
+  'Content-Srcurity-Policy': "default-src 'self'",
 });
 
 response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': "default-src 'self' https://source.com/",
-    //不能引入外链的JavaScript,允许该域名内的数据加载
-});
-```
-
-### 限制 form 表单的提交
-
-- form 表单不受 default-src 的限制
-
-```js
-response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': "default-src 'self' form-action 'self'",
-    //form提交范围被限制
+  'Content-Type': 'text/html',
+  // 不能引入外链的脚本，允许特定域名内的数据加载
+  'Content-Srcurity-Policy': "default-src 'self' https://source.com/",
 });
 ```
 
-### 个别资源限制
+### 限制页面内表单的提交
+
+在返回包含 form 的 HTML 页面数据时，在响应头添加 CSP 的限制。
 
 ```js
 response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': "img-src 'self'; report-uri /report",
-    //在遇到限制之后可以想/report发送一个csp的报告
-    //默认disposition enforce不允许加载
-    //Content-Srcurity-Policy-Report-Only 会做report工作但是仍然会加载
-    //report只能在head里面设置，在meta中无效
+  'Content-Type': 'text/html',
+  // 表单只能提交到当前域
+  'Content-Srcurity-Policy': "default-src 'self';form-action 'self'",
 });
 ```
 
+### report uri
+
+在遇到限制之后可以向 `/report` 地址发送一个 `csp-report` 的报告
+
+✅ `Content-Srcurity-Policy-Report-Only` 会做识别限制进行上报，仍然会加载数据
+
 ```js
 response.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Srcurity-Policy': "connect-src 'self'",
-    // ajax请求的资源限制
+  'Content-Type': 'text/html',
+  'Content-Srcurity-Policy': "img-src 'self'; report-uri /report",
 });
 ```
 
 ### Meta 设置 CSP
+
+#### 限制所有
 
 ```html
 <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' form-action 'self'"
       />
-
-<meta http-equiv="Content-Security-Policy" content="connect 'self'>
 ```
+
+#### 限制 ajax 请求
+
+```js
+response.writeHead(200, {
+  'Content-Type': 'text/html',
+  'Content-Srcurity-Policy': "connect-src 'self'",
+});
+```
+
+或
+
+```html
+<meta
+      http-equiv="Content-Security-Policy"
+      content="connect 'self'"
+      />
+```
+

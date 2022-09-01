@@ -299,6 +299,20 @@ console.log([...myArr])  // [3, 2, 1]
 - 串式命名：kebab-case （train case、spinal case脊柱命名法）
   
 
+### devicePixelRatio
+
+`Window.devicePixelRatio`: 当前显示设备的*物理像素*分辨率与*CSS 像素*（逻辑像素）分辨率之比。
+
+::: tip DPR
+
+- DPR：物理像素数 / 逻辑像素数
+- `DPR = 2` : 一个逻辑像素需要两个物理箱数来显示 2*2
+- iphone 6 的 `375px` 是视口（逻辑）像素，DPR 为 2，所以 UI 按照物理像素 `750px` 进行设计
+
+> tablet 的 DPR 是 1.5，物理像素1920；我们页面的逻辑像素是 1920，到那边就只剩 1280 了
+
+:::
+
 ## TypeScript
 
 ### 对象所有键

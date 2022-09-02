@@ -455,12 +455,16 @@ module.exports = [
     text: "工具 | 协议",
     children: [
       {
-        text: "tmux",
-        link: "/tools/tmux",
-      },
-      {
         text: "HTTP",
         link: "/tools/http",
+      },
+      {
+        text: "WebSocket",
+        link: "/tools/websocket",
+      },
+      {
+        text: "tmux",
+        link: "/tools/tmux",
       },
       {
         text: "Git",

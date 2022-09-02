@@ -203,7 +203,12 @@ module.exports = {
   "/tools/": [
     {
       text: "工具协议",
-      children: ["/tools/tmux", "/tools/git", "/tools/http"],
+      children: [
+        "/tools/tmux",
+        "/tools/git",
+        "/tools/http",
+        "/tools/websocket",
+      ],
     },
   ],
 };

@@ -65,7 +65,7 @@ function loadImage(file, resolve, reject) {
 }
 
 loadImage(
-  "images/houdunren.png",
+  "images/world.png",
   image => {
     image.style.border = "solid 5px red";
   },
@@ -99,7 +99,7 @@ load(
 );
 ```
 
-实例中用到的 `hd.js` 与 `houdunren.js` 内容如下
+实例中用到的 `hello.js` 与 `world.js` 内容如下
 
 ```js
 # func.js
@@ -821,10 +821,10 @@ new Promise((resolve, reject) => {
 
 ```js
 let promise = new Promise((resolve, reject) => {
-    hd;  
+    hello;  
 }).then(
     value => console.log(value),
-    reason => console.log(reason)  // ReferenceError: hd is not defined
+    reason => console.log(reason)  // ReferenceError: hello is not defined
 );
 ```
 
@@ -968,7 +968,7 @@ const promise = new Promise((resolve, reject) => {
 });
 ```
 
-下面在`then` 方法中使用了没有定义的`hd`函数，也会抛除到 `catch` 执行，可以理解为内部自动执行 `try...catch`
+下面在`then` 方法中使用了没有定义的`hello`函数，也会抛除到 `catch` 执行，可以理解为内部自动执行 `try...catch`
 
 ```js
 const promise = new Promise((resolve, reject) => {
@@ -1076,7 +1076,7 @@ new Promise((resolve, reject) => {
 
 ```js
 const promise = new Promise((resolve, reject) => {
-  reject("hdcms");
+  reject("hellocms");
 })
 .then(msg => {
   console.log("resolve");
@@ -1266,13 +1266,13 @@ timeout(3000)
 const promise = new Promise((resolve, reject) => {
   resolve("jerry");
 });
-promise.then(hd => {
-  hd += "-abc";
-  console.log(hd);  // jerry-abc
+promise.then(hello => {
+  hello += "-abc";
+  console.log(hello);  // jerry-abc
 });
-promise.then(hd => {
-  hd += "-ccc";
-  console.log(hd);  // jerry-ccc
+promise.then(hello => {
+  hello += "-ccc";
+  console.log(hello);  // jerry-ccc
 });
 ```
 
@@ -1284,9 +1284,9 @@ const promise = new Promise((resolve, reject) => {
 });
 
 console.log(
-  promise.then(hd => {
-    hd += "-abc";
-    console.log(hd);
+  promise.then(hello => {
+    hello += "-abc";
+    console.log(hello);
   })
 ); //Promise {<pending>}
 ```
@@ -1302,14 +1302,14 @@ console.log(
 new Promise((resolve, reject) => {
   resolve("a");
 })
-.then(hd => {
-  hd += "-b";
-  console.log(hd); //a-b
-  return hd;
+.then(hello => {
+  hello += "-b";
+  console.log(hello); //a-b
+  return hello;
 })
-.then(hd => {
-  hd += "-c";
-  console.log(hd); //a-b-c
+.then(hello => {
+  hello += "-c";
+  console.log(hello); //a-b-c
 });
 ```
 
@@ -1349,7 +1349,7 @@ function load(file) {
 
 load("js/func.js")
 .then(() => load("js/index.js"))  // 直接return一个promise
-.then(() => houdunren());
+.then(() => world());
 ```
 
 ### 操作元素
@@ -1850,7 +1850,7 @@ export default function(promises) {
 
 ### async
 
-📗 下面在 `hd` 函数前加上async，**函数将返回promise**，我们就可以像使用标准Promise一样使用了。
+📗 下面在 `hello` 函数前加上async，**函数将返回promise**，我们就可以像使用标准Promise一样使用了。
 
 ```js
 async function func() {
@@ -2105,7 +2105,7 @@ async 内部发生的错误，会将必变promise对象为rejected 状态，所�
 
 ```js
 async function func() {
-  console.log(houdunren);
+  console.log(world);
 }
 func().catch(error => {
   throw new Error(error);
@@ -2202,7 +2202,7 @@ func("MichaelJackson");
 async function p1() {
   return new Promise(resolve => {
     setTimeout(() => {
-      console.log("houdunren");
+      console.log("world");
       resolve();
     }, 2000);
   });
@@ -2210,7 +2210,7 @@ async function p1() {
 async function p2() {
   return new Promise(resolve => {
     setTimeout(() => {
-      console.log("hdcms");
+      console.log("hellocms");
       resolve();
     }, 2000);
   });

@@ -219,6 +219,53 @@ class Dog extends Animal {
 
 ![](https://raw.githubusercontent.com/caffreygo/static/main/blog/manual/class.png)
 
+## 函数柯里化
+
+::: tip 柯里化
+
+- 柯里化（Currying）是一种关于函数的高阶技术。它不仅被用于 JavaScript，还被用于其他编程语言。
+- 柯里化是一种函数的转换，它是指将一个函数从可调用的 `f(a, b, c)` 转换为可调用的 `f(a)(b)(c)`。
+- 柯里化不会调用函数。它只是对函数进行转换。
+
+:::
+
+```js
+// 高级柯里化实现
+function curry(fn) {
+    return function curried(...args) {
+        // 闭包内保存着 args
+        if (args.length >= fn.length) {
+            return fn(...args);
+        }
+        return function (...subArgs) {
+            // args 需要更新
+            return curried(...args.concat(subArgs));
+        };
+    };
+}
+
+function plus(a, b, c) {
+    return a + b + c;
+}
+
+const hello = curry(plus);
+console.log(hello(1, 2)(5));  // 8
+console.log(hello(1)(2, 5));  // 8
+console.log(hello(1)(2)(5));  // 8
+```
+
+>✅ **只允许确定参数长度的函数**
+>
+>柯里化要求函数具有固定数量的参数。
+>
+>使用 rest 参数的函数，例如 `f(...args)`，不能以这种方式进行柯里化。
+>
+>✅ **比柯里化多一点**
+>
+>根据定义，柯里化应该将 `sum(a, b, c)` 转换为 `sum(a)(b)(c)`。
+>
+>但是，如前所述，JavaScript 中大多数的柯里化实现都是高级版的：它们使得函数可以被多参数变体调用。
+
 ## 数组去重
 
 ### 双层for循环

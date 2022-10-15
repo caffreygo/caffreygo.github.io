@@ -192,7 +192,7 @@ import "core-js/modules/esnext.math.scale";
 
 1. **样式污染**问题。如果出现同样的类名，很容易造成不同的样式互相覆盖和污染。
 
-```ts
+```css
 // a.css
 .container {
     color: red;

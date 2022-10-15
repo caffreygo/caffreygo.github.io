@@ -174,19 +174,19 @@ import "core-js/modules/esnext.math.scale";
 
 ## CSS 工程化
 
-原生 CSS 存在的问题：
+### 原生 CSS 存在的问题
 
 1. **开发体验**欠佳。比如原生 CSS 不支持选择器的嵌套:
 
 ```css
 // 选择器只能平铺，不能嵌套
 .container .header .nav .title .text {
-  color: blue;
+    color: blue;
 }
 
 .container .header .nav .box {
-  color: blue;
-  border: 1px solid grey;
+    color: blue;
+    border: 1px solid grey;
 }
 ```
 
@@ -195,25 +195,32 @@ import "core-js/modules/esnext.math.scale";
 ```ts
 // a.css
 .container {
-  color: red;
+    color: red;
 }
 
 // b.css
 // 很有可能覆盖 a.css 的样式！
 .container {
-  color: blue;
+    color: blue;
 }
 ```
 
 1. **浏览器兼容**问题。为了兼容不同的浏览器，我们需要对一些属性(如`transition`)加上不同的浏览器前缀，比如 `-webkit-`、`-moz-`、`-ms-`、`-o-`，意味着开发者要针对同一个样式属性写很多的冗余代码。
 2. 打包后的**代码体积**问题。如果不用任何的 CSS 工程化方案，所有的 CSS 代码都将打包到产物中，即使有部分样式并没有在代码中使用，导致产物体积过大。
 
+### CSS 工程化解决方案
+
 针对如上原生 CSS 的痛点，社区中诞生了不少解决方案，常见的有 5 类。
 
 1. `CSS 预处理器`：主流的包括`Sass/Scss`、`Less`和`Stylus`。这些方案各自定义了一套语法，让 CSS 也能使用嵌套规则，甚至能像编程语言一样定义变量、写条件判断和循环语句，大大增强了样式语言的灵活性，解决原生 CSS 的**开发体验问题**。
 2. `CSS Modules`：能将 CSS 类名处理成哈希值，这样就可以避免同名的情况下**样式污染**的问题。
-3. CSS 后处理器`PostCSS`，用来解析和处理 CSS 代码，可以实现的功能非常丰富，比如将 `px` 转换为 `rem`、根据目标浏览器情况自动加上类似于`--moz--`、`-o-`的属性前缀等等。
+3. CSS 后处理器`PostCSS`，用来解析和处理 CSS 代码，可以实现的功能非常丰富，比如将 `px` 转换为 `rem`、根据目标浏览器情况自动加上类似于`--moz--`、`-o-`的属性前缀等等。（常用的 PostCSS 插件——`autoprefixer`）
 4. `CSS in JS` 方案，主流的包括`emotion`、`styled-components`等等，顾名思义，这类方案可以实现直接在 JS 中写样式代码，基本包含`CSS 预处理器`和 `CSS Modules` 的各项优点，非常灵活，解决了开发体验和全局样式污染的问题。
 5. CSS 原子化框架，如`Tailwind CSS`、`Windi CSS`，通过类名来指定样式，大大简化了样式写法，提高了样式开发的效率，主要解决了原生 CSS **开发体验**的问题。
 
-不过，各种方案没有孰优孰劣，各自解决的方案有重叠的部分，但也有一定的差异，大家可以根据自己项目的痛点来引入。接下来，我们进入实战阶段，在 Vite 中应用上述常见的 CSS 方案。
+> 由于有 CSS 代码的 AST (抽象语法树)解析能力，PostCSS 可以做的事情非常多，甚至能实现 CSS 预处理器语法和 CSS Modules，社区当中也有不少的 PostCSS 插件，除了刚刚提到的autoprefixer插件，常见的插件还包括：
+>
+> postcss-pxtorem： 用来将 px 转换为 rem 单位，在适配移动端的场景下很常用。
+> postcss-preset-env: 通过它，你可以编写最新的 CSS 语法，不用担心兼容性问题。
+> cssnano: 主要用来压缩 CSS 代码，跟常规的代码压缩工具不一样，它能做得更加智能，比如提取一些公共样式进行复用、缩短一些常见的属性值等等。
+

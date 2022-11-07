@@ -313,6 +313,74 @@ function keysLower(obj) {
 :::
 ::::
 
+### class 转  function
+
+::: tip class
+
+- ES6 类语法的代码是在严格模式下的
+- 类函数**只能**通过 `new` 调用
+- 类方法**不能**通过 `new` 调用
+- 原型上的方法不能被枚举
+
+:::
+
+:::: code-group
+::: code-group-item Person 类
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  alert() {
+    console.log(this.name);
+  }
+}
+
+const jc = new Person("Jerry");
+
+// name
+for (key in jc) {
+  console.log(key);
+}
+
+// TypeError: Class constructor Person cannot be invoked without 'new'
+// Person();  
+
+// TypeError: jc.alert is not a constructor
+// new jc.alert();
+```
+
+:::
+::: code-group-item Person 函数
+
+```js
+"use strict";
+
+function Person(name) {
+  if (!(this instanceof Person)) {
+    throw new TypeError(
+      `Class constructor Person cannot be invoked without 'new'`
+    );
+  }
+  this.name = name;
+}
+
+Object.defineProperty(Person.prototype, "alert", {
+  value: function () {
+    if (!(this instanceof Person)) {
+      throw new TypeError(`alert is not a constructor`);
+    }
+    console.log(this.name);
+  },
+  enumerable: false,
+});
+```
+
+:::
+::::
+
 ## Vue
 
 ### 双向绑定的原理

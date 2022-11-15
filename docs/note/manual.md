@@ -1093,3 +1093,90 @@ console.log(new newFn(4));  // fn { a: 3, b: 4 }
 
 :::
 ::::
+
+## 手写元素拖拽
+
+:::: code-group
+::: code-group-item script
+
+```js
+const list = document.querySelector(".list");
+let sourceNode;
+list.ondragstart = (e) => {
+    // 拖拽元素样式就是拖拽发生时的样式，立即修改会导致拖拽的也跟着发生变化
+    setTimeout(() => {
+        e.target.classList.add("moving");
+    }, 0);
+    sourceNode = e.target;
+    // 拖拽的默认行为是复制，可以改成移动
+    e.dataTransfer.effectAllowed = "move";
+};
+list.ondragenter = (e) => {
+    e.preventDefault();
+    if (e.target === list || e.target === sourceNode) {
+        return;
+    }
+    const children = Array.from(list.children);
+    const sourceIndex = children.indexOf(sourceNode);
+    const targetIndex = children.indexOf(e.target);
+    if (sourceIndex < targetIndex) {
+        list.insertBefore(sourceNode, e.target.nextElementSibling);
+    } else {
+        list.insertBefore(sourceNode, e.target);
+    }
+};
+// 默认行为下很多元素不允许元素拖动到自己身上，导致鼠标放开的时候元素动画回到了原始位置
+// 通过阻止 ondragenter、ondragover 的默认行为解决
+list.ondragover = (e) => {
+    e.preventDefault();
+};
+list.ondragend = (e) => {
+    e.target.classList.remove("moving");
+};
+```
+
+:::
+::: code-group-item css
+
+```css
+.list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    width: 50vw;
+}
+.list-item {
+    background-color: #34495e;
+    margin-bottom: 10px;
+    cursor: move;
+    user-select: none;
+    height: 45px;
+    line-height: 45px;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.list-item.moving {
+    background: transparent;
+    color: transparent;
+    border: 1px dashed #ccc;
+}
+```
+
+:::
+::: code-group-item html
+
+```html
+<ul class="list">
+    <li draggable="true" class="list-item">1</li>
+    <li draggable="true" class="list-item">2</li>
+    <li draggable="true" class="list-item">3</li>
+    <li draggable="true" class="list-item">4</li>
+    <li draggable="true" class="list-item">5</li>
+</ul>
+```
+
+:::
+::::
+

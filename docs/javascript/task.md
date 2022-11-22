@@ -7,72 +7,6 @@
 
 ::: 
 
-🌐 [事件循环详解 (opens new window)](http://www.inode.club/node/event_loop.html#%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3)
-
-```js
-async function async1() {
-  console.log('async1 start')     // 2
-  await async2()    // async函数执行时遇到await先返回，await异步完成后再执行，也就是后面的执行相当于在async2 resolve当中执行
-  console.log('async1 end')   // 7 微任务
-}
-
-async function async2() {
-  console.log('async2')     // 3  async2执行完成后把 async1 await后面的执行推入微任务队列: ['async1 end']
-}
-
-console.log('script start')     // 1
-
-setTimeout(function() {
-  console.log('setTimeout0')   // 9 次轮循环  宏任务
-}, 0)
-
-setTimeout(function() {
-  console.log('setTimeout3')   // 11 次轮循环  宏任务
-}, 3)
-
-setImmediate(() => console.log('setImmediate'))   // 10 次轮循环  宏任务
-
-process.nextTick(() => console.log('nextTick'))   // 6  微任务  ['nextTick', 'async1 end']
-
-async1()     // 2
-
-new Promise(function(resolve) {
-  console.log('promise1')   // 4  Promise是一个立即执行函数
-  resolve()                 // microTaskQueue: ['nextTick', 'async1 end', 'promise3']
-  console.log('promise2')   // 5  resolve后不会终结promise的参数函数的执行
-}).then(function() {
-  console.log('promise3')   // 8 异步微任务
-})
-
-console.log('script end')   // 6
-```
-
-🔥 执行完async2之后为什么没有马上输出async1 end？
-
-```js
-await async2()
-console.log('async1 end')
-
-// 相当于以下函数
-// 立即执行async2函数，然后将await后面的内容放到微任务队列中
-async2().then(()=> {
-    console.log('async1 end')
-})
-```
-
-🔥 为何nextTick的回调函数先于async1 end输出?
-
-- Promise 对象的回调函数，会进入异步任务microTask队列， `process.nextTick`的回调函数会追加在nextTick队列当中
-- microTask队列追加在nextTick队列后，所以nextTick的回调函数先执行输出
-
-```js
-process.nextTick(() => console.log(1))
-Promise.resolve().then(() => console.log(2))
-process.nextTick(() => console.log(3))
-Promise.resolve().then(() => console.log(4))
-// 1, 3, 2, 4
-```
-
 ## 任务队列
 
 📗 JavaScript 语言的一大特点就是**单线程**，也就是说同一个时间只能处理一个任务。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，防止主线程的不阻塞，（事件循环）Event Loop的方案应用而生。
@@ -128,6 +62,26 @@ Promise.resolve().then(() => console.log(4))
 
 ✅ 当某些任务发生时，比如计时器、网络、事件监听，主线程将任务交给**其他线程**处理，自身立即结束任务的执行，转而执行后续代码。当其他线程完成时，将事先传递的回调函数包装成任务，加入到任务队列末尾排队，等待主线程调度执行。
 
+### 任务的优先级
+
+任务没有优先级，在任务队列中先进先出。但消息队列是有优先级的。
+
+::: W3C 解释
+
+- 每个任务都有一个任务类型，同一个类型的任务必须在一个队列，不同类型的任务可以分属于不同的队列。在一次事件循环中，浏览器可以根据实际情况从不同的队列中取出任务执行。
+- 浏览器必须准备好一个微队列，微队列中的任务优先所有其他任务执行。
+
+:::
+
+> 随着浏览器的复杂度急剧提升，W3C 不再使用宏队列的说法。
+
+✅ 在目前的 chrome 的实现中，至少包含了下面的队列：
+
+- 微队列：用于存放需要最快执行的任务，优先级 **最高**
+- 交互队列：用于存放用户操作后产生的事件处理任务，优先级 **高**
+
+- 延时队列：用于存放计时器到达后的回调任务，优先级 **中**
+
 ### 原理分析
 
 下面通过一个例子来详细分析宏任务与微任务
@@ -152,15 +106,15 @@ promise2
 定时器
 ```
 
-1. 先执最前面的宏任务 script，然后输出
+1. 先执最前面的 script，然后输出
 
    ```js
    script start
    ```
 
-2. 然后执行到`setTimeout`异步宏任务，并将其放入宏任务队列，等待执行
+2. 然后执行到`setTimeout`，并将其放入延时队列，等待执行
 
-3. 之后执行到`Promise.then`微任务，并将其放入微任务队列，等待执行
+3. 之后执行到`Promise.then`微任务，并将其放入微队列，等待执行
 
 4. 然后执行到主代码输出
 
@@ -194,7 +148,7 @@ promise2
     setTimeout
     ```
 
-> 🔖 宏任务实际上就是次轮事件循环。当前事件循环的微任务清空，结束本轮循环，下次事件循环开始才会执行。
+> 🔖 因为微队列的优先级最高，当前事件循环的微任务要清空，才会结束本轮循环，下次事件循环开始。
 
 ### 脚本加载
 
@@ -218,8 +172,9 @@ setTimeout(func,6);
 
 ```js
 setTimeout(() => {
-  console.log("jerry");  // 宏任务队列
+  console.log("jerry");  // 延时队列
 }, 0);
+
 console.log("hello");
 ```
 
@@ -227,20 +182,22 @@ console.log("hello");
 
 ### 微任务
 
-📌 微任务一般由用户代码产生，微任务较宏任务执行优先级更高，`Promise.then` 是典型的微任务
+📌 微任务一般由用户代码产生，微队列优先级最高，`Promise.then`、`MutationObserver` 
 
-💡💡 实例化 Promise 时执行的代码是同步的，then注册的回调函数是异步微任务的 💡💡
+📌 实例化 Promise 时执行的代码是同步的，then注册的回调函数是异步微任务的
 
-任务的执行顺序是同步任务、微任务、宏任务所以下面执行结果是 `1、2、3、4`
+任务的执行顺序是同步任务、微任务所以下面执行结果是 `1、2、5、3、4`
 
 ```js
-setTimeout(() => console.log(4));  // 宏任务
+setTimeout(() => console.log(4));  // 延时任务
+
+Promise.resolve().then(()=> console.log(5))  // 微任务
 
 new Promise(resolve => {
-  resolve();
-  console.log(1);  // promise声明 同步任务
-}).then(_ => {
-  console.log(3);  // 微任务
+    resolve();
+    console.log(1);  // promise声明 同步任务
+}).then(() => {
+    console.log(3);  // 微任务
 });
 
 console.log(2);  // 同步任务
@@ -282,7 +239,80 @@ settimeout then
 timeout timeout
 ```
 
-## 实例操作
+## 实例分析
+
+### 脚本阻塞渲染
+
+```html
+<h1>Hello world</h1>
+<button>change</button>
+<script>
+    var h1 = document.querySelector("h1");
+    var btn = document.querySelector("button");
+
+    function delay(duration) {
+        var start = Date.now();
+        while (Date.now() - start < duration) {
+            console.log(Date.now() - start);
+        }
+    }
+
+    btn.onclick = function () {
+        h1.textContent = new Date();
+        delay(3000);
+    };
+</script>
+```
+
+1. 初始加载时，交互线程监听按钮点击，点击后会执行 fn
+2. 用户点击时，`fn` 加入事件队列执行
+3. `h1.textContent = new Date()` ，内容修改之后，会产生一个页面的绘制任务添加到任务队列
+4. 死循环 `3000ms` ，循环结束即 `fn` 函数执行结束
+5. 进入下一次事件循环，执行任务队列中的绘制任务，页面才会发生改变
+
+✅ JS 为何会阻塞渲染：因为 JS 的执行和页面的渲染都在浏览器的渲染主线程上执行。
+
+### 同步click() 与延时队列
+
+```js
+var h1 = document.querySelector("h1");
+var btn = document.querySelector("button");
+
+btn.onclick = function () {
+    console.log(1);
+};
+
+setTimeout(() => {
+    console.log(2);
+}, 0);
+
+Promise.resolve().then(()=> { console.log(0) })
+
+btn.click();
+// 1 0 2
+```
+
+### 微队列
+
+```js
+function a() {
+    console.log(1);
+    Promise.resolve().then(function () {
+        console.log(2);
+    });
+}
+setTimeout(function () {
+    console.log(3);
+    Promise.resolve().then(a);
+}, 0);
+
+Promise.resolve().then(function () {
+    console.log(4);
+});
+
+console.log(5);
+// 两轮事件循环： 5 4 | 3 1 2
+```
 
 ### 进度条
 
@@ -472,5 +502,71 @@ new Promise((resolve, reject) => {
 })
 
 // 1 8 2 3 9 4 7 5 6 0
+```
+
+🌐 [事件循环详解 (opens new window)](http://www.inode.club/node/event_loop.html#%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3)
+
+```js
+async function async1() {
+  console.log('async1 start')     // 2
+  await async2()    // async函数执行时遇到await先返回，await异步完成后再执行，也就是后面的执行相当于在async2 resolve当中执行
+  console.log('async1 end')   // 7 微任务
+}
+
+async function async2() {
+  console.log('async2')     // 3  async2执行完成后把 async1 await后面的执行推入微任务队列: ['async1 end']
+}
+
+console.log('script start')     // 1
+
+setTimeout(function() {
+  console.log('setTimeout0')   // 9 次轮循环  宏任务
+}, 0)
+
+setTimeout(function() {
+  console.log('setTimeout3')   // 11 次轮循环  宏任务
+}, 3)
+
+setImmediate(() => console.log('setImmediate'))   // 10 次轮循环  宏任务
+
+process.nextTick(() => console.log('nextTick'))   // 6  微任务  ['nextTick', 'async1 end']
+
+async1()     // 2
+
+new Promise(function(resolve) {
+  console.log('promise1')   // 4  Promise是一个立即执行函数
+  resolve()                 // microTaskQueue: ['nextTick', 'async1 end', 'promise3']
+  console.log('promise2')   // 5  resolve后不会终结promise的参数函数的执行
+}).then(function() {
+  console.log('promise3')   // 8 异步微任务
+})
+
+console.log('script end')   // 6
+```
+
+🔥 执行完async2之后为什么没有马上输出async1 end？
+
+```js
+await async2()
+console.log('async1 end')
+
+// 相当于以下函数
+// 立即执行async2函数，然后将await后面的内容放到微任务队列中
+async2().then(()=> {
+    console.log('async1 end')
+})
+```
+
+🔥 为何nextTick的回调函数先于async1 end输出?
+
+- Promise 对象的回调函数，会进入异步任务microTask队列， `process.nextTick`的回调函数会追加在nextTick队列当中
+- microTask队列追加在nextTick队列后，所以nextTick的回调函数先执行输出
+
+```js
+process.nextTick(() => console.log(1))
+Promise.resolve().then(() => console.log(2))
+process.nextTick(() => console.log(3))
+Promise.resolve().then(() => console.log(4))
+// 1, 3, 2, 4
 ```
 

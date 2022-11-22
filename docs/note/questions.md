@@ -325,6 +325,8 @@ function keysLower(obj) {
 
 在这种异步模式下，浏览器避免了阻塞，从而最大限度的保证了单线程的流畅运行。
 
+### 阐述 JS 的事件循环
+
 ### class 转  function
 
 ::: tip class

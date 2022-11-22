@@ -272,35 +272,22 @@ timeout timeout
 
 ✅ JS 为何会阻塞渲染：因为 JS 的执行和页面的渲染都在浏览器的渲染主线程上执行。
 
-### 同步click() 与延时队列
-
-```js
-var h1 = document.querySelector("h1");
-var btn = document.querySelector("button");
-
-btn.onclick = function () {
-    console.log(1);
-};
-
-setTimeout(() => {
-    console.log(2);
-}, 0);
-
-Promise.resolve().then(()=> { console.log(0) })
-
-btn.click();
-// 1 0 2
-```
-
 ### 微队列
 
 ```js
+var btn = document.querySelector("button");
+
 function a() {
     console.log(1);
     Promise.resolve().then(function () {
         console.log(2);
     });
 }
+
+btn.onclick = function () {
+    console.log(0);
+};
+
 setTimeout(function () {
     console.log(3);
     Promise.resolve().then(a);
@@ -310,8 +297,11 @@ Promise.resolve().then(function () {
     console.log(4);
 });
 
+btn.click();  // 这是同步事件！
+
 console.log(5);
-// 两轮事件循环： 5 4 | 3 1 2
+
+// 0 5 4 + 3 1 2 两轮事件循环
 ```
 
 ### 进度条

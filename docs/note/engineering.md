@@ -206,6 +206,8 @@ import "core-js/modules/esnext.math.scale";
 而这两件事情全部由性能优异的 Esbuild (基于 Golang 开发)完成，而不是传统的 Webpack/Rollup，所以也不会有明显的打包性能问题，反而是 Vite 项目启动飞快(秒级启动)的一个核心原因。
 
 > 项目启动成功后，在 node_modules 中的 .vite 文件夹，就是预构建产物文件存放的目录
+>
+> 该依赖会设置 http 缓存，同时文件在 .vite 文件夹下也进行了缓存
 
 ### Dev server 启动
 

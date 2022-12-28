@@ -137,6 +137,10 @@ module.exports = [
         text: "工程化相关",
         link: "/note/engineering",
       },
+      {
+        text: "函数式编程",
+        link: "/note/functional",
+      },
     ],
   },
   {

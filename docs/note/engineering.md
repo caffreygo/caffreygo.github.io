@@ -1,6 +1,14 @@
 # 前端工程化
 
-## 配置项解读
+## Babel
+
+Babel 能够实现语法转换。转换并不能解决所有问题，涉及到某个对象的 api，比如 Array.prototype.find，这种 api 的兼容并不是需要转换语法，而是要在环境中注入我们实现的 api，也就是 polyfill。
+
+Babel 插件需要转换的语法包括 es 标准语法、proposal 阶段的语法，还有 react、flow、typescript 等特有语法。
+
+- `@babel/preset-env`，可以设置 targets，减少很多没必要的转换和 polyfill。但会全局引入，造成污染。
+- 使用 `@babel/plugin-transform-runtime` 以模块化方式引入，避免造成全局污染，但不支持根据 targets 的过滤。
+- babel 8，解决了 `@babel/plugin-transform-runtime` 和 `@babel/preset-env` 的配合问题，不再需要 `@babel/plugin-transform-runtime`
 
 ::: tip 概述
 
@@ -60,6 +68,9 @@
 
 ### browserslist
 
+browserlist 提供特性支持的环境的最低版本的数据，有了具体的版本，那么过滤出来的就是目标环境不支持的特性。
+然后引入它们对应的插件即可。这就是 preset-env 做的事情 (按照目标环境按需引入插件)。
+
 browserslist提供了一种项目共享的目标环境配置，整个项目的babel、eslint，ts等都可以读取到。如：
 
 ```
@@ -78,6 +89,8 @@ iOS >= 10.1
 它有自己的配置语法，一看就会，它有多种具体文档：https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fbrowserslist%2Fbrowserslist
 
 有了 browserslist 的配置，我们就可以不用配置 @babel/preset-env 的 target了。browserslist的配置可以写在package.json里面也可以用独立的.browserslistrc文件。
+
+> preset-env 需要用户指定babel的目标环境，browserlist 的设置会方便很多
 
 ### core-js
 
@@ -171,6 +184,30 @@ import "core-js/modules/esnext.math.scale";
 ```
 
 总的来说，useBuiltIns配置为usage，corejs配置为{ version: "3.8", proposals: true }会是大部分场景的选择。
+
+## Vite
+
+第一步是依赖预构建，第二步才是 Dev Server 的启动。
+
+### 依赖预构建
+
+模块代码其实分为两部分，一部分是源代码，也就是业务代码，另一部分是第三方依赖的代码，即 node_modules 中的代码。
+
+所谓的 no-bundle 只是对于源代码。对于第三方依赖，Vite 还是选择 bundle(打包)，并且使用速度极快的打包器 Esbuild 来完成这一过程，达到秒级的依赖编译速度。
+
+::: tip 依赖预构建主要做了两件事情：
+
+1. 将其他格式(如 UMD 和 CommonJS)的产物转换为 ESM 格式，使其在浏览器通过` <script type="module"><script>`的方式正常加载。
+
+2. 打包第三方库的代码，将各个第三方库分散的文件合并到一起，减少 HTTP 请求数量，避免页面加载性能劣化。
+
+:::
+
+而这两件事情全部由性能优异的 Esbuild (基于 Golang 开发)完成，而不是传统的 Webpack/Rollup，所以也不会有明显的打包性能问题，反而是 Vite 项目启动飞快(秒级启动)的一个核心原因。
+
+> 项目启动成功后，在 node_modules 中的 .vite 文件夹，就是预构建产物文件存放的目录
+
+### Dev server 启动
 
 ## CSS 工程化
 

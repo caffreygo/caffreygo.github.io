@@ -13,7 +13,7 @@
 :::: code-group
 ::: code-group-item 函数式编程
 
-```ts
+```js
 // 定义筛选逻辑
 const ageBiggerThan24 = (person)=> person.age >= 24
 
@@ -38,7 +38,7 @@ console.log(logText)
 :::
 ::: code-group-item 命令式编程
 
-```ts
+```js
 const len = peopleList.length
 
 // 对员工列表按照年龄【排序】
@@ -158,7 +158,7 @@ const peopleList = [
 :::: code-group
 ::: code-group-item Immer.js
 
-```ts
+```js
 import produce from "immer"
 
 // 这是我的源数据
@@ -186,7 +186,7 @@ const nextState = produce(baseState, recipe)
 :::
 ::: code-group-item Proxy
 
-```ts
+```js
 // 定义一个 programmer 对象
 const programmer = {
     name: 'Jerry',
@@ -340,7 +340,7 @@ const newArray = arr.reduce(add1AndPush, [])
 :::: code-group
 ::: code-group-item 命令式
 
-```ts
+```js
 const filteredArr = arr.filter(biggerThan2)    
 const multipledArr = filteredArr.map(multi2)    
 const sum = multipledArr.reduce(add, 0)
@@ -389,7 +389,7 @@ const add = (a, b) => a + b
 
 ### 独立函数
 
-```ts
+```js
 function add4(num) {
   return num + 4
 }  
@@ -414,7 +414,7 @@ const sum =  add4(mutiply(divide2(num)))
 :::: code-group
 ::: code-group-item pipe
 
-```ts
+```js
 // 构建 pipeline
 function pipe(...funcs) {
     function callback(input, func) {
@@ -436,7 +436,7 @@ console.log(compute(10))
 :::
 ::: code-group-item utils
 
-```ts
+```js
 function add4(num) {
     return num + 4
 }  
@@ -468,7 +468,123 @@ function compose(...funcs) {
     }
 }
 
+// 21
 const compute = compose(divide2, mutiply3, add4)
+
+[divide2, mutiply3, add4].reduceRight((result, func)=> func(result), 10)
 ```
 
 ✅ 面向对象的核心在于继承，而**函数式编程的核心则在于组合**。
+
+## 多元函数解决方案
+
+::: tip 偏函数和柯里化解决的最核心的问题有两个，分别是：
+
+- 函数组合链中的多元参数问题
+- 函数逻辑复用的问题
+
+> 函数参数里的“元数(Arity)”，指的其实就是函数参数的数量。来源于数学的“n元函数”。
+
+:::
+
+> 对于函数组合链来说，它总是预期链上的函数是一元函数：函数吃进一个入参，吐出一个出参，然后这个出参又会作为下一个一元函数的入参......**参数个数的对齐，是组合链能够运转的前提**。
+
+🤡 一旦链上乱入了多元函数，那么多元函数的入参数量就无法和上一个函数的出参数量对齐，进而导致执行错误。
+
+### 柯里化
+
+把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。
+
+✅ 通俗来讲，它是这个意思： 柯里化是把 **1 个 n 元函数**改造为 **n 个相互嵌套的一元函数**的过程。
+
+ [柯里化的实现(opens new window)](https://www.ijerrychen.com/note/manual.html#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96)
+
+:::: code-group
+::: code-group-item 表现
+
+```js
+// 定义高阶函数 curry
+function curry(addThreeNum) {
+    // 返回一个嵌套了三层的函数
+    return function addA(a) {
+        // 第一层“记住”参数a
+        return function addB(b) {
+            // 第二层“记住”参数b
+            return function addC(c) {
+                // 第三层直接调用现有函数 addThreeNum
+                return addThreeNum(a, b, c)
+            }
+        }
+    }
+}
+
+// 借助 curry 函数将 add
+const curriedAddThreeNum = curry(addThreeNum)
+// 输出6，输出结果符合预期
+curriedAddThreeNum(1)(2)(3)
+```
+
+:::
+::: code-group-item useage
+
+```js
+const compute = pipe(
+    curriedAdd(1), 
+    curriedMultiply(2)(3), 
+    curriedAddMore(1)(2)(3), 
+    curriedDivide(300)
+)
+```
+
+:::
+::: code-group-item utils
+
+```js
+function add(a, b) {
+    return a + b
+}
+
+function multiply(a, b, c) {
+    return a*b*c
+}
+
+function addMore(a, b, c, d) {
+    return a+b+c+d
+}
+
+function divide(a, b) {
+    return a/b
+}
+```
+
+:::
+
+::::
+
+### 偏函数
+
+> tips: 偏函数英文是 partial application， 直译过来就是“部分应用”。
+
+- 柯里化说的是一个 n 元函数变成 n 个一元函数。
+- 偏函数，仅有函数的元发生了变化（减少了），函数的数量是不变的。
+
+```js
+// 定义一个包装函数，专门用来处理偏函数逻辑
+function wrapFunc(func, fixedValue) {
+    // 包装函数的目标输出是一个新的函数
+    function wrappedFunc(input){
+        // 这个函数会固定 fixedValue，然后把 input 作为动态参数读取
+        const newFunc = func(input, fixedValue)
+        return newFunc
+    }
+    return wrappedFunc
+}
+const multiply3 = wrapFunc(multiply, 3)
+
+// 输出6
+multiply3(2)
+```
+
+✅ 偏函数固定了一些入参，无需再还原逻辑。通过偏函数处理实现对存量逻辑的控制。减少重复代码的定义和重复传参。
+
+#### 

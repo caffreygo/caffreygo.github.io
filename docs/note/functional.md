@@ -735,3 +735,87 @@ Functor.map(x => f(g(x))) = Functor.map(g).map(f)
 :::
 
 ::::
+
+## Monad 单子
+
+Monad 是一个同时实现了 map 方法和 `flatMap` 方法的盒子。
+
+### 嵌套盒子
+
+嵌套的盒子，这里指的是在 Functor 内部嵌套 Functor 的情况。
+
+::: tips 导致嵌套 Functor 的典型 case
+
+- 线性计算场景下的嵌套 Functor —— Functor 作为另一个 Functor 的计算中间态出现
+- 非线性计算场景下的嵌套 Functor —— 两个 Functor 共同作为计算入参出现
+
+:::
+
+:::: code-group
+::: code-group-item 线性计算场景下的嵌套
+
+```js
+// 在任何情况下都会返回一个 Maybe Functor
+const getUserSafely = id => {  
+    try {
+        const userInfo = getUser(id)
+        return Maybe(userInfo)
+    } catch(e) {
+        return Maybe(null)
+    }
+}
+
+const targetUser = {
+    id: 1100013,  
+    credits: 2000,  
+    level: 20
+}
+
+const userContainer = Maybe(targetUser)  
+
+const extractUserId = user => user && user.id
+
+const userInfo = userContainer.map(extractUserId).map(getUserSafely)
+```
+
+- Functor 对每次计算的结果都会进行一次包装，确保链式调用的可能：` Maybe(f(x))`；
+- `map(getUserSafely)` 的参数已经是一个 Maybe Functor, 通过 map 之后又被 Maybe Functor 包装了一次。；
+- `userInfo` 的最终结果将是一个两层 Maybe Functor 嵌套的 `userInfo` 数据结构。
+
+:::
+::: code-group-item  + utils
+
+```js
+const isEmpty = x => x === undefined || x === null
+
+// Maybe Functor
+const Maybe = x => ({
+    map: f => isEmpty(x) ? Maybe(null) : Maybe(f(x)),  
+    valueOf: () => x,  
+    inspect: () => `Maybe {${x}}`
+})
+
+const isExisted = id => id % 3 === 0
+
+const getUser = id => {  
+    if(isExisted(id)) {
+        return {
+            id,
+            nickName: String(id).slice(0, 3)
+        }
+    } else {
+        throw new Error("User not found")
+    }
+}
+```
+
+:::
+::: code-group-item 非线性计算场景下的嵌套
+
+```js
+
+```
+
+:::
+
+::::

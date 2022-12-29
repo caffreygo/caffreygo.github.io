@@ -429,6 +429,8 @@ const compute = pipe(add4, mutiply3, divide2)
 
 // 执行 pipeline：21
 console.log(compute(10))
+
+[add4, mutiply3, divide2].reduce((result, func)=> func(result), 10)  // 21
 ```
 
 :::

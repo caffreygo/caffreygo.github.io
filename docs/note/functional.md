@@ -587,4 +587,151 @@ multiply3(2)
 
 ✅ 偏函数固定了一些入参，无需再还原逻辑。通过偏函数处理实现对存量逻辑的控制。减少重复代码的定义和重复传参。
 
-#### 
+## 范畴论启发下的函数设计模式
+
+`Functor`、`Monad`、`Semigroup`、`Monoid`......这些由范畴论推导出来的编码模式，我们可以记为“范畴论设计模式”。
+
+::: tip 盒子的共性
+
+- 盒子是一个存放数据的容器，它的内部肯定会维护一套数据。这套数据总是以盒子入参的形式传入，总是作为我们整个组合链的起点。
+- 同时，盒子内部可以定义一系列操作数据的函数。这些函数未必需要具备【**创建并返回新的盒子**】的能力，但是**关键的函数、决定盒子性质的那些函数**，往往需要具备这个能力。
+
+:::
+
+### 组合问题的链式解法
+
+不借助 `compose/pipe` 函数，构造声明式的数据流。
+
+✅  构造一个【能够创造新盒子】盒子：
+
+:::: code-group
+::: code-group-item Box
+
+```js
+const Box = x => ({
+    map: f => Box(f(x)),
+    valueOf: () => x
+})
+
+const newBox = Box(10).map(add4)  
+// 输出 14
+newBox.valueOf()
+
+// 值为 21
+const computeBox = Box(10)
+.map(add4)
+.map(mutiply3)
+.map(divide2)
+.valueOf()
+```
+
+:::
+::: code-group-item utils
+
+```js
+function add4(num) {
+  return num + 4
+}  
+
+function mutiply3(num) {
+  return num*3
+}  
+
+function divide2(num) {
+  return num/2
+}
+```
+
+:::
+
+::::
+
+✅ 范畴论对于函数式编程最关键的影响，就在于“复合”，或者说在于“函数的组合”。
+
+::: details 盒子 💡
+
+- 此盒又名 `Functor`（函子），一个 `Functor` 就是一个能够被映射的“东西”。这里，`Functor` 指的是一个实现了 map 方法的数据结构。
+- 产生函子，保证纯函数，方便统一接口，组合运算。map 更像提供一种集合的映射能力，map 接收的函数表示这段映射之间的关系。
+
+:::
+
+## Functor 函子
+
+Array 其实就是一种 Functor，它也是一种实现了 map 方法的数据结构：
+
+```js
+const fruits = ['apple', 'orange', 'banana', 'papaya']   
+
+const fruitsWithSugar = fruits.map((fruit)=> `Super Sweet ${fruit}`)
+```
+
+### Identity Functor
+
+为了标识 Functor 的类别，可以给它补充一个 inspect 函数：
+
+```js
+const Identity = x => ({
+    map: f => Identity(f(x)),
+    valueOf: () => x,
+    inspect: () => `Identity {${x}}`
+})
+```
+
+✅ 通过往 map 行为里“加料”，我们就可以制作出不同的 Functor
+
+### Maybe Functor
+
+```js
+const isEmpty = x => x === undefined || x === null  
+
+const Maybe = x => ({
+    map: f => isEmpty(x) ? Maybe(null) : Maybe(f(x)),  
+    valueOf: () => x,  
+    inspect: () => `Maybe {${x}}`
+})
+```
+
+如果入参 x 为空（undefined 或者 null），那么 isEmpty 就会返回 true，接下来 map 方法就不会再执行 f 函数的，而是直接返回一个空的 Maybe 盒子。
+
+✅ 将错误在内部进行捕捉处理，避免程序 crash
+
+---
+
+:::tip Functor 的“生存法则”，一个合法的 Functor 需要满足以下条件：
+
+1. 恒等性（Identity） 
+2. 可组合性（Composition）
+
+:::
+
+:::: code-group
+::: code-group-item Identity
+
+```js
+// const identity = x => x
+
+const originArr = [1, 2, 3]  
+
+const identityArr = originArr.map(x=>x)  
+
+// 输出 [1, 2, 3] 
+console.log(identityArr)
+```
+
+✅  将恒等函数传入 map 后，最终的映射结果 `identityArr` 和源数据 `originArr` 是等价的：
+
+- 确保你的 map 方法具备“创造一个新的盒子（Functor）”的能力
+- 确保你的 map 方法足够“干净”
+
+:::
+::: code-group-item Composition
+
+```js
+Functor.map(x => f(g(x))) = Functor.map(g).map(f)
+```
+
+✅  “盒子模式”是函数组合的另一种解法。
+
+:::
+
+::::

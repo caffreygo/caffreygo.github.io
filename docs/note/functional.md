@@ -695,7 +695,7 @@ const Maybe = x => ({
 
 ✅ 将错误在内部进行捕捉处理，避免程序 crash
 
----
+### 合法的 Functor
 
 :::tip Functor 的“生存法则”，一个合法的 Functor 需要满足以下条件：
 

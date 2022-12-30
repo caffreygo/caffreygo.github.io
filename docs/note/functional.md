@@ -744,7 +744,7 @@ Monad 是一个同时实现了 map 方法和 `flatMap` 方法的盒子。
 
 嵌套的盒子，这里指的是在 Functor 内部嵌套 Functor 的情况。
 
-::: tips 导致嵌套 Functor 的典型 case
+::: tip 导致嵌套 Functor 的典型 case
 
 - 线性计算场景下的嵌套 Functor —— Functor 作为另一个 Functor 的计算中间态出现
 - 非线性计算场景下的嵌套 Functor —— 两个 Functor 共同作为计算入参出现
@@ -778,7 +778,7 @@ const extractUserId = user => user && user.id
 const userInfo = userContainer.map(extractUserId).map(getUserSafely)
 ```
 
-- Functor 对每次计算的结果都会进行一次包装，确保链式调用的可能：` Maybe(f(x))`；
+- `map` 对每次计算的结果都会进行一次包装，确保链式调用的可能：` Maybe(f(x))`；
 - `map(getUserSafely)` 的参数已经是一个 Maybe Functor, 通过 map 之后又被 Maybe Functor 包装了一次。；
 - `userInfo` 的最终结果将是一个两层 Maybe Functor 嵌套的 `userInfo` 数据结构。
 
@@ -813,9 +813,119 @@ const getUser = id => {
 ::: code-group-item 非线性计算场景下的嵌套
 
 ```js
+// 该函数将对给定 score 作权重为 high 的计算处理
+const highWeights = score => score*0.8
 
+// 该函数将对给定 score 作权重为 low 的计算处理
+const lowWeights = (score) => score*0.5
+
+const computeFinalScore = (generalScore, healthScore) => {
+    const finalGeneralScore = highWeights(generalScore)  
+    const finalHealthScore = lowWeights(healthScore)  
+    return finalGeneralScore + finalHealthScore
+}
+
+const computeFinalScore1 = (generalScore, healthScore) => 
+Identity(highWeights(generalScore))
+.map(
+    finalGeneralScore => 
+    Identity(lowWeights(healthScore))
+    .map(
+        finalhealthScore => 
+        finalGeneralScore + finalhealthScore
+    )
+)
+```
+
+- `generalScore` 和 `healthScore` 同时作为数据源存在，都是 `computeFinalScore` 函数的入参。从逻辑上来说，它们应该是**平行**的关系。
+- 当我们用盒子模式去实现非线性的计算过程的时候，就不得不像示例这样，把另一个数据源 `healthScore` 也包装成一个盒子，放进 `generalScore` 的 `map` 里面去。导致嵌套 Functor 的产生
+
+:::
+
+::::
+
+### flatMap
+
+:::: code-group
+::: code-group-item Monad
+
+```js
+const Monad = x => ({
+    map: f => Monad(f(x)),
+    // flatMap 直接返回 f(x) 的执行结果
+    flatMap: f => f(x),
+
+    valueOf: () => x,
+    inspect: () => `Monad {${x}}`,
+})
+```
+
+:::
+::: code-group-item  Monad Class
+
+```js
+class Monad { 
+    constructor(x) {
+        this.val = x
+    }
+
+
+    map(f) { 
+        return Monad.of(f(this.val)) 
+    } 
+
+    flatMap(f) { 
+        return this.map(f).valueOf()
+    }
+
+    valueOf() {
+        return this.val
+    }
+}
+
+Monad.of = function(val) {
+    return new Monad(val);
+}  
+
+const monad = Monad.of(1)  
+const nestedMonad = Monad.of(monad)  
+
+// 输出 Monad {val: 1}，符合“不嵌套”的预期
+console.log(nestedMonad.flatMap(x => x))
 ```
 
 :::
 
 ::::
+
+`flatMap` 就是一个打开盒子的过程，直接调用其参数函数 `x => f(x)`，返回值就是函数的计算结果。
+
+```js
+const highWeights = score => score*0.8
+const lowWeights = (score) => score*0.5
+
+const computeFinalScore = (generalScore, healthScore) => 
+Monad(highWeights(generalScore))
+.flatMap(
+    finalGeneralScore => 
+    Monad(lowWeights(healthScore))
+    .flatMap(
+        finalhealthScore => 
+        finalGeneralScore + finalhealthScore
+    )
+)
+
+// Monad(highWeights(200)).flatMap(x=>x) 160
+// Monad(lowWeights(100)).flatMap(x=>x) 50
+
+const finalScore = computeFinalScore(200, 100)  // 210
+```
+
+::: tip flatMap 和 map 其实很像，区别在于它们对回调函数 f(x) 的预期：
+
+- `map` 预期 `f(x)` 会输出一个具体的值。这个值会作为下一个“基础行为”的回调入参传递下去。
+- 而 `flatMap` 预期 `f(x)` 会输出一个 Functor，它会像剥洋葱一样，把 Functor 里包裹的值给“剥”出来。确保最终传递给下一个“基础行为”的回调入参，仍然是一个具体的值。
+
+:::
+
+✅  不管这个方法叫啥，只要它在 Functor 的基础上，实现了楼上描述的这个“剥洋葱”般的逻辑，它都足以将一个 Functor 拓展为 Monad。（行为决定性质）

@@ -929,3 +929,91 @@ const finalScore = computeFinalScore(200, 100)  // 210
 :::
 
 ✅  不管这个方法叫啥，只要它在 Functor 的基础上，实现了楼上描述的这个“剥洋葱”般的逻辑，它都足以将一个 Functor 拓展为 Monad。（行为决定性质）
+
+## Semigroup 与 Monoid
+
+::: tip 加法和乘法有两个关键的共性：
+
+- 它们都满足结合律。
+
+  ```
+  (1 + 2) + 3 = 1 + (2 + 3)
+  (1 * 2) * 3 = 1 * (2 * 3)
+  ```
+
+- 它们都是闭合的。（在数学中，闭合意味着我们对某个集合的成员进行运算后，生成的仍然是这个集合的成员）
+
+  > `1、2、3` 三个整数做完加法后，得到的计算结果 6 也是一个整数。`1 * 2 * 3` 三个整数做完乘法后，得到的计算结果 6 也是一个整数。这就是所谓的“闭合”。
+
+:::
+
+### Semigroup
+
+在整数运算的加法/乘法中，`+ / *` 是一个运算符，可以用来计算两个任意的整数以获得另一个整数。因此，加法运算/乘法运算在所有可能的整数集合上形成一个 Semigroup。
+
+::: tip JavaScript 中的 SemiGroup:
+
+- 整数的加法和乘法
+- (boolean, &&)，布尔值的“与”运算
+- (boolean, ||)，布尔值的“或”运算
+- (string, +/concat) ，字符串的拼接（并集）运算。
+- (Array, concat)，数组的拼接（并集）运算
+
+:::
+
+:::: code-group
+::: code-group-item Add
+
+```js
+// 定义一个类型为 Add 的 Semigroup 盒子
+const Add = (value) => ({
+    value,  
+    // concat 接收一个类型为 Add 的 Semigroup 盒子作为入参
+    concat: (box) => Add(value + box.value)
+})   
+
+// 输出一个 value=6 的 Add 盒子
+Add(1).concat(Add(2)).concat(Add(3))
+```
+
+:::
+::: code-group-item  Multi
+
+```js
+// 定义一个类型为 Multi 的 Semigroup 盒子
+const Multi = (value) => ({
+    value,  
+    // concat 接收一个类型为 Multi 的Semigroup 盒子作为入参
+    concat: (box) => Multi(value * box.value)
+})   
+
+// 输出一个 value=60 的 Multi 盒子
+Multi(3).concat(Multi(4)).concat(Multi(5))
+```
+
+:::
+
+::::
+
+### Monoid
+
+- Monoid 是一个拥有了 `identity element` 的半群：`Monoid = Semigroup + identity element`
+- `identity element` “单位元”。它和任何运算数相结合时，都不会改变那个运算数。
+- 在函数式编程中，单位元也是一个函数，我们一般把它记为 `empty()` 函数。也就是说，Monoid = Semigroup + `empty()` 函数。
+
+```js
+// 定义一个类型为 Add 的 Semigroup 盒子
+const Add = (value) => ({
+    value,  
+    // concat 接收一个类型为 Add 的 Semigroup 盒子作为入参
+    concat: (box) => Add(value + box.value)
+})   
+
+
+// 这个 empty() 函数就是加法运算的单位元
+Add.empty = () => Add(0)
+
+// 输出一个 value=3 的 Add 盒子
+Add.empty().concat(Add(1)).concat(Add(2))
+```
+

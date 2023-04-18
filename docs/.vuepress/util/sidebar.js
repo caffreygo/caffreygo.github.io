@@ -212,4 +212,12 @@ module.exports = {
       ],
     },
   ],
+  "/nest/": [
+    {
+      text: "NestJs",
+      children: [
+        "/nest/prisma",
+      ],
+    },
+  ],
 };

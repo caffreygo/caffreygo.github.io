@@ -419,6 +419,15 @@ module.exports = [
     ],
   },
   {
+    text: "NestJs",
+    children: [
+      {
+        text: "prisma",
+        link: "/nest/prisma",
+      },
+    ],
+  },
+  {
     text: "MYSQL",
     children: [
       {

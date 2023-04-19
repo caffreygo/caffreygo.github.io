@@ -139,7 +139,7 @@ export class AuthService {
     })
 
     const passwordCheck = await argon2.verify(user.password, loginDto.password)
-    if (!passwordCheck) throw new BadRequestException('密码输入错误')
+    if (!passwordCheck) throw new BadRequestException('密码输入错误!')
 
     return this.token(user)
   }

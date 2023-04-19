@@ -19,7 +19,7 @@ Prisma 可以方便的管理数据表，包含数据迁移、数据填充、查�
 
 ### 安装依赖
 
-安装 Prisma CLI等扩展包
+安装 Prisma CLI 等扩展包
 
 - 使用[mockjs (opens new window)](http://mockjs.com/examples.html)生成随机数据
 - 使用 [argon2 (opens new window)](https://www.npmjs.com/package/argon2)加密密码
@@ -33,7 +33,7 @@ pnpm add -D prisma typescript @types/node @types/mockjs
 
 ### 数据库连接
 
-执行以上命令后初始化prisma
+执行以上命令后初始化 prisma
 
 ```shell
 npx prisma init
@@ -42,9 +42,9 @@ npx prisma init
 会创建`.env`文件与`prisma`文件夹
 
 - .env 用于定义数据库连接
-- prisma用于定义模型结构与数据迁移与数据填充文件
+- prisma 用于定义模型结构与数据迁移与数据填充文件
 
-修改`.env`文件设置mysql连接，以下连接请根据情况修改
+修改`.env`文件设置 mysql 连接，以下连接请根据情况修改
 
 ```shell
 DATABASE_URL="mysql://root:admin888@127.0.0.1:3306/nest"
@@ -52,7 +52,7 @@ DATABASE_URL="mysql://root:admin888@127.0.0.1:3306/nest"
 
 ## 迁移文件
 
-迁移文件migrate用于构建数据表结构变化，他是数据库的**版本控制**机制，每次表结构的修改都有单独文件记录。
+迁移文件 migrate 用于构建数据表结构变化，他是数据库的**版本控制**机制，每次表结构的修改都有单独文件记录。
 
 ### 结构定义
 
@@ -106,7 +106,7 @@ model article {
 执行以下命令，将自动根据已经存在的数据库生成文件 `prisman/schema.prisma` ，而不需要向上面一样手动定义。
 
 ```shell
-npx prisma db pull 
+npx prisma db pull
 ```
 
 ### 生成迁移
@@ -151,13 +151,13 @@ npm prisma migrate reset
 下面在中创建文件`test.ts`，用于测试查询构造器，内容如下
 
 ```typescript
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 Promise.resolve().then(async () => {
-  const user = await prisma.user.findFirst()
-  console.log(user)
-})
+  const user = await prisma.user.findFirst();
+  console.log(user);
+});
 ```
 
 需要安装以下命令完成测试
@@ -174,7 +174,7 @@ nodemon test.ts
 
 ## 数据填充
 
-[数据填充 (opens new window)](https://prisma.yoga/guides/database/seed-database)一般用于在开发时添加测试数据，我们会使用prisma的 [prisma-client (opens new window)](https://prisma.yoga/concepts/components/prisma-client)查询构造器进入数据添加。
+[数据填充 (opens new window)](https://prisma.yoga/guides/database/seed-database)一般用于在开发时添加测试数据，我们会使用 prisma 的 [prisma-client (opens new window)](https://prisma.yoga/concepts/components/prisma-client)查询构造器进入数据添加。
 
 ### 环境配置
 
@@ -184,14 +184,14 @@ nodemon test.ts
 pnpm add mockjs
 ```
 
-首先在package.json中定义命令，后面可以调用 `npx prisma db seed` 命令实现填充
+首先在 package.json 中定义命令，后面可以调用 `npx prisma db seed` 命令实现填充
 
 ```json
 {
   "name": "nest",
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
-  },
+  }
 }
 ```
 
@@ -199,30 +199,30 @@ pnpm add mockjs
 
 ### 代码逻辑
 
-创建帮助函数 `prisma/helper.ts`，并实现create方法用于批量执行填充动作。
+创建帮助函数 `prisma/helper.ts`，并实现 create 方法用于批量执行填充动作。
 
 ```typescript
 export default async function create(
-	count = 10,
-	callback: () => Promise<void>,
+  count = 10,
+  callback: () => Promise<void>
 ) {
-	const prisma = new PrismaClient();
-	for (let i = 1; i <= count; i++) {
-		await callback(prisma);
-	}
+  const prisma = new PrismaClient();
+  for (let i = 1; i <= count; i++) {
+    await callback(prisma);
+  }
 }
 ```
 
-接着定义`seeds/user.ts`文件用于定义user表的数据
+接着定义`seeds/user.ts`文件用于定义 user 表的数据
 
 ```typescript
-import { PrismaClient } from '@prisma/client';
-import { Random } from 'mockjs';
-import { hash } from 'argon2';
-import create from '../helper';
+import { PrismaClient } from "@prisma/client";
+import { Random } from "mockjs";
+import { hash } from "argon2";
+import create from "../helper";
 
 export default () => {
-  create(10, async (prisma:PrismaClient) => {
+  create(10, async (prisma: PrismaClient) => {
     await prisma.user.create({
       data: {
         email: Random.email(),
@@ -235,16 +235,16 @@ export default () => {
 
 然后创建文件 prisma/seed.ts ，这个文件是执行`npx prisma db seed`命令时调用的
 
-> 因为有些表需要其他表先创建，所以定义bootstrap方法，使用await 让他们按顺序执行
+> 因为有些表需要其他表先创建，所以定义 bootstrap 方法，使用 await 让他们按顺序执行
 
 ```typescript
-import { UserSeed } from './seeds/user'
+import { UserSeed } from "./seeds/user";
 
 function run() {
-	UserSeed(10)
+  UserSeed(10);
 }
 
-run()
+run();
 ```
 
 ### 填充命令
@@ -268,13 +268,13 @@ npx prisma migrate reset
 首先修改 **seed.ts** 文件，让调用的填充文件阻塞执行
 
 ```typescript
-import { UserSeed } from './seeds/user'
+import { UserSeed } from "./seeds/user";
 
 async function run() {
-   await UserSeed(10)
+  await UserSeed(10);
 }
 
-run()
+run();
 ```
 
 接着修改 **UserSeed.ts** 文件，将函数定义为 **async/await**
@@ -315,7 +315,7 @@ npm prisma db seed
 
 ## 定义模块
 
-下面我们在项目代码中使用prisma，首先创建 prisma 模块。
+下面我们在项目代码中使用 prisma，首先创建 prisma 模块。
 
 ```text
 nest g mo prisma
@@ -326,27 +326,31 @@ nest g s prisma
 
 创建 **prisma/prisma.service.ts** 服务文件，同时将在文件中定义 [日志记录 (opens new window)](https://prisma.yoga/concepts/components/prisma-client/working-with-prismaclient/logging)。
 
-> 当为开发环境时，终端输入查询SQL
+> 当为开发环境时，终端输入查询 SQL
 
 ```typescript
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { PrismaClient } from '@prisma/client'
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { PrismaClient } from "@prisma/client";
 
 @Injectable()
 export class PrismaService extends PrismaClient {
   constructor(configService: ConfigService) {
-  	//输出查询SQL等LOG
-    super(configService.get('app.isDev') ? { log: ['query', 'info', 'warn', 'error'] } : undefined)
+    //输出查询SQL等LOG
+    super(
+      configService.get("app.isDev")
+        ? { log: ["query", "info", "warn", "error"] }
+        : undefined
+    );
   }
 }
 ```
 
-然后设置模块 **prisma/prisma.module.ts** 注册提供者，并使用exports选项向外部提供 **PrismaService** 服务
+然后设置模块 **prisma/prisma.module.ts** 注册提供者，并使用 exports 选项向外部提供 **PrismaService** 服务
 
 ```typescript
-import { Global, Module } from '@nestjs/common';
-import { PrismaService } from './prisma.service';
+import { Global, Module } from "@nestjs/common";
+import { PrismaService } from "./prisma.service";
 
 @Global()
 @Module({
@@ -359,12 +363,12 @@ export class PrismaModule {}
 然后在根模块 **app.module.ts** 中注册
 
 ```typescript
-import { PrismaModule } from './prisma/prisma.module';
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from "./prisma/prisma.module";
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UserModule } from "./user/user.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [UserModule, AuthModule, PrismaModule],
@@ -378,7 +382,7 @@ export class AppModule {}
 
 现在其他模块也可以使用 **PrismaService** 服务了
 
-> 因为prisma模块已经注册全局，所以其他模块不需要import
+> 因为 prisma 模块已经注册全局，所以其他模块不需要 import
 
 ```typescript
 import { PrismaService } from './../prisma/prisma.service';
@@ -395,6 +399,6 @@ export class AuthService {
 
 ## 常见问题
 
-1. 当prisma出错异常时，你可以删除prisma迁移文件
+1. 当 prisma 出错异常时，你可以删除 prisma 迁移文件
 
-   你可以删除数据库所有表，和项目中的 `prisma/migrations` 目录，将prisma初始到最干净的状态
+   你可以删除数据库所有表，和项目中的 `prisma/migrations` 目录，将 prisma 初始到最干净的状态

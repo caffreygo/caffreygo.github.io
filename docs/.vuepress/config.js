@@ -1,4 +1,5 @@
-const CONFIG = require("./util")
+const navbar = require("./util/navbar")
+const sidebar = require("./util/sidebar")
 
 module.exports = {
   lang: 'zh-CN',
@@ -27,7 +28,7 @@ module.exports = {
       '这是一个 404 页面',
       '看起来我们进入了错误的链接'
     ],
-    navbar: CONFIG.navbar,
-    sidebar: CONFIG.sidebar
+    navbar,
+    sidebar
   }
 }

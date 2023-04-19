@@ -216,6 +216,10 @@ module.exports = {
     {
       text: "NestJs",
       children: [
+        "/nest/overview",
+        "/nest/provider",
+        "/nest/module",
+        "/nest/config",
         "/nest/prisma",
       ],
     },

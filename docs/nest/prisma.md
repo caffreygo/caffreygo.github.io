@@ -4,7 +4,7 @@
 # 初始化 prisma 目录结构
 npx prisma init
 # 自动识别 schema 生成外键等声明
-npm prisma format
+npx prisma format
 # 生成迁移文件、数据库更新、生成 PrismaClient
 npx prisma migrate dev
 # 运行数据填充脚本

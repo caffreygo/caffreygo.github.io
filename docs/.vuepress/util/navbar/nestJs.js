@@ -14,12 +14,12 @@ module.exports = {
       link: "/nest/module",
     },
     {
-      text: "项目配置",
-      link: "/nest/config",
-    },
-    {
       text: "prisma",
       link: "/nest/prisma",
+    },
+    {
+      text: "项目配置",
+      link: "/nest/config",
     },
   ],
 }
